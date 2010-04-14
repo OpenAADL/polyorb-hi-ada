@@ -1,0 +1,7 @@
+Cmd0: ocarina -x scenario_local.aadl
+Success0: yes
+Output0:
+DiffSource0: toy_example_leon
+
+Keywords: po-hi-ada code generation
+Description: Protected objects with PolyORB-HI-Ada

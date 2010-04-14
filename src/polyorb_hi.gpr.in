@@ -1,0 +1,185 @@
+------------------------------------------------------------------------------
+--                                                                          --
+--                          PolyORB HI COMPONENTS                           --
+--                                                                          --
+--                           P O L Y O R B _ H I                            --
+--                                                                          --
+--                              P r o j e c t                               --
+--                                                                          --
+--               Copyright (C) 2007-2008, GET-Telecom Paris.                --
+--                                                                          --
+-- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
+-- under terms of the GNU General Public License as published by the Free   --
+-- Software Foundation; either version 2, or (at your option) any later.    --
+-- PolyORB HI is distributed  in the hope that it will be useful, but       --
+-- WITHOUT ANY WARRANTY;  without even the implied warranty of              --
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General --
+-- Public License for more details. You should have received  a copy of the --
+-- GNU General Public  License  distributed with PolyORB HI; see file       --
+-- COPYING. If not, write  to the Free  Software Foundation, 51 Franklin    --
+-- Street, Fifth Floor, Boston, MA 02111-1301, USA.                         --
+--                                                                          --
+-- As a special exception,  if other files  instantiate  generics from this --
+-- unit, or you link  this unit with other files  to produce an executable, --
+-- this  unit  does not  by itself cause  the resulting  executable  to  be --
+-- covered  by the  GNU  General  Public  License.  This exception does not --
+-- however invalidate  any other reasons why  the executable file  might be --
+-- covered by the  GNU Public License.                                      --
+--                                                                          --
+--                PolyORB HI is maintained by GET Telecom Paris             --
+--                                                                          --
+------------------------------------------------------------------------------
+
+project PolyORB_HI is
+
+   type Target_Type is ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS");
+   Target : Target_Type := external ("TARGET", "NATIVE");
+
+   type Build_Type is ("Debug", "Release", "Analyzable");
+   Build : Build_Type := external ("BUILD", "Debug");
+
+   type Call_Graph_Control is ("Yes", "No");
+   CG_Control : Call_Graph_Control := external ("CGCTRL", "No");
+
+   for Languages use ("Ada");
+
+   for Source_Dirs use ();
+   for Object_Dir use ".";
+   for Exec_Dir use ".";
+
+   --------------
+   -- Compiler --
+   --------------
+
+   Common_Options := (
+                      "-gnatwa",  --  All warnings are displayed
+                      --  The flags below are activated only in debug
+                      --  mode. In release mode, we do not want
+                      --  warnings to be errors. The flags below
+                      --  should not be the last flags given to
+                      --  Common_Options.
+                      @WARNINGS_ARE_ERRORS@"-gnatfy", --  Style warnings
+                      @WARNINGS_ARE_ERRORS@"-gnatwe", --  Warnings are errors
+                      "-gnat05"  --  Ada 2005 mode
+                     );
+
+   Debug_Options := (
+                     "-g",        --  Debug information
+                     "-O1",       --  Optimisation level 1
+                     "-gnata",    --  pragma Debug and Assert activated
+                     "-gnato"     --  Overflow checks enabled
+                    );
+
+   Output_CG := "-fcallgraph-info=su";
+   --  Generate call graph informations for GNATStack
+
+   Release_Options := (
+                       "-gnatp"   --  Suppress all checks
+                      );
+
+   Analyze_Options := (
+		       "-g",        --  Debug information
+                       "-O1",       --  Optimisation level 1	
+                       "-gnatp"   --  Suppress all checks
+                      );
+
+   package Compiler is
+      case Build is
+         when "Debug" =>
+            --  Some Ada compilers do not support the call graph
+            --  output useful for GNATStack.
+
+            case CG_Control is
+               when "Yes" =>
+                  case Target is
+                     when "LEON_GNAT" =>
+                        for Default_Switches ("Ada") use
+                          Common_Options & Debug_Options & Output_CG
+                           & "-fpreserve-control-flow";
+                     when others =>
+                        for Default_Switches ("Ada") use
+                          Common_Options & Debug_Options & Output_CG;
+                  end case;
+               when "No" =>
+                  case Target is
+                     when "LEON_GNAT" =>
+                        for Default_Switches ("Ada") use
+                          Common_Options & Debug_Options
+                           & "-fpreserve-control-flow";
+                     when others =>
+                        for Default_Switches ("Ada") use
+                          Common_Options & Debug_Options;
+                  end case;
+            end case;
+
+         when "Release" =>
+            for Default_Switches ("Ada") use Common_Options & Release_Options;
+
+	 when "Analyzable" =>
+            for Default_Switches ("Ada") use Common_Options & Analyze_Options;
+       end case;
+
+      case Target is
+        when "NATIVE" | "MARTEOS" =>
+           for Local_Configuration_Pragmas use "native.adc";
+        when "LEON_ORK" | "LEON_GNAT" | "ERC32" =>
+           for Local_Configuration_Pragmas use "hi-e.adc";
+      end case;
+   end Compiler;
+
+   -------------
+   -- Builder --
+   -------------
+
+   package Builder is
+      for Global_Configuration_Pragmas use "gnat.adc";
+
+      case Build is
+         when "Debug" =>
+            for Default_Switches ("Ada") use ("-s", "-m", "-g");
+
+         when "Release" =>
+            --  In Release mode, we build all the program from scratch
+            --  to suppress debug information and all checks even from
+            --  the Ada and GNAT runtimes.
+
+            for Default_Switches ("Ada") use ("-a", "-f", "-x");
+
+         when "Analyzable" =>
+            for Default_Switches ("Ada") use ("-a", "-f", "-x");
+
+       end case;
+   end Builder;
+
+   ------------
+   -- Binder --
+   ------------
+
+   package Binder is
+      for Default_Switches ("ada") use ("-r");
+   end Binder;
+
+   ------------
+   -- Linker --
+   ------------
+
+   package Linker is
+      case Build is
+         when "Debug" =>
+            for Default_Switches ("ada") use ("-g");
+         when "Release" =>
+            null;
+      end case;
+   end Linker;
+
+   -----------
+   -- Check --
+   -----------
+
+   package Check is
+      for Default_Switches ("ada") use
+          ("-rules", "-ALL", "+RGoto", "+RSlices",
+           "+RDecl_Blocks", "+RDiscr_Rec", "+RContr_Types");
+   end Check;
+
+end PolyORB_HI;

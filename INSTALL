@@ -1,0 +1,43 @@
+Quick installation instructions for PolyORB-HI:
+===============================================
+
+-- $Id: INSTALL 6832 2009-07-21 09:55:53Z hugues $
+
+Please refer to the PolyORB High Intergrity user's guide for more
+detailed installation instructions.
+
+
+BUILD REQUIREMENTS:
+===================
+
+ - GCC 4.3.0 (from the FSF) or GNAT GPL 2008 or later
+   (http://libre.adacore.com/)
+ - The latest snapshot of the Ocarina AADL tool suite 
+   (http://ocarina.enst.fr/snapshots/).
+
+Optionally, you can install :
+ - GNATforLEON (for the LEON_ORK platform),
+
+ - GNAT Pro 6.2.1 or later (for the LEON_GNAT platform)
+
+BUILD AND INSTALLATION INSTRUCTIONS:
+====================================
+
+ - Install GNAT and Ocarina as specified by their respective
+   documentations and make sure their 'bin' installation directories
+   is located at the top of your PATH environment variable.
+
+ - Issue 'source env' from the main PolyORB-HI directory to update
+   necessary environment variables.
+
+ - Issue ./configure
+
+ - Issue make && make install
+
+To build the examples, and after installing PolyORB-HI, issue:
+
+ $> make examples
+
+The generated code and the compiled nodes for each example are located
+in examples/example_name/<main_aadl_system_name>
+

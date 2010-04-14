@@ -1,0 +1,27 @@
+--  This is a scenario file describing the AADL 
+--  application flowlatency
+
+--  $Id$
+
+system Flow_Latency
+properties
+  Ocarina_Config::Timeout_Property     => 4000ms;
+  Ocarina_Config::Referencial_Files    => 
+    ("actuate", "actuate.ref",
+    "compute1", "compute1.ref",
+    "compute2", "compute2.ref",
+    "compute3", "compute3.ref",
+    "sense", "sense.ref");
+  Ocarina_Config::AADL_Files           => 
+    ("flowlatencydata.aadl");
+  Ocarina_Config::Generator            => polyorb_hi_ada;
+  Ocarina_Config::Needed_Property_Sets => 
+    (value (Ocarina_Config::Data_Model),
+     value (Ocarina_Config::Deployment),
+     value (Ocarina_Config::Cheddar_Properties));
+  Ocarina_Config::AADL_Version         => AADLv2; 
+end Flow_Latency;
+
+system implementation Flow_Latency.Impl
+end  Flow_Latency.Impl;
+

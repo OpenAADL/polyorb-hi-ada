@@ -1,0 +1,10 @@
+package PING_Package
+public
+  processor the_processor
+  features
+    ETH : requires bus access Ethernet_Bus;
+  properties
+    Deployment::location => "127.0.0.1";
+    Deployment::Execution_Platform => Native;
+  end the_processor;
+end PING_Package;

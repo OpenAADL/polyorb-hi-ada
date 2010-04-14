@@ -1,0 +1,16 @@
+[ 0.004832000] ***** Received Boolean_Type: TRUE
+[ 0.004875000] ***** Received Enum_Type: ENUM_2
+[ 0.004908000] ***** Received Integer_Type:  1
+[ 0.004941000] ***** Receivinng Array : ( 1,  2,  3,  4)
+[ 0.004979000] ***** Received String_Type: "Bounded string message"
+[ 1.004616000] ***** Received Boolean_Type: FALSE
+[ 1.004698000] ***** Received Enum_Type: ENUM_3
+[ 1.004754000] ***** Received Integer_Type:  2
+[ 1.004812000] ***** Receivinng Array : ( 2,  3,  4,  1)
+[ 1.004870000] ***** Received String_Type: "Longer bounded string message"
+[ 2.004697000] ***** Received Boolean_Type: TRUE
+[ 2.004777000] ***** Received Enum_Type: ENUM_4
+[ 2.004831000] ***** Received Integer_Type:  3
+[ 2.004888000] ***** Receivinng Array : ( 3,  4,  1,  2)
+[ 2.004944000] ***** Received String_Type: "Even longer bounded string message"
+

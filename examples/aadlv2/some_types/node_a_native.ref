@@ -1,0 +1,17 @@
+[ 0.004413000] ***** Emitting Boolean_Type: TRUE
+[ 0.004439000] ***** Emitting Integer_Type:  1
+[ 0.004446000] ***** Emitting Array : ( 1,  2,  3,  4)
+[ 0.004457000] ***** Emitting String_Type: Bounded string message
+[ 1.004466000] ***** Emitting Boolean_Type: FALSE
+[ 1.004480000] ***** Emitting Integer_Type:  2
+[ 1.004486000] ***** Emitting Array : ( 2,  3,  4,  1)
+[ 1.004492000] ***** Emitting String_Type: Longer bounded string message
+[ 2.004530000] ***** Emitting Boolean_Type: TRUE
+[ 2.004543000] ***** Emitting Integer_Type:  3
+[ 2.004548000] ***** Emitting Array : ( 3,  4,  1,  2)
+[ 2.004554000] ***** Emitting String_Type: Even longer bounded string message
+[ 3.004592000] ***** Emitting Boolean_Type: FALSE
+[ 3.004605000] ***** Emitting Integer_Type:  4
+[ 3.004611000] ***** Emitting Array : ( 4,  1,  2,  3)
+[ 3.004617000] ***** Emitting String_Type: Very much longer bounded string message
+

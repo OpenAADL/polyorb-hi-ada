@@ -1,0 +1,64 @@
+-----------------------------------------------------
+-- CODING GUIDELINES for the PolyORB-HI Middleware --
+-----------------------------------------------------
+
+--  $Id: CODING_GUIDELINES 5319 2007-09-21 13:44:23Z zalila $
+
+The Ada 95 Quality & Style Guide and the GNAT coding style have to be
+respected. The GNAT coding style is available at:
+
+ - http://gcc.gnu.org/onlinedocs/gnat-style/
+
+Each file should start with the standard PolyORB-HI copyright header,
+then a blank line, then a comment that documents its purpose, followed
+by a blank line. The PolyORB-HI copyright header might be adapted for
+copyrighted specs or code from third party.
+
+If a package body needs to explicitly execute some code for its
+initialization, this MUST NOT be done in the elaboration code.
+Instead, a parameterless procedure Initialize must be declared
+containing the necessary initialization code, and this procedure
+should be called by the corresponding module initialization routine.
+
+The code shall not produce warnings when compiled with -gnatwa -gnaty.
+Any use of pragma Warnings (Off) shall be documented by a comment.
+
+Usage of Ada 2005 features is allowed provided that all the Ada
+compilers listed in the PolyORB-HI documentation can still compile it.
+
+Copyright headers should be up to date whenever necessary, using the
+script /support/update_headers.sh:
+
+- Copyright date information is either 
+  - x where x is year of code's creation,
+  - y - z where y is year of code's creation and z is year of last
+    modification, if y /= z.
+
+By code's creation, we mean the date the code was first created and
+checked in in PolyORB-HI repository. If packages are renamed, merged,
+copyright years must remain consistent with package content.
+
+Always update the any makefile.am when the source tree is
+modified. This must be performed using the tools/get_sources.sh. The
+tools/get_sources.sh has to be executed in the directory containing
+the Makefile.am corresponding to the modified sources. The script
+edits the Makefile.am file accordingly. NEVER EDIT THE MAKEFILE.AM BY
+HAND TO ADD OR REMOVE ADA SOURCE FILES. Keep always in mind that some
+special files (README, AUTHORS...) have not to be added explicitly to
+the 'EXTRA_DIST' variable in Makefile.am in order for them to be
+packaged.
+
+Always update (or create if necessary) README file for each example.
+
+Any modification to NEWS must be propagated to the PolyORB-HI User's
+guide to ensure consistency.
+
+Any commented code is prohibited unless a reasonable comment message
+justifies its presence.
+
+Before any commit, check that 'make distcheck' runs successfully. Make
+distcheck verifies:
+
+ - all the examples compile successfully.
+ - the source package installs and uninstalls correctly and is
+   self-contained.

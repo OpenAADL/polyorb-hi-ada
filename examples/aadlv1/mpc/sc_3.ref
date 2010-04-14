@@ -1,0 +1,76 @@
+[ 0.005963000] SC_3_K: Reading the local object
+[ 0.005986000] SC_3_K: Read value (0, 0, 0)
+[ 0.005993000] SC_3_K: Watched (0, 0, 0)
+[ 0.006185000] SC_3_K: Updating the local object.
+[ 0.006200000] SC_3_K: Local object updated. New value (10, 13, 16)
+[ 0.505945000] SC_3_K: Reading the local object
+[ 0.505957000] SC_3_K: Read value (10, 13, 16)
+[ 0.505963000] SC_3_K: Watched (10, 13, 16)
+[ 1.006013000] SC_3_K: Reading the local object
+[ 1.006022000] SC_3_K: Read value (10, 13, 16)
+[ 1.006028000] SC_3_K: Watched (10, 13, 16)
+[ 1.006139000] SC_3_K: Updating the local object.
+[ 1.006147000] SC_3_K: Local object updated. New value (11, 15, 19)
+[ 1.506010000] SC_3_K: Reading the local object
+[ 1.506022000] SC_3_K: Read value (11, 15, 19)
+[ 1.506028000] SC_3_K: Watched (11, 15, 19)
+[ 2.006039000] SC_3_K: Reading the local object
+[ 2.006047000] SC_3_K: Read value (11, 15, 19)
+[ 2.006053000] SC_3_K: Watched (11, 15, 19)
+[ 2.006186000] SC_3_K: Updating the local object.
+[ 2.006194000] SC_3_K: Local object updated. New value (12, 17, 22)
+[ 2.506089000] SC_3_K: Reading the local object
+[ 2.506099000] SC_3_K: Read value (12, 17, 22)
+[ 2.506106000] SC_3_K: Watched (12, 17, 22)
+[ 3.006104000] SC_3_K: Reading the local object
+[ 3.006118000] SC_3_K: Read value (12, 17, 22)
+[ 3.006123000] SC_3_K: Watched (12, 17, 22)
+[ 3.506134000] SC_3_K: Reading the local object
+[ 3.506145000] SC_3_K: Read value (12, 17, 22)
+[ 3.506151000] SC_3_K: Watched (12, 17, 22)
+[ 4.006165000] SC_3_K: Reading the local object
+[ 4.006175000] SC_3_K: Read value (12, 17, 22)
+[ 4.006181000] SC_3_K: Watched (12, 17, 22)
+[ 4.506214000] SC_3_K: Reading the local object
+[ 4.506236000] SC_3_K: Read value (12, 17, 22)
+[ 4.506243000] SC_3_K: Watched (12, 17, 22)
+[ 5.006225000] SC_3_K: Reading the local object
+[ 5.006242000] SC_3_K: Read value (12, 17, 22)
+[ 5.006246000] SC_3_K: Watched (12, 17, 22)
+[ 5.506257000] SC_3_K: Reading the local object
+[ 5.506268000] SC_3_K: Read value (12, 17, 22)
+[ 5.506274000] SC_3_K: Watched (12, 17, 22)
+[ 6.006325000] SC_3_K: Reading the local object
+[ 6.006333000] SC_3_K: Read value (12, 17, 22)
+[ 6.006338000] SC_3_K: Watched (12, 17, 22)
+[ 6.506365000] SC_3_K: Reading the local object
+[ 6.506376000] SC_3_K: Read value (12, 17, 22)
+[ 6.506382000] SC_3_K: Watched (12, 17, 22)
+[ 7.006369000] SC_3_K: Reading the local object
+[ 7.006377000] SC_3_K: Read value (12, 17, 22)
+[ 7.006382000] SC_3_K: Watched (12, 17, 22)
+[ 7.506403000] SC_3_K: Reading the local object
+[ 7.506419000] SC_3_K: Read value (12, 17, 22)
+[ 7.506427000] SC_3_K: Watched (12, 17, 22)
+[ 8.006413000] SC_3_K: Reading the local object
+[ 8.006424000] SC_3_K: Read value (12, 17, 22)
+[ 8.006430000] SC_3_K: Watched (12, 17, 22)
+[ 8.506508000] SC_3_K: Reading the local object
+[ 8.506522000] SC_3_K: Read value (12, 17, 22)
+[ 8.506530000] SC_3_K: Watched (12, 17, 22)
+[ 9.006495000] SC_3_K: Reading the local object
+[ 9.006507000] SC_3_K: Read value (12, 17, 22)
+[ 9.006515000] SC_3_K: Watched (12, 17, 22)
+[ 9.506507000] SC_3_K: Reading the local object
+[ 9.506522000] SC_3_K: Read value (12, 17, 22)
+[ 9.506529000] SC_3_K: Watched (12, 17, 22)
+[ 10.006537000] SC_3_K: Reading the local object
+[ 10.006549000] SC_3_K: Read value (12, 17, 22)
+[ 10.006558000] SC_3_K: Watched (12, 17, 22)
+[ 10.506566000] SC_3_K: Reading the local object
+[ 10.506577000] SC_3_K: Read value (12, 17, 22)
+[ 10.506585000] SC_3_K: Watched (12, 17, 22)
+[ 11.006643000] SC_3_K: Reading the local object
+[ 11.006651000] SC_3_K: Read value (12, 17, 22)
+[ 11.006659000] SC_3_K: Watched (12, 17, 22)
+

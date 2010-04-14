@@ -1,0 +1,21 @@
+                 -= PolyORB HI (c) ENST 2006 - 2007 =-
+
+--  $Id: README 5244 2007-05-29 13:42:37Z zalila $
+
+Here is a short description of the distribution:
+
+* doc/: documentation,
+* examples/: set of examples to test PolyORB HI
+* share/: common files
+* src/: core of PolyORB HI,
+* ChangeLog: release information,
+* COPYING: GPLv2 licence document,
+* env: environment variables to be set to use PolyORB HI
+* README: short description of the distribution.
+* NEWS: The new added features
+* INSTALL: Installation instructions
+
+For quick build instructions, please refer to the INSTALL file
+
+For more details on this distribution, please refer to doc/polyorb-hi_ug.pdf.
+

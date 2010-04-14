@@ -1,0 +1,6 @@
+Test thread move (around processes)
+
+* command to use : 
+
+ocarina -aadlv2 -o result.aadl -t < script
+ocarina -aadlv2 -i result.aadl

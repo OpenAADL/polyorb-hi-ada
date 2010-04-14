@@ -1,0 +1,7 @@
+Cmd0: ocarina_sh -s scenario_local.aadl
+Success0: yes
+Output0: scenario_local.aadl.out
+DiffSource0: flight_mgmt_erc32
+
+Keywords: po-hi-ada code generation
+Description: Flight Management with PolyORB-HI-Ada

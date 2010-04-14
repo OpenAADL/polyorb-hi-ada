@@ -1,0 +1,649 @@
+
+
+
+
+
+
+package s
+public
+  with Data_Model;
+  with Cheddar_Properties;
+  with transformations;
+
+  data Simple_Type
+  properties
+    Data_Model::Data_Representation => integer;
+
+  end Simple_Type;
+
+  subprogram Do_Ping_Spg
+  features
+    Data_Source : out parameter Simple_Type;
+
+  end Do_Ping_Spg;
+
+  subprogram implementation Do_Ping_Spg.Impl
+  properties
+    source_language => Ada95;
+    source_name => "Ping.Do_Ping_Spg";
+
+  end Do_Ping_Spg.Impl;
+
+  subprogram implementation Do_Ping_Spg.Impl2
+  properties
+    source_language => Ada95;
+    source_name => "Ping.Do_Ping_Bis_Spg";
+
+  end Do_Ping_Spg.Impl2;
+
+  subprogram Ping_Spg
+  features
+    Data_Sink : in parameter Simple_Type;
+
+  properties
+    source_language => Ada95;
+    source_name => "Pinged.Ping_Spg";
+
+  end Ping_Spg;
+
+  subprogram Ping2_Spg
+  features
+    msg_in : in parameter Simple_Type;
+    msg_out : out parameter Simple_Type;
+
+  properties
+    source_language => Ada95;
+    source_name => "Pinged.Ping2_Spg";
+
+  end Ping2_Spg;
+
+  subprogram Handle_ACK
+  features
+    ack : in parameter Simple_Type;
+
+  properties
+    source_language => Ada95;
+    source_name => "Ping.Handle_Ack";
+
+  end Handle_ACK;
+
+  thread P
+  features
+    Data_Source : out data port Simple_Type;
+    ack_rcv : in data port Simple_Type;
+
+  end P;
+
+  thread Q
+  features
+    Data_Sink : in data port Simple_Type;
+    ack_send : out data port Simple_Type;
+
+  end Q;
+
+  thread R
+  features
+    data_sink : in data port Simple_Type;
+
+  end R;
+
+  thread implementation P.Impl
+  calls
+    cs :
+    {sp : subprogram wrap.i;}
+;
+
+  connections
+    parameter sp.Data_Source -> Data_Source;
+    parameter ack_rcv -> sp.ack_rcv;
+
+  properties
+    Dispatch_Protocol => Periodic;
+    Period => 500 Ms;
+    Cheddar_Properties::Fixed_Priority => 3;
+
+  end P.Impl;
+
+  thread implementation Q.Impl
+  calls
+    cs :
+    {sp_1 : subprogram Ping2_Spg;}
+;
+
+  connections
+    parameter Data_Sink -> sp_1.msg_in;
+    parameter sp_1.msg_out -> ack_send;
+
+  properties
+    Dispatch_Protocol => Periodic;
+    Period => 500 Ms;
+    Cheddar_Properties::Fixed_Priority => 3;
+
+  end Q.Impl;
+
+  thread implementation R.Impl
+  calls
+    cs :
+    {sp : subprogram Handle_ACK;}
+;
+
+  connections
+    parameter data_sink -> sp.ack;
+
+  properties
+    Dispatch_Protocol => Periodic;
+    Period => 500 Ms;
+    Cheddar_Properties::Fixed_Priority => 3;
+
+  end R.Impl;
+
+  subprogram wrap
+  features
+    Data_Source : out parameter Simple_Type;
+    ack_rcv : in parameter Simple_Type;
+
+  end wrap;
+
+  subprogram implementation wrap.i
+  calls
+    cs :
+    {P_Spg : subprogram Do_Ping_Spg;
+     P_Spg2 : subprogram Handle_ACK;}
+;
+
+  connections
+    parameter P_Spg.Data_Source -> Data_Source;
+    parameter ack_rcv -> P_Spg2.ack;
+
+  end wrap.i;
+
+end s;
+
+package p
+public
+  with Deployment;
+  with Cheddar_Properties;
+  with S;
+  with Assert_Properties;
+
+  processor the_processor
+  properties
+    Deployment::Execution_Platform => ERC32_ORK;
+
+  end the_processor;
+
+  processor implementation the_processor.Impl
+  properties
+    Scheduling_Protocol => (Posix_1003_Highest_Priority_First_Protocol);
+    Cheddar_Properties::Scheduler_Quantum => 0 Ms;
+    Cheddar_Properties::Preemptive_Scheduler => true;
+    ASSERT_Properties::processor_speed => 50 MHz;
+
+  end the_processor.Impl;
+
+  process A
+  features
+    Data_Source : out data port s::Simple_Type;
+    msg_0 : in data port s::Simple_Type;
+
+  end A;
+
+  process implementation A.Impl
+  subcomponents
+    Ping_Me : thread s::Q.Impl;
+
+  connections
+    cnx4 : port Ping_me.ack_send -> data_source;
+    cnx_0 : port msg_0 -> ping_me.Data_Sink;
+
+  end A.Impl;
+
+  process B
+  features
+    Data_Sink : in data port s::Simple_Type;
+    ack : out data port s::Simple_Type;
+    msg_0 : out data port s::Simple_Type;
+
+  end B;
+
+  process implementation B.Impl
+  subcomponents
+    Ping_Me : thread s::Q.Impl;
+    thr_0 : thread s::P.Impl;
+
+  connections
+    cnx3 : port Data_Sink -> Ping_Me.Data_Sink;
+    cnx_0 : port Ping_Me.ack_send -> thr_0.ack_rcv;
+    cnx_1 : port thr_0.data_source -> msg_0;
+
+  end B.Impl;
+
+  process C
+  features
+    ack : in data port s::Simple_Type;
+
+  end C;
+
+  process implementation C.Impl
+  subcomponents
+    Final : thread s::R.Impl;
+
+  connections
+    cnx3 : port ack -> Final.data_sink;
+
+  end C.Impl;
+
+  system PING
+  end PING;
+
+  system implementation PING.ERC32
+  subcomponents
+    Node_A : process A.Impl
+      {Deployment::Channel_Address => 2;
+       Deployment::Process_Id => 1200;};
+    Node_B : process B.Impl
+      {Deployment::Channel_Address => 3;
+       Deployment::Process_Id => 1201;};
+    Node_C : process C.Impl
+      {Deployment::Channel_Address => 4;
+       Deployment::Process_Id => 1202;};
+    CPU : processor the_processor.Impl;
+
+  connections
+    cnx5 : port Node_A.Data_Source -> Node_C.ack;
+    cnx6 : port Node_B.ack -> Node_C.ack;
+    cnx_0 : port node_b.msg_0 -> node_a.msg_0;
+
+  properties
+    actual_processor_binding => (reference ( CPU ))
+      applies to Node_A;
+    actual_processor_binding => (reference ( CPU ))
+      applies to Node_B;
+
+  end PING.ERC32;
+
+end p;
+
+property set AADL_Project is
+  Supported_Active_Thread_Handling_Protocols : type enumeration (abort, test);
+
+  Supported_Connection_Patterns : type enumeration (One_To_One, All_To_All, One_To_All, All_To_One, Next, Previous, Neighbors, All_Neighbors);
+
+  Supported_Concurrency_Control_Protocols : type enumeration (NoneSpecified, Read_Only, Protected_Access, Priority_Ceiling);
+
+  Supported_Dispatch_Protocols : type enumeration (Periodic, Aperiodic, Sporadic, Timed, Hybrid, Background);
+
+  Supported_Hardware_Source_Languages : type enumeration (VHDL);
+
+  Supported_Queue_Processing_Protocols : type enumeration (FIFO);
+
+  Supported_Connection_QoS : type enumeration (GuaranteedDelivery, OrderedDelivery, SecureDelivery);
+
+  Supported_Scheduling_Protocols : type enumeration (PARAMETRIC_PROTOCOL, EARLIEST_DEADLINE_FIRST_PROTOCOL, LEAST_LAXITY_FIRST_PROTOCOL, RATE_MONOTONIC_PROTOCOL, DEADLINE_MONOTONIC_PROTOCOL, ROUND_ROBIN_PROTOCOL, TIME_SHARING_BASED_ON_WAIT_TIME_PROTOCOL, POSIX_1003_HIGHEST_PRIORITY_FIRST_PROTOCOL, D_OVER_PROTOCOL, MAXIMUM_URGENCY_FIRST_BASED_ON_LAXITY_PROTOCOL, MAXIMUM_URGENCY_FIRST_BASED_ON_DEADLINE_PROTOCOL, TIME_SHARING_BASED_ON_CPU_USAGE_PROTOCOL, NO_SCHEDULING_PROTOCOL, HIERARCHICAL_CYCLIC_PROTOCOL, HIERARCHICAL_ROUND_ROBIN_PROTOCOL, HIERARCHICAL_FIXED_PRIORITY_PROTOCOL, HIERARCHICAL_PARAMETRIC_PROTOCOL);
+
+  Supported_Source_Languages : type enumeration (Ada95, Ada, Ada05, ASN1, C, Lustre, Lustre5, Lustre6, SCADE6, SDL, Scade, Simulink, Simulink_6_5);
+
+  Supported_Distributions : type enumeration (Fixed);
+
+  Data_Volume : type aadlinteger 0 bitsps .. Max_Aadlinteger units (
+    bitsps,
+    Bytesps => bitsps * 8,
+    KBytesps => Bytesps * 1000,
+    MBytesps => KBytesps * 1000,
+    GBytesps => MBytesps * 1000);
+
+  Max_Aadlinteger : constant aadlinteger => 2#1#E32;
+  Max_Target_Integer : constant aadlinteger => 2#1#E32;
+  Max_Base_Address : constant aadlinteger => 512;
+  Max_Memory_Size : constant Size => 2#1#E32 Bytes;
+  Max_Queue_Size : constant aadlinteger => 512;
+  Max_Thread_Limit : constant aadlinteger => 32;
+  Max_Time : constant Time => 1000 hr;
+  Max_Urgency : constant aadlinteger => 12;
+  Max_Word_Count : constant aadlinteger => 2#1#E32;
+  Max_Word_Space : constant aadlinteger => 64;
+  Size_Units : type units (
+    bits,
+    Bytes => bits * 8,
+    KByte => Bytes * 1000,
+    MByte => KByte * 1000,
+    GByte => MByte * 1000,
+    TByte => GByte * 1000);
+
+  Time_Units : type units (
+    ps,
+    ns => ps * 1000,
+    us => ns * 1000,
+    ms => us * 1000,
+    sec => ms * 1000,
+    min => sec * 60,
+    hr => min * 60);
+
+end AADL_Project;
+
+property set ASSERT_Properties is
+  Max_Priority_Value : constant aadlinteger => 28;
+  Min_Interrupt_Priority_Value : constant aadlinteger => 29;
+  Max_Interrupt_Priority_Value : constant aadlinteger => 31;
+  Criticality_Level_Type : type enumeration (A, B, C, D, E);
+
+  Transmission_Type : type enumeration (simplex, half_duplex, full_duplex);
+
+  Frequency : type aadlinteger 0 Hz .. Max_Aadlinteger units (
+    Hz,
+    KHz => Hz * 1000,
+    MHz => KHz * 1000,
+    GHz => MHz * 1000);
+
+  Criticality : Criticality_Level_Type
+    applies to (process, system);
+
+  Local_Scheduling_Policy : Supported_Scheduling_Protocols
+    applies to (process, system);
+
+  Time_Budget : aadlinteger
+    applies to (process, system);
+
+  Budget_Replenishment_Period : Time
+    applies to (process, system);
+
+  Storage_Budget : Size
+    applies to (process, system);
+
+  Longest_Critical_Section : Time
+    applies to (processor);
+
+  Periodic_Clock_Interrupt_Period : Time
+    applies to (processor);
+
+  Periodic_Clock_Handler : Time
+    applies to (processor);
+
+  Demanded_Clock_Handler : Time
+    applies to (processor);
+
+  Interrupt_Handler : Time
+    applies to (processor);
+
+  External_Interrupt : Time
+    applies to (processor);
+
+  Wakeup_Jitter : Time
+    applies to (processor);
+
+  Ready : Time
+    applies to (processor);
+
+  Select : Time
+    applies to (processor);
+
+  Context_Switch : Time
+    applies to (processor);
+
+  Signal : Time
+    applies to (processor);
+
+  Suspension_Call : Time
+    applies to (processor);
+
+  Wait_Call : Time
+    applies to (processor);
+
+  Priority_Raising : Time
+    applies to (processor);
+
+  Priority_Lowering : Time
+    applies to (processor);
+
+  Barrier_Evaluation : Time
+    applies to (processor);
+
+  Budget_Replenishment_Overhead : Time
+    applies to (processor);
+
+  Budget_Exhausted_Recovery_Call : Time
+    applies to (processor);
+
+  Processor_Speed : Frequency
+    applies to (processor);
+
+  Interconnection_Speed_Factor : aadlreal
+    applies to (bus);
+
+  Transmission_Kind : Transmission_Type
+    applies to (bus);
+
+  Bandwidth : Data_Volume
+    applies to (bus);
+
+  Memory_Size : Size
+    applies to (memory);
+
+  Access_Time : Time
+    applies to (memory);
+
+  Access_Bandwidth : Data_Volume
+    applies to (bus);
+
+  RCMoperation : classifier (
+subprogram)
+    applies to (event port, event data port);
+
+  RCMoperationKind_list : type enumeration (cyclic, sporadic, variator, protected, transaction, barrier, unprotected, deferred, immediate, any);
+
+  RCMoperationKind : RCMoperationKind_list
+    applies to (event port, event data port);
+
+  RCMceiling : aadlinteger
+    applies to (event port, event data port);
+
+  RCMperiod : Time
+    applies to (event port, event data port);
+
+  RCMpartition : reference (
+system)
+    applies to (system);
+
+end ASSERT_Properties;
+
+property set Cheddar_Properties is
+  Dispatch_Seed_is_Predictable : aadlboolean
+    applies to (thread, thread group);
+
+  Context_Switch_Overhead : inherit Time
+    applies to (thread, thread group);
+
+  Source_Text : inherit list of aadlstring
+    applies to (process, processor, thread);
+
+  Automaton_Name : inherit list of aadlstring
+    applies to (process, processor, thread);
+
+  Dispatch_Seed_Value : aadlinteger
+    applies to (thread, thread group);
+
+  Dispatch_Absolute_Time : inherit Time
+    applies to (thread, thread group);
+
+  Criticality : aadlinteger
+    applies to (thread, thread group);
+
+  Bound_On_Data_Blocking_Time : inherit Time
+    applies to (thread, thread group);
+
+  Dispatch_Jitter : inherit Time
+    applies to (thread, thread group);
+
+  Fixed_Priority : aadlinteger 0 .. 255
+    applies to (thread, thread group);
+
+  POSIX_Scheduling_Policy : enumeration (SCHED_FIFO, SCHED_RR, SCHED_OTHERS)
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Value_0 : aadlinteger
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Time_0 : inherit Time
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Value_1 : aadlinteger
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Time_1 : inherit Time
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Value_2 : aadlinteger
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Time_2 : inherit Time
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Value_3 : aadlinteger
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Time_3 : inherit Time
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Value_4 : aadlinteger
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Time_4 : inherit Time
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Value_5 : aadlinteger
+    applies to (thread, thread group);
+
+  Dispatch_Offset_Time_5 : inherit Time
+    applies to (thread, thread group);
+
+  Task_Precedencies : list of aadlstring
+    applies to (system);
+
+  Scheduler_Quantum : inherit Time
+    applies to (processor, process);
+
+  Preemptive_Scheduler : aadlboolean
+    applies to (processor, process);
+
+  Scheduling_Protocol : list of Supported_Scheduling_Protocols
+    applies to (processor, process);
+
+  Data_Concurrency_State : aadlinteger
+    applies to (data);
+
+  Critical_Section : list of aadlstring
+    applies to (process, thread, data);
+
+  Source_Global_Heap_Size : Size
+    applies to (process);
+
+  Source_Global_Stack_Size : Size
+    applies to (process);
+
+  Source_Global_Text_Size : Size
+    applies to (process);
+
+  Source_Global_Data_Size : Size
+    applies to (process);
+
+end Cheddar_Properties;
+
+property set Deployment is
+  Allowed_Transport_APIs : type enumeration (BSD_Sockets, SpaceWire);
+
+  Transport_API : Deployment::Allowed_Transport_APIs
+    applies to (bus);
+
+  Location : aadlstring
+    applies to (processor);
+
+  Port_Number : aadlinteger
+    applies to (process);
+
+  Process_ID : aadlinteger
+    applies to (process);
+
+  Channel_Address : aadlinteger
+    applies to (process);
+
+  Protocol_Type : type enumeration (iiop, diop);
+
+  Protocol : Protocol_Type
+    applies to (system);
+
+  Allowed_Execution_Platform : type enumeration (Native, LEON_RTEMS, LEON_ORK, ERC32_ORK, ARM_DSLINUX, ARM_N770);
+
+  Execution_Platform : Allowed_Execution_Platform
+    applies to (processor);
+
+  Priority_Type : type aadlinteger 0 .. 255;
+
+  Priority : Deployment::Priority_Type
+    applies to (data, thread);
+
+end Deployment;
+
+property set Data_Model is
+  Base_Type : list of classifier (
+data)
+    applies to (data);
+
+  Code_Set : aadlinteger
+    applies to (data);
+
+  Data_Digits : aadlinteger
+    applies to (data);
+
+  Data_Scale : aadlinteger
+    applies to (data);
+
+  Data_Representation : enumeration (Array, Boolean, Character, Enum, Float, Fixed, Integer, String, Struct, Union)
+    applies to (data);
+
+  Dimension : list of aadlinteger
+    applies to (data);
+
+  Element_Names : list of aadlstring
+    applies to (data);
+
+  Enumerators : list of aadlstring
+    applies to (data);
+
+  IEEE754_Precision : enumeration (Simple, Double)
+    applies to (data);
+
+  Initial_Value : list of aadlstring
+    applies to (data, port, parameter);
+
+  Integer_Range : range of aadlinteger
+    applies to (data, port, parameter);
+
+  Measurement_Unit : aadlstring
+    applies to (data, port, parameter);
+
+  Number_Representation : enumeration (Signed, Unsigned)
+    applies to (data);
+
+  Real_Range : range of aadlreal
+    applies to (data, port, parameter);
+
+end Data_Model;
+
+property set Transformations is
+  Call_Sequence_Period : inherit Time
+    applies to (subprogram);
+
+  Priority : aadlinteger 0 .. 255
+    applies to (subprogram);
+
+  Source_Name : aadlstring
+    applies to (subprogram);
+
+  fusion_occurred : aadlboolean
+    applies to (thread);
+
+  priority_shifter : aadlboolean
+    applies to (data);
+
+end Transformations;
+

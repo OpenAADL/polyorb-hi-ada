@@ -1,0 +1,9 @@
+[ 0.006461000] Hello, this is the Driver node speaking
+[ 0.006485000] Driver: Do not raise any port
+[ 1.006534000] Hello, this is the Driver node speaking
+[ 1.006549000] Driver: Raise event data on Data_Source only: 2
+[ 2.006599000] Hello, this is the Driver node speaking
+[ 2.006613000] Driver: Raise event on Event_Source only
+[ 3.006667000] Hello, this is the Driver node speaking
+[ 3.006687000] Driver: Raise event data on Data_Source only: 4
+

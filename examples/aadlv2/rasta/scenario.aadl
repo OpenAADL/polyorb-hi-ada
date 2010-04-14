@@ -1,0 +1,20 @@
+--  This is a scenario file describing the devide driver integration demo
+
+--  $Id: scenario_local.aadl 6713 2009-06-20 20:58:28Z lanarre $
+
+system scenario
+properties
+  Ocarina_Config::AADL_Files => ("grspw.aadl", "gr_cpci_x4cv.aadl",
+	 "generic_bus.aadl", "native_uart.aadl", "generic_native.aadl",
+         "gruart.aadl", "software.aadl", "system_demo.aadl");
+  Ocarina_Config::Generator            => polyorb_hi_ada;
+  Ocarina_Config::Needed_Property_Sets => 
+    (value (Ocarina_Config::Data_Model),
+     value (Ocarina_Config::Deployment));
+  Ocarina_Config::AADL_Version         => AADLv2;
+  Ocarina_Config::Root_System_Name     => "the_demo.full";
+end scenario;
+
+system implementation scenario.Impl
+end  scenario.Impl;
+
