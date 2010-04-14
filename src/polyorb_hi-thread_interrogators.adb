@@ -766,7 +766,10 @@ package body PolyORB_HI.Thread_Interrogators is
          --  sending, not receiving.
 
          Most_Recent_Values (PT) := P;
-         Time_Stamps (PT) := T;
+         -- Time_Stamps (PT) := T;
+         -- Maxime workaround for backdoor accesses
+         Time_Stamps (PT) := Ada.Real_time.clock;
+
       end Store_Out;
 
       -----------
