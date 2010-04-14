@@ -1,0 +1,5 @@
+load software.aadl
+analyze
+instantiate
+move pinger node_a node_b
+quit

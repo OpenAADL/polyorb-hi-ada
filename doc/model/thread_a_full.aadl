@@ -1,0 +1,19 @@
+package Software
+public
+  thread implementation P.Impl
+  calls
+    Mycall :
+    {P_Spg : subprogram P_Wrapper.Impl;}
+;
+  connections
+    parameter P_Spg.Data_Source -> Data_Source;
+  properties
+    Initialize_Entrypoint_Source_Text => "Msgs.Welcome_Pinger";
+    Recover_Entrypoint_Source_Text => "Msgs.Recover";
+    Dispatch_Protocol => Periodic;
+    Period => 1000 Ms;
+    Compute_Execution_time => 0 ms .. 3 ms;
+    Deadline => 1000 ms;
+    Priority => 2;
+  end P.Impl;
+end Software;

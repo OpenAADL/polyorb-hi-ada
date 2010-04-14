@@ -1,0 +1,12 @@
+Cmd0: ocarina -x scenario_CE.aadl
+Success0: yes
+Output0: scenario_CE.aadl.out
+DiffSource0: test_modes_ce_erc32
+
+Cmd1: ocarina -x scenario_CS.aadl
+Success1: yes
+Output1: scenario_CS.aadl.out
+DiffSource1: test_modes_cs_erc32
+
+Keywords: po-hi-ada code generation modes
+Description: Modes example from PolyORB-HI-Ada

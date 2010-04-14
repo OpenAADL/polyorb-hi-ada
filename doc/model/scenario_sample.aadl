@@ -1,0 +1,19 @@
+--  This is an example scenario file for a distributed AADL
+--  application.
+
+system Your_Example_Name
+properties
+  Ocarina_Config::AADL_Files => ("my_file_1.aadl", "my_file_2.aadl");
+  --  User AADL files involved in the application
+
+  Ocarina_Config::Generator            => polyorb_hi_ada;
+  --  Code generator
+
+  Ocarina_Config::Needed_Property_Sets => (ARAO, Cheddar_Properties);
+  --  Needed Ocarina non-standard property sets
+end Your_Example_Name;
+
+system implementation Your_Example_Name.Impl
+end  Your_Example_Name.Impl;
+--  It is mandatory to add a system implementataion
+

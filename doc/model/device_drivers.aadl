@@ -1,0 +1,8 @@
+package TCP_IP_Protocol
+public
+  device implementation TCP_IP_Device.impl
+  properties
+    Implemented_As => classifier (TCP_IP_Protocol::Driver_TCP_IP_Protocol.impl);
+    Initialize_Entrypoint => classifier (TCP_IP_Protocol::Initialize);
+  end TCP_IP_Device.impl;
+end TCP_IP_Protocol;

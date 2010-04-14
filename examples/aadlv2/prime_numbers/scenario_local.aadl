@@ -1,0 +1,22 @@
+--  This is a scenario file describing the AADL application "prime
+--  numbers"
+
+--  $Id: scenario_local.aadl 6993 2009-09-15 15:29:06Z lanarre $
+
+system Prime_Numbers
+properties
+  Ocarina_Config::Timeout_Property     => 4000ms;
+  Ocarina_Config::Referencial_Files    => 
+    ("node_a", "node_a.ref");
+  Ocarina_Config::AADL_Files           => 
+    ("pn-local.aadl", "software.aadl");
+  Ocarina_Config::Generator            => polyorb_hi_ada;
+  Ocarina_Config::Needed_Property_Sets => 
+    (value (Ocarina_Config::Data_Model),
+     value (Ocarina_Config::Deployment));
+  Ocarina_Config::AADL_Version         => AADLv2;
+end Prime_Numbers;
+
+system implementation Prime_Numbers.Impl
+end  Prime_Numbers.Impl;
+

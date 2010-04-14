@@ -1,0 +1,15 @@
+[ 0.005267000] Regular Producer: doing some work.
+[ 0.041270000] External Event Server: received an external interrupt
+[ 0.041305000] External Event Server: end of sporadic activation.
+[ 0.500573000] Regular Producer: end of cyclic activation
+[ 1.001246000] Regular Producer: doing some work.
+[ 1.496535000] Sending extra work to  'On_Call_Producer': 250
+[ 1.496566000] Regular Producer: end of cyclic activation
+[ 1.496692000] On Call Producer: doing some work.
+[ 1.746551000] On Call Producer: end of sporadic activation.
+[ 2.001306000] Regular Producer: doing some work.
+[ 2.496539000] Signaling 'Activation Log Reader'
+[ 2.496551000] Regular Producer: end of cyclic activation
+[ 2.496643000] Activation Log Reader: no new interrupts.
+[ 3.001411000] Regular Producer: doing some work.
+

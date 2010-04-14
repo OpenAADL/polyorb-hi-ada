@@ -1,0 +1,21 @@
+--  This is a scenario file describing the delayed connections
+--  application
+
+--  $Id: scenario_local.aadl 6713 2009-06-20 20:58:28Z lanarre $
+
+system delayed_connections
+properties
+  Ocarina_Config::Timeout_Property     => 4000ms;
+  Ocarina_Config::Referencial_Files    => 
+    ("node_a", "node_a_leon.ref");
+  Ocarina_Config::AADL_Files           => ("dc-local.aadl", "software.aadl");
+  Ocarina_Config::Generator            => polyorb_hi_ada;
+  Ocarina_Config::Needed_Property_Sets => 
+    (value (Ocarina_Config::Data_Model),
+     value (Ocarina_Config::Deployment));
+  Ocarina_Config::AADL_Version         => AADLv2;
+end delayed_connections;
+
+system implementation delayed_connections.Impl
+end  delayed_connections.Impl;
+

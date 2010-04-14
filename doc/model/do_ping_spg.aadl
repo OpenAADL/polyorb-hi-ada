@@ -1,0 +1,7 @@
+package Software
+public
+  subprogram Do_Ping_Spg
+  features
+    Data_Source : out parameter Opaque_Type;
+  end Do_Ping_Spg;
+end Software;

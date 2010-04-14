@@ -1,0 +1,7 @@
+Cmd0: ocarina -x scenario.aadl
+Success0: yes
+Output0: scenario.aadl.out
+DiffSource0: probe_native
+
+Keywords: po-hi-ada code generation
+Description: Protected objects with PolyORB-HI-Ada (extended)

@@ -1,0 +1,9 @@
+package PING_Package
+public
+  process implementation A.Impl
+  subcomponents
+    Pinger : thread Software::P.Impl;
+  connections
+    port Pinger.Data_Source -> Out_Port;
+  end A.Impl;
+end PING_Package;

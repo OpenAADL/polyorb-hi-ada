@@ -1,0 +1,52 @@
+[ 0.006267000] SC_2_K: Reading the local object
+[ 0.006293000] SC_2_K: Read value (0, 0, 0)
+[ 0.006300000] SC_2_K: Watched (0, 0, 0)
+[ 0.006473000] SC_2_K: Updating the local object.
+[ 0.006480000] SC_2_K: Local object updated. New value (10, 13, 16)
+[ 0.506277000] SC_2_K: Reading the local object
+[ 0.506288000] SC_2_K: Read value (10, 13, 16)
+[ 0.506295000] SC_2_K: Watched (10, 13, 16)
+[ 1.006313000] SC_2_K: Reading the local object
+[ 1.006322000] SC_2_K: Read value (10, 13, 16)
+[ 1.006325000] SC_2_K: Watched (10, 13, 16)
+[ 1.006429000] SC_2_K: Updating the local object.
+[ 1.006440000] SC_2_K: Local object updated. New value (11, 15, 19)
+[ 1.506346000] SC_2_K: Reading the local object
+[ 1.506352000] SC_2_K: Read value (11, 15, 19)
+[ 1.506357000] SC_2_K: Watched (11, 15, 19)
+[ 2.006359000] SC_2_K: Reading the local object
+[ 2.006365000] SC_2_K: Read value (11, 15, 19)
+[ 2.006371000] SC_2_K: Watched (11, 15, 19)
+[ 2.006469000] SC_2_K: Updating the local object.
+[ 2.006487000] SC_2_K: Local object updated. New value (12, 17, 22)
+[ 2.506381000] SC_2_K: Reading the local object
+[ 2.506392000] SC_2_K: Read value (12, 17, 22)
+[ 2.506401000] SC_2_K: Watched (12, 17, 22)
+[ 3.006397000] SC_2_K: Reading the local object
+[ 3.006403000] SC_2_K: Read value (12, 17, 22)
+[ 3.006408000] SC_2_K: Watched (12, 17, 22)
+[ 3.506507000] SC_2_K: Reading the local object
+[ 3.506523000] SC_2_K: Read value (12, 17, 22)
+[ 3.506530000] SC_2_K: Watched (12, 17, 22)
+[ 4.006485000] SC_2_K: Reading the local object
+[ 4.006501000] SC_2_K: Read value (12, 17, 22)
+[ 4.006507000] SC_2_K: Watched (12, 17, 22)
+[ 4.506506000] SC_2_K: Reading the local object
+[ 4.506523000] SC_2_K: Read value (12, 17, 22)
+[ 4.506530000] SC_2_K: Watched (12, 17, 22)
+[ 5.006514000] SC_2_K: Reading the local object
+[ 5.006529000] SC_2_K: Read value (12, 17, 22)
+[ 5.006535000] SC_2_K: Watched (12, 17, 22)
+[ 5.506588000] SC_2_K: Reading the local object
+[ 5.506605000] SC_2_K: Read value (12, 17, 22)
+[ 5.506617000] SC_2_K: Watched (12, 17, 22)
+[ 6.006607000] SC_2_K: Reading the local object
+[ 6.006625000] SC_2_K: Read value (12, 17, 22)
+[ 6.006629000] SC_2_K: Watched (12, 17, 22)
+[ 6.506633000] SC_2_K: Reading the local object
+[ 6.506649000] SC_2_K: Read value (12, 17, 22)
+[ 6.506656000] SC_2_K: Watched (12, 17, 22)
+[ 7.006662000] SC_2_K: Reading the local object
+[ 7.006677000] SC_2_K: Read value (12, 17, 22)
+[ 7.006683000] SC_2_K: Watched (12, 17, 22)
+

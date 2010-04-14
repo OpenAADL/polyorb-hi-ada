@@ -1,0 +1,7 @@
+Cmd0: ocarina -x scenario_local.aadl
+Success0: yes
+Output0: scenario_local.aadl.out
+DiffSource0: delayed_connections_leon
+
+Keywords: po-hi-ada code generation
+Description: Delayed Connections with PolyORB-HI-Ada

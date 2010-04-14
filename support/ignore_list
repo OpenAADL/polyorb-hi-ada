@@ -1,0 +1,7 @@
+svn
+/[.][^/]
+^[.][^/]
+ignore_list
+build_manifest.sh
+MANIFEST
+support

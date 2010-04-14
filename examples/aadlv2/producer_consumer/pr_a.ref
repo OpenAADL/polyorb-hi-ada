@@ -1,0 +1,40 @@
+[ 0.003925000] PR_A_K: produced  1
+[ 0.004061000] PR_A_K                              : consumed  0
+[ 0.103928000] PR_A_K                              : consumed  1
+[ 0.203915000] PR_A_K: produced  2
+[ 0.207878000] PR_A_K                              : consumed  1
+[ 0.307981000] PR_A_K                              : consumed  2
+[ 0.403916000] PR_A_K                              : consumed  2
+[ 0.407883000] PR_A_K: produced  3
+[ 0.507918000] PR_A_K                              : consumed  3
+[ 0.607962000] PR_A_K: produced  4
+[ 0.608022000] PR_A_K                              : consumed  4
+[ 0.703909000] PR_A_K                              : consumed  4
+[ 0.803910000] PR_A_K: produced  5
+[ 0.808025000] PR_A_K                              : consumed  5
+[ 0.903925000] PR_A_K                              : consumed  5
+[ 1.007990000] PR_A_K: produced  6
+[ 1.008055000] PR_A_K                              : consumed  6
+[ 1.103936000] PR_A_K                              : consumed  6
+[ 1.203924000] PR_A_K: produced  7
+[ 1.207960000] PR_A_K                              : consumed  6
+[ 1.308028000] PR_A_K                              : consumed  7
+[ 1.403956000] PR_A_K                              : consumed  7
+[ 1.407965000] PR_A_K: produced  8
+[ 1.507961000] PR_A_K                              : consumed  8
+[ 1.603941000] PR_A_K: produced  9
+[ 1.607966000] PR_A_K                              : consumed  8
+[ 1.707974000] PR_A_K                              : consumed  9
+[ 1.808069000] PR_A_K: produced  10
+[ 1.808130000] PR_A_K                              : consumed  10
+[ 1.903988000] PR_A_K                              : consumed  10
+[ 2.004032000] PR_A_K: produced  11
+[ 2.004096000] PR_A_K                              : consumed  10
+[ 2.104017000] PR_A_K                              : consumed  11
+[ 2.204044000] PR_A_K: produced  12
+[ 2.204103000] PR_A_K                              : consumed  11
+[ 2.304054000] PR_A_K                              : consumed  12
+[ 2.404038000] PR_A_K: produced  13
+[ 2.404104000] PR_A_K                              : consumed  12
+[ 2.504027000] PR_A_K                              : consumed  13
+

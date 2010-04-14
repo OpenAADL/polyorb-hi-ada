@@ -1,0 +1,124 @@
+[ 0.007588000] PR_B_K                              : consumed  1
+[ 0.007623000] PR_B_K: produced  1
+[ 0.107579000] PR_B_K                              : consumed  1
+[ 0.207542000] PR_B_K: produced  2
+[ 0.207597000] PR_B_K                              : consumed  2
+[ 0.307551000] PR_B_K                              : consumed  2
+[ 0.407579000] PR_B_K: produced  3
+[ 0.407633000] PR_B_K                              : consumed  2
+[ 0.507564000] PR_B_K                              : consumed  3
+[ 0.607567000] PR_B_K: produced  4
+[ 0.607617000] PR_B_K                              : consumed  3
+[ 0.707575000] PR_B_K                              : consumed  4
+[ 0.807580000] PR_B_K: produced  5
+[ 0.807632000] PR_B_K                              : consumed  5
+[ 0.907591000] PR_B_K                              : consumed  5
+[ 1.007591000] PR_B_K: produced  6
+[ 1.007642000] PR_B_K                              : consumed  5
+[ 1.107602000] PR_B_K                              : consumed  6
+[ 1.207604000] PR_B_K: produced  7
+[ 1.207654000] PR_B_K                              : consumed  7
+[ 1.307612000] PR_B_K                              : consumed  7
+[ 1.407617000] PR_B_K: produced  8
+[ 1.407667000] PR_B_K                              : consumed  7
+[ 1.507599000] PR_B_K                              : consumed  8
+[ 1.607630000] PR_B_K: produced  9
+[ 1.607684000] PR_B_K                              : consumed  9
+[ 1.707638000] PR_B_K                              : consumed  9
+[ 1.807665000] PR_B_K: produced  10
+[ 1.807717000] PR_B_K                              : consumed  9
+[ 1.907689000] PR_B_K                              : consumed  10
+[ 2.007675000] PR_B_K: produced  11
+[ 2.007727000] PR_B_K                              : consumed  11
+[ 2.107659000] PR_B_K                              : consumed  11
+[ 2.207687000] PR_B_K: produced  12
+[ 2.207739000] PR_B_K                              : consumed  12
+[ 2.307737000] PR_B_K                              : consumed  12
+[ 2.407700000] PR_B_K: produced  13
+[ 2.407752000] PR_B_K                              : consumed  13
+[ 2.507679000] PR_B_K                              : consumed  13
+[ 2.607713000] PR_B_K: produced  14
+[ 2.607778000] PR_B_K                              : consumed  13
+[ 2.707700000] PR_B_K                              : consumed  13
+[ 2.807707000] PR_B_K: produced  15
+[ 2.807899000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 2.807907000] Message [32] Broken pipe
+[ 2.807925000] PR_B_K                              : consumed  13
+[ 2.907713000] PR_B_K                              : consumed  13
+[ 3.007722000] PR_B_K: produced  16
+[ 3.007764000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 3.007774000] Message [32] Broken pipe
+[ 3.007803000] PR_B_K                              : consumed  13
+[ 3.107725000] PR_B_K                              : consumed  13
+[ 3.207734000] PR_B_K: produced  17
+[ 3.207774000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 3.207784000] Message [32] Broken pipe
+[ 3.207812000] PR_B_K                              : consumed  13
+[ 3.307737000] PR_B_K                              : consumed  13
+[ 3.407742000] PR_B_K: produced  18
+[ 3.407781000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 3.407791000] Message [32] Broken pipe
+[ 3.407813000] PR_B_K                              : consumed  13
+[ 3.507751000] PR_B_K                              : consumed  13
+[ 3.607754000] PR_B_K: produced  19
+[ 3.607793000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 3.607803000] Message [32] Broken pipe
+[ 3.607831000] PR_B_K                              : consumed  13
+[ 3.707764000] PR_B_K                              : consumed  13
+[ 3.807742000] PR_B_K: produced  20
+[ 3.807782000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 3.807792000] Message [32] Broken pipe
+[ 3.807815000] PR_B_K                              : consumed  13
+[ 3.907797000] PR_B_K                              : consumed  13
+[ 4.007800000] PR_B_K: produced  21
+[ 4.007840000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 4.007850000] Message [32] Broken pipe
+[ 4.007878000] PR_B_K                              : consumed  13
+[ 4.107807000] PR_B_K                              : consumed  13
+[ 4.207813000] PR_B_K: produced  22
+[ 4.207851000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 4.207861000] Message [32] Broken pipe
+[ 4.207889000] PR_B_K                              : consumed  13
+[ 4.307819000] PR_B_K                              : consumed  13
+[ 4.407829000] PR_B_K: produced  23
+[ 4.407868000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 4.407878000] Message [32] Broken pipe
+[ 4.407910000] PR_B_K                              : consumed  13
+[ 4.507834000] PR_B_K                              : consumed  13
+[ 4.607841000] PR_B_K: produced  24
+[ 4.607880000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 4.607890000] Message [32] Broken pipe
+[ 4.607918000] PR_B_K                              : consumed  13
+[ 4.707825000] PR_B_K                              : consumed  13
+[ 4.807831000] PR_B_K: produced  25
+[ 4.807870000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 4.807879000] Message [32] Broken pipe
+[ 4.807902000] PR_B_K                              : consumed  13
+[ 4.907835000] PR_B_K                              : consumed  13
+[ 5.007845000] PR_B_K: produced  26
+[ 5.007884000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 5.007894000] Message [32] Broken pipe
+[ 5.007922000] PR_B_K                              : consumed  13
+[ 5.107853000] PR_B_K                              : consumed  13
+[ 5.207856000] PR_B_K: produced  27
+[ 5.207895000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 5.207905000] Message [32] Broken pipe
+[ 5.207935000] PR_B_K                              : consumed  13
+[ 5.307867000] PR_B_K                              : consumed  13
+[ 5.407866000] PR_B_K: produced  28
+[ 5.407906000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 5.407916000] Message [32] Broken pipe
+[ 5.407938000] PR_B_K                              : consumed  13
+[ 5.507876000] PR_B_K                              : consumed  13
+[ 5.607881000] PR_B_K: produced  29
+[ 5.607927000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 5.607936000] Message [32] Broken pipe
+[ 5.607964000] PR_B_K                              : consumed  13
+[ 5.707887000] PR_B_K                              : consumed  13
+[ 5.807896000] PR_B_K: produced  30
+[ 5.807937000] Exception GNAT.SOCKETS.SOCKET_ERROR
+[ 5.807946000] Message [32] Broken pipe
+[ 5.807968000] PR_B_K                              : consumed  13
+[ 5.907899000] PR_B_K                              : consumed  13
+[ 6.007909000] PR_B_K: produced  31
+

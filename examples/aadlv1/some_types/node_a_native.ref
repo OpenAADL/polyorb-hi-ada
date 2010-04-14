@@ -1,0 +1,16 @@
+[ 0.005409000] ***** Emitting Boolean_Type: TRUE
+[ 0.005433000] ***** Emitting Enum_Type: ENUM_2
+[ 0.005440000] ***** Emitting Integer_Type:  1
+[ 0.005447000] ***** Emitting Array : ( 1,  2,  3,  4)
+[ 0.005458000] ***** Emitting String_Type: Bounded string message
+[ 1.005421000] ***** Emitting Boolean_Type: FALSE
+[ 1.005437000] ***** Emitting Enum_Type: ENUM_3
+[ 1.005443000] ***** Emitting Integer_Type:  2
+[ 1.005449000] ***** Emitting Array : ( 2,  3,  4,  1)
+[ 1.005454000] ***** Emitting String_Type: Longer bounded string message
+[ 2.005528000] ***** Emitting Boolean_Type: TRUE
+[ 2.005541000] ***** Emitting Enum_Type: ENUM_4
+[ 2.005546000] ***** Emitting Integer_Type:  3
+[ 2.005552000] ***** Emitting Array : ( 3,  4,  1,  2)
+[ 2.005557000] ***** Emitting String_Type: Even longer bounded string message
+

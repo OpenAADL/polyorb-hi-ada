@@ -1,0 +1,7 @@
+Cmd0: ocarina_sh -s scenario.aadl
+Success0: yes
+Output0: scenario.aadl.out
+DiffSource0: some_types_native
+
+Keywords: po-hi-ada code generation
+Description: Some Types example from PolyORB-HI-Ada
