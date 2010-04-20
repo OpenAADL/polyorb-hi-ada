@@ -34,4 +34,4 @@ with PolyORB_HI.Marshallers_G;
 with Interfaces;
 
 package PolyORB_HI.Port_Type_Marshallers is
-   new PolyORB_HI.Marshallers_G (Interfaces.Integer_16);
+   new PolyORB_HI.Marshallers_G (Interfaces.Unsigned_16);
