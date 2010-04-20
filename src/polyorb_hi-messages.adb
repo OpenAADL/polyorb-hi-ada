@@ -190,7 +190,7 @@ package body PolyORB_HI.Messages is
    begin
       return Stream_Element_Count
         (Swap_Bytes
-           (Interfaces.Integer_16 (Internal_To_Length (B))));
+           (Interfaces.Unsigned_16 (Internal_To_Length (B))));
    end To_Length;
 
    ---------------
@@ -200,7 +200,7 @@ package body PolyORB_HI.Messages is
    function To_Buffer (L : Stream_Element_Count) return Message_Size_Buffer is
    begin
       return Internal_To_Buffer
-        (Wrapper (Swap_Bytes (Interfaces.Integer_16 (L))));
+        (Wrapper (Swap_Bytes (Interfaces.Unsigned_16 (L))));
    end To_Buffer;
 
 end PolyORB_HI.Messages;
