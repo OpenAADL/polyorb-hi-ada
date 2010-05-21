@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                 Copyright (C) 2009, GET-Telecom Paris.                   --
+--               Copyright (C) 2009-2010, GET-Telecom Paris.                --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -59,8 +59,8 @@ package body PolyORB_HI.Utils is
    -- Swap_Bytes --
    ----------------
 
-   function Swap_Bytes (B : Interfaces.Unsigned_16)
-                       return Interfaces.Unsigned_16
+   function Swap_Bytes (B : Interfaces.Integer_16)
+                       return Interfaces.Integer_16
    is
       use System;
    begin
@@ -86,7 +86,7 @@ package body PolyORB_HI.Utils is
 
    function Internal_Code (P : Port_Type) return Unsigned_16 is
       function To_Internal_Code is new Ada.Unchecked_Conversion
-        (Port_Type, Unsigned_16);
+        (Port_Type, Integer_16);
    begin
       return Swap_Bytes (To_Internal_Code (P));
    end Internal_Code;
@@ -95,9 +95,9 @@ package body PolyORB_HI.Utils is
    -- Corresponding_Port --
    ------------------------
 
-   function Corresponding_Port (I : Unsigned_16) return Port_Type is
+   function Corresponding_Port (I : Integer_16) return Port_Type is
       function To_Corresponding_Port is new Ada.Unchecked_Conversion
-        (Unsigned_16, Port_Type);
+        (Integer_16, Port_Type);
    begin
       return To_Corresponding_Port (Swap_Bytes (I));
    end Corresponding_Port;

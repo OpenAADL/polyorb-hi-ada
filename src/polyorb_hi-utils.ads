@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---               Copyright (C) 2007-2009, GET-Telecom Paris.                --
+--               Copyright (C) 2007-2010, GET-Telecom Paris.                --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -70,10 +70,10 @@ package PolyORB_HI.Utils is
      (Integer_8, Node_Type);
 
    function Internal_Code (P : Port_Type) return Unsigned_16;
-   function Corresponding_Port (I : Unsigned_16) return Port_Type;
+   function Corresponding_Port (I : Integer_16) return Port_Type;
 
-   function Swap_Bytes (B : Interfaces.Unsigned_16)
-                       return Interfaces.Unsigned_16;
+   function Swap_Bytes (B : Interfaces.Integer_16)
+                       return Interfaces.Integer_16;
    --  Swap bytes iff the host is little endian. This function is
    --  notionnally equivalent to htons().
 
