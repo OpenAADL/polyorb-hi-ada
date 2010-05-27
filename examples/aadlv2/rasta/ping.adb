@@ -4,7 +4,7 @@ package body Ping is
 
    use PolyORB_HI.Output;
 
-   Var : Simple_Type := 0;
+   Var : constant Simple_Type := 'a';
 
    -----------------
    -- Do_Ping_Spg --
@@ -14,7 +14,6 @@ package body Ping is
    begin
       Data_Source := Var;
       Put_Line (Normal, "Sending ORDER: " & Simple_Type'Image (Var));
-      Var := Var + 1;
    end Do_Ping_Spg;
 
 end Ping;

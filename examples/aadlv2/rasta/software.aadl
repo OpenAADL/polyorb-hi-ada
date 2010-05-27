@@ -15,7 +15,7 @@ public
 
 data Simple_Type
 properties
-  Data_Model::Data_Representation => integer;
+  Data_Model::Data_Representation => character;
 end Simple_Type;
 
 -----------------
@@ -55,6 +55,7 @@ Mycall : {
 connections
   parameter P_Spg.Data_Source -> Data_Source;
 properties
+  Source_Stack_Size => 512 KByte;
   Dispatch_Protocol                  => Periodic;
   Period                             => 10 sec;
   Priority                           => 2;

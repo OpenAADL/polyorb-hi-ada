@@ -1,6 +1,7 @@
 pragma Warnings (Off);
 
 with Interfaces;
+with Ada.Exceptions;
 with Ada.Unchecked_Conversion;
 with Ada.Streams;
 with GNAT.Serial_Communications;
@@ -9,7 +10,6 @@ with PolyORB_HI.Output;
 with PolyORB_HI.Messages;
 
 with PolyORB_HI_Generated.Transport;
-with Ada.Exceptions;
 
 --  This package provides support for the Native_UART device driver as
 --  defined in the Native_UART AADLv2 model.
@@ -21,7 +21,6 @@ package body Native_UART is
    --  generated for Transport.
 
    use Interfaces;
-   use Ada.Exceptions;
    use PolyORB_HI.Messages;
    use PolyORB_HI.Utils;
    use PolyORB_HI.Output;
@@ -65,18 +64,18 @@ package body Native_UART is
       begin
          GNAT.Serial_Communications.Open
            (Port => Nodes (My_Node).UART_Port_Send,
-            Name => "/dev/ttyS3");
+            Name => "/dev/ttyS0");
       exception
          when others =>
-            Put_Line ("ttyS4");
+            Put_Line ("ttyS0");
       end;
       begin
          GNAT.Serial_Communications.Open
            (Port => Nodes (My_Node).UART_Port_Receive,
-            Name => "/dev/ttyS0");
+            Name => "/dev/ttyUSB1");
       exception
          when others =>
-            Put_Line ("error tty");
+            Put_Line ("ttyUSB1");
       end;
 
       GNAT.Serial_Communications.Set
@@ -86,8 +85,7 @@ package body Native_UART is
       GNAT.Serial_Communications.Set
         (Port   => Nodes (My_Node).UART_Port_Receive,
          Rate => GNAT.Serial_Communications.B19200,
-         Block => True,
-         Timeout => 15.0);
+         Block => True);
 
       Put_Line (Normal, "Initialization of UART subsystem"
                   & " is complete");
@@ -107,6 +105,7 @@ package body Native_UART is
       SEL : AS_Message_Length_Stream;
       SEA : AS_Full_Stream;
       SEO : Ada.Streams.Stream_Element_Offset;
+      Packet_Size : Ada.Streams.Stream_Element_Offset;
       Data_Received_Index : Ada.Streams.Stream_Element_Offset;
    begin
 
@@ -122,12 +121,13 @@ package body Native_UART is
          GNAT.Serial_Communications.Read
            (Nodes (My_Node).UART_Port_Receive, SEL, SEO);
 
-         SEO := Ada.Streams.Stream_Element_Offset (10);
+         Packet_Size := Ada.Streams.Stream_Element_Offset
+           (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
          SEA (1 .. Message_Length_Size) := SEL;
 
          Data_Received_Index := Message_Length_Size + 1;
 
-         while Data_Received_Index < 10 loop
+         while Data_Received_Index < Packet_Size loop
             --  We must loop to make sure we receive all data
 
             GNAT.Serial_Communications.Read
@@ -150,20 +150,21 @@ package body Native_UART is
 
             --  Deliver to the peer handler
 
-            PolyORB_HI_Generated.Transport.Deliver
-              (PolyORB_HI_Generated.Deployment.Node_2_Ping_Me_K,
-               To_PO_HI_Full_Stream (SEA)
-                 (1 .. Stream_Element_Offset (SEO) + 1));
+            begin
+               PolyORB_HI_Generated.Transport.Deliver
+                 (Corresponding_Entity
+                    (Integer_8 (SEA (Message_Length_Size + 1))),
+                  To_PO_HI_Full_Stream (SEA)
+                    (1 .. Stream_Element_Offset (SEO)));
+            exception
+               when E : others =>
+                  Put_Line (Ada.Exceptions.Exception_Information (E));
+                  Put_Line ("arghl");
+            end;
          else
             Put_Line ("Got error");
          end if;
       end loop Main_Loop;
-
-   exception
-      when E : others =>
-         Put_Line (Exception_Name (E));
-         Put_Line (Exception_Message (E));
-         Put_Line ("arghl");
    end Receive;
 
    ----------

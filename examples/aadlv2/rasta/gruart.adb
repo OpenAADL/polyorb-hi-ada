@@ -76,7 +76,6 @@ package body GRUART is
          Nodes (J).UART_Device_Receive
            := Uart.Core.UART_Device'Value
            (To_String (Name_Table (J).Location) (3 .. 3));
-
       end loop;
 
       Uart.HLInterface.Open (Port   => Nodes (My_Node).UART_Port_Send,
@@ -106,6 +105,7 @@ package body GRUART is
       SEL : AS_Message_Length_Stream;
       SEA : AS_Full_Stream;
       SEO : Ada.Streams.Stream_Element_Offset;
+      Packet_Size : Ada.Streams.Stream_Element_Offset;
       Data_Received_Index : Ada.Streams.Stream_Element_Offset;
    begin
 
@@ -120,13 +120,13 @@ package body GRUART is
 
          Uart.HLInterface.Read (Nodes (My_Node).UART_Port_Receive, SEL, SEO);
 
-         SEO := Ada.Streams.Stream_Element_Offset
+         Packet_Size := Ada.Streams.Stream_Element_Offset
            (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
          SEA (1 .. Message_Length_Size) := SEL;
 
          Data_Received_Index := Message_Length_Size + 1;
 
-         while Data_Received_Index < SEO loop
+         while Data_Received_Index < Packet_Size loop
             --  We must loop to make sure we receive all data
 
             Uart.HLInterface.Read (Nodes (My_Node).UART_Port_Receive,
