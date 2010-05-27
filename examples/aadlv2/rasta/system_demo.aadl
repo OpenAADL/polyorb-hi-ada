@@ -21,6 +21,17 @@ public
    -- PROCESSES --
    ---------------
    
+   process Process_Zero
+   end Process_Zero;
+   
+   process implementation Process_Zero.Impl
+   subcomponents
+     Pinger        : thread Software::Pinger.Impl;
+     Ping_Me        : thread Software::Pingee.Impl;
+   connections
+     port Pinger.Data_Source -> Ping_Me.Data_Sink;
+   end Process_Zero.Impl;
+
    process Process_Simple
    features
      Out_Port : out event data port Software::Simple_Type;
@@ -165,7 +176,6 @@ public
    -- Note: this setting assumes one RASTA board, with UART DSU #1
    -- connected to UART DSU #2.
    --
-   --
    -- It shows operation of the GRUART driver.
 
   subcomponents		 
@@ -205,9 +215,8 @@ public
 
   system implementation The_Demo.UART_2
  
-   -- Note: this setting assumes one RASTA board, with UART DSU #1
-   -- connected to UART DSU #2.
-   --
+   -- Note: this setting assumes one RASTA board and a Native
+   -- platform, with UART DSU #1 connected to Native platform UART.
    --
    -- It shows operation of the GRUART driver.
 
@@ -266,5 +275,51 @@ public
                               applies to GRUART_Cnx_2;
 
    end The_Demo.UART_2;
+
+   ---------------------------------------------------------------------------
+
+   system implementation The_Demo.No_Cnx_LEON
+
+   -- Note: this setting assumes one node, without particular
+   -- hardware, to test internal communication.
+
+   subcomponents		 
+
+     -- Node #1 hardware components
+
+     Processor_1  : processor GR_CPCI_X4CV::LEON2.impl;
+
+     Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
+
+     -- Node #1 software components
+
+     Node_1 : process Process_Zero.Impl;
+
+   properties
+
+     Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
+
+   end The_Demo.No_Cnx_LEON;
+
+   system implementation The_Demo.No_Cnx_Native
+
+   -- Note: this setting assumes one node, without particular
+   -- hardware, to test internal communication.
+
+   subcomponents		 
+
+     -- Node #1 hardware components
+
+     Processor_1  : processor Generic_Native::Generic_Processor.impl;
+
+     -- Node #1 software components
+
+     Node_1 : process Process_Zero.Impl;
+
+   properties
+
+     Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
+
+   end The_Demo.No_Cnx_Native;
 
 end System_Demo;
