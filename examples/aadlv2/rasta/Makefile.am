@@ -26,6 +26,7 @@ if HAS_GNATMAKE_FOR_LEON
    SCENARIO_FILES+= $(srcdir)/scenario_spw.aadl			\
 	 $(srcdir)/scenario.aadl $(srcdir)/scenario_uart.aadl	\
 	 $(srcdir)/scenario_uart_2.aadl				\
+	 $(srcdir)/scenario_uart_native.aadl			\
 	 $(srcdir)/scenario_no_cnx_leon.aadl			\
 	 $(srcdir)/scenario_no_cnx_native.aadl
 endif

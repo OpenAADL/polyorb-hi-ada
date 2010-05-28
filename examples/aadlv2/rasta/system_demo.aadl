@@ -213,6 +213,46 @@ public
 
    ---------------------------------------------------------------------------
 
+  system implementation The_Demo.UART_Native
+ 
+  --  XXX		
+
+  subcomponents		 
+
+     Bus_UART      : bus Generic_Bus::Generic_Bus.impl;
+
+     -- Node #1 hardware components
+
+     Processor_1  : processor Generic_Native::Generic_Processor.impl;
+
+     Memory_1     : memory Generic_Native::Memory_Segment.impl;
+
+
+     UART_Cnx_1 : device Native_UART_Protocol::Native_UART_Device.impl
+     		    { Deployment::Location    => "1:2";
+		    -- Configure UART port #1 to send, #2 to receive
+		    };
+
+     -- Node #1 software components
+
+     Node_1 : process Process_Simple.Impl;
+
+   connections
+
+     bus access Bus_UART -> UART_Cnx_1.DB9_Wire;
+     port Node_1.Out_Port -> Node_1.In_Port
+      	  { Actual_Connection_Binding => (reference (Bus_UART)); };
+
+   properties
+
+     Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
+     Actual_Processor_Binding => (reference (Processor_1)) 
+                              applies to UART_Cnx_1;
+
+  end The_Demo.UART_Native;
+
+   ---------------------------------------------------------------------------
+
   system implementation The_Demo.UART_2
  
    -- Note: this setting assumes one RASTA board and a Native

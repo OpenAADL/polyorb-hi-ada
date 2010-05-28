@@ -26,15 +26,12 @@ package body Native_UART is
    use PolyORB_HI.Output;
 
    type Node_Record is record
-      --  SpaceWire is a simple protocol, we use one core to send,
-      --  another to receive.
+      --  UART is a simple protocol, we use one port to send, another
+      --  to receive.
 
       UART_Port_Send   : GNAT.Serial_Communications.Serial_Port;
---      UART_Device_Send : Uart.Core.UART_Device;
 
       UART_Port_Receive   : GNAT.Serial_Communications.Serial_Port;
---      UART_Device_Receive : Uart.Core.UART_Device;
-
    end record;
 
    Nodes : array (Node_Type) of Node_Record;
@@ -60,30 +57,31 @@ package body Native_UART is
 
    procedure Initialize (Name_Table : PolyORB_HI.Utils.Naming_Table_Type) is
    begin
-      Put_Line ("coin");
       begin
          GNAT.Serial_Communications.Open
            (Port => Nodes (My_Node).UART_Port_Send,
             Name => "/dev/ttyS0");
       exception
-         when others =>
-            Put_Line ("ttyS0");
+         when E : others =>
+            Put_Line (Ada.Exceptions.Exception_Information (E));
       end;
       begin
          GNAT.Serial_Communications.Open
            (Port => Nodes (My_Node).UART_Port_Receive,
-            Name => "/dev/ttyUSB1");
+            Name => "/dev/ttyUSB0");
       exception
-         when others =>
-            Put_Line ("ttyUSB1");
+         when E : others =>
+            Put_Line (Ada.Exceptions.Exception_Information (E));
       end;
 
       GNAT.Serial_Communications.Set
         (Port   => Nodes (My_Node).UART_Port_Send,
+         Parity => GNAT.Serial_Communications.Even,
          Rate => GNAT.Serial_Communications.B19200);
 
       GNAT.Serial_Communications.Set
         (Port   => Nodes (My_Node).UART_Port_Receive,
+         Parity => GNAT.Serial_Communications.Even,
          Rate => GNAT.Serial_Communications.B19200,
          Block => True);
 
@@ -111,8 +109,6 @@ package body Native_UART is
 
       Main_Loop : loop
          Put_Line ("Using user-provided Native_UART stack to receive");
---           Put_Line ("Waiting on UART #"
---                       & Nodes (My_Node).UART_Device_Receive'Img);
 
          --  UART is a character-oriented protocol
 
@@ -123,18 +119,20 @@ package body Native_UART is
 
          Packet_Size := Ada.Streams.Stream_Element_Offset
            (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
+         SEO := Packet_Size;
+
          SEA (1 .. Message_Length_Size) := SEL;
 
          Data_Received_Index := Message_Length_Size + 1;
 
-         while Data_Received_Index < Packet_Size loop
+         while Data_Received_Index <= Packet_Size + Message_Length_Size loop
             --  We must loop to make sure we receive all data
 
             GNAT.Serial_Communications.Read
               (Nodes (My_Node).UART_Port_Receive,
                SEA (Data_Received_Index .. SEO + 1),
                SEO);
-            Data_Received_Index := 1 + SEO;
+            Data_Received_Index := 1 + SEO + 1;
          end loop;
 
          --  2/ Receive full message
@@ -142,9 +140,7 @@ package body Native_UART is
          if SEO /= SEA'First - 1 then
             Put_Line
               (Normal,
-               "UART #"
---                 & Nodes (My_Node).UART_Device_Receive'Img
-                 & " received"
+               "UART received"
                  & Ada.Streams.Stream_Element_Offset'Image (SEO)
                  & " bytes");
 
@@ -159,7 +155,6 @@ package body Native_UART is
             exception
                when E : others =>
                   Put_Line (Ada.Exceptions.Exception_Information (E));
-                  Put_Line ("arghl");
             end;
          else
             Put_Line ("Got error");
@@ -191,7 +186,6 @@ package body Native_UART is
    begin
       Put_Line ("Using user-provided UART stack to send");
       Put_Line ("Sending through UART #"
---                  & Nodes (Node).UART_Device_Send'Img
                   & Size'Img & " bytes");
 
       GNAT.Serial_Communications.Write
@@ -200,6 +194,7 @@ package body Native_UART is
 
       return Error_Kind'(Error_None);
       --  Note: we have no way to no there was an error here
+
    end Send;
 
 end Native_UART;
