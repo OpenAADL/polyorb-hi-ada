@@ -57,7 +57,7 @@ connections
 properties
   Source_Stack_Size => 512 KByte;
   Dispatch_Protocol                  => Periodic;
-  Period                             => 10 sec;
+  Period                             => 3 sec;
   Priority                           => 2;
 end Pinger.Impl;
 
