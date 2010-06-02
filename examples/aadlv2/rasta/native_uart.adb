@@ -1,9 +1,8 @@
-pragma Warnings (Off);
-
-with Interfaces;
 with Ada.Exceptions;
-with Ada.Unchecked_Conversion;
 with Ada.Streams;
+with Ada.Unchecked_Conversion;
+with Interfaces;
+
 with GNAT.Serial_Communications;
 
 with PolyORB_HI.Output;
@@ -30,14 +29,11 @@ package body Native_UART is
       --  to receive.
 
       UART_Port_Send   : GNAT.Serial_Communications.Serial_Port;
-
       UART_Port_Receive   : GNAT.Serial_Communications.Serial_Port;
    end record;
 
    Nodes : array (Node_Type) of Node_Record;
 
-
-   subtype AS_One_Element_Stream is Ada.Streams.Stream_Element_Array (1 .. 1);
    subtype AS_Message_Length_Stream is Ada.Streams.Stream_Element_Array
      (1 .. Message_Length_Size);
    subtype Message_Length_Stream is Stream_Element_Array
@@ -56,6 +52,8 @@ package body Native_UART is
    ----------------
 
    procedure Initialize (Name_Table : PolyORB_HI.Utils.Naming_Table_Type) is
+      pragma Unreferenced (Name_Table);
+
    begin
       begin
          GNAT.Serial_Communications.Open
@@ -172,6 +170,8 @@ package body Native_UART is
       Size    : Stream_Element_Offset)
      return Error_Kind
    is
+      pragma Unreferenced (Node);
+
       --  We cannot cast both array types using
       --  Ada.Unchecked_Conversion because they are unconstrained
       --  types. We cannot either use direct casting because component
