@@ -1,8 +1,7 @@
-pragma Warnings (Off);
-
 with Interfaces;
 with Ada.Unchecked_Conversion;
 with Ada.Streams;
+
 with Uart.HLInterface;
 with Uart.Core;
 
@@ -26,8 +25,8 @@ package body GRUART is
    use PolyORB_HI.Output;
 
    type Node_Record is record
-      --  SpaceWire is a simple protocol, we use one core to send,
-      --  another to receive.
+      --  UART is a simple protocol, we use one port to send, another
+      --  to receive.
 
       UART_Port_Send   : Uart.HLInterface.Serial_Port;
       UART_Device_Send : Uart.Core.UART_Device;
@@ -39,8 +38,6 @@ package body GRUART is
 
    Nodes : array (Node_Type) of Node_Record;
 
-
-   subtype AS_One_Element_Stream is Ada.Streams.Stream_Element_Array (1 .. 1);
    subtype AS_Message_Length_Stream is Ada.Streams.Stream_Element_Array
      (1 .. Message_Length_Size);
    subtype Message_Length_Stream is Stream_Element_Array
@@ -122,17 +119,19 @@ package body GRUART is
 
          Packet_Size := Ada.Streams.Stream_Element_Offset
            (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
+         SEO := Packet_Size;
+
          SEA (1 .. Message_Length_Size) := SEL;
 
          Data_Received_Index := Message_Length_Size + 1;
 
-         while Data_Received_Index < Packet_Size loop
+         while Data_Received_Index <= Packet_Size + Message_Length_Size loop
             --  We must loop to make sure we receive all data
 
             Uart.HLInterface.Read (Nodes (My_Node).UART_Port_Receive,
                                    SEA (Data_Received_Index .. SEO + 1),
                                    SEO);
-            Data_Received_Index := 1 + SEO;
+            Data_Received_Index := 1 + SEO + 1;
          end loop;
 
          --  2/ Receive full message
