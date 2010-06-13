@@ -34,7 +34,7 @@ package PolyORB_HI.Errors is
 
    type Error_Kind is
      (Error_None,     --  No error
-      Error_Transport --
+      Error_Transport --  An error occured at transport level
      );
 
 end PolyORB_HI.Errors;
