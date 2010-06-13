@@ -147,7 +147,7 @@ package body PolyORB_HI.Thread_Interrogators is
       --  deliverable.
 
       procedure Store_Out (P : Port_Stream_Entry; T : Time);
-      --  Store a value of an OUT port to be send at the next call to
+      --  Store a value of an OUT port to be sent at the next call to
       --  Send_Output and mark the value as valid.
 
       function Count (T : Port_Type) return Integer;
