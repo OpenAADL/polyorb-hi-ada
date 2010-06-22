@@ -28,7 +28,8 @@ if HAS_GNATMAKE_FOR_LEON
 	 $(srcdir)/scenario_uart_2.aadl				\
 	 $(srcdir)/scenario_uart_native.aadl			\
 	 $(srcdir)/scenario_no_cnx_leon.aadl			\
-	 $(srcdir)/scenario_no_cnx_native.aadl
+	 $(srcdir)/scenario_no_cnx_native.aadl			\
+	 $(srcdir)/scenario_fpga.aadl
 endif
 
 # Note: we may not package $(srcdir)/scenario_uart_2.aadl because some

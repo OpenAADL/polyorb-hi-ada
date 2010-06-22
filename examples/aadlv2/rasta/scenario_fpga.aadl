@@ -13,7 +13,7 @@ properties
     (value (Ocarina_Config::Data_Model),
      value (Ocarina_Config::Deployment));
   Ocarina_Config::AADL_Version         => AADLv2;
-  Ocarina_Config::Root_System_Name     => "the_demo.uart_native";
+  Ocarina_Config::Root_System_Name     => "the_demo.rasta_fpga";
 end delayed_connections;
 
 system implementation delayed_connections.Impl

@@ -6,6 +6,7 @@ system delayed_connections
 properties
   Ocarina_Config::AADL_Files => ("grspw.aadl", "gr_cpci_x4cv.aadl",
          "gruart.aadl", "software.aadl", "system_demo.aadl",
+	 "grrastafpga.aadl",
 	 "generic_bus.aadl",
 	 "generic_native.aadl", "native_uart.aadl");
   Ocarina_Config::Generator            => polyorb_hi_ada;
