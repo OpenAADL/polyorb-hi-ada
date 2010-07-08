@@ -48,7 +48,7 @@ package body PolyORB_HI.Periodic_Task is
 
    task body The_Periodic_Task is
       Next_Start : Ada.Real_Time.Time;
-      T : Ada.Real_Time.Time;
+      --  T : Ada.Real_Time.Time;
       Error : Error_Kind;
 
    begin
@@ -80,21 +80,20 @@ package body PolyORB_HI.Periodic_Task is
              "Periodic Task " & Entity_Image (Entity) & ": New Cycle"));
 
          --  Execute the task's job
-         Put_Line (Normal, "Enterying job for " & Entity_Image (Entity));
+
          Error := Job;
-         Put_Line (Normal, "Leaving job for " & Entity_Image (Entity));
 
          if Error /= Error_None then
             Recover_Entrypoint;
          end if;
 
-         T := Ada.Real_Time.Clock;
-         if T > Next_Start then
-            Put_Line (Normal, "***** Overload detected in task "
-                        & Entity_Image (Entity) & " *****");
-            Put_Line (Normal, "Lag: " &
-                        Duration'Image (To_Duration (Next_Start - T)));
-         end if;
+         --  T := Ada.Real_Time.Clock;
+         --  if T > Next_Start then
+         --     Put_Line (Normal, "***** Overload detected in task "
+         --                 & Entity_Image (Entity) & " *****");
+         --     Put_Line (Normal, "Lag: " &
+         --                 Duration'Image (To_Duration (Next_Start - T)));
+         --  end if;
 
          delay until Next_Start;
          Next_Start        := Next_Start + Task_Period;
