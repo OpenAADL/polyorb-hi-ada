@@ -89,11 +89,10 @@ package body PolyORB_HI.Periodic_Task is
 
          T := Ada.Real_Time.Clock;
          if T > Next_Start then
-            Put_Line (Normal, "***** Overload detected *****");
+            Put_Line (Normal, "***** Overload detected in task "
+                        & Entity_Image (Entity) & " *****");
             Put_Line (Normal, "Lag: " &
                         Duration'Image (To_Duration (Next_Start - T)));
-
-            raise Program_Error;
          end if;
 
          delay until Next_Start;
