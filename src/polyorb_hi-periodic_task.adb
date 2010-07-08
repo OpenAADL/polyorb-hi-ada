@@ -80,8 +80,9 @@ package body PolyORB_HI.Periodic_Task is
              "Periodic Task " & Entity_Image (Entity) & ": New Cycle"));
 
          --  Execute the task's job
-
+         Put_Line (Normal, "Enterying job for " & Entity_Image (Entity));
          Error := Job;
+         Put_Line (Normal, "Leaving job for " & Entity_Image (Entity));
 
          if Error /= Error_None then
             Recover_Entrypoint;
