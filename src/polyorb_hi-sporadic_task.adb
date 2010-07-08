@@ -70,7 +70,7 @@ package body PolyORB_HI.Sporadic_Task is
           & ": Wait initialization"));
 
       Suspend_Until_True (Task_Suspension_Objects (Entity));
-      delay until System_Startup_Time;
+      --      delay until System_Startup_Time;
 
       pragma Debug (Put_Line
                     (Verbose,
