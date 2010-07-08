@@ -48,6 +48,7 @@ package body PolyORB_HI.Periodic_Task is
 
    task body The_Periodic_Task is
       Next_Start : Ada.Real_Time.Time;
+      T : Ada.Real_Time.Time;
       Error : Error_Kind;
 
    begin
@@ -84,6 +85,15 @@ package body PolyORB_HI.Periodic_Task is
 
          if Error /= Error_None then
             Recover_Entrypoint;
+         end if;
+
+         T := Ada.Real_Time.Clock;
+         if T > Next_Start then
+            Put_Line (Normal, "***** Overload detected *****");
+            Put_Line (Normal, "Lag: " &
+                        Duration'Image (To_Duration (Next_Start - T)));
+
+            raise Program_Error;
          end if;
 
          delay until Next_Start;
