@@ -156,7 +156,7 @@ project PolyORB_HI is
    ------------
 
    package Binder is
-      for Default_Switches ("ada") use ("-r", "-T0");
+      for Default_Switches ("ada") use ("-r");
    end Binder;
 
    ------------
