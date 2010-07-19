@@ -3,7 +3,7 @@ with PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Utils;
 
-package GRUART is
+package PolyORB_HI_Drivers_Native_UART is
 
    use PolyORB_HI.Errors;
    use PolyORB_HI_Generated.Deployment;
@@ -19,7 +19,7 @@ package GRUART is
       Message : Stream_Element_Array;
       Size    : Stream_Element_Offset)
      return Error_Kind;
-   pragma Export (C, Send, "gruart_device.impl_send");
+   pragma Export (C, Send, "native_uart_device.impl_send");
    pragma Warnings (On);
 
-end GRUART;
+end PolyORB_HI_Drivers_Native_UART;

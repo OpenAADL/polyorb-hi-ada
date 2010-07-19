@@ -87,7 +87,7 @@ public
      -- variables to configure the stack.
 
    properties
-      Source_Name => "GRSPW.Initialize";
+      Source_Name => "PolyORB_HI_Drivers_GRSPW.Initialize";
       Source_Language => Ada;
    end Initialize;
 
@@ -100,7 +100,7 @@ public
       -- defined in the AADL model.
 
    properties
-      Source_Name => "GRSPW.Receive";
+      Source_Name => "PolyORB_HI_Drivers_GRSPW.Receive";
       Source_Language => Ada;
    end Receive;
 
@@ -113,7 +113,7 @@ public
       -- model.
 
    properties
-      Source_Name => "GRSPW.Send";
+      Source_Name => "PolyORB_HI_Drivers_GRSPW.Send";
       Source_Language => Ada;
    end Send;
 

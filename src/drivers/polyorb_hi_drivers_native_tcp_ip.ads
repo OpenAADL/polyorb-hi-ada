@@ -3,13 +3,14 @@ with PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Utils;
 
-package UART is
+package PolyORB_HI_Drivers_Native_TCP_IP is
 
    use PolyORB_HI.Errors;
    use PolyORB_HI_Generated.Deployment;
    use PolyORB_HI.Streams;
 
    procedure Initialize (Name_Table : PolyORB_HI.Utils.Naming_Table_Type);
+   procedure Initialize_Receiver;
 
    procedure Receive;
 
@@ -19,7 +20,7 @@ package UART is
       Message : Stream_Element_Array;
       Size    : Stream_Element_Offset)
      return Error_Kind;
-   pragma Export (C, Send, "uart_device.impl_send");
+   pragma Export (C, Send, "tcp_ip_device.impl_send");
    pragma Warnings (On);
 
-end UART;
+end PolyORB_HI_Drivers_Native_TCP_IP;

@@ -13,7 +13,7 @@ with PolyORB_HI_Generated.Transport;
 --  This package provides support for the GRUART device driver as
 --  defined in the GRUART AADLv2 model.
 
-package body GRUART is
+package body PolyORB_HI_Drivers_GRUART is
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely
@@ -192,4 +192,4 @@ package body GRUART is
       --  Note: we have no way to no there was an error here
    end Send;
 
-end GRUART;
+end PolyORB_HI_Drivers_GRUART;

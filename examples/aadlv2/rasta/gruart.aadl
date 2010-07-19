@@ -88,7 +88,7 @@ public
      -- variables to configure the stack.
 
    properties
-      Source_Name => "GRUART.Initialize";
+      Source_Name => "PolyORB_HI_Drivers_GRUART.Initialize";
       Source_Language => Ada;
    end Initialize;
 
@@ -101,7 +101,7 @@ public
       -- defined in the AADL model.
 
    properties
-      Source_Name => "GRUART.Receive";
+      Source_Name => "PolyORB_HI_Drivers_GRUART.Receive";
       Source_Language => Ada;
    end Receive;
 
@@ -114,7 +114,7 @@ public
       -- model.
 
    properties
-      Source_Name => "GRUART.Send";
+      Source_Name => "PolyORB_HI_Drivers_GRUART.Send";
       Source_Language => Ada;
    end Send;
 

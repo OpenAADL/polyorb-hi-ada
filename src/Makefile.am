@@ -1,3 +1,5 @@
+SUBDIRS = drivers
+
 # BEGIN: DO NOT DELETE THIS LINE
 ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi-aperiodic_task.ads	\
 	$(srcdir)/polyorb_hi-background_task.ads		\

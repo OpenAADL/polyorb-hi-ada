@@ -85,7 +85,7 @@ public
      -- variables to configure the stack.
 
    properties
-      Source_Name => "Native_UART.Initialize";
+      Source_Name => "PolyORB_HI_Drivers_Native_UART.Initialize";
       Source_Language => Ada;
    end Initialize;
 
@@ -98,7 +98,7 @@ public
       -- defined in the AADL model.
 
    properties
-      Source_Name => "Native_UART.Receive";
+      Source_Name => "PolyORB_HI_Drivers_Native_UART.Receive";
       Source_Language => Ada;
    end Receive;
 
@@ -111,7 +111,7 @@ public
       -- model.
 
    properties
-      Source_Name => "Native_UART.Send";
+      Source_Name => "PolyORB_HI_Drivers_Native_UART.Send";
       Source_Language => Ada;
    end Send;
 

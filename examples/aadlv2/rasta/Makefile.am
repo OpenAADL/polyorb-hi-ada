@@ -1,9 +1,6 @@
 # BEGIN: DO NOT DELETE THIS LINE
-ADA_SPECS_WITH_BODY = $(srcdir)/grspw.adb $(srcdir)/gruart.adb		\
-	$(srcdir)/native_uart.adb $(srcdir)/ping.adb			\
-	$(srcdir)/pinged.adb $(srcdir)/grspw.ads $(srcdir)/gruart.ads	\
-	$(srcdir)/native_uart.ads $(srcdir)/ping.ads			\
-	$(srcdir)/pinged.ads
+ADA_SPECS_WITH_BODY = $(srcdir)/ping.ads			\
+	$(srcdir)/pinged.ads $(srcdir)/gr_rasta_fpga.ads
 
 ADA_SPECS = $(ADA_SPECS_WITH_BODY)
 
@@ -12,7 +9,8 @@ ADA_BODIES = $(ADA_SPECS_WITH_BODY:.ads=.adb)
 AADL_SOURCES = $(srcdir)/generic_bus.aadl $(srcdir)/grspw.aadl	\
 	$(srcdir)/generic_native.aadl $(srcdir)/gruart.aadl	\
 	$(srcdir)/software.aadl $(srcdir)/gr_cpci_x4cv.aadl	\
-	$(srcdir)/native_uart.aadl $(srcdir)/system_demo.aadl
+	$(srcdir)/native_uart.aadl $(srcdir)/system_demo.aadl	\
+	 $(srcdir)/grrastafpga.aadl
 
 # END: DO NOT DELETE THIS LINE
 

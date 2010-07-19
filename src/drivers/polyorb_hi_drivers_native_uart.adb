@@ -13,7 +13,7 @@ with PolyORB_HI_Generated.Transport;
 --  This package provides support for the Native_UART device driver as
 --  defined in the Native_UART AADLv2 model.
 
-package body Native_UART is
+package body PolyORB_HI_Drivers_Native_UART is
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely
@@ -197,4 +197,4 @@ package body Native_UART is
 
    end Send;
 
-end Native_UART;
+end PolyORB_HI_Drivers_Native_UART;

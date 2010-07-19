@@ -87,32 +87,25 @@ end Pingee.Impl;
 process Pinger_Process
 features
   Out_Port : out event data port Software::Simple_Type;
-  Out_Port_2 : out event data port Software::Simple_Type;
 end Pinger_Process;
 
 process implementation Pinger_Process.Impl
 subcomponents
   Pinger        : thread Software::Pinger.Impl;
-  Pinger_2        : thread Software::Pinger.Impl;
 connections
   port Pinger.Data_Source -> Out_Port;
-  port Pinger_2.Data_Source -> Out_Port_2;
 end Pinger_Process.Impl;
 
 process Pingee_Process
 features
   In_Port  : in event data port Software::Simple_Type;
-  In_Port_2  : in event data port Software::Simple_Type;
 end Pingee_Process;
 
 process implementation Pingee_Process.Impl
 subcomponents
   Ping_Me        : thread Software::Pingee.Impl;
-  Ping_Me_2        : thread Software::Pingee.Impl;
 connections
   port In_Port-> Ping_Me.Data_Sink;
-  port In_Port_2 -> Ping_Me_2.Data_Sink;
-
 end Pingee_Process.Impl;
 
 end Software;
