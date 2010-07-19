@@ -186,6 +186,7 @@ AC_OUTPUT([
 	share/Makefile
 	share/make/Makefile
 	src/Makefile
+	src/drivers/Makefile	
 	src/polyorb_hi.gpr
 	examples/Makefile
 	examples/aadlv1/Makefile

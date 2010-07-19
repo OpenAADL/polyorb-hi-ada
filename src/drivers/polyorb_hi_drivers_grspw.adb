@@ -11,7 +11,7 @@ with PolyORB_HI_Generated.Transport;
 --  This package provides support for the GRSPW device driver as
 --  defined in the GRSPW AADLv2 model.
 
-package body GRSPW is
+package body PolyORB_HI_Drivers_GRSPW is
 
    task body Idle_Task  is
    begin
@@ -161,4 +161,4 @@ package body GRSPW is
       --  Note: we have no way to no there was an error here
    end Send;
 
-end GRSPW;
+end PolyORB_HI_Drivers_GRSPW;

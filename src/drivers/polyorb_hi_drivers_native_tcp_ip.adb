@@ -14,7 +14,7 @@ with PolyORB_HI_Generated.Transport;
 --  This package provides support for the TCP_IP device driver as
 --  defined in the tcp_protocol.aadl AADLv2 model.
 
-package body TCP_IP is
+package body PolyORB_HI_Drivers_Native_TCP_IP is
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely
@@ -112,7 +112,9 @@ package body TCP_IP is
       --  Connect to other nodes and send my node id
 
       for N in Nodes'Range loop
-         if N /= My_Node and then Nodes (N).Address.Addr /= No_Inet_Addr then
+         if N /= My_Node
+           and then Nodes (N).Address.Addr /= No_Inet_Addr
+         then
             loop
                Create_Socket (Nodes (N).Socket_Send);
 
@@ -144,6 +146,7 @@ package body TCP_IP is
          end if;
       end loop;
 
+      Initialize_Receiver;
       pragma Debug (Put_Line (Verbose, "Initialization of socket subsystem"
                               & " is complete"));
    end Initialize;
@@ -214,6 +217,8 @@ package body TCP_IP is
          for N in Node_Type'Range loop
             if N /= My_Node then
                Set (R_Sockets, Nodes (N).Socket_Receive);
+               pragma Debug (Put_Line (Verbose, "Will wait on " &
+                                       Image (Nodes (N).Address)));
             end if;
          end loop;
 
@@ -317,4 +322,4 @@ package body TCP_IP is
       return Error_Kind'(Error_Transport);
    end Send;
 
-end TCP_IP;
+end PolyORB_HI_Drivers_Native_TCP_IP;

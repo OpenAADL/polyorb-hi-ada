@@ -60,8 +60,8 @@ public
       -- event.
 
    properties
-      Initialize_Entrypoint 
-         => classifier (TCP_IP_Protocol::Initialize_Receiver);
+      -- Initialize_Entrypoint 
+      --    => classifier (TCP_IP_Protocol::Initialize_Receiver);
       Dispatch_Protocol => Background;
    end Driver_TCP_IP_Protocol_thread_receiver;
 
@@ -86,7 +86,7 @@ public
      -- variables to configure the stack.
 
    properties
-      Source_Name => "TCP_IP.Initialize";
+      Source_Name => "POlyORB_HI_Drivers_Native_TCP_IP.Initialize";
       Source_Language => Ada;
    end Initialize;
 
@@ -97,7 +97,7 @@ public
      -- Initialize the receiver thread
 
    properties
-      Source_Name => "TCP_IP.Initialize_Receiver";
+      Source_Name => "POlyORB_HI_Drivers_Native_TCP_IP.Initialize_Receiver";
       Source_Language => Ada;
    end Initialize_Receiver;
 
@@ -110,7 +110,7 @@ public
       -- defined in the AADL model.
 
    properties
-      Source_Name => "TCP_IP.Receive";
+      Source_Name => "POlyORB_HI_Drivers_Native_TCP_IP.Receive";
       Source_Language => Ada;
    end Receive;
 
@@ -123,7 +123,7 @@ public
       -- model.
 
    properties
-      Source_Name => "TCP_IP.Send";
+      Source_Name => "POlyORB_HI_Drivers_Native_TCP_IP.Send";
       Source_Language => Ada;
    end Send;
 

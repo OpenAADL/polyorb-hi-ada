@@ -4,7 +4,7 @@ with PolyORB_HI.Streams;
 with PolyORB_HI.Utils;
 with System;
 
-package GRSPW is
+package PolyORB_HI_Drivers_GRSPW is
 
    use PolyORB_HI.Errors;
    use PolyORB_HI_Generated.Deployment;
@@ -33,4 +33,4 @@ package GRSPW is
      pragma Priority (System.Priority'First);
    end Idle_Task;
 
-end GRSPW;
+end PolyORB_HI_Drivers_GRSPW;
