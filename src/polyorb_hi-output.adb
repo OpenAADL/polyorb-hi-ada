@@ -147,7 +147,8 @@ package body PolyORB_HI.Output is
       end if;
 
       PolyORB_HI.Output_Low_Level.Put ("[");
-      PolyORB_HI.Output_Low_Level.Put (Duration'Image (To_Duration (Elapsed)));
+      PolyORB_HI.Output_Low_Level.Put
+        (Duration'Image (To_Duration (Elapsed * 1000)));
       PolyORB_HI.Output_Low_Level.Put ("] ");
       PolyORB_HI.Output_Low_Level.Put (Text);
    end Unprotected_Put;
