@@ -37,3 +37,9 @@ debug-makefile:
 	@echo "GNATMAKE_FOR_ERC32 = $(GNATMAKE_FOR_ERC32)"
 	$(MAKE) -C examples debug-makefile
 
+release:
+	rm -rf release/
+	mkdir release/
+	$(MAKE) dist
+	cp -f $(DIST_ARCHIVES) release/$(DIST_ARCHIVES)
+
