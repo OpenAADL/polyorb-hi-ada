@@ -33,8 +33,7 @@ public
 
      Memory_1     : memory Generic_Native::Memory_Segment.impl;
      TCP_IP_Cnx_1 : device TCP_IP_Protocol::TCP_IP_Device.impl
-      { Deployment::Location    => "127.0.0.1";
-        Deployment::Port_Number => 1234; };
+      { Deployment::Location    => "ip 127.0.0.1 1233"; };
      --     Beeper_1     : device Beeper::Beeper_Device.impl;
 
      -- Node #1 software components
@@ -47,8 +46,7 @@ public
      Processor_2  : processor Generic_Native::Generic_Processor.impl;
      Memory_2     : memory Generic_Native::Memory_Segment.impl;
      TCP_IP_Cnx_2 : device TCP_IP_Protocol::TCP_IP_Device.impl
-     		    { Deployment::Location    => "127.0.0.1";
-		      Deployment::Port_Number => 2345; };
+      { Deployment::Location    => "ip 127.0.0.1 2345"; };
 
      -- Node #2 software components
 

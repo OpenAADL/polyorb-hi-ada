@@ -38,8 +38,8 @@ package body PolyORB_HI.Utils is
    -- To_HI_String --
    ------------------
 
-   function To_Hi_String (S : String) return HI_String is
-      R : String (1 .. 16) := (others => ' ');
+   function To_HI_String (S : String) return HI_String is
+      R : String (1 .. 32) := (others => ' ');
    begin
       R (1 .. S'Length) := S;
       return HI_String'(S => R,
@@ -101,5 +101,26 @@ package body PolyORB_HI.Utils is
    begin
       return To_Corresponding_Port (Swap_Bytes (I));
    end Corresponding_Port;
+
+   ------------------
+   -- Parse_String --
+   ------------------
+
+   function Parse_String (S : String; First : Integer; Delimiter : Character)
+                         return Integer
+   is
+      Last : Integer;
+   begin
+      for J in First .. S'Last loop
+         if S (J) = Delimiter then
+            Last := J - 1;
+            exit;
+         elsif J = S'Last then
+            Last := J;
+         end if;
+      end loop;
+
+      return Last;
+   end Parse_String;
 
 end PolyORB_HI.Utils;

@@ -1,9 +1,19 @@
-package GRUART_Protocol
+package GRUART
 
 -- This package models a UART-based protocol layer for the
 -- PolyORB-HI/Ada AADL runtime, based on the GRUART chipset from
 -- AEROFlex Gaisler. It defines the subprograms and threads to be
 -- integrated with the runtime low level interface.
+--
+-- To configure this interface, you should use the
+-- Deployment::Configuration property with the following format: 
+--     "serial DEVICE BAUDS DATA_BITS PARITY STOP_BIT"
+--
+-- e.g.
+--
+--     uart : device GRUART::GRUART_Device
+--            {Deployment::Configuration => "serial /dev/ttyS0 9600 8 N 1"
+-- 
 
 public
 
@@ -28,8 +38,8 @@ public
    device implementation GRUART_Device.impl
    properties
       Implemented_As => 
-         classifier (GRUART_Protocol::Driver_GRUART_Protocol.impl);
-      Initialize_Entrypoint => classifier (GRUART_Protocol::Initialize);
+         classifier (GRUART::Driver_GRUART_Protocol.impl);
+      Initialize_Entrypoint => classifier (GRUART::Initialize);
    end GRUART_Device.impl;
 
    ------------
@@ -118,4 +128,4 @@ public
       Source_Language => Ada;
    end Send;
 
-end GRUART_Protocol;
+end GRUART;
