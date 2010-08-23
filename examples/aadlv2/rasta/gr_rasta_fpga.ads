@@ -19,7 +19,7 @@ package GR_RASTA_FPGA is
       Message : Stream_Element_Array;
       Size    : Stream_Element_Offset)
      return Error_Kind;
-   pragma Export (C, Send, "gr_rasta_fpga_device.impl_send");
+   pragma Export (C, Send, "grrastafpga_device.impl_send");
    pragma Warnings (On);
 
 end GR_RASTA_FPGA;

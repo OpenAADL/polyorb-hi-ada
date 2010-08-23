@@ -62,23 +62,45 @@ package body PolyORB_HI_Drivers_GRSPW is
       end if;
 
       for J in Name_Table'Range loop
-         Nodes (J).SpaceWire_Core_Send
-           := SpaceWire.HLInterface.SpaceWire_Device'Value
-           (To_String (Name_Table (J).Location) (1 .. 1));
+         --  The structure of the location information is
+         --     "spacewire Sender_Core_id Receiver_Core_Id"
 
-         Nodes (J).SpaceWire_Core_Receive
-           := SpaceWire.HLInterface.SpaceWire_Device'Value
-           (To_String (Name_Table (J).Location) (3 .. 3));
+         declare
+            S : constant String := PolyORB_HI.Utils.To_String
+              (Name_Table (J).Location);
+            First, Last : Integer;
 
-         SpaceWire.HLInterface.Set_Node_Address
-           (Nodes (J).SpaceWire_Core_Send,
-            Interfaces.Unsigned_8 (Nodes (J).SpaceWire_Core_Receive));
+         begin
+            --  First parse the prefix "spacewire"
+
+            First := S'First;
+            Last := Parse_String (S, First, ' ');
+
+            if S (First .. Last) /= "spacewire" then
+               raise Program_Error with "Invalid configuration";
+            end if;
+
+            --  Then the sender_core_id
+
+            First := Last + 2;
+            Last := Parse_String (S, First, ' ');
+            Nodes (J).SpaceWire_Core_Send
+              := SpaceWire.HLInterface.SpaceWire_Device'Value
+              (S (First .. Last));
+
+            --  Finally the receiver_core_id
+
+            First := Last + 2;
+            Last := Parse_String (S, First, ' ');
+            Nodes (J).SpaceWire_Core_Receive
+              := SpaceWire.HLInterface.SpaceWire_Device'Value
+              (S (First .. Last));
+
+            SpaceWire.HLInterface.Set_Node_Address
+              (Nodes (J).SpaceWire_Core_Send,
+               Interfaces.Unsigned_8 (Nodes (J).SpaceWire_Core_Receive));
+         end;
       end loop;
-
-      --  XXX remove code below
-
-      SpaceWire.HLInterface.Set_Node_Address (1, 1);
-      SpaceWire.HLInterface.Set_Node_Address (2, 2);
 
       pragma Debug (Put_Line (Normal, "Initialization of SpaceWire subsystem"
                                 & " is complete"));

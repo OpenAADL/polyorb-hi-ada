@@ -28,8 +28,8 @@ package body PolyORB_HI_Drivers_Native_UART is
       --  UART is a simple protocol, we use one port to send, another
       --  to receive.
 
-      UART_Port_Send   : GNAT.Serial_Communications.Serial_Port;
-      UART_Port_Receive   : GNAT.Serial_Communications.Serial_Port;
+      UART_Port_Send    : GNAT.Serial_Communications.Serial_Port;
+      UART_Port_Receive : GNAT.Serial_Communications.Serial_Port;
    end record;
 
    Nodes : array (Node_Type) of Node_Record;
@@ -52,43 +52,125 @@ package body PolyORB_HI_Drivers_Native_UART is
    ----------------
 
    procedure Initialize (Name_Table : PolyORB_HI.Utils.Naming_Table_Type) is
-      pragma Unreferenced (Name_Table);
-
    begin
-      begin
-         GNAT.Serial_Communications.Open
-           (Port => Nodes (My_Node).UART_Port_Send,
-            Name => "/dev/ttyS0");
-      exception
-         when E : others =>
-            Put_Line (Ada.Exceptions.Exception_Information (E));
-      end;
-      begin
-         GNAT.Serial_Communications.Open
-           (Port => Nodes (My_Node).UART_Port_Receive,
-            Name => "/dev/ttyUSB0");
-      exception
-         when E : others =>
-            Put_Line (Ada.Exceptions.Exception_Information (E));
-      end;
+      for J in Name_Table'Range loop
+         --  The structure of the location information is
+         --     "serial DEVICE BAUDS DATA_BITS PARITY STOP_BIT"
 
-      GNAT.Serial_Communications.Set
-        (Port   => Nodes (My_Node).UART_Port_Send,
-         Parity => GNAT.Serial_Communications.Even,
-         Rate => GNAT.Serial_Communications.B19200);
+         declare
+            S : constant String := PolyORB_HI.Utils.To_String
+              (Name_Table (J).Location);
+            Device_First, Device_Last : Integer;
+            Bauds     : GNAT.Serial_Communications.Data_Rate;
+            Bits      : GNAT.Serial_Communications.Data_Bits;
+            Parity    : GNAT.Serial_Communications.Parity_Check;
+            Stop_Bits : GNAT.Serial_Communications.Stop_Bits_Number;
 
-      GNAT.Serial_Communications.Set
-        (Port   => Nodes (My_Node).UART_Port_Receive,
-         Parity => GNAT.Serial_Communications.Even,
-         Rate => GNAT.Serial_Communications.B19200,
-         Block => True);
+            First, Last : Integer;
 
-      Put_Line (Normal, "Initialization of UART subsystem"
-                  & " is complete");
-   exception
-      when others =>
-         Put_Line (Normal, "Initialization of UART subsystem"
-                     & " dead");
+         begin
+            First := S'First;
+
+            --  First parse the prefix "serial"
+
+            Last := Parse_String (S, First, ' ');
+
+            if S (First .. Last) /= "serial" then
+               raise Program_Error with "Invalid configuration";
+            end if;
+
+            --  Then, parse the device
+
+            First := Last + 2;
+            Last := Parse_String (S, First, ' ');
+            Device_First := First;
+            Device_Last := Last;
+
+            --  Then, parse the baud rate
+
+            First := Last + 2;
+            Last := Parse_String (S, First, ' ');
+            begin
+               Bauds := GNAT.Serial_Communications.Data_Rate'Value
+                 ('B' & S (First .. Last));
+            exception
+               when others =>
+                  Put_Line (Normal, "Wrong baud rate: " & S (First .. Last));
+                  raise;
+            end;
+
+            --  Then, parse the data bits
+
+            First := Last + 2;
+            Last := Parse_String (S, First, ' ');
+
+            if S (First) = '8' then
+               Bits := GNAT.Serial_Communications.CS8;
+            elsif S (First) = '7' then
+               Bits := GNAT.Serial_Communications.CS7;
+            else
+               raise Program_Error with "Wrong bits: " & S (First);
+            end if;
+
+            --  Then, parse the parity
+
+            First := Last + 2;
+            Last := Parse_String (S, First, ' ');
+
+            if S (First) = 'N' then
+               Parity :=  GNAT.Serial_Communications.None;
+            elsif S (First) = 'E' then
+               Parity :=  GNAT.Serial_Communications.Even;
+            elsif S (First) = 'O' then
+               Parity :=  GNAT.Serial_Communications.Odd;
+            else
+               raise Program_Error with "Wrong parity: " & S (First);
+            end if;
+
+            --  Finally, parse the stop_bits
+
+            First := Last + 2;
+            Last := Parse_String (S, First, ' ');
+
+            if S (First) = '1' then
+               Stop_Bits :=  GNAT.Serial_Communications.One;
+            elsif S (First) = '2' then
+               Stop_Bits :=  GNAT.Serial_Communications.Two;
+            else
+               raise Program_Error with "Wrong stop bits: " & S (First);
+            end if;
+
+            GNAT.Serial_Communications.Open
+              (Port => Nodes (My_Node).UART_Port_Send,
+               Name => GNAT.Serial_Communications.Port_Name
+                 (S (Device_First .. Device_Last)));
+
+            GNAT.Serial_Communications.Set
+              (Port      => Nodes (My_Node).UART_Port_Send,
+               Rate      => Bauds,
+               Bits      => Bits,
+               Stop_Bits => Stop_Bits,
+               Parity    => Parity,
+               Block     => True);
+
+            --  XXX should correct the rest
+
+            GNAT.Serial_Communications.Open
+              (Port => Nodes (My_Node).UART_Port_Receive,
+               Name => "/dev/ttyUSB0");
+
+            GNAT.Serial_Communications.Set
+              (Port   => Nodes (My_Node).UART_Port_Receive,
+               Parity => GNAT.Serial_Communications.Even,
+               Rate => GNAT.Serial_Communications.B19200,
+               Block => True);
+         exception
+            when others =>
+               Put_Line (Normal, "Initialization of UART subsystem dead");
+         end;
+      end loop;
+
+      Put_Line (Normal, "Initialization of UART subsystem is complete");
    end Initialize;
 
    -------------

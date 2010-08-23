@@ -82,12 +82,16 @@ package PolyORB_HI.Utils is
    ------------
 
    type HI_String is record
-      S : String (1 .. 16);
+      S : String (1 .. 32);
       L : Natural;
    end record;
 
    function To_Hi_String (S : String) return HI_String;
    function To_String (H : HI_String) return String;
+
+   function Parse_String (S : String; First : Integer; Delimiter : Character)
+                         return Integer;
+   --  XXX
 
    ------------------
    -- Naming Table --

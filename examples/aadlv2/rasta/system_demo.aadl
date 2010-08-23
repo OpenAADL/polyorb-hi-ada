@@ -9,11 +9,11 @@ public
 
 
    with GR_CPCI_X4CV;     -- GR_CPCI_X4CV board
-   with GRSPW_Protocol;   -- SpaceWire protocol stack, as an AADL device
-   with GRUART_Protocol;  -- GRUART protocol stack, as an AADL device
-   with GR_RASTA_FPGA;
+   with GRSPW;            -- SpaceWire protocol stack, as an AADL device
+   with GRUART;           -- GRUART protocol stack, as an AADL device
+   with GRRASTAFPGA;
    with Generic_Native;
-   with Native_UART_Protocol;
+   with Native_UART;
 
    with Software;         -- Software part for this demo
 
@@ -95,11 +95,11 @@ public
      Processor_1  : processor GR_CPCI_X4CV::LEON2.impl;
 
      Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
-     GRSPW_Cnx_1 : device GRSPW_Protocol::GRSPW_Device.impl
-     		    { Deployment::Location    => "1:2";  
+     GRSPW_Cnx_1 : device GRSPW::GRSPW_Device.impl
+     		    { Deployment::Location    => "spacewire 1 2";  
  		      -- Configure SpaceWire core #1 to send, #2 to receive
 		      };
-     GRUART_Cnx_1 : device GRUART_Protocol::GRUART_Device.impl
+     GRUART_Cnx_1 : device GRUART::GRUART_Device.impl
      		    { Deployment::Location    => "1:2";
 		    -- Configure UART port #1 to send, #2 to receive
 		    };
@@ -146,8 +146,8 @@ public
      Processor_1  : processor GR_CPCI_X4CV::LEON2.impl;
 
      Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
-     GRSPW_Cnx_1 : device GRSPW_Protocol::GRSPW_Device.impl
-     		    { Deployment::Location    => "1:2";  
+     GRSPW_Cnx_1 : device GRSPW::GRSPW_Device.impl
+     		    { Deployment::Location    => "spacewire 1 2";  
  		      -- Configure SpaceWire core #1 to send, #2 to receive
 		      };
 
@@ -188,7 +188,7 @@ public
 
      Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
 
-     GRUART_Cnx_1 : device GRUART_Protocol::GRUART_Device.impl
+     GRUART_Cnx_1 : device GRUART::GRUART_Device.impl
      		    { Deployment::Location    => "1:2";
 		    -- Configure UART port #1 to send, #2 to receive
 		    };
@@ -227,11 +227,8 @@ public
 
      Memory_1     : memory Generic_Native::Memory_Segment.impl;
 
-
-     UART_Cnx_1 : device Native_UART_Protocol::Native_UART_Device.impl
-     		    { Deployment::Location    => "1:2";
-		    -- Configure UART port #1 to send, #2 to receive
-		    };
+     UART_Cnx_1 : device Native_UART::Native_UART_Device.impl
+        { Deployment::Location => "serial /dev/ttyS0 19200 8 N 1"; };
 
      -- Node #1 software components
 
@@ -270,7 +267,7 @@ public
 
      Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
 
-     GRUART_Cnx_1 : device GRUART_Protocol::GRUART_Device.impl
+     GRUART_Cnx_1 : device GRUART::GRUART_Device.impl
      		    { Deployment::Location    => "1:2";
 		    -- Configure UART port #1 to send, #2 to receive
 		    };
@@ -285,7 +282,7 @@ public
 
      Memory_2     : memory Generic_Native::Memory_Segment.impl;
 
-     GRUART_Cnx_2 : device Native_UART_Protocol::Native_UART_Device.impl
+     GRUART_Cnx_2 : device Native_UART::Native_UART_Device.impl
      		    { Deployment::Location    => "1:2";
 		    -- Configure UART port #1 to send, #2 to receive
 		    };
@@ -383,7 +380,7 @@ public
 
      Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
 
-     GR_RASTA_FPGA_Cnx_1 : device GR_RASTA_FPGA::GR_RASTA_FPGA_Device.impl
+     GRRASTAFPGA_Cnx_1 : device GRRASTAFPGA::GRRASTAFPGA_Device.impl
      		    { Deployment::Location    => "XXX";
 		    -- Dummy configuration
 		    };
@@ -394,7 +391,7 @@ public
 
    connections
 
-     bus access Bus_RASTA_FPGA -> GR_RASTA_FPGA_Cnx_1.CPCI_Slot;
+     bus access Bus_RASTA_FPGA -> GRRASTAFPGA_Cnx_1.CPCI_Slot;
      port Node_1.Out_Port -> Node_1.In_Port
       	  { Actual_Connection_Binding => (reference (Bus_RASTA_FPGA)); };
 
@@ -402,7 +399,7 @@ public
 
      Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
      Actual_Processor_Binding => (reference (Processor_1)) 
-                              applies to GR_RASTA_FPGA_Cnx_1;
+                              applies to GRRASTAFPGA_Cnx_1;
 
   end The_Demo.RASTA_FPGA;
 

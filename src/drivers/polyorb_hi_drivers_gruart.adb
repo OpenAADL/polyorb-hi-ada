@@ -63,6 +63,7 @@ package body PolyORB_HI_Drivers_GRUART is
       if not Success then
          Put_Line (Normal,
                    "Initialization failure: cannot find UART cores");
+         raise Program_Error;
       end if;
 
       for J in Name_Table'Range loop

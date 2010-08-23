@@ -6,8 +6,8 @@ with Ada.Unchecked_Conversion;
 
 with GNAT.Sockets;
 
-with PolyORB_HI.Output;
 with PolyORB_HI.Messages;
+with PolyORB_HI.Output;
 
 with PolyORB_HI_Generated.Transport;
 
@@ -70,12 +70,46 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
                                   GNAT.Sockets.No_Inet_Addr,
                                   GNAT.Sockets.No_Port);
          else
-            Nodes (J).Address := (GNAT.Sockets.Family_Inet,
-                                  GNAT.Sockets.Inet_Addr
-                                    (PolyORB_HI.Utils.To_String
-                                       (Name_Table (J).Location)),
-                                  GNAT.Sockets.Port_Type
-                                    (Name_Table (J).Port));
+            --  The structure of the location information is
+            --  "ip address port"
+
+            declare
+               S : constant String := PolyORB_HI.Utils.To_String
+                 (Name_Table (J).Location);
+               Addr_First, Addr_Last : Integer;
+               Port : Integer;
+
+               First : Integer;
+               Last : Integer;
+            begin
+               First := S'First;
+
+               --  First parse the prefix "ip"
+
+               Last := Parse_String (S, First, ' ');
+
+               if S (First .. Last) /= "ip" then
+                  raise Program_Error with "Invalid configuration";
+               end if;
+
+               --  Then, parse the address
+
+               First := Last + 2;
+               Last := Parse_String (S, First, ' ');
+               Addr_First := First;
+               Addr_Last := Last;
+
+               --  Finally the port
+
+               First := Last + 2;
+               Last := Parse_String (S, First, ' ');
+               Port := Integer'Value (S (First .. Last));
+
+               Nodes (J).Address := (GNAT.Sockets.Family_Inet,
+                                     GNAT.Sockets.Inet_Addr
+                                       (S (Addr_First .. Addr_Last)),
+                                     GNAT.Sockets.Port_Type (Port));
+            end;
          end if;
       end loop;
 
@@ -149,6 +183,15 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
       Initialize_Receiver;
       pragma Debug (Put_Line (Verbose, "Initialization of socket subsystem"
                               & " is complete"));
+   exception
+      when E : others =>
+         pragma Debug (Put_Line
+                       (Normal, "Exception "
+                        & Ada.Exceptions.Exception_Name (E)));
+         pragma Debug (Put_Line
+                       (Normal, "Message "
+                        & Ada.Exceptions.Exception_Message (E)));
+      null;
    end Initialize;
 
    -------------------------

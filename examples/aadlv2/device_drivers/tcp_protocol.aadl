@@ -3,6 +3,15 @@ package TCP_IP_Protocol
 -- This package models a TCP/IP based protocol layer for the
 -- PolyORB-HI/Ada AADL runtime. It defines the subprograms and threads
 -- to be integrated with the runtime low level interface.
+--
+-- To configure this interface, you should use the
+-- Deployment::Configuration property with the following format: 
+--     "ip <ipv4_addresse> <ipv4_port>"
+--
+-- e.g.
+--
+--     netif : device TCP_IP_Protocol::TCP_IP_Device
+--            {Deployment::Configuration => "ip 192.168.0.10 45678";}:
 
 public
 
