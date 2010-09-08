@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS = no-dependencies
 ACLOCAL_AMFLAGS = -I support
 CLEANFILES = config-stamp
 
-SUBDIRS = support tools doc src share
+SUBDIRS = support tools src share @DOC_DIR@
 DIST_SUBDIRS = $(SUBDIRS) examples
 
 # Force the installation before running the testsuite
