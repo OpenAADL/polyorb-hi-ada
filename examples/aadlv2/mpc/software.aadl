@@ -45,13 +45,13 @@ subcomponents
   Y : data Component_Type;
   Z : data Component_Type;
   
-  --  spgUpdate : subprogram Update.Impl;
-  --  spgRead   : subprogram Read; 
+  spgUpdate : subprogram Update;
+  spgRead   : subprogram Read; 
  
---  connections
-  --  Cnx_Pos_1 : subprogram access SpgUpdate -> Update;
-  --  Cnx_Pos_2 : subprogram access SpgRead -> Read;
-
+connections
+  Cnx_Pos_1 : subprogram access SpgUpdate -> Update;
+  Cnx_Pos_2 : subprogram access SpgRead -> Read;
+  
 properties
   Data_Model::Data_Representation => Struct;
   Concurrency_Control_Protocol => Priority_Ceiling;
