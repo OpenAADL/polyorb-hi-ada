@@ -78,9 +78,9 @@ connections
   port SC_1.Data_Source -> SC_3.Data_Sink
     {Actual_Connection_Binding => (reference (ETH_1_3));};
 properties
-  Actual_Processor_Binding => reference (CPU_SC_1) applies to SC_1;
-  Actual_Processor_Binding => reference (CPU_SC_2) applies to SC_2;
-  Actual_Processor_Binding => reference (CPU_SC_3) applies to SC_3;
+  Actual_Processor_Binding => (reference (CPU_SC_1)) applies to SC_1;
+  Actual_Processor_Binding => (reference (CPU_SC_2)) applies to SC_2;
+  Actual_Processor_Binding => (reference (CPU_SC_3)) applies to SC_3;
 end MPC.Native;
 
 end MPC::Native;
