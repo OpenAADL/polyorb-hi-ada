@@ -104,10 +104,14 @@ package body PolyORB_HI_Drivers_Native_UART is
             First := Last + 2;
             Last := Parse_String (S, First, ' ');
 
+            --  Note: on GNAT GPL 2008 and before, Data_Bits define
+            --  the B8 and B7 enumerators; on GNAT GPL 2009 and after,
+            --  Data_Bits define the CS8 and CS7 enumerators.
+
             if S (First) = '8' then
-               Bits := GNAT.Serial_Communications.CS8;
+               Bits := GNAT.Serial_Communications.B8;
             elsif S (First) = '7' then
-               Bits := GNAT.Serial_Communications.CS7;
+               Bits := GNAT.Serial_Communications.B7;
             else
                raise Program_Error with "Wrong bits: " & S (First);
             end if;
