@@ -38,7 +38,7 @@ This directory contains examples of PolyORB-HI.
   by AeroFlex Gaisler.
 
 * ravenscar_example: case study issued from the ``Guide for the use of
-  the Ada Ravenscar Profile in high integrity systems'' writtent by
+  the Ada Ravenscar Profile in high integrity systems'' written by
   Alan Burns, Brian Dobbing and Tullio Vardanega.
 
 * rma: Simple test to check RMA from the Cheddar schedulability
