@@ -54,7 +54,7 @@ package body PolyORB_HI.Periodic_Task is
    begin
       --  Run the initialize entrypoint (if any)
 
-      Initialize_Entrypoint;
+      Activate_Entrypoint;
 
       --  Wait for the network initialization to be finished
 

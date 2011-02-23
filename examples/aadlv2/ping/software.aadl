@@ -93,6 +93,7 @@ connections
   parameter P_Spg.Data_Source -> Data_Source;
 properties
   Initialize_Entrypoint_Source_Text  => "Msgs.Welcome_Pinger";
+  Activate_Entrypoint_Source_Text    => "Msgs.Welcome_Pinger";
   Recover_Entrypoint_Source_Text     => "Msgs.Recover";
   Dispatch_Protocol                  => Periodic;
   Period                             => 1000 Ms;

@@ -60,8 +60,8 @@ generic
    with function Job return PolyORB_HI.Errors.Error_Kind;
    --  Parameterless procedure executed by the periodic task
 
-   with procedure Initialize_Entrypoint is null;
-   --  If given, the task runs Initialize_Entrypoint after the global
+   with procedure Activate_Entrypoint is null;
+   --  If given, the task runs Activate_Entrypoint after the global
    --  initialization and before the task main loop.
 
    with procedure Recover_Entrypoint is null;
