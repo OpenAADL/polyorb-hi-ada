@@ -77,7 +77,7 @@ package body PolyORB_HI.Hybrid_Task is
 
       --  Run the initialize entrypoint (if any)
 
-      Initialize_Entrypoint;
+      Activate_Entrypoint;
 
       --  Main task loop
 

@@ -64,8 +64,8 @@ generic
    with function Job (Port : Port_Type) return PolyORB_HI.Errors.Error_Kind;
    --  Procedure to call at each dispatch of the sporadic thread
 
-   with procedure Initialize_Entrypoint is null;
-   --  If given, the task run Initialize_Entrypoint after the global
+   with procedure Activate_Entrypoint is null;
+   --  If given, the task run Activate_Entrypoint after the global
    --  initialization and before the task main loop.
 
    with procedure Recover_Entrypoint is null;
