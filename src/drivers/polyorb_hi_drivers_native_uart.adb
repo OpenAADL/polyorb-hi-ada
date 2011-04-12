@@ -109,9 +109,9 @@ package body PolyORB_HI_Drivers_Native_UART is
             --  Data_Bits define the CS8 and CS7 enumerators.
 
             if S (First) = '8' then
-               Bits := GNAT.Serial_Communications.B8;
+               Bits := GNAT.Serial_Communications.CS8;
             elsif S (First) = '7' then
-               Bits := GNAT.Serial_Communications.B7;
+               Bits := GNAT.Serial_Communications.CS7;
             else
                raise Program_Error with "Wrong bits: " & S (First);
             end if;
@@ -279,7 +279,7 @@ package body PolyORB_HI_Drivers_Native_UART is
          Buffer => Msg);
 
       return Error_Kind'(Error_None);
-      --  Note: we have no way to no there was an error here
+      --  Note: we have no way to know there was an error here
 
    end Send;
 

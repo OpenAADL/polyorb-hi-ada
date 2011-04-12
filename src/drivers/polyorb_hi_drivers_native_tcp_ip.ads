@@ -14,13 +14,10 @@ package PolyORB_HI_Drivers_Native_TCP_IP is
 
    procedure Receive;
 
-   pragma Warnings (Off);
    function Send
      (Node    : Node_Type;
       Message : Stream_Element_Array;
       Size    : Stream_Element_Offset)
      return Error_Kind;
-   pragma Export (C, Send, "tcp_ip_device.impl_send");
-   pragma Warnings (On);
 
 end PolyORB_HI_Drivers_Native_TCP_IP;

@@ -14,14 +14,11 @@ package PolyORB_HI_Drivers_GRSPW is
 
    procedure Receive;
 
-   pragma Warnings (Off);
    function Send
      (Node    : Node_Type;
       Message : Stream_Element_Array;
       Size    : Stream_Element_Offset)
      return Error_Kind;
-   pragma Export (C, Send, "grspw_device.impl_send");
-   pragma Warnings (On);
 
    task Idle_Task is
       --  Dummy idle task to work around an issue in the GRSPW driver
