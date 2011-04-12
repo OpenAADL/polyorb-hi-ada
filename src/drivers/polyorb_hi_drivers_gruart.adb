@@ -1,9 +1,9 @@
 with Interfaces;
 with Ada.Unchecked_Conversion;
-with Ada.Streams;
 
-with Uart.HLInterface;
 with Uart.Core;
+with Uart.HLInterface;
+with Uart.Streams;
 
 with PolyORB_HI.Output;
 with PolyORB_HI.Messages;
@@ -38,12 +38,12 @@ package body PolyORB_HI_Drivers_GRUART is
 
    Nodes : array (Node_Type) of Node_Record;
 
-   subtype AS_Message_Length_Stream is Ada.Streams.Stream_Element_Array
+   subtype AS_Message_Length_Stream is Uart.STreams.Stream_Element_Array
      (1 .. Message_Length_Size);
    subtype Message_Length_Stream is Stream_Element_Array
      (1 .. Message_Length_Size);
 
-   subtype AS_Full_Stream is Ada.Streams.Stream_Element_Array (1 .. PDU_Size);
+   subtype AS_Full_Stream is Uart.Streams.Stream_Element_Array (1 .. PDU_Size);
    subtype Full_Stream is Stream_Element_Array (1 .. PDU_Size);
 
    function To_PO_HI_Message_Length_Stream is new Ada.Unchecked_Conversion
@@ -98,13 +98,13 @@ package body PolyORB_HI_Drivers_GRUART is
    -------------
 
    procedure Receive is
-      use type Ada.Streams.Stream_Element_Offset;
+      use type Uart.Streams.Stream_Element_Offset;
 
       SEL : AS_Message_Length_Stream;
       SEA : AS_Full_Stream;
-      SEO : Ada.Streams.Stream_Element_Offset;
-      Packet_Size : Ada.Streams.Stream_Element_Offset;
-      Data_Received_Index : Ada.Streams.Stream_Element_Offset;
+      SEO : Uart.Streams.Stream_Element_Offset;
+      Packet_Size : Uart.Streams.Stream_Element_Offset;
+      Data_Received_Index : Uart.Streams.Stream_Element_Offset;
    begin
 
       Main_Loop : loop
@@ -118,7 +118,7 @@ package body PolyORB_HI_Drivers_GRUART is
 
          Uart.HLInterface.Read (Nodes (My_Node).UART_Port_Receive, SEL, SEO);
 
-         Packet_Size := Ada.Streams.Stream_Element_Offset
+         Packet_Size := Uart.Streams.Stream_Element_Offset
            (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
          SEO := Packet_Size;
 
@@ -143,7 +143,7 @@ package body PolyORB_HI_Drivers_GRUART is
                "UART #"
                  & Nodes (My_Node).UART_Device_Receive'Img
                  & " received"
-                 & Ada.Streams.Stream_Element_Offset'Image (SEO)
+                 & Uart.Streams.Stream_Element_Offset'Image (SEO)
                  & " bytes");
 
             --  Deliver to the peer handler
@@ -175,8 +175,8 @@ package body PolyORB_HI_Drivers_GRUART is
       --  types are incompatible. The only time efficient manner to do
       --  the casting is to use representation clauses.
 
-      Msg : Ada.Streams.Stream_Element_Array
-        (1 .. Ada.Streams.Stream_Element_Offset (Size));
+      Msg : Uart.Streams.Stream_Element_Array
+        (1 .. Uart.Streams.Stream_Element_Offset (Size));
       pragma Import (Ada, Msg);
       for Msg'Address use Message'Address;
 
@@ -190,7 +190,7 @@ package body PolyORB_HI_Drivers_GRUART is
                               Buffer => Msg);
 
       return Error_Kind'(Error_None);
-      --  Note: we have no way to no there was an error here
+      --  Note: we have no way to know there was an error here
    end Send;
 
 end PolyORB_HI_Drivers_GRUART;

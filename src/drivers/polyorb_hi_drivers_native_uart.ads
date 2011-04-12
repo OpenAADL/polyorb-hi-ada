@@ -13,13 +13,10 @@ package PolyORB_HI_Drivers_Native_UART is
 
    procedure Receive;
 
-   pragma Warnings (Off);
    function Send
      (Node    : Node_Type;
       Message : Stream_Element_Array;
       Size    : Stream_Element_Offset)
      return Error_Kind;
-   pragma Export (C, Send, "native_uart_device.impl_send");
-   pragma Warnings (On);
 
 end PolyORB_HI_Drivers_Native_UART;

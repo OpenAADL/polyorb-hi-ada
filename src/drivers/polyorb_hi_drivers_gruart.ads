@@ -3,6 +3,9 @@ with PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Utils;
 
+with POHICDRIVER_UART;
+pragma Unreferenced (POHICDRIVER_UART);
+
 package PolyORB_HI_Drivers_GRUART is
 
    use PolyORB_HI.Errors;
@@ -13,13 +16,10 @@ package PolyORB_HI_Drivers_GRUART is
 
    procedure Receive;
 
-   pragma Warnings (Off);
    function Send
      (Node    : Node_Type;
       Message : Stream_Element_Array;
       Size    : Stream_Element_Offset)
      return Error_Kind;
-   pragma Export (C, Send, "gruart_device.impl_send");
-   pragma Warnings (On);
 
 end PolyORB_HI_Drivers_GRUART;
