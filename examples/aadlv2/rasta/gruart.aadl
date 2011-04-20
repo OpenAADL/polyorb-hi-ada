@@ -6,14 +6,14 @@ package GRUART
 -- integrated with the runtime low level interface.
 --
 -- To configure this interface, you should use the
--- Deployment::Configuration property with the following format: 
+-- Deployment::Configuration property with the following format:
 --     "serial DEVICE BAUDS DATA_BITS PARITY STOP_BIT"
 --
 -- e.g.
 --
 --     uart : device GRUART::GRUART_Device
 --            {Deployment::Configuration => "serial /dev/ttyS0 9600 8 N 1"
--- 
+--
 
 public
 
@@ -31,13 +31,13 @@ public
    device GRUART_Device
    features
       DB9_Wire : requires bus access Generic_Bus::Generic_Bus.impl;
-      -- Connection to the remote node    
+      -- Connection to the remote node
 
    end GRUART_Device;
 
    device implementation GRUART_Device.impl
    properties
-      Implemented_As => 
+      Implemented_As =>
          classifier (GRUART::Driver_GRUART_Protocol.impl);
       Initialize_Entrypoint => classifier (GRUART::Initialize);
    end GRUART_Device.impl;
@@ -55,6 +55,7 @@ public
    abstract implementation Driver_GRUART_Protocol.impl
    subcomponents
       receiver : thread Driver_GRUART_Protocol_thread_receiver.impl;
+      sender : subprogram Send;
    end Driver_GRUART_Protocol.impl;
 
    -------------
@@ -66,7 +67,7 @@ public
    -- messages.
 
    thread Driver_GRUART_Protocol_thread_receiver
-      
+
       -- This thread is dispatched when an event is detected on the
       -- real hardware. It then calls receive to handle the incoming
       -- event.
@@ -78,7 +79,7 @@ public
    end Driver_GRUART_Protocol_thread_receiver;
 
    thread implementation Driver_GRUART_Protocol_thread_receiver.impl
-   calls 
+   calls
       call1 : { pspg : subprogram receive; };
    end Driver_GRUART_Protocol_thread_receiver.impl;
 
