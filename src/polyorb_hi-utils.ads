@@ -32,10 +32,11 @@
 
 --  This package contains some utility routines used by PolyORB-HI
 
-with Interfaces;
-with PolyORB_HI_Generated.Deployment;
-
 with Ada.Unchecked_Conversion;
+with Interfaces;
+with System;
+
+with PolyORB_HI_Generated.Deployment;
 
 package PolyORB_HI.Utils is
 
@@ -99,7 +100,8 @@ package PolyORB_HI.Utils is
 
    type Naming_Entry is record
       Location : PolyORB_HI.Utils.HI_String;
-      Port : Natural;
+      Port     : Natural;
+      Variable : System.Address;
    end record;
 
    type Naming_Table_Type is array (Node_Type'Range)
