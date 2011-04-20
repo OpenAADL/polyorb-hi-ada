@@ -58,8 +58,8 @@ project PolyORB_HI is
                       --  warnings to be errors. The flags below
                       --  should not be the last flags given to
                       --  Common_Options.
-                      @WARNINGS_ARE_ERRORS@"-gnatfy", --  Style warnings
-                      @WARNINGS_ARE_ERRORS@"-gnatwe", --  Warnings are errors
+                      --@WARNINGS_ARE_ERRORS@"-gnatfy", --  Style warnings
+                      --@WARNINGS_ARE_ERRORS@"-gnatwe", --  Warnings are errors
                       "-gnat05"  --  Ada 2005 mode
                      );
 
@@ -79,7 +79,7 @@ project PolyORB_HI is
 
    Analyze_Options := (
 		       "-g",        --  Debug information
-                       "-O1",       --  Optimisation level 1	
+                       "-O1",       --  Optimisation level 1
                        "-gnatp"   --  Suppress all checks
                       );
 
