@@ -16,7 +16,7 @@ AADL_SOURCES = $(srcdir)/generic_bus.aadl $(srcdir)/grspw.aadl	\
 
 include $(srcdir)/../../Makefile.common
 
-SCENARIO_FILES=	
+SCENARIO_FILES=
 
 CHECKABLE_SCENARIO_FILES=
 
@@ -35,4 +35,6 @@ endif
 
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(AADL_SOURCES) $(SCENARIO_FILES)
 
-CLEANDIRS=the_demo_full the_demo_uart the_demo_uart_2 the_demo_spw
+CLEANDIRS=the_demo_full the_demo_uart the_demo_uart_2 the_demo_spw	\
+the_demo_uart_native the_demo_no_cnx_native the_demo_no_cnx_leon	\
+the_demo_rasta_fpga
