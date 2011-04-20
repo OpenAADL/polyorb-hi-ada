@@ -21,13 +21,13 @@ public
    device GRRASTAFPGA_Device
    features
       CPCI_Slot : requires bus access Generic_Bus::Generic_Bus.impl;
-      -- Connection to the remote node    
+      -- Connection to the remote node
 
    end GRRASTAFPGA_Device;
 
    device implementation GRRASTAFPGA_Device.impl
    properties
-      Implemented_As => 
+      Implemented_As =>
          classifier (GRRASTAFPGA::Driver_GRRASTAFPGA.impl);
       Initialize_Entrypoint => classifier (GRRASTAFPGA::Initialize);
    end GRRASTAFPGA_Device.impl;
@@ -45,6 +45,7 @@ public
    abstract implementation Driver_GRRASTAFPGA.impl
    subcomponents
       receiver : thread Driver_GRRASTAFPGA_thread_receiver.impl;
+      sender : subprogram Send;
    end Driver_GRRASTAFPGA.impl;
 
    -------------
@@ -56,7 +57,7 @@ public
    -- messages.
 
    thread Driver_GRRASTAFPGA_thread_receiver
-      
+
       -- This thread is dispatched when an event is detected on the
       -- real hardware. It then calls receive to handle the incoming
       -- event.
@@ -67,7 +68,7 @@ public
    end Driver_GRRASTAFPGA_thread_receiver;
 
    thread implementation Driver_GRRASTAFPGA_thread_receiver.impl
-   calls 
+   calls
       call1 : { pspg : subprogram receive; };
    end Driver_GRRASTAFPGA_thread_receiver.impl;
 

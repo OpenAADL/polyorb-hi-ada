@@ -1,4 +1,4 @@
-package System_Demo 
+package System_Demo
 
 -- This system combines generic native hardware, TCP/IP protocol stack
 -- and some software to build a full ping demo.
@@ -20,10 +20,10 @@ public
    ---------------
    -- PROCESSES --
    ---------------
-   
+
    process Process_Zero
    end Process_Zero;
-   
+
    process implementation Process_Zero.Impl
    subcomponents
      Pinger        : thread Software::Pinger.Impl;
@@ -37,7 +37,7 @@ public
      Out_Port : out event data port Software::Simple_Type;
      In_Port  : in event data port Software::Simple_Type;
    end Process_Simple;
-   
+
    process implementation Process_Simple.Impl
    subcomponents
      Pinger        : thread Software::Pinger.Impl;
@@ -54,7 +54,7 @@ public
      Out_Port2 : out event data port Software::Simple_Type;
      In_Port2  : in event data port Software::Simple_Type;
    end Process_Full;
-   
+
    process implementation Process_Full.Impl
    subcomponents
      Pinger        : thread Software::Pinger.Impl;
@@ -73,7 +73,7 @@ public
    ------------
 
    system The_Demo
-   end The_Demo;	
+   end The_Demo;
 
    ---------------------------------------------------------------------------
 
@@ -85,7 +85,7 @@ public
    --
    -- It shows how GRUART and SpaceWire drivers interact on one node.
 
-   subcomponents		 
+   subcomponents
 
      Bus_SpaceWire : bus Generic_Bus::Generic_Bus.impl;
      Bus_UART      : bus Generic_Bus::Generic_Bus.impl;
@@ -96,12 +96,12 @@ public
 
      Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
      GRSPW_Cnx_1 : device GRSPW::GRSPW_Device.impl
-     		    { Deployment::Location    => "spacewire 1 2";  
+     		    { Deployment::Location    => "spacewire 1 2";
  		      -- Configure SpaceWire core #1 to send, #2 to receive
 		      };
      GRUART_Cnx_1 : device GRUART::GRUART_Device.impl
      		    { Deployment::Location    => "1:2";
-		    -- Configure UART port #1 to send, #2 to receive
+Type_Source_Name => "DeviceConfig_serialleon_obj179.pohidrv_serialleon_obj179_cv";		    -- Configure UART port #1 to send, #2 to receive
 		    };
 
      -- Node #1 software components
@@ -121,9 +121,9 @@ public
    properties
 
      Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
-     Actual_Processor_Binding => (reference (Processor_1)) 
+     Actual_Processor_Binding => (reference (Processor_1))
       			      applies to GRSPW_Cnx_1;
-     Actual_Processor_Binding => (reference (Processor_1)) 
+     Actual_Processor_Binding => (reference (Processor_1))
                               applies to GRUART_Cnx_1;
 
    end The_Demo.Full;
@@ -137,7 +137,7 @@ public
    --
    -- It shows operation of the SpaceWire driver.
 
-   subcomponents		 
+   subcomponents
 
      Bus_SpaceWire : bus Generic_Bus::Generic_Bus.impl;
 
@@ -147,7 +147,7 @@ public
 
      Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
      GRSPW_Cnx_1 : device GRSPW::GRSPW_Device.impl
-     		    { Deployment::Location    => "spacewire 1 2";  
+     		    { Deployment::Location    => "spacewire 1 2";
  		      -- Configure SpaceWire core #1 to send, #2 to receive
 		      };
 
@@ -164,7 +164,7 @@ public
    properties
 
      Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
-     Actual_Processor_Binding => (reference (Processor_1)) 
+     Actual_Processor_Binding => (reference (Processor_1))
       			      applies to GRSPW_Cnx_1;
 
    end The_Demo.SpW;
@@ -172,13 +172,13 @@ public
    ---------------------------------------------------------------------------
 
   system implementation The_Demo.UART
- 
+
    -- Note: this setting assumes one RASTA board, with UART DSU #1
    -- connected to UART DSU #2.
    --
    -- It shows operation of the GRUART driver.
 
-  subcomponents		 
+  subcomponents
 
      Bus_UART      : bus Generic_Bus::Generic_Bus.impl;
 
@@ -190,7 +190,7 @@ public
 
      GRUART_Cnx_1 : device GRUART::GRUART_Device.impl
      		    { Deployment::Location    => "1:2";
-		    -- Configure UART port #1 to send, #2 to receive
+Type_Source_Name => "DeviceConfig_serialleon_obj179.pohidrv_serialleon_obj179_cv";		    -- Configure UART port #1 to send, #2 to receive
 		    };
 
      -- Node #1 software components
@@ -206,7 +206,7 @@ public
    properties
 
      Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
-     Actual_Processor_Binding => (reference (Processor_1)) 
+     Actual_Processor_Binding => (reference (Processor_1))
                               applies to GRUART_Cnx_1;
 
   end The_Demo.UART;
@@ -214,10 +214,10 @@ public
    ---------------------------------------------------------------------------
 
   system implementation The_Demo.UART_Native
- 
-  --  XXX		
 
-  subcomponents		 
+  --  XXX
+
+  subcomponents
 
      Bus_UART      : bus Generic_Bus::Generic_Bus.impl;
 
@@ -228,7 +228,9 @@ public
      Memory_1     : memory Generic_Native::Memory_Segment.impl;
 
      UART_Cnx_1 : device Native_UART::Native_UART_Device.impl
-        { Deployment::Location => "serial /dev/ttyS0 19200 8 N 1"; };
+        { Deployment::Location => "serial /dev/ttyS0 19200 8 N 1";
+Type_Source_Name => "DeviceConfig_serialleon_obj179.pohidrv_serialleon_obj179_cv";
+};
 
      -- Node #1 software components
 
@@ -243,7 +245,7 @@ public
    properties
 
      Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
-     Actual_Processor_Binding => (reference (Processor_1)) 
+     Actual_Processor_Binding => (reference (Processor_1))
                               applies to UART_Cnx_1;
 
   end The_Demo.UART_Native;
@@ -251,13 +253,13 @@ public
    ---------------------------------------------------------------------------
 
   system implementation The_Demo.UART_2
- 
+
    -- Note: this setting assumes one RASTA board and a Native
    -- platform, with UART DSU #1 connected to Native platform UART.
    --
    -- It shows operation of the GRUART driver.
 
-  subcomponents		 
+  subcomponents
 
      Bus_UART      : bus Generic_Bus::Generic_Bus.impl;
 
@@ -269,7 +271,7 @@ public
 
      GRUART_Cnx_1 : device GRUART::GRUART_Device.impl
      		    { Deployment::Location    => "1:2";
-		    -- Configure UART port #1 to send, #2 to receive
+		    Type_Source_Name => "DeviceConfig_serialleon_obj179.pohidrv_serialleon_obj179_cv";		    -- Configure UART port #1 to send, #2 to receive
 		    };
 
      -- Node #1 software components
@@ -284,6 +286,7 @@ public
 
      GRUART_Cnx_2 : device Native_UART::Native_UART_Device.impl
      		    { Deployment::Location    => "1:2";
+		    Type_Source_Name => "DeviceConfig_serialleon_obj179.pohidrv_serialleon_obj179_cv";
 		    -- Configure UART port #1 to send, #2 to receive
 		    };
 
@@ -304,11 +307,11 @@ public
    properties
 
      Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
-     Actual_Processor_Binding => (reference (Processor_1)) 
+     Actual_Processor_Binding => (reference (Processor_1))
                               applies to GRUART_Cnx_1;
 
      Actual_Processor_Binding => (reference (Processor_2)) applies to Node_2;
-     Actual_Processor_Binding => (reference (Processor_2)) 
+     Actual_Processor_Binding => (reference (Processor_2))
                               applies to GRUART_Cnx_2;
 
    end The_Demo.UART_2;
@@ -320,7 +323,7 @@ public
    -- Note: this setting assumes one node, without particular
    -- hardware, to test internal communication.
 
-   subcomponents		 
+   subcomponents
 
      -- Node #1 hardware components
 
@@ -345,7 +348,7 @@ public
    -- Note: this setting assumes one node, without particular
    -- hardware, to test internal communication.
 
-   subcomponents		 
+   subcomponents
 
      -- Node #1 hardware components
 
@@ -364,13 +367,13 @@ public
    ---------------------------------------------------------------------------
 
    system implementation The_Demo.RASTA_FPGA
- 
+
    -- Note: this setting assumes one RASTA board, with RASTA_FPGA DSU #1
    -- connected to RASTA_FPGA DSU #2.
    --
    -- It shows operation of the GRRASTA_FPGA driver.
 
-  subcomponents		 
+  subcomponents
 
      Bus_RASTA_FPGA      : bus Generic_Bus::Generic_Bus.impl;
 
@@ -398,7 +401,7 @@ public
    properties
 
      Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
-     Actual_Processor_Binding => (reference (Processor_1)) 
+     Actual_Processor_Binding => (reference (Processor_1))
                               applies to GRRASTAFPGA_Cnx_1;
 
   end The_Demo.RASTA_FPGA;
