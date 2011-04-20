@@ -1,7 +1,9 @@
-with Interfaces;
+pragma Style_Checks (Off);
+
+With Interfaces;
 with Ada.Unchecked_Conversion;
 
-with Uart.Core;
+with Uart.Core; use type UART.Core.UART_Device;
 with Uart.HLInterface;
 with Uart.Streams;
 
@@ -13,7 +15,35 @@ with PolyORB_HI_Generated.Transport;
 --  This package provides support for the GRUART device driver as
 --  defined in the GRUART AADLv2 model.
 
+with System; use System;
+
+with POHICDRIVER_UART; use POHICDRIVER_UART;
+
 package body PolyORB_HI_Drivers_GRUART is
+
+   type Serial_Conf_T_Acc is access all POHICDRIVER_UART.Serial_Conf_T;
+   function To_Serial_Conf_T_Acc is new Ada.Unchecked_Conversion
+     (System.Address, Serial_Conf_T_Acc);
+
+      To_GNAT_Baud_Rate : constant array (POHICDRIVER_UART.Baudrate_T) of
+     UART.HLInterface.Data_Rate :=
+     (B9600 => UART.HLInterface.B9600,
+      B19200 => UART.HLInterface.B19200,
+      B38400 => UART.HLInterface.B38400,
+      B57600 => UART.HLInterface.B57600,
+      B115200 => UART.HLInterface.B115200,
+      B230400 => UART.HLInterface.B115200);
+   --  XXX does not exist in GCC.4.4.4
+
+   To_GNAT_Parity_Check : constant array (POHICDRIVER_UART.Parity_T) of
+     UART.HLInterface.Parity_Check :=
+     (Even => UART.HLInterface.Even,
+      Odd => UART.HLInterface.Odd);
+
+   To_GNAT_Bits : constant array (7 .. 8) of
+     UART.HLInterface.Data_Bits :=
+     (7 => UART.HLInterface.B7,
+      8 => UART.HLInterface.B8);
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely
@@ -25,15 +55,12 @@ package body PolyORB_HI_Drivers_GRUART is
    use PolyORB_HI.Output;
 
    type Node_Record is record
-      --  UART is a simple protocol, we use one port to send, another
-      --  to receive.
+      --  UART is a simple protocol, we use one port to send, assuming
+      --  it can be used in full duplex mode.
 
-      UART_Port_Send   : Uart.HLInterface.Serial_Port;
-      UART_Device_Send : Uart.Core.UART_Device;
-
-      UART_Port_Receive   : Uart.HLInterface.Serial_Port;
-      UART_Device_Receive : Uart.Core.UART_Device;
-
+      UART_Port   : Uart.HLInterface.Serial_Port;
+      UART_Device : Uart.Core.UART_Device;
+      UART_Config : Serial_Conf_T;
    end record;
 
    Nodes : array (Node_Type) of Node_Record;
@@ -57,6 +84,7 @@ package body PolyORB_HI_Drivers_GRUART is
 
    procedure Initialize (Name_Table : PolyORB_HI.Utils.Naming_Table_Type) is
       Success : Boolean;
+      Use_Asn1 : Boolean := False;
 
    begin
       Uart.HLInterface.Initialize (Success);
@@ -67,28 +95,52 @@ package body PolyORB_HI_Drivers_GRUART is
       end if;
 
       for J in Name_Table'Range loop
-         Nodes (J).UART_Device_Send
-           := Uart.Core.UART_Device'Value
-           (To_String (Name_Table (J).Location) (1 .. 1));
+	 if Name_Table (J).Variable = System.Null_Address then
+	    Nodes (J).UART_Device
+	      := Uart.Core.UART_Device'Value
+	      (To_String (Name_Table (J).Location) (1 .. 1));
 
-         Nodes (J).UART_Device_Receive
-           := Uart.Core.UART_Device'Value
-           (To_String (Name_Table (J).Location) (3 .. 3));
+	    --  Note: we only consider the first half of the
+	    --  configuration string.
+
+	 else
+	    Nodes (J).UART_Config := To_Serial_Conf_T_Acc
+	      (Name_Table (J).Variable).all;
+	    Use_Asn1 := True;
+            Put_Line (Normal, "Device: " & Nodes (J).UART_Config.devname);
+
+	    --  Translate the device name into an UART_Device
+
+	    if Nodes (J).UART_Config.Devname (1 .. 14) /= "/dev/apburasta" then
+	       Put_Line ("invalid device name");
+
+	    else
+	       --  We assume the device name to be "/dev/apburastaX"
+	       --  with X in 0 .. 2. We need to move X to the 1 .. 3
+	       --  range.
+
+	       Nodes (J).UART_Device
+		 := UART.Core.UART_Device
+		 (Integer'Value (Nodes (J).UART_Config.Devname (15 .. 15)) + 1);
+	    end if;
+	 end if;
       end loop;
 
-      Uart.HLInterface.Open (Port   => Nodes (My_Node).UART_Port_Send,
-                             Number => Nodes (My_Node).UART_Device_Send);
+      Uart.HLInterface.Open (Port   => Nodes (My_Node).UART_Port,
+			     Number => Nodes (My_Node).UART_Device);
 
-      Uart.HLInterface.Open (Port   => Nodes (My_Node).UART_Port_Receive,
-                             Number => Nodes (My_Node).UART_Device_Receive);
-
-      Uart.HLInterface.Set (Port   => Nodes (My_Node).UART_Port_Send,
-                            Rate => Uart.HLInterface.B19200);
-
-      Uart.HLInterface.Set (Port   => Nodes (My_Node).UART_Port_Receive,
-                            Rate => Uart.HLInterface.B19200,
-                            Block => True);
-
+      if not Use_Asn1 then
+	 Uart.HLInterface.Set (Port   => Nodes (My_Node).UART_Port,
+			       Rate => Uart.HLInterface.B19200,
+			       Block => True);
+      else
+	 UART.HLInterface.Set
+	   (Port   => Nodes (My_Node).UART_Port,
+	    Rate   => To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed),
+	    Parity => To_GNAT_Parity_Check (Nodes (My_Node).UART_Config.Parity),
+	    Bits   => To_GNAT_Bits (Integer (Nodes (My_Node).UART_Config.Bits)),
+	    Block  => True);
+      end if;
       pragma Debug (Put_Line (Normal, "Initialization of UART subsystem"
                                 & " is complete"));
    end Initialize;
@@ -110,13 +162,13 @@ package body PolyORB_HI_Drivers_GRUART is
       Main_Loop : loop
          Put_Line ("Using user-provided GRUART stack to receive");
          Put_Line ("Waiting on UART #"
-                     & Nodes (My_Node).UART_Device_Receive'Img);
+                     & Nodes (My_Node).UART_Device'Img);
 
          --  UART is a character-oriented protocol
 
          --  1/ Receive message length
 
-         Uart.HLInterface.Read (Nodes (My_Node).UART_Port_Receive, SEL, SEO);
+         Uart.HLInterface.Read (Nodes (My_Node).UART_Port, SEL, SEO);
 
          Packet_Size := Uart.Streams.Stream_Element_Offset
            (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
@@ -129,7 +181,7 @@ package body PolyORB_HI_Drivers_GRUART is
          while Data_Received_Index <= Packet_Size + Message_Length_Size loop
             --  We must loop to make sure we receive all data
 
-            Uart.HLInterface.Read (Nodes (My_Node).UART_Port_Receive,
+            Uart.HLInterface.Read (Nodes (My_Node).UART_Port,
                                    SEA (Data_Received_Index .. SEO + 1),
                                    SEO);
             Data_Received_Index := 1 + SEO + 1;
@@ -141,7 +193,7 @@ package body PolyORB_HI_Drivers_GRUART is
             Put_Line
               (Normal,
                "UART #"
-                 & Nodes (My_Node).UART_Device_Receive'Img
+                 & Nodes (My_Node).UART_Device'Img
                  & " received"
                  & Uart.Streams.Stream_Element_Offset'Image (SEO)
                  & " bytes");
@@ -183,10 +235,10 @@ package body PolyORB_HI_Drivers_GRUART is
    begin
       Put_Line ("Using user-provided UART stack to send");
       Put_Line ("Sending through UART #"
-                  & Nodes (Node).UART_Device_Send'Img
+                  & Nodes (Node).UART_Device'Img
                   & Size'Img & " bytes");
 
-      Uart.HLInterface.Write (Port   => Nodes (My_Node).UART_Port_Send,
+      Uart.HLInterface.Write (Port   => Nodes (My_Node).UART_Port,
                               Buffer => Msg);
 
       return Error_Kind'(Error_None);

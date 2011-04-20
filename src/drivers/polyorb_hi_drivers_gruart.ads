@@ -3,9 +3,6 @@ with PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Utils;
 
-with POHICDRIVER_UART;
-pragma Unreferenced (POHICDRIVER_UART);
-
 package PolyORB_HI_Drivers_GRUART is
 
    use PolyORB_HI.Errors;
