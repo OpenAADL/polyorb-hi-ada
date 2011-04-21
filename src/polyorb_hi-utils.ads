@@ -82,8 +82,10 @@ package PolyORB_HI.Utils is
    -- String --
    ------------
 
+   HI_String_Size : constant := 80;
+
    type HI_String is record
-      S : String (1 .. 64);
+      S : String (1 ..HI_String_Size);
       L : Natural;
    end record;
 

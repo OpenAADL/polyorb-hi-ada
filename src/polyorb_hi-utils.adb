@@ -37,7 +37,7 @@ package body PolyORB_HI.Utils is
    ------------------
 
    function To_HI_String (S : String) return HI_String is
-      R : String (1 .. 32) := (others => ' ');
+      R : String (1 .. HI_String_Size) := (others => ' ');
    begin
       R (1 .. S'Length) := S;
       return HI_String'(S => R,
