@@ -25,7 +25,7 @@ package body PolyORB_HI_Drivers_GRUART is
    function To_Serial_Conf_T_Acc is new Ada.Unchecked_Conversion
      (System.Address, Serial_Conf_T_Acc);
 
-      To_GNAT_Baud_Rate : constant array (POHICDRIVER_UART.Baudrate_T) of
+   To_GNAT_Baud_Rate : constant array (POHICDRIVER_UART.Baudrate_T) of
      UART.HLInterface.Data_Rate :=
      (B9600 => UART.HLInterface.B9600,
       B19200 => UART.HLInterface.B19200,
@@ -85,6 +85,7 @@ package body PolyORB_HI_Drivers_GRUART is
    procedure Initialize (Name_Table : PolyORB_HI.Utils.Naming_Table_Type) is
       Success : Boolean;
       Use_Asn1 : Boolean := False;
+      Parity : UART.HLInterface.Parity_Check;
 
    begin
       Uart.HLInterface.Initialize (Success);
@@ -134,10 +135,16 @@ package body PolyORB_HI_Drivers_GRUART is
 			       Rate => Uart.HLInterface.B19200,
 			       Block => True);
       else
+	 if Nodes (My_Node).UART_Config.Use_Paritybit then
+	    Parity := To_GNAT_Parity_Check (Nodes (My_Node).UART_Config.Parity);
+	 else
+	    Parity := UART.HLInterface.None;
+	 end if;
+
 	 UART.HLInterface.Set
 	   (Port   => Nodes (My_Node).UART_Port,
 	    Rate   => To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed),
-	    Parity => To_GNAT_Parity_Check (Nodes (My_Node).UART_Config.Parity),
+	    Parity => Parity,
 	    Bits   => To_GNAT_Bits (Integer (Nodes (My_Node).UART_Config.Bits)),
 	    Block  => True);
       end if;
