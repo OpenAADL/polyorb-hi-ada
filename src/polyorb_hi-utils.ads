@@ -83,7 +83,7 @@ package PolyORB_HI.Utils is
    ------------
 
    type HI_String is record
-      S : String (1 .. 32);
+      S : String (1 .. 64);
       L : Natural;
    end record;
 
