@@ -197,32 +197,34 @@ package body PolyORB_HI_Drivers_Native_UART is
             Nodes (J).UART_Config := To_Serial_Conf_T_Acc
               (Name_Table (J).Variable).all;
 
-            Put_Line (Normal, "Device: " & Nodes (J).UART_Config.devname);
-            Put_Line (Normal, "Speed: " & Nodes (J).UART_Config.speed'Img);
-            Put_Line (Normal, "Parity: " & Nodes (J).UART_Config.parity'Img);
-            Put_Line (Normal, "Bits: " & Nodes (J).UART_Config.bits'Img);
-            Put_Line (Normal, "Use Parity bits: "
-                        & Nodes (J).UART_Config.use_paritybit'Img);
-
-            GNAT.Serial_Communications.Open
-              (Port => Nodes (My_Node).UART_Port,
-               Name => GNAT.Serial_Communications.Port_Name
-		 (Nodes (J).UART_Config.devname));
-
-	    if Nodes (J).UART_Config.Use_Paritybit then
-	       Parity := To_GNAT_Parity_Check (Nodes (J).UART_Config.Parity);
-	    else
-	       Parity := GNAT.Serial_Communications.None;
-	    end if;
-
-            GNAT.Serial_Communications.Set
-              (Port   => Nodes (My_Node).UART_Port,
-               Rate   => To_GNAT_Baud_Rate (Nodes (J).UART_Config.Speed),
-               Parity => Parity,
-	       Bits   => To_GNAT_Bits (Integer (Nodes (J).UART_Config.Bits)),
-               Block  => True);
          end if;
       end loop;
+
+      Put_Line (Normal, "Device: " & Nodes (My_Node).UART_Config.devname);
+      Put_Line (Normal, "Speed: " & Nodes (My_Node).UART_Config.speed'Img);
+      Put_Line (Normal, "Parity: " & Nodes (My_Node).UART_Config.parity'Img);
+      Put_Line (Normal, "Bits: " & Nodes (My_Node).UART_Config.bits'Img);
+      Put_Line (Normal, "Use Parity bits: "
+		  & Nodes (My_Node).UART_Config.use_paritybit'Img);
+
+      GNAT.Serial_Communications.Open
+	(Port => Nodes (My_Node).UART_Port,
+	 Name => GNAT.Serial_Communications.Port_Name
+	   (Nodes (My_Node).UART_Config.devname));
+
+      if Nodes (My_Node).UART_Config.Use_Paritybit then
+	 Parity := To_GNAT_Parity_Check
+	   (Nodes (My_Node).UART_Config.Parity);
+      else
+	 Parity := GNAT.Serial_Communications.None;
+      end if;
+
+      GNAT.Serial_Communications.Set
+	(Port   => Nodes (My_Node).UART_Port,
+	 Rate   => To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed),
+	 Parity => Parity,
+	 Bits   => To_GNAT_Bits (Integer (Nodes (My_Node).UART_Config.Bits)),
+	 Block  => True);
 
       Put_Line (Normal, "Initialization of UART subsystem is complete");
    end Initialize;
