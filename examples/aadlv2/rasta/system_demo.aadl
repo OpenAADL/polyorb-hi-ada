@@ -97,6 +97,8 @@ public
      Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
      GRSPW_Cnx_1 : device GRSPW::GRSPW_Device.impl
      		    { Deployment::Location    => "spacewire 1 2";
+		    Type_Source_Name => "DeviceConfig_spw_obj234.pohidrv_spw_obj234_cv";
+
  		      -- Configure SpaceWire core #1 to send, #2 to receive
 		      };
      GRUART_Cnx_1 : device GRUART::GRUART_Device.impl
@@ -148,7 +150,7 @@ Type_Source_Name => "DeviceConfig_serialleon_obj179.pohidrv_serialleon_obj179_cv
      Memory_1     : memory GR_CPCI_X4CV::Memory_Segment.impl;
      GRSPW_Cnx_1 : device GRSPW::GRSPW_Device.impl
      		    { Deployment::Location    => "spacewire 1 2";
- 		      -- Configure SpaceWire core #1 to send, #2 to receive
+		    Type_Source_Name => "DeviceConfig_spw_obj234.pohidrv_spw_obj234_cv"; 		      -- Configure SpaceWire core #1 to send, #2 to receive
 		      };
 
      -- Node #1 software components
