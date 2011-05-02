@@ -1,5 +1,5 @@
-with Interfaces;
 with Ada.Unchecked_Conversion;
+with Interfaces;
 
 with SpaceWire.HLInterface;
 
@@ -8,12 +8,18 @@ with PolyORB_HI.Messages;
 
 with PolyORB_HI_Generated.Transport;
 
+with POHICDRIVER_SPACEWIRE; use POHICDRIVER_SPACEWIRE;
+
 --  This package provides support for the GRSPW device driver as
 --  defined in the GRSPW AADLv2 model.
 
 package body PolyORB_HI_Drivers_GRSPW is
 
-   task body Idle_Task  is
+   task body Idle_Task is
+      --  This Idle task is present to ensure the leon processor is
+      --  never put idle, which would cause the processor to never be
+      --  awakened by external events.
+      --  XXX Check whether this is still necessary
    begin
       loop
          null;
@@ -28,6 +34,11 @@ package body PolyORB_HI_Drivers_GRSPW is
    use PolyORB_HI.Messages;
    use PolyORB_HI.Utils;
    use PolyORB_HI.Output;
+   use type System.Address;
+
+   type Spacewire_Conf_T_Acc is access all Spacewire_Conf_T;
+   function To_Spacewire_Conf_T_Acc is new Ada.Unchecked_Conversion
+     (System.Address, Spacewire_Conf_T_Acc);
 
    type Node_Record is record
       --  SpaceWire is a simple protocol, we use one core to send,
@@ -35,7 +46,7 @@ package body PolyORB_HI_Drivers_GRSPW is
 
       SpaceWire_Core_Send : SpaceWire.HLInterface.SpaceWire_Device;
       SpaceWire_Core_Receive : SpaceWire.HLInterface.SpaceWire_Device;
-
+      SpaceWire_Config : POHICDRIVER_SPACEWIRE.Spacewire_Conf_T;
    end record;
 
    Nodes : array (Node_Type) of Node_Record;
@@ -62,44 +73,80 @@ package body PolyORB_HI_Drivers_GRSPW is
       end if;
 
       for J in Name_Table'Range loop
-         --  The structure of the location information is
-         --     "spacewire Sender_Core_id Receiver_Core_Id"
 
-         declare
-            S : constant String := PolyORB_HI.Utils.To_String
-              (Name_Table (J).Location);
-            First, Last : Integer;
+	 if Name_Table (J).Variable = System.Null_Address then
+	    --  The structure of the location information is
+	    --     "spacewire Sender_Core_id Receiver_Core_Id"
 
-         begin
-            --  First parse the prefix "spacewire"
+	    declare
+	       S : constant String := PolyORB_HI.Utils.To_String
+		 (Name_Table (J).Location);
+	       First, Last : Integer;
 
-            First := S'First;
-            Last := Parse_String (S, First, ' ');
+	    begin
+	       --  First parse the prefix "spacewire"
 
-            if S (First .. Last) /= "spacewire" then
-               raise Program_Error with "Invalid configuration";
-            end if;
+	       First := S'First;
+	       Last := Parse_String (S, First, ' ');
 
-            --  Then the sender_core_id
+	       if S (First .. Last) /= "spacewire" then
+		  raise Program_Error with "Invalid configuration";
+	       end if;
 
-            First := Last + 2;
-            Last := Parse_String (S, First, ' ');
-            Nodes (J).SpaceWire_Core_Send
-              := SpaceWire.HLInterface.SpaceWire_Device'Value
-              (S (First .. Last));
+	       --  Then the sender_core_id
 
-            --  Finally the receiver_core_id
+	       First := Last + 2;
+	       Last := Parse_String (S, First, ' ');
+	       Nodes (J).SpaceWire_Core_Send
+		 := SpaceWire.HLInterface.SpaceWire_Device'Value
+		 (S (First .. Last));
 
-            First := Last + 2;
-            Last := Parse_String (S, First, ' ');
-            Nodes (J).SpaceWire_Core_Receive
-              := SpaceWire.HLInterface.SpaceWire_Device'Value
-              (S (First .. Last));
+	       --  Finally the receiver_core_id
 
-            SpaceWire.HLInterface.Set_Node_Address
-              (Nodes (J).SpaceWire_Core_Send,
-               Interfaces.Unsigned_8 (Nodes (J).SpaceWire_Core_Receive));
-         end;
+	       First := Last + 2;
+	       Last := Parse_String (S, First, ' ');
+	       Nodes (J).SpaceWire_Core_Receive
+		 := SpaceWire.HLInterface.SpaceWire_Device'Value
+		 (S (First .. Last));
+
+	       SpaceWire.HLInterface.Set_Node_Address
+		 (Nodes (J).SpaceWire_Core_Send,
+		  Interfaces.Unsigned_8 (Nodes (J).SpaceWire_Core_Receive));
+	    end;
+	 else
+	    Nodes (J).SpaceWire_Config := To_Spacewire_Conf_T_Acc
+	      (Name_Table (J).Variable).all;
+            Put_Line (Normal, "Device: "
+			& Nodes (J).SpaceWire_Config.devname);
+
+	    --  Translate the device name into a SpaceWire_Device
+
+	    if Nodes (J).SpaceWire_Config.Devname (1 .. 15)
+	      /= "/dev/grspwrasta"
+	    then
+	       Put_Line ("invalid device name");
+
+	    else
+	       --  We assume the device name to be "/dev/grspwrastaX"
+	       --  with X in 0 .. 2. We need to move X to the 1 .. 3
+	       --  range.
+
+	       Nodes (J).SpaceWire_Core_Send
+		 := SpaceWire.HLInterface.SpaceWire_Device
+		 (Integer'Value
+		    (Nodes (J).SpaceWire_Config.Devname (16 .. 16)) + 1);
+
+	       SpaceWire.HLInterface.Set_Node_Address
+		 (Nodes (J).SpaceWire_Core_Send,
+		  Interfaces.Unsigned_8 (Nodes (J).SpaceWire_Core_Receive));
+
+	       --  When using ASN.1 configuration variable, we use the
+	       --  same core for sending and receiving.
+
+	       Nodes (J).SpaceWire_Core_Receive
+		 := Nodes (J).SpaceWire_Core_Send;
+	    end if;
+	 end if;
       end loop;
 
       pragma Debug (Put_Line (Normal, "Initialization of SpaceWire subsystem"
