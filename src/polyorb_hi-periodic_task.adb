@@ -65,9 +65,9 @@ package body PolyORB_HI.Periodic_Task is
           & Entity_Image (Entity)
           & ": Wait initialization"));
 
+      Suspend_Until_True (Task_Suspension_Objects (Entity));
       Next_Start := System_Startup_Time + Dispatch_Offset;
 
-      Suspend_Until_True (Task_Suspension_Objects (Entity));
       delay until Next_Start;
 
       --  Main task loop
