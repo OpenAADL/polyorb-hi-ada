@@ -21,6 +21,17 @@ with POHICDRIVER_UART; use POHICDRIVER_UART;
 
 package body PolyORB_HI_Drivers_GRUART is
 
+   task body Idle_Task is
+      --  This Idle task is present to ensure the leon processor is
+      --  never put idle, which would cause the processor to never be
+      --  awakened by external events.
+      --  XXX Check whether this is still necessary
+   begin
+      loop
+         null;
+      end loop;
+   end Idle_Task;
+
    type Serial_Conf_T_Acc is access all POHICDRIVER_UART.Serial_Conf_T;
    function To_Serial_Conf_T_Acc is new Ada.Unchecked_Conversion
      (System.Address, Serial_Conf_T_Acc);
@@ -33,7 +44,7 @@ package body PolyORB_HI_Drivers_GRUART is
       B57600 => UART.HLInterface.B57600,
       B115200 => UART.HLInterface.B115200,
       B230400 => UART.HLInterface.B115200);
-   --  XXX does not exist in GCC.4.4.4
+   --  XXX does not exist in ORK+
 
    To_GNAT_Parity_Check : constant array (POHICDRIVER_UART.Parity_T) of
      UART.HLInterface.Parity_Check :=
@@ -90,9 +101,9 @@ package body PolyORB_HI_Drivers_GRUART is
    begin
       Uart.HLInterface.Initialize (Success);
       if not Success then
-         Put_Line (Normal,
-                   "Initialization failure: cannot find UART cores");
-         raise Program_Error;
+	 Put_Line (Normal,
+		   "Initialization failure: cannot find UART cores");
+	 raise Program_Error;
       end if;
 
       for J in Name_Table'Range loop
@@ -113,7 +124,7 @@ package body PolyORB_HI_Drivers_GRUART is
 	    --  Translate the device name into an UART_Device
 
 	    if Nodes (J).UART_Config.Devname (1 .. 14) /= "/dev/apburasta" then
-	       Put_Line ("invalid device name");
+	       Put_Line (Error, "invalid device name");
 
 	    else
 	       --  We assume the device name to be "/dev/apburastaX"
@@ -127,22 +138,75 @@ package body PolyORB_HI_Drivers_GRUART is
 	 end if;
       end loop;
 
+      Put_Line (Normal, "Opening UART #"
+                     & Nodes (My_Node).UART_Device'Img);
+
       Uart.HLInterface.Open (Port   => Nodes (My_Node).UART_Port,
 			     Number => Nodes (My_Node).UART_Device);
 
       if not Use_Asn1 then
+	 Put_Line (Normal, " -> Using default configuration");
+
 	 Uart.HLInterface.Set (Port   => Nodes (My_Node).UART_Port,
 			       Rate => Uart.HLInterface.B19200,
 			       Block => True);
       else
+	 Put_Line (Normal, " -> Using ASN.1 configuration");
+
 	 if Nodes (My_Node).UART_Config.Use_Paritybit then
 	    Parity := To_GNAT_Parity_Check (Nodes (My_Node).UART_Config.Parity);
 	 else
+	    Put_Line (Normal, "  * Use Parity bits: FALSE");
 	    Parity := UART.HLInterface.None;
 	 end if;
 
+	 declare
+	    use Uart.HLInterface;
+
+	    Rate : constant Uart.HLInterface.Data_Rate
+	      := To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed);
+	    Bits : constant Data_Bits
+	      := To_GNAT_Bits (Integer (Nodes (My_Node).UART_Config.Bits));
+	 begin
+	    case Rate is
+	       when B1200 =>
+		  Put_Line (Normal, "  * Rate : B1200");
+	       when B2400 =>
+		  Put_Line (Normal, "  * Rate : B2400");
+	       when B4800 =>
+		  Put_Line (Normal, "  * Rate : B4800");
+	       when B9600 =>
+		  Put_Line (Normal, "  * Rate : B9600");
+	       when B19200 =>
+		  Put_Line (Normal, "  * Rate : B19200");
+	       when B38400 =>
+		  Put_Line (Normal, "  * Rate : B38400");
+	       when B57600 =>
+		  Put_Line (Normal, "  * Rate : B57600");
+	       when B115200 =>
+		  Put_Line (Normal, "  * Rate : B115200");
+	    end case;
+
+	    case Parity is
+	       when None =>
+		  Put_Line (Normal, "  * Parity: None");
+	       when Odd =>
+		  Put_Line (Normal, "  * Parity: Odd");
+	       when Even =>
+		  Put_Line (Normal, "  * Parity: Even");
+	    end case;
+
+	    case Bits is
+	       when B8 =>
+		  Put_Line (Normal, "  * Bits: B8");
+	       when B7 =>
+		  Put_Line (Normal, "  * Bits: B7");
+	    end case;
+
+	 end;
+
 	 UART.HLInterface.Set
-	   (Port   => Nodes (My_Node).UART_Port,
+           (Port   => Nodes (My_Node).UART_Port,
 	    Rate   => To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed),
 	    Parity => Parity,
 	    Bits   => To_GNAT_Bits (Integer (Nodes (My_Node).UART_Config.Bits)),
