@@ -2,6 +2,7 @@ with PolyORB_HI.Errors;
 with PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Utils;
+with System;
 
 package PolyORB_HI_Drivers_GRUART is
 
@@ -18,5 +19,15 @@ package PolyORB_HI_Drivers_GRUART is
       Message : Stream_Element_Array;
       Size    : Stream_Element_Offset)
      return Error_Kind;
+
+   task Idle_Task is
+      --  Dummy idle task to work around an issue in the GRSPW driver
+      --  in gnatforleon: if no task executes, the node goes in sleep
+      --  mode, and cannot be awaken when a packet comes in. This task
+      --  simulates a constant workload to prevent the node to
+      --  hibernate.
+
+      pragma Priority (System.Priority'First);
+   end Idle_Task;
 
 end PolyORB_HI_Drivers_GRUART;

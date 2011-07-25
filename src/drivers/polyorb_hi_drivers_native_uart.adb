@@ -81,6 +81,8 @@ package body PolyORB_HI_Drivers_Native_UART is
 
    procedure Initialize (Name_Table : PolyORB_HI.Utils.Naming_Table_Type) is
       Parity    : GNAT.Serial_Communications.Parity_Check;
+      Use_ASN1 : Boolean := False;
+
    begin
       for J in Name_Table'Range loop
          if Name_Table (J).Variable = System.Null_Address then
@@ -193,19 +195,12 @@ package body PolyORB_HI_Drivers_Native_UART is
          else
             --  We got an ASN.1 configuration variable, use it
             --  directly.
-
+	    Use_ASN1 := True;
             Nodes (J).UART_Config := To_Serial_Conf_T_Acc
               (Name_Table (J).Variable).all;
 
          end if;
       end loop;
-
-      Put_Line (Normal, "Device: " & Nodes (My_Node).UART_Config.devname);
-      Put_Line (Normal, "Speed: " & Nodes (My_Node).UART_Config.speed'Img);
-      Put_Line (Normal, "Parity: " & Nodes (My_Node).UART_Config.parity'Img);
-      Put_Line (Normal, "Bits: " & Nodes (My_Node).UART_Config.bits'Img);
-      Put_Line (Normal, "Use Parity bits: "
-		  & Nodes (My_Node).UART_Config.use_paritybit'Img);
 
       GNAT.Serial_Communications.Open
 	(Port => Nodes (My_Node).UART_Port,
@@ -219,14 +214,25 @@ package body PolyORB_HI_Drivers_Native_UART is
 	 Parity := GNAT.Serial_Communications.None;
       end if;
 
+      Put_Line (Normal, " -> Using ASN.1: " & Use_ASN1'Img);
+      Put_Line (Normal, "Device: " & Nodes (My_Node).UART_Config.devname);
+      Put_Line (Normal, "  * Use Parity bits: "
+		  & Nodes (My_Node).UART_Config.use_paritybit'Img);
+      Put_Line (Normal, "  * Rate: "
+		  & To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed)'Img);
+      Put_Line (Normal, "  * Parity: " & Parity'Img);
+      Put_Line (Normal, "  * Bits: "
+		  & To_GNAT_Bits
+		  (Integer (Nodes (My_Node).UART_Config.Bits))'Img);
+
       GNAT.Serial_Communications.Set
 	(Port   => Nodes (My_Node).UART_Port,
-	 Rate   => To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed),
-	 Parity => Parity,
-	 Bits   => To_GNAT_Bits (Integer (Nodes (My_Node).UART_Config.Bits)),
-	 Block  => True);
+         Rate   => To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed),
+         Parity => Parity,
+         Bits   => To_GNAT_Bits (Integer (Nodes (My_Node).UART_Config.Bits)),
+         Block  => True);
 
-      Put_Line (Normal, "Initialization of UART subsystem is complete");
+      Put_Line (Normal, "Initialization of Native_UART subsystem is complete");
    end Initialize;
 
    -------------
@@ -323,7 +329,8 @@ package body PolyORB_HI_Drivers_Native_UART is
 
    begin
       Put_Line ("Using user-provided UART stack to send");
-      Put_Line ("Sending through UART #"
+      Put_Line ("Sending through UART "
+                  & Nodes (My_Node).UART_Config.devname
                   & Size'Img & " bytes");
 
       GNAT.Serial_Communications.Write
