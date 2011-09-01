@@ -14,7 +14,10 @@ CFLAGS = $(CPU_CFLAGS)
 DEFINES += -D$(RTEMS_BSP)
 CFLAGS += $(DEFINES)
 GCC=$(CC)
-EXTRA_OBJS=$(C_OBJECTS) $(EXTERNAL_OBJECTS)
+
+# changed by ttsiodras: we dont want -mcpu=... stuff here!
+# EXTRA_OBJS=$(C_OBJECTS) $(EXTERNAL_OBJECTS) 
+EXTRA_OBJS=$(C_OBJECTS) $(filter-out -%, $(EXTERNAL_OBJECTS))
 
 RTS= --RTS=$(shell $(CC) -print-multi-directory $(CFLAGS))
 
