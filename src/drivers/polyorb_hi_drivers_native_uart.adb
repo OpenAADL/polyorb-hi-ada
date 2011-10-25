@@ -40,7 +40,7 @@ package body PolyORB_HI_Drivers_Native_UART is
 
    To_GNAT_Bits : constant array (7 .. 8) of
      GNAT.Serial_Communications.Data_Bits :=
-     (7 => GNAT.Serial_Communications.CS7,
+     (7 => GNAT.Serial_Communications.CS8,
       8 => GNAT.Serial_Communications.CS8);
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);

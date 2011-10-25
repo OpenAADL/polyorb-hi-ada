@@ -1,5 +1,3 @@
-pragma Style_Checks (Off);
-
 With Interfaces;
 with Ada.Unchecked_Conversion;
 
@@ -53,7 +51,7 @@ package body PolyORB_HI_Drivers_GRUART is
 
    To_GNAT_Bits : constant array (7 .. 8) of
      UART.HLInterface.Data_Bits :=
-     (7 => UART.HLInterface.B7,
+     (7 => UART.HLInterface.B8,
       8 => UART.HLInterface.B8);
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
