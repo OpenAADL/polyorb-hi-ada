@@ -33,7 +33,7 @@ subcomponents
   Sender   : thread Software::S.Impl;
   Receiver : thread Software::R.Impl;
 connections
-  port Sender.Data_Source -> Receiver.Data_Sink;
+  port Sender.Data_Source -> Receiver.Data_Sink;-- XXX {Timing => Delayed;};
   --  This is a delayed connection. If this connection was immediate,
   --  the receiver would receive a value of Data_Sink which would be
   --  equal to N_Cycle. Because the connection is immediate, the
