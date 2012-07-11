@@ -68,7 +68,7 @@ end S.Impl;
 
 thread R
 features
-  Data_Sink : in data port Simple_Type {Timing => Delayed;};
+  Data_Sink : in data port Simple_Type;
   N_Cycle   : in data port Simple_Type;
 end R;
 
