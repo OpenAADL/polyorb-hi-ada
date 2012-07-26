@@ -20,7 +20,7 @@ end Simple_Type;
 
 data Opaque_Type
 properties
-  Source_Language => Ada95;
+  Source_Language => (Ada95);
   Type_Source_Name => "User_Types.The_Opaque_Type";
 end Opaque_Type;
 
@@ -41,13 +41,13 @@ end Do_Convert_Spg;
 
 subprogram implementation Do_Ping_Spg.Impl
 properties
-  source_language => Ada95;
+  source_language => (Ada95);
   source_name     => "Ping.Do_Ping_Spg";
 end Do_Ping_Spg.Impl;
 
 subprogram implementation Do_Convert_Spg.Impl
 properties
-  source_language => Ada95;
+  source_language => (Ada95);
   source_name     => "Ping.Do_Convert_Spg";
 end Do_Convert_Spg.Impl;
 
@@ -55,7 +55,7 @@ subprogram Ping_Spg
 features
   Data_Sink : in parameter Simple_Type;
 properties
-  source_language => Ada95;
+  source_language => (Ada95);
   source_name     => "Pinged.Ping_Spg";
 end Ping_Spg;
 
