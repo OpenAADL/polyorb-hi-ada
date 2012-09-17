@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---               Copyright (C) 2006-2008, GET-Telecom Paris.                --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -26,7 +26,8 @@
 -- however invalidate  any other reasons why  the executable file  might be --
 -- covered by the  GNU Public License.                                      --
 --                                                                          --
---                PolyORB HI is maintained by GET Telecom Paris             --
+--              PolyORB-HI/Ada is maintained by the TASTE project           --
+--                      (taste-users@lists.tuxfamily.org)                   --
 --                                                                          --
 ------------------------------------------------------------------------------
 
@@ -76,7 +77,8 @@ procedure Headers_PO_HI is
    "-- however invalidate  any other reasons why  the executable file  might be --" & ASCII.LF &
    "-- covered by the  GNU Public License.                                      --" & ASCII.LF &
    "--                                                                          --" & ASCII.LF &
-   "--                PolyORB HI is maintained by GET Telecom Paris             --" & ASCII.LF &
+   "--              PolyORB-HI/Ada is maintained by the TASTE project           --" & ASCII.LF &
+   "--                      (taste-users@lists.tuxfamily.org)                   --" & ASCII.LF &
    "--                                                                          --" & ASCII.LF &
    "------------------------------------------------------------------------------" & ASCII.LF;
 
@@ -132,8 +134,20 @@ procedure Headers_PO_HI is
       if First_Year = Last_Year then
          Last := Range_Image'First + 3;
       end if;
-      return "Copyright (C) " & Range_Image (Range_Image'First .. Last)
-        & ", GET-Telecom Paris.";
+
+      if First_Year < 2009 then
+         return "Copyright (C) " &
+           Image (First_Year) & "-2009 Telecom ParisTech, "
+           & "2010-" & Image (last_year) & " ESA & ISAE.";
+      elsif First_Year = 2009 then
+         return "Copyright (C) " &
+           Image (First_Year) & " Telecom ParisTech, "
+           & "2010-" & Image (last_year) & " ESA & ISAE.";
+
+      else
+         return "Copyright (C) " & Range_Image (Range_Image'First .. Last)
+           & " ESA & ISAE.";
+      end if;
    end Copyright_Line;
 
    -----------------
