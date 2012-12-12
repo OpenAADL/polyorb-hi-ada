@@ -226,7 +226,7 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
 
             --  Send my node number
 
-            SEC (1) := AS.Stream_Element (Node_Type'Pos (My_Node));
+            SEC (1) := AS.Stream_Element (Internal_Code (My_Node));
             Send_Socket (Nodes (N).Socket_Send, SEC, SEO);
 
             pragma Debug (Put_Line
@@ -276,7 +276,7 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
 
                --  Identify peer node
 
-               Node := Node_Type'Val (SEC (1));
+               Node := Corresponding_Node (Integer_8 (SEC (SEC'First)));
                Nodes (Node).Socket_Receive := Socket;
                pragma Debug (Put_Line (Verbose, "Connection from node "
                                        & Node_Type'Image (Node)));
