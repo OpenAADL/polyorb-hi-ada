@@ -28,10 +28,9 @@ CHECKABLE_SCENARIO_FILES=
 
 if HAS_GNATMAKE_FOR_LEON
    SCENARIO_FILES+=$(srcdir)/scenario_local.aadl
-endif
-
 if HAS_TSIM_FOR_LEON
    CHECKABLE_SCENARIO_FILES+=$(srcdir)/scenario_local.aadl
+endif
 endif
 
 if HAS_GNATMAKE_FOR_LEON_GNAT
