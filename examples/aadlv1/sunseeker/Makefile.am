@@ -25,12 +25,11 @@ if HAS_GNATMAKE_FOR_LEON
    SCENARIO_FILES+=$(srcdir)/scenario_local.aadl
 endif
 
+if HAS_GNATMAKE_FOR_LEON_GNAT
+   SCENARIO_FILES+=$(srcdir)/scenario_local_gnat.aadl
 if HAS_TSIM_FOR_LEON
    CHECKABLE_SCENARIO_FILES+=$(srcdir)/scenario_local.aadl
 endif
-
-if HAS_GNATMAKE_FOR_LEON_GNAT
-   SCENARIO_FILES+=$(srcdir)/scenario_local_gnat.aadl
 endif
 
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(AADL_SOURCES) $(SCENARIO_FILES) \
