@@ -203,7 +203,7 @@ uninstall-local:
 	rm -rf  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html
 
 clean-local:
-	@-rm -f *.aux *.log *.dvi *.bbl *.blg *~ *.bak *.toc 
+	@-rm -f *.aux *.log *.dvi *.bbl *.blg *~ *.bak *.toc
 	@-rm -f ${SRC_CODE} ${DOC_CODE} ${AADL_MODELS}
 
 realclean: clean
