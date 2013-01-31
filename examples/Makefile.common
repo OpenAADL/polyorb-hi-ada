@@ -17,16 +17,20 @@ build-all:
 	   $(MAKE) scenario; \
 	else \
 	   echo "No scenario files, nothing to be done"; \
-	fi 
+	fi
 
-check-all:
-	if test ! "$(CHECKABLE_SCENARIO_FILES)" = "";  then \
-           $(MAKE) scenarios-check; \
-        elif test ! "$(CHECKABLE_SCENARIO_FILE)" = ""; then \
-           $(MAKE) scenario-check; \
-        else \
-           echo "No scenario files, nothing to be done"; \
-        fi 
+check-all: build-all
+
+# XXX the following has been disabled due to issue with the execution
+# of test programs by emulators
+#
+#	if test ! "$(CHECKABLE_SCENARIO_FILES)" = "";  then \
+#           $(MAKE) scenarios-check; \
+#        elif test ! "$(CHECKABLE_SCENARIO_FILE)" = ""; then \
+#           $(MAKE) scenario-check; \
+#        else \
+#           echo "No scenario files, nothing to be done"; \
+#        fi
 
 
 ############################################################################
