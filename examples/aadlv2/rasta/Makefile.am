@@ -2,7 +2,12 @@
 ADA_SPECS_WITH_BODY = $(srcdir)/ping.ads			\
 	$(srcdir)/pinged.ads $(srcdir)/gr_rasta_fpga.ads
 
-ADA_SPECS = $(ADA_SPECS_WITH_BODY)
+ADA_SPECS = $(ADA_SPECS_WITH_BODY)					\
+	$(srcdir)/deviceconfig_serialleon_obj179.ads			\
+	$(srcdir)/deviceconfig_serialleon_obj223.ads			\
+	$(srcdir)/deviceconfig_spw_obj234.ads $(srcdir)/adaasn1rtl.ads	\
+	$(srcdir)/pohicdriver_spacewire.ads				\
+	$(srcdir)/pohicdriver_uart.ads
 
 ADA_BODIES = $(ADA_SPECS_WITH_BODY:.ads=.adb)
 
