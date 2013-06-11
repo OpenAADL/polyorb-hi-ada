@@ -1,60 +1,5 @@
 \input texinfo @c -*-texinfo-*-
 
-@c %**start of header
-
-@c oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-@c
-@c                                Style Guide
-@c
-@c  1. Always put a @noindent on the line before the first paragraph
-@c     after any of these commands:
-@c
-@c          @chapter
-@c          @section
-@c          @subsection
-@c          @subsubsection
-@c          @subsubsubsection
-@c
-@c          @end smallexample
-@c          @end itemize
-@c          @end enumerate
-@c
-@c  2. DO NOT use @example. Use @smallexample instead.
-@c     a) DO NOT use highlighting commands (@b{}, @i{}) inside an @smallexample
-@c        context.  These can interfere with the readability of the texi
-@c        source file.  Instead, use one of the following annotated
-@c        @smallexample commands, and preprocess the texi file with the
-@c        gentexifile tool (which generates appropriate highlighting):
-@c        @smallexample @c ada
-@c        @smallexample @c adanocomment
-@c        @smallexample @c projectfile
-@c     b) The "@c ada" markup will result in boldface for reserved words
-@c        and italics for comments
-@c     c) The "@c adanocomment" markup will result only in boldface for
-@c        reserved words (comments are left alone)
-@c     d) The "@c projectfile" markup is like "@c ada" except that the set
-@c        of reserved words include the new reserved words for project files
-@c
-@c  3. Each @chapter, @section, @subsection, @subsubsection, etc.
-@c     command must be preceded by two empty lines
-@c
-@c  4. The @item command should be on a line of its own if it is in an
-@c     @itemize or @enumerate command.
-@c
-@c  5. DO NOT put trailing spaces at the end of a line.  Such spaces will
-@c     cause the document build to fail.
-@c
-@c  6. DO NOT use @cartouche for examples that are longer than around 10 lines.
-@c     This command inhibits page breaks, so long examples in a @cartouche can
-@c     lead to large, ugly patches of empty space on a page.
-@c
-@c  7. To add an entry to the bibliography, you must:
-@c     * add it to polyorb-hi_ug.bib
-@c     This will generate the correct polyorb-hi_ug_ref.texi file
-@c     You may then cite the correct reference.
-@c
-@c oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-
 @c $Id: polyorb-hi-ada_ug.texi 7043 2009-10-08 14:20:49Z hugues $
 
 @include version.texi
@@ -70,8 +15,8 @@
 @c description and copyright
 
 @copying
-Copyright @copyright{} 2006-2009 @'{E}cole nationale sup@'{e}rieure
-des t@'{e}l@'{e}communications
+Copyright @copyright{} 2006-2009 Telecom ParisTech, @copyright{}
+ 2009-2013 ISAE, ESA
 
 @noindent
 Permission is granted to copy, distribute and/or modify this document
@@ -273,7 +218,7 @@ This manual describes the elements specific to PolyORB-HI-Ada.
 @c -------------------------------------------------------------------
 
 @noindent
-PolyORB-HI-Ada has been compiled and successfully tested on 
+PolyORB-HI-Ada has been compiled and successfully tested on
 
 @itemize @bullet
 @item native platforms:
@@ -296,7 +241,7 @@ PolyORB-HI-Ada has been compiled and successfully tested on
 @item bare-board platforms
 
 @itemize @bullet
-@item ERC32, using GNAT Pro for ERC32 
+@item ERC32, using GNAT Pro for ERC32
 @item LEON, using GNAT Pro for LEON 6.2.1 or above,
 or GNAT for LEON 2.1.0 by Universidad Politecnic de Madrid,
 @end itemize
@@ -330,9 +275,9 @@ When installed with Ocarina, in @file{$OCARINA_PATH} directory
 
 @itemize @bullet
 @item docutmentation is in @file{$OCARINA_PATH/share/doc/ocarina};
-@item examples are in @file{$OCARINA_PATH/examples/ocarina/polyorb-hi-ada/}: 
+@item examples are in @file{$OCARINA_PATH/examples/ocarina/polyorb-hi-ada/}:
 set of examples to test PolyORB-HI-Ada
-@item runtime files are in 
+@item runtime files are in
 @file{$OCARINA_PATH/include/ocarina/runtime/polyorb-hi-ada/}.
 @end itemize
 
@@ -349,7 +294,7 @@ To be compiled, PolyORB-HI-Ada requires the following tools:
   e.g. GNAT Pro 6.2.1 or above, GNAT @{GAP, GPL@} 2008 or later or
   GNAT GCC 4.3.0 or later
 
-@item For LEON targets: the GNAT for LEON 2.1 or above; or GNAT Pro 
+@item For LEON targets: the GNAT for LEON 2.1 or above; or GNAT Pro
   6.2.1 or above
 
 @item For ECR32: the GNAT for ERC32 2006 or later.
@@ -370,12 +315,12 @@ contains both tools.
 To install PolyORB-HI-Ada, please observe the following steps:
 
 @itemize
-@item 
+@item
 Install GNAT and Ocarina as specified by their respective
 documentations and make sure their 'bin/' installation directories are
 located at the top of your PATH environment variable.
 
-@item 
+@item
 Issue @code{./configure}. The @code{configure} script can take several
 options: issue @code{./configure --help} to have a quick overview of
 them. For examples. @code{./configure --enable-debug} will configure
@@ -411,10 +356,10 @@ Each example uses the GNAT build infrastructure and a makefile.
 For each example, a makefile is provided with the following rules:
 
 @itemize @bullet
-@item 
+@item
 @code{build-all}: generate code from the example and compile it;
 
-@item 
+@item
 @code{clean}: clean all generated files;
 
 @end itemize
@@ -502,7 +447,7 @@ PolyORB-HI/Ada. To do so, you need to perform the following steps
 
 @enumerate
 
-@item 
+@item
 First, you need to define a device and point to an abstract AADLv2
 component that supports its full implementation using the
 @code{Implemented_As} property. This abstract component will define
@@ -510,22 +455,22 @@ all internals of the device driver.
 
 @include device_drivers.texi
 
-@item 
+@item
 The abstract implementation shall define or reference required thread,
-subprograms. 
+subprograms.
 
 @enumerate
-@item 
+@item
 AADL entities shall define threads and subprograms to handle incoming
 requests, unmarshall them, and do the upcall to PolyORB-HI-Ada
 internals. See code provided for the AADL subprogram
 @code{TCP_IP.Send}.
 
-@item 
+@item
 User provided code shall define a subprogram to marshall and send
 data.  This subprogram shall be exported using Ada @code{pragma
 Export}. The name of the corresponding symbol shall be made as follows
-@i{<name_of_device>_send}. 
+@i{<name_of_device>_send}.
 
 In the @code{device_drivers} example, this name is
 @code{tcp_ip_device.impl_send}.
@@ -534,7 +479,7 @@ In the @code{device_drivers} example, this name is
 @b{Note:} it is the user responsibility to ensure that
 marshalling/unmarshalling is performed correctly.
 
-@item 
+@item
 In addition, you may add an initialisation procedure for this driver
 using the @code{Initialize_Entrypoint}.
 
@@ -621,7 +566,7 @@ This section lists AADL features supported by PolyORB-HI-Ada:
 @item all compile-time and run-time restrictions enforced as part of
   the compilation process;
 
-@item User code must conform with the data modeling annex 
+@item User code must conform with the data modeling annex
 (@cite{[SAE09b]}), and the programing language annex
 (@cite{[SA09c]}).
 
@@ -633,7 +578,7 @@ Please refer to these documents for more details.
 @item on native platform, distribution can be tested using the native
 socket library provided by @code{GNAT.Sockets}.
 
-@item user-provided transport layer can be used, provided they follow 
+@item user-provided transport layer can be used, provided they follow
 guidelines discussed in section @xref{Adding new transport mechanism}.
 @end itemize
 @end itemize
@@ -644,11 +589,11 @@ guidelines discussed in section @xref{Adding new transport mechanism}.
 @c -------------------------------------------------------------------
 
 @menu
-* Whole distributed application:: 
-* Distributed application nodes:: 
-* Nodes:: 
-* Threads:: 
-* Connections:: 
+* Whole distributed application::
+* Distributed application nodes::
+* Nodes::
+* Threads::
+* Connections::
 @end menu
 
 In this chapter, we introduce some of the code patterns that are
@@ -706,14 +651,14 @@ nodes of the application.
 A distributed application is mapped into a hierarchy of directories:
 
 @itemize @bullet
-@item 
+@item
 the root directory of the distributed application has the same
 name as the system implementation that models the application, in
 lower case, all dots being converted into underscores. This directory
 is the root of the directory hierarchy of the generated Ada
 distributed application.
 
-@item 
+@item
 for each node of the distributed application, a child directory having
 the same name as the corresponding process subcomponent (in lower
 case) is created inside the root directory. This child directory will
@@ -838,7 +783,7 @@ The @code{PolyORB_HI_Generated.Deployment} package contains several
 Ada enumeration types:
 
 @itemize @bullet
-@item 
+@item
 @code{Node_Type}. For each node in the application accessible from the
 current node, we create an enumeration literal whose name is mapped
 from the node ``instance'' declared in the system implementation to
@@ -848,7 +793,7 @@ which we concatenate the string ``_K''. All the naming rules listed in
 In addition, the constant @code{My_Node} of type @code{Node_Type} is
 defined and store the value of the current node.
 
-@item 
+@item
 @code{Entity_Type}. For each thread in the application that belongs to
 the current node or that is connected (via its owner process) to one
 of the threads of the current node, we declare an enumeration
@@ -1081,7 +1026,7 @@ component corresponding to the port. All the naming rules listed in
 a set of subprograms allowing the user code to manipulate the thread
 interface (see the thread part of the AADL standard for more details).
 
-@item 
+@item
 a subprogram that represents the thread job. The defining identifier
 of the subprogram is mapped from the thread instance name in the
 process that models the node, to which we append the string
@@ -1110,26 +1055,26 @@ process that model the node, to which we append the string
 distributed application} hold. The package instantiation takes the
 following parameters:
 
-@itemize @bullet 
+@itemize @bullet
 @item
 the enumerator corresponding to the thread
 
-@item 
+@item
 the task period or inter-arrival time,
 
-@item 
+@item
 the task priority. If the user did not specify a priority, then
 @code{System.Default_Priority} is used,
 
-@item 
+@item
 the task stack size. If the user did not specify a stack size, then
-the 64Kb default size is used, 
+the 64Kb default size is used,
 
 @item
 for sporadic and hybrid threads only, the subprogram that is called to
 wait for incoming events.
 
-@item 
+@item
 the task job which corresponds to the subprogram
 @code{<Thread_Name>_Job}.
 
