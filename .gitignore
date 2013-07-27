@@ -57,7 +57,6 @@ doc/stamp-vti
 doc/thread_a.aadl
 doc/thread_a_full.aadl
 doc/version.texi
-patch
 support/config.guess
 support/config.sub
 support/install-sh
