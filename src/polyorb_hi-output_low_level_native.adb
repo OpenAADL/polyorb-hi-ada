@@ -58,17 +58,10 @@ package body PolyORB_HI.Output_Low_Level is
    --------------
 
    procedure New_Line is
-      SS : aliased String := (1 => Character'Val (10));
-
-      procedure C_Write
-        (Fd  : Interfaces.C.int;
-         P   : System.Address;
-         Len : Interfaces.C.int);
-      pragma Import (C, C_Write, "write");
+      S : String := (1 => Character'Val (10));
 
    begin
-      C_Write (2, SS (SS'First)'Address, SS'Length);
-      --  2 is standard error
+      Put (S);
    end New_Line;
 
 end PolyORB_HI.Output_Low_Level;
