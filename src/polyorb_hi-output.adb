@@ -167,23 +167,23 @@ package body PolyORB_HI.Output is
      (Stream : Stream_Element_Array;
       Mode   : Verbosity            := Verbose)
    is
-      Index   : Natural := 1;
+      Index   : Positive := 1;
       Output  : Output_Line := Nil;
    begin
       for J in Stream'Range loop
-         Output (Index)     := ' ';
-         Output (Index + 1) := Hex (Natural (Stream (J) / 16) + 1);
-         Output (Index + 2) := Hex (Natural (Stream (J) mod 16) + 1);
-         Index := Index + 3;
-
-         if Index > Output'Length then
+         if Index <= Output'Last - 3 then
+            Output (Index)     := ' ';
+            Output (Index + 1) := Hex (Natural (Stream (J) / 16) + 1);
+            Output (Index + 2) := Hex (Natural (Stream (J) mod 16) + 1);
+            Index := Index + 3;
+         else
             Put_Line (Mode, Output);
             Index := 1;
             Output := Nil;
          end if;
       end loop;
 
-      Put_Line (Mode, "DUMP" & Output);
+      Put_Line (Mode,  Output);
    end Dump;
 
 end PolyORB_HI.Output;
