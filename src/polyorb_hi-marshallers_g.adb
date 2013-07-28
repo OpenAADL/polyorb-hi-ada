@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -37,29 +37,11 @@ with PolyORB_HI.Streams;
 package body PolyORB_HI.Marshallers_G is
    use type PolyORB_HI.Streams.Stream_Element_Offset;
 
-   function Data_Size return PolyORB_HI.Streams.Stream_Element_Count;
-   --  Return the smallest integer greater than or equal
-   --  Data_Type'Size/8.0.
+   Data_Size : constant PolyORB_HI.Streams.Stream_Element_Offset
+     := Data_Type'Object_Size / 8;
 
-   ---------------
-   -- Data_Size --
-   ---------------
-
-   function Data_Size return PolyORB_HI.Streams.Stream_Element_Count is
-      use PolyORB_HI.Streams;
-
-      Size_In_Bits : constant Stream_Element_Count := Data_Type'Size;
-   begin
-      if Size_In_Bits mod 8 = 0 then
-         return Size_In_Bits / 8;
-      else
-         return Size_In_Bits / 8 + 1;
-      end if;
-   end Data_Size;
-
-   type Data_Type_Stream is
-     new PolyORB_HI.Streams.Stream_Element_Array
-     (1 .. Data_Size);
+   subtype Data_Type_Stream is
+     PolyORB_HI.Streams.Stream_Element_Array (1 .. Data_Size);
 
    function Data_Type_To_Stream is
       new Ada.Unchecked_Conversion (Data_Type, Data_Type_Stream);
@@ -72,10 +54,12 @@ package body PolyORB_HI.Marshallers_G is
 
    procedure Marshall
      (R :        Data_Type;
-      M : in out Messages.Message_Type) is
+      M : in out Messages.Message_Type)
+   is
+      Data : constant Data_Type_Stream := Data_Type_To_Stream (R);
+
    begin
-      Messages.Write
-        (M, PolyORB_HI.Streams.Stream_Element_Array (Data_Type_To_Stream (R)));
+      Messages.Write (M, Data);
    end Marshall;
 
    ----------------
@@ -91,11 +75,9 @@ package body PolyORB_HI.Marshallers_G is
    begin
       Messages.Read (M, Data, Last);
 
-      if Last /= Data'Length then
-         raise Program_Error with "Incomplete message";
+      if Last = Data_Size then --  XXX Data'Size [attribute]
+         R := Stream_To_Data_Type (Data_Type_Stream (Data));
       end if;
-
-      R := Stream_To_Data_Type (Data_Type_Stream (Data));
    end Unmarshall;
 
 end PolyORB_HI.Marshallers_G;
