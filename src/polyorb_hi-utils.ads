@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -62,14 +62,14 @@ package PolyORB_HI.Utils is
    --  2) these converters must be endianness-independent
 
    function Internal_Code is new Ada.Unchecked_Conversion
-     (Entity_Type, Integer_8);
+     (Entity_Type, Unsigned_8);
    function Corresponding_Entity is new Ada.Unchecked_Conversion
-     (Integer_8, Entity_Type);
+     (Unsigned_8, Entity_Type);
 
    function Internal_Code is new Ada.Unchecked_Conversion
-     (Node_Type, Integer_8);
+     (Node_Type, Unsigned_8);
    function Corresponding_Node is new Ada.Unchecked_Conversion
-     (Integer_8, Node_Type);
+     (Unsigned_8, Node_Type);
 
    function Internal_Code (P : Port_Type) return Unsigned_16;
    function Corresponding_Port (I : Unsigned_16) return Port_Type;
