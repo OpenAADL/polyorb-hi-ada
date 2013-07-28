@@ -156,9 +156,9 @@ project PolyORB_HI is
    ------------
 
    package Binder is
-      for Default_Switches ("ada") use 
-        ("-r", 
-         "-T0" -- Force time slice to 0, 
+      for Default_Switches ("ada") use
+        ("-r",
+         "-T0" -- Force time slice to 0,
                -- see A.3 of GNAT user Manual for more details
         );
    end Binder;
@@ -185,5 +185,17 @@ project PolyORB_HI is
           ("-rules", "-ALL", "+RGoto", "+RSlices",
            "+RDecl_Blocks", "+RDiscr_Rec", "+RContr_Types");
    end Check;
+
+   -----------
+   -- Prove --
+   -----------
+
+   package Prove is
+      for Switches use
+          ("--mode=prove",        -- Prove subprogram contracts
+                                  -- and absence of run-time errors
+           "--report=statistics"  -- Report all results of proving VCs
+           );
+   end Prove;
 
 end PolyORB_HI;
