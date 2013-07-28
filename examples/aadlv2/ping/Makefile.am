@@ -24,7 +24,7 @@ AADL_SOURCES = \
 include $(srcdir)/../../Makefile.common
 
 SCENARIO_FILES=$(srcdir)/scenario.aadl
-CHECKABLE_SCENARIO_FILES=
+CHECKABLE_SCENARIO_FILES= $(SCENARIO_FILES)
 
 if HAS_GNATMAKE_FOR_MARTE
    SCENARIO_FILES+=$(srcdir)/scenario_local_marte.aadl

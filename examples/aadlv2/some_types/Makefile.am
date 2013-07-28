@@ -15,6 +15,9 @@ AADL_SOURCES = \
 include $(srcdir)/../../Makefile.common
 
 SCENARIO_FILE=$(srcdir)/scenario.aadl
+CHECKABLE_SCENARIO_FILES=
+#$(SCENARIO_FILE)
+# For this example, there is an issue in the ordering of events arriving..
 
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(AADL_SOURCES) $(SCENARIO_FILE)
 
