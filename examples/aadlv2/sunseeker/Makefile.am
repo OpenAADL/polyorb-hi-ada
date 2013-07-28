@@ -19,7 +19,7 @@ REF_OUTPUTS = $(srcdir)/sunseeker_local.ref
 include $(srcdir)/../../Makefile.common
 
 SCENARIO_FILES=$(srcdir)/scenario_dist.aadl
-CHECKABLE_SCENARIO_FILES=
+CHECKABLE_SCENARIO_FILES=#$(SCENARIO_FILES)
 
 if HAS_GNATMAKE_FOR_LEON
    SCENARIO_FILES+=$(srcdir)/scenario_local.aadl

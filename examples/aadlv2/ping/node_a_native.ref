@@ -1,4 +1,5 @@
 [ 0.006661000] Hello! This is the pinger thread starting
+[ 0.006661000] Hello! This is the pinger thread starting
 [ 0.006691000] Sending ORDER: TRUE
 [ 0.006698000] ORDER: TRUE
 [ 0.006704000] Sending (+1) PING 1
@@ -11,4 +12,3 @@
 [ 3.006810000] Sending ORDER: FALSE
 [ 3.006823000] ORDER: FALSE
 [ 3.006829000] Sending (+5) PING 12
-
