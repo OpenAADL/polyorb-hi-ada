@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -46,8 +46,6 @@ package PolyORB_HI.Messages is
    type Message_Type is private;
    --  Base type of messages exchanged between nodes
 
-   Invalid_Message : constant Message_Type;
-
    Message_Length_Size : constant := 2;
    --  Number of bytes to store a message size
 
@@ -83,9 +81,6 @@ package PolyORB_HI.Messages is
    procedure Reallocate (M : in out Message_Type);
    --  Reset M
 
-   function Length (M : Message_Type) return Stream_Element_Count;
-   --  Return length of message M
-
    function Payload (M : Message_Type) return Stream_Element_Array;
    --  Return the remaining payload of message M
 
@@ -103,16 +98,14 @@ package PolyORB_HI.Messages is
 
 private
 
-   type Message_Type is record
-      Content : Stream_Element_Array (1 .. PDU_Size);
-      First   : Stream_Element_Count := 1;
-      Last    : Stream_Element_Count := 0;
-   end record;
+   subtype PDU_Index is Stream_Element_Count range 0 .. PDU_Size;
+   subtype PDU is Stream_Element_Array (1 .. PDU_Index'Last);
 
-   Invalid_Message : constant Message_Type :=
-     (Content => (1 .. PDU_Size => Stream_Element (0)),
-      First   => 1,
-      Last    => 0);
+   type Message_Type is record
+      Content : PDU;
+      First   : PDU_Index := 1;
+      Last    : PDU_Index := 0;
+   end record;
 
    pragma Inline (To_Length);
    pragma Inline (To_Buffer);

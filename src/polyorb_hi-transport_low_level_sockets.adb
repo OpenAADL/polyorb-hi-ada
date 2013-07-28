@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -259,7 +259,7 @@ package body PolyORB_HI.Transport_Low_Level is
 
                --  Identify peer node
 
-               Node := Corresponding_Node (Integer_8 (SEC (SEC'First)));
+               Node := Corresponding_Node (Unsigned_8 (SEC (SEC'First)));
                Nodes (Node).Socket_Receive := Socket;
                pragma Debug (Put_Line (Verbose, "Connection from node "
                                        & Node_Image (Node)));
@@ -304,8 +304,9 @@ package body PolyORB_HI.Transport_Low_Level is
                --  Receive message length
 
                Receive_Socket (Nodes (N).Socket_Receive, SEL, SEO);
-
-               --  Receive zero bytes means that peer is dead
+               pragma Debug (Put_Line (Verbose, "SEL " & SEL'Length'Img
+                                      & "MLS" & Message_Length_Size'Img));
+               --  Receiving zero byte means that peer is dead
 
                if SEO = 0 then
                   pragma Debug (Put_Line
@@ -334,7 +335,7 @@ package body PolyORB_HI.Transport_Low_Level is
 
                PolyORB_HI_Generated.Transport.Deliver
                  (Corresponding_Entity
-                  (Integer_8 (SEA (Message_Length_Size + 1))),
+                  (Unsigned_8 (SEA (Message_Length_Size + 1))),
                   To_PO_HI_Full_Stream (SEA)
                     (1 .. Stream_Element_Offset (SEO)));
             end if;
@@ -361,24 +362,20 @@ package body PolyORB_HI.Transport_Low_Level is
      return Error_Kind
    is
       L : AS.Stream_Element_Offset;
-      pragma Unreferenced (L);
 
-      --  We cannot cast both array types using
-      --  Ada.Unchecked_Conversion because they are unconstrained
-      --  types. We cannot either use direct casting because component
-      --  types are incompatible. The only time efficient manner to do
-      --  the casting is to use representation clauses.
+      --  We cannot cast both array types using Unchecked_Conversion
+      --  because they are unconstrained types. We cannot either use
+      --  direct casting because component types are incompatible. The
+      --  only time efficient manner to do the casting is to use
+      --  representation clauses.
       Msg : AS.Stream_Element_Array (1 .. Message'Length);
       pragma Import (Ada, Msg);
       for Msg'Address use Message'Address;
 
    begin
-      pragma Warnings (Off);
-      Send_Socket (Nodes (Node).Socket_Send,
-                   Msg,
-                   L);
-      --  WAG: GPL 2007
-      pragma Warnings (On);
+      pragma Debug (Put_Line (Verbose, "Sending message, size:" & L'Img));
+      Send_Socket (Nodes (Node).Socket_Send, Msg, L);
+
       return Error_Kind'(Error_None);
    exception
       when E : others =>

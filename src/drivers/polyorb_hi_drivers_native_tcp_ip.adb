@@ -276,7 +276,7 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
 
                --  Identify peer node
 
-               Node := Corresponding_Node (Integer_8 (SEC (SEC'First)));
+               Node := Corresponding_Node (Unsigned_8 (SEC (SEC'First)));
                Nodes (Node).Socket_Receive := Socket;
                pragma Debug (Put_Line (Verbose, "Connection from node "
                                        & Node_Type'Image (Node)));
@@ -365,7 +365,7 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
 
                PolyORB_HI_Generated.Transport.Deliver
                  (Corresponding_Entity
-                  (Integer_8 (SEA (Message_Length_Size + 1))),
+                  (Unsigned_8 (SEA (Message_Length_Size + 1))),
                   To_PO_HI_Full_Stream (SEA)
                     (1 .. Stream_Element_Offset (SEO)));
             end if;
