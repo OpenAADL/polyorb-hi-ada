@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2012 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2013 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -57,11 +57,13 @@ package body PolyORB_HI.Utils is
    ----------------
    -- Swap_Bytes --
    ----------------
+   --  XXX check intrinsic __builtint_bswapXX
 
    function Swap_Bytes (B : Interfaces.Unsigned_16)
                        return Interfaces.Unsigned_16
    is
       use System;
+
    begin
       pragma Warnings (Off);
       --  Note: this is to disable a warning on the following test
@@ -108,9 +110,16 @@ package body PolyORB_HI.Utils is
    function Parse_String (S : String; First : Integer; Delimiter : Character)
                          return Integer
    is
+      Local_First : Integer;
       Last : Integer;
    begin
-      for J in First .. S'Last loop
+      if First < S'First then
+         Local_First := S'First;
+      else
+         Local_First := First;
+      end if;
+
+      for J in Local_First .. S'Last loop
          if S (J) = Delimiter then
             Last := J - 1;
             exit;
