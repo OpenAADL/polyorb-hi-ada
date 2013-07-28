@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -158,7 +158,9 @@ package body PolyORB_HI.Output is
    -- Dump --
    ----------
 
-   subtype Output_Line is String (1 .. 48);
+   subtype Output_Position is Positive range 1 .. 48;
+
+   subtype Output_Line is String (Output_Position);
 
    Hex : constant String := "0123456789ABCDEF";
    Nil : constant Output_Line := (Output_Line'Range => ' ');
@@ -167,11 +169,11 @@ package body PolyORB_HI.Output is
      (Stream : Stream_Element_Array;
       Mode   : Verbosity            := Verbose)
    is
-      Index   : Positive := 1;
+      Index   : Output_Position := Output_Position'First;
       Output  : Output_Line := Nil;
    begin
       for J in Stream'Range loop
-         if Index <= Output'Last - 3 then
+         if Index + 3 <= Output'Last then
             Output (Index)     := ' ';
             Output (Index + 1) := Hex (Natural (Stream (J) / 16) + 1);
             Output (Index + 2) := Hex (Natural (Stream (J) mod 16) + 1);
