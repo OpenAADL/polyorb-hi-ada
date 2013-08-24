@@ -7,7 +7,7 @@
 
 --pragma Task_Dispatching_Policy (FIFO_Within_Priotities); -- D.13.1
 -- Note: GCC 4.3.5 does not support this policy, changed to binder
--- option "-T0" per sec tion A.3 of the GNAT user manual
+-- option "-T0" per section A.3 of the GNAT user manual
 
 pragma Locking_Policy (Ceiling_Locking);                 -- D.13.1
 
