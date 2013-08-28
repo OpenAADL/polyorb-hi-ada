@@ -25,10 +25,9 @@ fi;
 
 if test $# = 0 ; then
     echo "Updating headers for changed and new files"
-
     changed_files=`git status -s | grep "^\ M" | grep '\.\(\(ad[bs]\)\|\(gpr\)\)' | awk '{print $NF}'`
 
-    added_files=`svn status -q | grep "^[A]" | grep '\.\(\(ad[bs]\)\|\(gpr\)\)' | awk '{print $NF}'`
+    added_files=`git status -s | grep "^[A]" | grep '\.\(\(ad[bs]\)\|\(gpr\)\)' | awk '{print $NF}'`
 
     # For changed files, update the header
 
