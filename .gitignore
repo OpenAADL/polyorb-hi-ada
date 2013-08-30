@@ -62,4 +62,4 @@ support/config.sub
 support/install-sh
 support/missing
 support/texinfo.tex
-
+support/headers_po_hi*
