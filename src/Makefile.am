@@ -2,20 +2,21 @@ SUBDIRS = drivers
 
 # BEGIN: DO NOT DELETE THIS LINE
 ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi-aperiodic_task.ads	\
-	$(srcdir)/polyorb_hi-background_task.ads		\
-	$(srcdir)/polyorb_hi-hybrid_task.ads			\
-	$(srcdir)/polyorb_hi-hybrid_task_driver.ads		\
-	$(srcdir)/polyorb_hi-marshallers_g.ads			\
-	$(srcdir)/polyorb_hi-messages.ads			\
-	$(srcdir)/polyorb_hi-output.ads				\
-	$(srcdir)/polyorb_hi-periodic_task.ads			\
-	$(srcdir)/polyorb_hi-port_kinds.ads			\
-	$(srcdir)/polyorb_hi-protocols.ads			\
-	$(srcdir)/polyorb_hi-sporadic_task.ads			\
-	$(srcdir)/polyorb_hi-suspenders.ads			\
-	$(srcdir)/polyorb_hi-thread_interrogators.ads		\
-	$(srcdir)/polyorb_hi-scheduler.ads			\
-	$(srcdir)/polyorb_hi-utils.ads
+	 $(srcdir)/polyorb_hi-background_task.ads		\
+	 $(srcdir)/polyorb_hi-hybrid_task.ads			\
+	 $(srcdir)/polyorb_hi-hybrid_task_driver.ads		\
+	 $(srcdir)/polyorb_hi-isr_task.ads			\
+	 $(srcdir)/polyorb_hi-marshallers_g.ads			\
+	 $(srcdir)/polyorb_hi-messages.ads			\
+	 $(srcdir)/polyorb_hi-output.ads			\
+	 $(srcdir)/polyorb_hi-periodic_task.ads			\
+	 $(srcdir)/polyorb_hi-port_kinds.ads			\
+	 $(srcdir)/polyorb_hi-protocols.ads			\
+	 $(srcdir)/polyorb_hi-sporadic_task.ads			\
+	 $(srcdir)/polyorb_hi-suspenders.ads			\
+	 $(srcdir)/polyorb_hi-thread_interrogators.ads		\
+	 $(srcdir)/polyorb_hi-scheduler.ads			\
+	 $(srcdir)/polyorb_hi-utils.ads
 
 
 ADA_SPECS = $(ADA_SPECS_WITH_BODY) $(srcdir)/polyorb_hi.ads	\
