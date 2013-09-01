@@ -27,7 +27,7 @@ public
 
    device implementation GRRASTAFPGA_Device.impl
    properties
-      Implemented_As =>
+      Device_Driver =>
          classifier (GRRASTAFPGA::Driver_GRRASTAFPGA.impl);
       Initialize_Entrypoint => classifier (GRRASTAFPGA::Initialize);
    end GRRASTAFPGA_Device.impl;
