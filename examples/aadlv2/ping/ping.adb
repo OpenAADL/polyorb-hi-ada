@@ -33,10 +33,12 @@
 --  $Id: ping.adb 6656 2009-06-09 07:43:37Z hugues $
 
 with PolyORB_HI.Output;
+with User_Types;
 
 package body Ping is
 
    use PolyORB_HI.Output;
+   use User_Types;
 
    Var   : Simple_Type := 0;
    Order : Opaque_Type := False;

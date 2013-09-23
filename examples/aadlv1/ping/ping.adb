@@ -31,10 +31,12 @@
 ------------------------------------------------------------------------------
 
 with PolyORB_HI.Output;
+with User_Types;
 
 package body Ping is
 
    use PolyORB_HI.Output;
+   use User_Types;
 
    Var   : Simple_Type := 0;
    Order : Opaque_Type := False;
