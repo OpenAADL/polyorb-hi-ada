@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -41,7 +41,6 @@ package body PolyORB_HI.Output_Low_Level is
    ---------
 
    procedure Put (S : String) is
-
       procedure C_Write
         (Fd  : Interfaces.C.int;
          P   : System.Address;
@@ -51,6 +50,7 @@ package body PolyORB_HI.Output_Low_Level is
    begin
       C_Write (2, S (S'First)'Address, S'Length);
       --  2 is standard error
+
    end Put;
 
    --------------
@@ -58,7 +58,7 @@ package body PolyORB_HI.Output_Low_Level is
    --------------
 
    procedure New_Line is
-      S : String := (1 => Character'Val (10));
+      S : constant String := (1 => Character'Val (10));
 
    begin
       Put (S);
