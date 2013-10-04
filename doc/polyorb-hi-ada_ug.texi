@@ -291,8 +291,6 @@ To be compiled, PolyORB-HI-Ada requires the following tools:
 
 @itemize @bullet
 @item For native platforms: a recent version of the GNAT compiler,
-  e.g. GNAT Pro 6.2.1 or above, GNAT @{GAP, GPL@} 2008 or later or
-  GNAT GCC 4.3.0 or later
 
 @item For LEON targets: the GNAT for LEON 2.1 or above; or GNAT Pro
   6.2.1 or above
