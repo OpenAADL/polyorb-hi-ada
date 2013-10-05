@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -66,8 +66,7 @@ package body PolyORB_HI.Suspenders is
         Ada.Real_Time.Clock + Ada.Real_Time.Milliseconds (1_000);
       pragma Debug
         (Put_Line
-         (Verbose, "Initialization of all subsystems finished,"
-            & " system startup in 1 second(s)"));
+         (Verbose, "Initialization finished, system startup in 1 second(s)"));
 
       for J in Task_Suspension_Objects'Range loop
          pragma Debug
@@ -83,7 +82,6 @@ package body PolyORB_HI.Suspenders is
              & PolyORB_HI_Generated.Deployment.Entity_Image (J)
              & " unblocked"));
       end loop;
-
    end Unblock_All_Tasks;
 
 end PolyORB_HI.Suspenders;

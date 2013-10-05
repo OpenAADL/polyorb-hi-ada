@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -61,7 +61,7 @@ package PolyORB_HI.Output is
    --  routine is thread-safe.
 
    procedure Put_Line (Text : in String);
-   --  As above but displays the message reguards less the mode
+   --  As above but always displays the message
 
    procedure Unprotected_Put_Line (Text : in String);
    --  As above but this routine is not thread-safe
