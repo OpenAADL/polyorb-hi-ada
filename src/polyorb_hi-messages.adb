@@ -182,12 +182,10 @@ package body PolyORB_HI.Messages is
          Stream.Last := 0;
       end if;
 
-      if Item'Length > Stream.Content'Last - Stream.Last then
-         raise Program_Error;
+      if Item'Length <= Stream.Content'Last - Stream.Last then
+         Stream.Content (Stream.Last + 1 .. Stream.Last + Item'Length) := Item;
+         Stream.Last := Stream.Last + Item'Length;
       end if;
-
-      Stream.Content (Stream.Last + 1 .. Stream.Last + Item'Length) := Item;
-      Stream.Last := Stream.Last + Item'Length;
    end Write;
 
    ---------------
