@@ -1,5 +1,5 @@
 --  This AADL model is derived from the AADL model published in the
---  IST-ASSERT d3.3.1-3 deliverable. 
+--  IST-ASSERT d3.3.1-3 deliverable.
 
 --  $Id: toy_example.aadl 6979 2009-09-01 13:47:17Z hugues $
 
@@ -180,7 +180,7 @@ subcomponents
   P1            : processor the_processor
    {Priority_Range => 0 .. 255;
     Deployment::Execution_Platform => LEON_ORK;};
-  GNC_TMTC_POS  : process Toy_Example_Proc.Impl 
+  GNC_TMTC_POS  : process Toy_Example_Proc.Impl
    {Deployment::Channel_Address => 2;
     Deployment::Process_Id      => 1200;};
 properties
@@ -192,7 +192,7 @@ subcomponents
   P1            : processor the_processor
    {Priority_Range => 0 .. 255;
     Deployment::Execution_Platform => LEON_GNAT;};
-  GNC_TMTC_POS  : process Toy_Example_Proc.Impl 
+  GNC_TMTC_POS  : process Toy_Example_Proc.Impl
    {Deployment::Channel_Address => 2;
     Deployment::Process_Id      => 1200;};
 properties
@@ -227,7 +227,7 @@ end POS;
 data implementation POS.Impl
 subcomponents
   spgUpdate : subprogram Update.Impl;
-  spgRead   : subprogram Read; 
+  spgRead   : subprogram Read;
   Field     : data POS_Internal_Type;
 
 connections
