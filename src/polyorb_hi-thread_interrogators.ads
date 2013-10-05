@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -196,7 +196,6 @@ package PolyORB_HI.Thread_Interrogators is
    --  set to the message reception time.
 
    function Get_Time_Stamp (P : Port_Type) return Ada.Real_Time.Time;
-   --  Return the timestamp of the latest value received on data port
-   --  P.
+   --  Return the timestamp of the latest value received on data port  P
 
 end PolyORB_HI.Thread_Interrogators;
