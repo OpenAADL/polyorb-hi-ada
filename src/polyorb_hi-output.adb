@@ -88,10 +88,6 @@ package body PolyORB_HI.Output is
 
    end Put_Line;
 
-   --------------
-   -- Put_Line --
-   --------------
-
    procedure Put_Line (Text : in String) is
    begin
       Lock.Put_Line (Text);
@@ -113,10 +109,6 @@ package body PolyORB_HI.Output is
       end if;
 
    end Put;
-
-   ---------
-   -- Put --
-   ---------
 
    procedure Put (Text : in String) is
    begin
