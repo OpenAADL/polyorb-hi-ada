@@ -244,8 +244,8 @@ package body PolyORB_HI.Thread_Interrogators is
          pragma Debug (Put_Line
                        (Verbose,
                         CE
-                        & ": Wait_Event: oldest unread event port = "
-                        & Thread_Port_Images (P)));
+                        + ": Wait_Event: oldest unread event port = "
+                        + Thread_Port_Images (P)));
       end Wait_Event;
 
       ----------------
@@ -262,8 +262,8 @@ package body PolyORB_HI.Thread_Interrogators is
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Read_Event: read valid event [data] on "
-                           & Thread_Port_Images (P)));
+                           + ": Read_Event: read valid event [data] on "
+                           + Thread_Port_Images (P)));
          end if;
       end Read_Event;
 
@@ -291,8 +291,8 @@ package body PolyORB_HI.Thread_Interrogators is
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Dequeue: Empty queue for "
-                           & Thread_Port_Images (T)));
+                           + ": Dequeue: Empty queue for "
+                           + Thread_Port_Images (T)));
 
             P := Get_Most_Recent_Value (T);
 
@@ -303,8 +303,8 @@ package body PolyORB_HI.Thread_Interrogators is
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Dequeue: NO FIFO for "
-                           & Thread_Port_Images (T)));
+                           + ": Dequeue: NO FIFO for "
+                           + Thread_Port_Images (T)));
 
             P := Get_Most_Recent_Value (T);
 
@@ -312,8 +312,8 @@ package body PolyORB_HI.Thread_Interrogators is
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Dequeue: dequeuing "
-                           & Thread_Port_Images (T)));
+                           + ": Dequeue: dequeuing "
+                           + Thread_Port_Images (T)));
 
             if First = Last then
                --  Update the value of N_Empties only when this is the
@@ -368,32 +368,32 @@ package body PolyORB_HI.Thread_Interrogators is
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Read_In: Empty queue for port "
-                           & Thread_Port_Images (T)
-                           & ". Reading the last stored value."));
+                           + ": Read_In: Empty queue for port "
+                           + Thread_Port_Images (T)
+                           + ". Reading the last stored value."));
 
             P := Get_Most_Recent_Value (T);
          else
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Read_In: Reading the oldest element in the"
-                           & " queue of port  "
-                           & Thread_Port_Images (T)));
+                           + ": Read_In: Reading the oldest element in the"
+                           + " queue of port  "
+                           + Thread_Port_Images (T)));
 
             P := Global_Data_Queue (First + Offset - 1);
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Read_In: Global reading position: "
-                           & Integer'Image (First + Offset - 1)));
+                           + ": Read_In: Global reading position: "
+                           + Integer'Image (First + Offset - 1)));
          end if;
 
          pragma Debug (Put_Line
                        (Verbose,
                         CE
-                        & ": Read_In: Value read from port "
-                        & Thread_Port_Images (T)));
+                        + ": Read_In: Value read from port "
+                        + Thread_Port_Images (T)));
          return P;
       end Read_In;
 
@@ -409,8 +409,8 @@ package body PolyORB_HI.Thread_Interrogators is
          pragma Debug (Put_Line
                        (Verbose,
                         CE
-                        & ": Read_Out: Value read from port "
-                        & Thread_Port_Images (T)));
+                        + ": Read_Out: Value read from port "
+                        + Thread_Port_Images (T)));
 
          return Most_Recent_Values (T);
       end Read_Out;
@@ -433,8 +433,8 @@ package body PolyORB_HI.Thread_Interrogators is
          pragma Debug (Put_Line
                        (Verbose,
                         CE
-                        & ": Set_Invalid: Setting INVALID for sending: port "
-                        & Thread_Port_Images (T)));
+                        + ": Set_Invalid: Setting INVALID for sending: port "
+                        + Thread_Port_Images (T)));
 
          Value_Put (T) := False;
       end Set_Invalid;
@@ -490,10 +490,10 @@ package body PolyORB_HI.Thread_Interrogators is
                                 (Put_Line
                                  (Verbose,
                                   CE
-                                  & ": Store_In: FIFO is full."
-                                  & " Dropping oldest element."
-                                  & " Global storage position: "
-                                  & Integer'Image (First + Offset - 1)));
+                                  + ": Store_In: FIFO is full."
+                                  + " Dropping oldest element."
+                                  + " Global storage position: "
+                                  + Integer'Image (First + Offset - 1)));
 
                               Last := First;
 
@@ -540,10 +540,10 @@ package body PolyORB_HI.Thread_Interrogators is
                                 (Put_Line
                                  (Verbose,
                                   CE
-                                  & ": Store_In: FIFO is full."
-                                  & " Dropping newest element"
-                                  & " Global storage position: "
-                                  & Integer'Image (Last + Offset - 1)));
+                                  + ": Store_In: FIFO is full."
+                                  + " Dropping newest element"
+                                  + " Global storage position: "
+                                  + Integer'Image (Last + Offset - 1)));
 
                               --  Search the newest element in the history
 
@@ -568,7 +568,7 @@ package body PolyORB_HI.Thread_Interrogators is
                               end if;
                            when Error =>
                               raise Program_Error with
-                                CE & ": Store_In: FIFO is full";
+                                CE + ": Store_In: FIFO is full";
                         end case;
 
                         --  Remove event in the history and shift
@@ -578,9 +578,9 @@ package body PolyORB_HI.Thread_Interrogators is
                           (Put_Line
                            (Verbose,
                             CE
-                              & ": Store_In: FIFO is full."
-                              & " Removed element in history at"
-                              & Integer'Image (Frst)));
+                              + ": Store_In: FIFO is full."
+                              + " Removed element in history at"
+                              + Integer'Image (Frst)));
 
                         loop
                            exit when Frst = Global_Data_Queue_Size
@@ -622,8 +622,8 @@ package body PolyORB_HI.Thread_Interrogators is
                      pragma Debug (Put_Line
                                    (Verbose,
                                     CE
-                                      & ": Store_In: Global storage position: "
-                                      & Integer'Image (Last + Offset - 1)));
+                                      + ": Store_In: Global storage position: "
+                                      + Integer'Image (Last + Offset - 1)));
 
                   end if;
 
@@ -684,17 +684,17 @@ package body PolyORB_HI.Thread_Interrogators is
                         pragma Debug (Put_Line
                                       (Verbose,
                                        CE
-                                         & ": Store_In: Insert event"
-                                         & " in history at: "
-                                         & Integer'Image (1)));
+                                         + ": Store_In: Insert event"
+                                         + " in history at: "
+                                         + Integer'Image (1)));
                      else
                         GDH (Frst + 1) := PT;
                         pragma Debug (Put_Line
                                       (Verbose,
                                        CE
-                                         & ": Store_In: Insert event"
-                                         & " in history at: "
-                                         & Integer'Image (Frst + 1)));
+                                         + ": Store_In: Insert event"
+                                         + " in history at: "
+                                         + Integer'Image (Frst + 1)));
                      end if;
                   end;
 
@@ -707,9 +707,9 @@ package body PolyORB_HI.Thread_Interrogators is
                pragma Debug (Put_Line
                              (Verbose,
                               CE
-                                & ": Store_In: Enqueued Event [Data] message"
-                                & " for port "
-                                & Thread_Port_Images (PT)));
+                                + ": Store_In: Enqueued Event [Data] message"
+                                + " for port "
+                                + Thread_Port_Images (PT)));
 
                --  Update the barrier
 
@@ -724,16 +724,16 @@ package body PolyORB_HI.Thread_Interrogators is
             pragma Debug (Put_Line
                             (Verbose,
                              CE
-                             & ": Store_In: Storing Data message in DATA port "
-                             & Thread_Port_Images (PT)));
+                             + ": Store_In: Storing Data message in DATA port "
+                             + Thread_Port_Images (PT)));
 
             Set_Most_Recent_Value (PT, P, T);
 
             pragma Debug (Put_Line
                             (Verbose,
                              CE
-                             & ": Store_In: Stored Data message in DATA port "
-                             & Thread_Port_Images (PT)));
+                             + ": Store_In: Stored Data message in DATA port "
+                             + Thread_Port_Images (PT)));
 
          end if;
       end Store_In;
@@ -750,8 +750,8 @@ package body PolyORB_HI.Thread_Interrogators is
          pragma Debug (Put_Line
                        (Verbose,
                         CE
-                        & ": Store_Out: Storing value for sending: port "
-                        & Thread_Port_Images (PT)));
+                        + ": Store_Out: Storing value for sending: port "
+                        + Thread_Port_Images (PT)));
 
          --  Mark as valid for sending
 
@@ -760,8 +760,8 @@ package body PolyORB_HI.Thread_Interrogators is
          pragma Debug (Put_Line
                        (Verbose,
                         CE
-                        & ": Store_Out: Value stored for sending: port "
-                        & Thread_Port_Images (PT)));
+                        + ": Store_Out: Value stored for sending: port "
+                        + Thread_Port_Images (PT)));
 
          --  No need to go through the Set_ routine since we are
          --  sending, not receiving.
@@ -793,32 +793,32 @@ package body PolyORB_HI.Thread_Interrogators is
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Count: Not initialized port: "
-                           & Thread_Port_Images (T)));
+                           + ": Count: Not initialized port: "
+                           + Thread_Port_Images (T)));
 
             return -1;
          elsif Is_Empty then
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Count: Empty FIFO for port "
-                           & Thread_Port_Images (T)));
+                           + ": Count: Empty FIFO for port "
+                           + Thread_Port_Images (T)));
 
             return 0;
          elsif Fifo_Size = 0 then
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Count: No FIFO for port "
-                           & Thread_Port_Images (T)));
+                           + ": Count: No FIFO for port "
+                           + Thread_Port_Images (T)));
 
             return 0;
          else
             pragma Debug (Put_Line
                           (Verbose,
                            CE
-                           & ": Count: FIFO exists for port "
-                           & Thread_Port_Images (T)));
+                           + ": Count: FIFO exists for port "
+                           + Thread_Port_Images (T)));
 
             if Last >= First then
                --  First configuration
@@ -864,8 +864,8 @@ package body PolyORB_HI.Thread_Interrogators is
                  (Put_Line
                   (Verbose,
                    CE
-                     & ": Get_Most_Recent_Value: event [data] port "
-                     & Thread_Port_Images (P)));
+                     + ": Get_Most_Recent_Value: event [data] port "
+                     + Thread_Port_Images (P)));
 
                S := Most_Recent_Values (P);
             end if;
@@ -878,33 +878,33 @@ package body PolyORB_HI.Thread_Interrogators is
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: data port "
-                   & Thread_Port_Images (P)
-                   & ". Immediate connection"));
+                   + ": Get_Most_Recent_Value: data port "
+                   + Thread_Port_Images (P)
+                   + ". Immediate connection"));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: First  ="
-                   & Integer'Image (First)));
+                   + ": Get_Most_Recent_Value: First  ="
+                   + Integer'Image (First)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: Last  = "
-                   & Integer'Image (Last)));
+                   + ": Get_Most_Recent_Value: Last  = "
+                   + Integer'Image (Last)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: Offset = "
-                   & Integer'Image (Offset)));
+                   + ": Get_Most_Recent_Value: Offset = "
+                   + Integer'Image (Offset)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: Global_Data_Queue_Size = "
-                   & Integer'Image (Global_Data_Queue_Size)));
+                   + ": Get_Most_Recent_Value: Global_Data_Queue_Size = "
+                   + Integer'Image (Global_Data_Queue_Size)));
 
                S :=  Global_Data_Queue (First + Offset - 1);
 
@@ -912,10 +912,10 @@ package body PolyORB_HI.Thread_Interrogators is
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: Most recent value for"
-                   & " data port "
-                   & Thread_Port_Images (P)
-                   & " got. Immediate connection"));
+                   + ": Get_Most_Recent_Value: Most recent value for"
+                   + " data port "
+                   + Thread_Port_Images (P)
+                   + " got. Immediate connection"));
             else
                --  Delayed connection: The element indexed by First is
                --  the oldest element and the element indexed by Last
@@ -925,44 +925,44 @@ package body PolyORB_HI.Thread_Interrogators is
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: data port "
-                   & Thread_Port_Images (P)
-                   & ". Delayed connection"));
+                   + ": Get_Most_Recent_Value: data port "
+                   + Thread_Port_Images (P)
+                   + ". Delayed connection"));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: First  = "
-                   & Integer'Image (First)));
+                   + ": Get_Most_Recent_Value: First  = "
+                   + Integer'Image (First)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: Last  = "
-                   & Integer'Image (Last)));
+                   + ": Get_Most_Recent_Value: Last  = "
+                   + Integer'Image (Last)));
                pragma Debug
                  (Put_Line
                   (Verbose,
-                   " Offset = " & Integer'Image (Offset)));
+                   " Offset = " + Integer'Image (Offset)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: Global_Data_Queue_Size = "
-                   & Integer'Image (Global_Data_Queue_Size)));
+                   + ": Get_Most_Recent_Value: Global_Data_Queue_Size = "
+                   + Integer'Image (Global_Data_Queue_Size)));
 
                if Time_Stamps (P) <= T then
                   pragma Debug
                     (Put_Line
                      (Verbose,
-                      CE & ": Get_Most_Recent_Value: Getting NEW value"));
+                      CE + ": Get_Most_Recent_Value: Getting NEW value"));
 
                   S := Global_Data_Queue (Last + Offset - 1);
                else
                   pragma Debug
                     (Put_Line
                      (Verbose,
-                      CE & ": Get_Most_Recent_Value: Getting OLD value"));
+                      CE + ": Get_Most_Recent_Value: Getting OLD value"));
 
                   S := Global_Data_Queue (First + Offset - 1);
                end if;
@@ -971,10 +971,10 @@ package body PolyORB_HI.Thread_Interrogators is
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Get_Most_Recent_Value: Most recent value"
-                   & " for data port "
-                   & Thread_Port_Images (P)
-                   & " got. Delayed connection"));
+                   + ": Get_Most_Recent_Value: Most recent value"
+                   + " for data port "
+                   + Thread_Port_Images (P)
+                   + " got. Delayed connection"));
             end if;
          end if;
 
@@ -1001,17 +1001,17 @@ package body PolyORB_HI.Thread_Interrogators is
                pragma Debug (Put_Line
                              (Verbose,
                               CE
-                                & ": Set_Most_Recent_Value: event [data] port "
-                                & Thread_Port_Images (P)));
+                                + ": Set_Most_Recent_Value: event [data] port "
+                                + Thread_Port_Images (P)));
 
                Most_Recent_Values (P) := S;
 
                pragma Debug (Put_Line
                              (Verbose,
                               CE
-                                & ": Set_Most_Recent_Value: event [data] port "
-                                & Thread_Port_Images (P)
-                                & ". Done."));
+                                + ": Set_Most_Recent_Value: event [data] port "
+                                + Thread_Port_Images (P)
+                                + ". Done."));
             end if;
          end if;
          if not Is_Event (P_Kind) then
@@ -1024,33 +1024,33 @@ package body PolyORB_HI.Thread_Interrogators is
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: data port "
-                   & Thread_Port_Images (P)
-                   & ". Immediate connection"));
+                   + ": Set_Most_Recent_Value: data port "
+                   + Thread_Port_Images (P)
+                   + ". Immediate connection"));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: First  ="
-                   & Integer'Image (First)));
+                   + ": Set_Most_Recent_Value: First  ="
+                   + Integer'Image (First)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: Last  = "
-                   & Integer'Image (Last)));
+                   + ": Set_Most_Recent_Value: Last  = "
+                   + Integer'Image (Last)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: Offset = "
-                   & Integer'Image (Offset)));
+                   + ": Set_Most_Recent_Value: Offset = "
+                   + Integer'Image (Offset)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: Global_Data_Queue_Size = "
-                   & Integer'Image (Global_Data_Queue_Size)));
+                   + ": Set_Most_Recent_Value: Global_Data_Queue_Size = "
+                   + Integer'Image (Global_Data_Queue_Size)));
 
                Global_Data_Queue (First + Offset - 1) := S;
 
@@ -1058,10 +1058,10 @@ package body PolyORB_HI.Thread_Interrogators is
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: Most recent value"
-                   & " for data port "
-                   & Thread_Port_Images (P)
-                   & " set. Immediate connection"));
+                   + ": Set_Most_Recent_Value: Most recent value"
+                   + " for data port "
+                   + Thread_Port_Images (P)
+                   + " set. Immediate connection"));
             else
                --  Delayed connection: The element indexed by First must be
                --  the oldest element and the element indexed by Last
@@ -1071,31 +1071,31 @@ package body PolyORB_HI.Thread_Interrogators is
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: data port "
-                   & Thread_Port_Images (P)
-                   & ". Delayed connection"));
+                   + ": Set_Most_Recent_Value: data port "
+                   + Thread_Port_Images (P)
+                   + ". Delayed connection"));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: First  = "
-                   & Integer'Image (First)));
+                   + ": Set_Most_Recent_Value: First  = "
+                   + Integer'Image (First)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: Last  = "
-                   & Integer'Image (Last)));
+                   + ": Set_Most_Recent_Value: Last  = "
+                   + Integer'Image (Last)));
                pragma Debug
                  (Put_Line
                   (Verbose,
-                   " Offset = " & Integer'Image (Offset)));
+                   " Offset = " + Integer'Image (Offset)));
                pragma Debug
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: Global_Data_Queue_Size = "
-                   & Integer'Image (Global_Data_Queue_Size)));
+                   + ": Set_Most_Recent_Value: Global_Data_Queue_Size = "
+                   + Integer'Image (Global_Data_Queue_Size)));
 
                Global_Data_Queue (First + Offset - 1) :=
                  Global_Data_Queue (Last + Offset - 1);
@@ -1105,10 +1105,10 @@ package body PolyORB_HI.Thread_Interrogators is
                  (Put_Line
                   (Verbose,
                    CE
-                   & ": Set_Most_Recent_Value: Most recent value"
-                   & " for data port "
-                   & Thread_Port_Images (P)
-                   & " set. Delayed connection"));
+                   + ": Set_Most_Recent_Value: Most recent value"
+                   + " for data port "
+                   + Thread_Port_Images (P)
+                   + " set. Delayed connection"));
             end if;
          end if;
       end Set_Most_Recent_Value;
@@ -1122,8 +1122,8 @@ package body PolyORB_HI.Thread_Interrogators is
          pragma Debug (Put_Line
                        (Verbose,
                         CE
-                        & ": Get_Time_Stamp: port "
-                        & Thread_Port_Images (P)));
+                        + ": Get_Time_Stamp: port "
+                        + Thread_Port_Images (P)));
 
          return Time_Stamps (P);
       end Get_Time_Stamp;
@@ -1156,16 +1156,16 @@ package body PolyORB_HI.Thread_Interrogators is
    begin
       pragma Debug (Put_Line (Verbose,
                               CE
-                              & ": Send_Output: port "
-                              & Thread_Port_Images (Port)));
+                              + ": Send_Output: port "
+                              + Thread_Port_Images (Port)));
 
       --  If no valid value is to be sent, quit
 
       if Global_Queue.Is_Invalid (Port) then
          pragma Debug (Put_Line (Verbose,
                                  CE
-                                 & ": Send_Output: Invalid value in port "
-                                 & Thread_Port_Images (Port)));
+                                 + ": Send_Output: Invalid value in port "
+                                 + Thread_Port_Images (Port)));
          null;
       else
          --  Mark the port value as invalid to impede future sendings
@@ -1196,10 +1196,10 @@ package body PolyORB_HI.Thread_Interrogators is
               (Put_Line
                (Verbose,
                 CE
-                & ": Send_Output: to port "
-                & PolyORB_HI_Generated.Deployment.Port_Image (Dst (To))
-                & " of "
-                & Entity_Image (Port_Table (Dst (To)))));
+                + ": Send_Output: to port "
+                + PolyORB_HI_Generated.Deployment.Port_Image (Dst (To))
+                + " of "
+                + Entity_Image (Port_Table (Dst (To)))));
 
             Error := Protocols.Send (Current_Entity,
                                      Port_Table (Dst (To)),
@@ -1214,9 +1214,9 @@ package body PolyORB_HI.Thread_Interrogators is
 
          pragma Debug (Put_Line (Verbose,
                                  CE
-                                 & ": Send_Output: port "
-                                 & Thread_Port_Images (Port)
-                                 & ". End."));
+                                 + ": Send_Output: port "
+                                 + Thread_Port_Images (Port)
+                                 + ". End."));
       end if;
 
       return Error;
@@ -1228,7 +1228,7 @@ package body PolyORB_HI.Thread_Interrogators is
 
    procedure Put_Value (Thread_Interface : Thread_Interface_Type) is
    begin
-      pragma Debug (Put_Line (Verbose, CE & ": Put_Value"));
+      pragma Debug (Put_Line (Verbose, CE + ": Put_Value"));
 
       Global_Queue.Store_Out
         ((Current_Entity, Interface_To_Stream (Thread_Interface)),
@@ -1242,7 +1242,7 @@ package body PolyORB_HI.Thread_Interrogators is
    procedure Receive_Input (Port : Port_Type) is
       pragma Unreferenced (Port);
    begin
-      raise Program_Error with CE & ": Receive_Input: Not implemented yet";
+      raise Program_Error with CE + ": Receive_Input: Not implemented yet";
    end Receive_Input;
 
    ---------------
@@ -1256,9 +1256,9 @@ package body PolyORB_HI.Thread_Interrogators is
       pragma Debug (Put_Line
                     (Verbose,
                      CE
-                     & ": Get_Value: Value of port "
-                     & Thread_Port_Images (Port)
-                     & " got"));
+                     + ": Get_Value: Value of port "
+                     + Thread_Port_Images (Port)
+                     + " got"));
       return T_Port;
    end Get_Value;
 
@@ -1272,10 +1272,10 @@ package body PolyORB_HI.Thread_Interrogators is
       pragma Debug (Put_Line
                     (Verbose,
                      CE
-                     & ": Get_Sender: Value of sender to port "
-                     & Thread_Port_Images (Port)
-                     & " = "
-                     & Entity_Image (Sender)));
+                     + ": Get_Sender: Value of sender to port "
+                     + Thread_Port_Images (Port)
+                     + " = "
+                     + Entity_Image (Sender)));
       return Sender;
    end Get_Sender;
 
@@ -1288,10 +1288,10 @@ package body PolyORB_HI.Thread_Interrogators is
    begin
       pragma Debug (Put_Line (Verbose,
                               CE
-                              & ": Get_Count: port "
-                              & Thread_Port_Images (Port)
-                              & " ="
-                              & Integer'Image (Count)));
+                              + ": Get_Count: port "
+                              + Thread_Port_Images (Port)
+                              + " ="
+                              + Integer'Image (Count)));
 
       return Count;
    end Get_Count;
@@ -1305,8 +1305,8 @@ package body PolyORB_HI.Thread_Interrogators is
    begin
       pragma Debug (Put_Line (Verbose,
                               CE
-                              & ": Next_Value for port "
-                              & Thread_Port_Images (Port)));
+                              + ": Next_Value for port "
+                              + Thread_Port_Images (Port)));
 
       Global_Queue.Dequeue (Port, P);
    end Next_Value;
@@ -1317,16 +1317,16 @@ package body PolyORB_HI.Thread_Interrogators is
 
    procedure Wait_For_Incoming_Events (Port : out Port_Type) is
    begin
-      pragma Debug (Put_Line (Verbose, CE & ": Wait_For_Incoming_Events"));
+      pragma Debug (Put_Line (Verbose, CE + ": Wait_For_Incoming_Events"));
 
       Global_Queue.Wait_Event (Port);
 
       pragma Debug (Put_Line
                     (Verbose,
                      CE
-                     & ": Wait_For_Incoming_Events: reception of"
-                     & " event [Data] message on port "
-                     & Thread_Port_Images (Port)));
+                     + ": Wait_For_Incoming_Events: reception of"
+                     + " event [Data] message on port "
+                     + Thread_Port_Images (Port)));
    end Wait_For_Incoming_Events;
 
    --------------------
@@ -1341,15 +1341,15 @@ package body PolyORB_HI.Thread_Interrogators is
          pragma Debug (Put_Line
                        (Verbose,
                         CE
-                        & ": Get_Next_Event: read event [data] message"
-                        & " for port "
-                        & Thread_Port_Images (Port)));
+                        + ": Get_Next_Event: read event [data] message"
+                        + " for port "
+                        + Thread_Port_Images (Port)));
          null;
       else
          pragma Debug (Put_Line
                        (Verbose,
                         CE
-                        & ": Get_Next_Event: Nothing to read."));
+                        + ": Get_Next_Event: Nothing to read."));
          null;
       end if;
    end Get_Next_Event;
@@ -1364,7 +1364,7 @@ package body PolyORB_HI.Thread_Interrogators is
       Time_Stamp       : Ada.Real_Time.Time    := Ada.Real_Time.Clock)
    is
    begin
-      pragma Debug (Put_Line (Verbose, CE & ": Store_Received_Message"));
+      pragma Debug (Put_Line (Verbose, CE + ": Store_Received_Message"));
 
       Global_Queue.Store_In
         ((From, Interface_To_Stream (Thread_Interface)), Time_Stamp);
@@ -1394,8 +1394,8 @@ package body PolyORB_HI.Thread_Interrogators is
       pragma Debug (Put_Line
                     (Verbose,
                      CE
-                     & ": H_Increment_First: F ="
-                     & Integer'Image (F)));
+                     + ": H_Increment_First: F ="
+                     + Integer'Image (F)));
    end H_Increment_First;
 
    ----------------------
@@ -1413,8 +1413,8 @@ package body PolyORB_HI.Thread_Interrogators is
       pragma Debug (Put_Line
                     (Verbose,
                      CE
-                     & ": H_Increment_Last: L ="
-                     & Integer'Image (L)));
+                     + ": H_Increment_Last: L ="
+                     + Integer'Image (L)));
    end H_Increment_Last;
 
    --------

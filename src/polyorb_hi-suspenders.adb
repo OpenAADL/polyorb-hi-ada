@@ -72,15 +72,15 @@ package body PolyORB_HI.Suspenders is
          pragma Debug
            (Put_Line
             (Verbose, "Unblocking task "
-             & PolyORB_HI_Generated.Deployment.Entity_Image (J)));
+               + PolyORB_HI_Generated.Deployment.Entity_Image (J)));
 
          Set_True (Task_Suspension_Objects (J));
 
          pragma Debug
            (Put_Line
             (Verbose, "Task "
-             & PolyORB_HI_Generated.Deployment.Entity_Image (J)
-             & " unblocked"));
+             + PolyORB_HI_Generated.Deployment.Entity_Image (J)
+             + " unblocked"));
       end loop;
    end Unblock_All_Tasks;
 

@@ -39,12 +39,23 @@ with System;
 package body PolyORB_HI.Output is
    use Ada.Real_Time;
 
+   procedure Unprotected_Put_Line (Text : in String);
+   --  Not thread-safe Put_Line function
+
+   procedure Unprotected_Put (Text : in String);
+   --  Not thread-safe Put function
+
+   ----------
+   -- Lock --
+   ----------
+
    protected Lock is
+      --  This lock has been defined to guarantee thread-safe output
+      --  display
+
       procedure Put (Text : in String);
-      --  To guarantee thread-safe output display
 
       procedure Put_Line (Text : in String);
-      --  To guarantee thread-safe output display
 
    private
       pragma Priority (System.Priority'Last);
@@ -179,5 +190,18 @@ package body PolyORB_HI.Output is
 
       Put_Line (Mode,  Output);
    end Dump;
+
+   ---------
+   -- "+" --
+   ---------
+
+   function "+" (S1 : String; S2 : String) return String is
+      S : String (1 .. S1'Length + S2'Length);
+   begin
+      S (1 .. S1'Length) := S1 (S1'First .. S1'Last);
+      S (S1'Length + 1 .. S'Last) := S2 (S2'First .. S2'Last);
+
+      return S;
+   end "+";
 
 end PolyORB_HI.Output;
