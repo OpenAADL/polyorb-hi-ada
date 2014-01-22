@@ -104,7 +104,7 @@ package body PolyORB_HI.Hybrid_Task_Driver is
                        (Put_Line
                         (Verbose,
                          "Hybrid thread driver: Triggering task: "
-                         & Entity_Image (T.The_Task)));
+                         + Entity_Image (T.The_Task)));
 
                      Trigger (T);
                   end if;
@@ -144,7 +144,7 @@ package body PolyORB_HI.Hybrid_Task_Driver is
                        (Put_Line
                         (Verbose,
                          "Hybrid thread driver: Eligible task: "
-                         & Entity_Image (T.The_Task)));
+                         + Entity_Image (T.The_Task)));
 
                      T.Eligible := True;
                   end if;

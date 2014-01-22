@@ -51,7 +51,7 @@ package body Ping is
    begin
       Order := not Order;
       Data_Source := Order;
-      Put_Line (Normal, "Sending ORDER: " & Opaque_Type'Image (Order));
+      Put_Line (Normal, "Sending ORDER: " + Opaque_Type'Image (Order));
    end Do_Ping_Spg;
 
    --------------------
@@ -63,14 +63,14 @@ package body Ping is
       Data_Source : out Simple_type)
    is
    begin
-      Put_Line (Normal, "ORDER: " & Opaque_Type'Image (Data_Sink));
+      Put_Line (Normal, "ORDER: " + Opaque_Type'Image (Data_Sink));
 
       if Data_Sink then
          Var := Var + 1;
-         Put_Line (Normal, "Sending (+1) PING" & Simple_Type'Image (Var));
+         Put_Line (Normal, "Sending (+1) PING" + Simple_Type'Image (Var));
       else
          Var := Var + 5;
-         Put_Line (Normal, "Sending (+5) PING" & Simple_Type'Image (Var));
+         Put_Line (Normal, "Sending (+5) PING" + Simple_Type'Image (Var));
       end if;
 
       Data_Source := Var;

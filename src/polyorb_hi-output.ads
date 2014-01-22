@@ -63,25 +63,20 @@ package PolyORB_HI.Output is
    procedure Put_Line (Text : in String);
    --  As above but always displays the message
 
-   procedure Unprotected_Put_Line (Text : in String);
-   --  As above but this routine is not thread-safe
-
    procedure Put (Mode : in Verbosity := Normal; Text : in String);
    --  Display Text iff Mode is greater than Current_Mode. This
    --  routine is thread-safe.
 
    procedure Put (Text : in String);
-   --  As above but displays the message reguards less the mode
-
-   procedure Unprotected_Put (Text : in String);
-   --  As above but this routine is not thread-safe
+   --  As above but always displays the message
 
    procedure Dump (Stream : Stream_Element_Array; Mode : Verbosity := Verbose);
    --  Dump the content of Stream in an hexadecimal format
 
+   function "+" (S1 : String; S2 : String) return String;
+
 private
 
    pragma Inline (Put_Line);
-   pragma Inline (Unprotected_Put_Line);
 
 end PolyORB_HI.Output;

@@ -65,8 +65,8 @@ package body PolyORB_HI.Hybrid_Task is
         (Put_Line
          (Verbose,
           "Hybrid Task "
-          & Entity_Image (Entity)
-          & ": Wait initialization"));
+          + Entity_Image (Entity)
+          + ": Wait initialization"));
 
       Suspend_Until_True (Task_Suspension_Objects (Entity));
       delay until System_Startup_Time;
@@ -74,7 +74,7 @@ package body PolyORB_HI.Hybrid_Task is
       pragma Debug (Put_Line
                     (Verbose,
                      "Hybrid task initialized for entity "
-                     & Entity_Image (Entity)));
+                     + Entity_Image (Entity)));
 
       --  Run the initialize entrypoint (if any)
 
@@ -87,8 +87,8 @@ package body PolyORB_HI.Hybrid_Task is
            (Put_Line
             (Verbose,
              "Hybrid Task "
-             & Entity_Image (Entity)
-             & ": New Dispatch"));
+             + Entity_Image (Entity)
+             + ": New Dispatch"));
 
          --  Block until an event is received
 
@@ -98,8 +98,8 @@ package body PolyORB_HI.Hybrid_Task is
            (Put_Line
             (Verbose,
              "Hybrid Task "
-             & Entity_Image (Entity)
-             & ": received event"));
+             + Entity_Image (Entity)
+             + ": received event"));
 
          --  Calculate the next deadline according to the minimal
          --  inter-arrival time.
