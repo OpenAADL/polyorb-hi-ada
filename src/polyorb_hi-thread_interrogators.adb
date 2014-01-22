@@ -76,17 +76,25 @@ package body PolyORB_HI.Thread_Interrogators is
    --  Shortcut to Entity_Image (Current_Entity)
 
    type Port_Stream_Array is array (Port_Type) of Port_Stream_Entry;
-   type Big_Port_Stream_Array is array
-     (Integer range 0 .. Global_Data_Queue_Size) of Port_Stream_Entry;
-   type Big_Port_Type_Array is array
-     (Integer range 0 .. Global_Data_Queue_Size) of Port_Type;
+
+   subtype Big_Port_Index_Type is Integer range 0 .. Global_Data_Queue_Size;
+
+   Default_Index_Value : constant Big_Port_Index_Type
+     := Big_Port_Index_Type'Min (1, Global_Data_Queue_Size);
+
+   type Big_Port_Stream_Array is
+     array (Big_Port_Index_Type) of Port_Stream_Entry;
+   type Big_Port_Type_Array is array (Big_Port_Index_Type) of Port_Type;
    --  FIXME: We begin by 0 although the 0 position is unused. We do
    --  this to avoid compile time warning. After this package is
    --  deeply tested, begin by 1 and disable Index_Check and
    --  Range_Check for the Big_Port_Stream_Array type.
 
-   procedure H_Increment_First (F : in out Integer);
-   procedure H_Increment_Last  (L : in out Integer);
+   type Port_Index_Array is array (Port_Type) of Big_Port_Index_Type;
+   --  An array type to specify the port FIFO sizes and urgencies.
+
+   procedure H_Increment_First (F : in out Big_Port_Index_Type);
+   procedure H_Increment_Last  (L : in out Big_Port_Index_Type);
    pragma Inline (H_Increment_First);
    pragma Inline (H_Increment_Last);
    --  Cyclic incrementation and decrementation of F or L within the
@@ -95,25 +103,21 @@ package body PolyORB_HI.Thread_Interrogators is
    type Boolean_Array is array (Port_Type) of Boolean;
    type Time_Array is array (Port_Type) of Time;
 
-   --  The protected object below handles all the received events or
-   --  data on IN ports.
-   --
-   --  Finally, the protected object contains a second array to store
-   --  the number of received values for each IN EVENT [DATA] (0 .. n)
-   --  and IN DATA (0 .. 1) port.
+   -----------------------
+   -- Unprotected_Queue --
+   -----------------------
 
-   protected Global_Queue is
-      pragma Priority (System.Priority'Last);
+   package Unprotected_Queue is
 
-      entry Wait_Event (P : out Port_Type);
-      --  Blocks until the thread receives a new event. Return the
-      --  corresponding Port that received the event.
-
-      procedure Read_Event (P : out Port_Type; Valid : out Boolean);
+      procedure Read_Event
+        (P : out Port_Type;
+         Valid : out Boolean;
+         Not_Empty : Boolean);
       --  Same as 'Wait_Event' but without blocking. Valid is set to
       --  False if there is nothing to receive.
 
-      procedure Dequeue (T : Port_Type; P : out Port_Stream_Entry);
+      procedure Dequeue
+        (T : Port_Type; P : out Port_Stream_Entry; Not_Empty : out Boolean);
       --  Dequeue a value from the partial FIFO of port T. If there is
       --  no enqueued value, return the latest dequeued value.
 
@@ -137,7 +141,8 @@ package body PolyORB_HI.Thread_Interrogators is
       --  function and functions cannot modify protected object
       --  states.
 
-      procedure Store_In (P : Port_Stream_Entry; T : Time);
+      procedure Store_In
+        (P : Port_Stream_Entry; T : Time; Not_Empty : out Boolean);
       --  Stores a new incoming message in its corresponding
       --  position. If this is an event [data] incoming message, then
       --  stores it in the queue, updates its most recent value and
@@ -157,46 +162,8 @@ package body PolyORB_HI.Thread_Interrogators is
       function Get_Time_Stamp (P : Port_Type) return Time;
       --  Return the time stamp associated to port T
 
-   private
-      Global_Data_Queue : Big_Port_Stream_Array;
-      --  The structure of the buffer is as follows:
+      --  The following are accessors to some internal data of the event queue
 
-      --  ----------------------------------------------------------------
-      --  |   Q1   |     Q2      |       Q3        |  ... |      Qn      |
-      --  ----------------------------------------------------------------
-      --  O1       O2            O3                O4 ... On
-
-      --  'On' is the offset associated to IN [event] [data] port n,
-      --  given from the generic formal, Thread_Fifo_Offsets. This
-      --  guarantees an O(1) access and storage time of a given
-      --  element in the global queue. Intrinsically, the global table
-      --  is a concatenation of circular arrays each one corresponding
-      --  to an port queue.
-
-      Firsts : Integer_Array := (Port_Type'Range => 1);
-      Lasts  : Integer_Array := (Port_Type'Range => 0);
-      --  Used for IN [event] [data] ports to navigate in the global
-      --  queue. For IN DATA ports, in case of immediate connection
-      --  only the 'Lasts' value is relevant and it is 0 or 1, in case
-      --  of a delayed connection both values are relevant.
-
-      Empties : Boolean_Array := (Port_Type'Range => True);
-      --  Indicates whether each port-FIFO is empty or not
-
-      Global_Data_History : Big_Port_Type_Array;
-      GH_First            : Integer := 1;
-      GH_Last             : Integer := 0;
-      --  This contains, in an increasing chronological order the IN
-      --  EVENT ports that have a pending event. Example (P_1, P_3,
-      --  P_1, P_2, P_3) means that the oldest pending message is
-      --  received on P_1 then on P_3, then on P_1 again and so on...
-
-      --  FIXME: Add N_Ports to the array size to handle the case the
-      --  thread has an IN event [data] port with a FIFO size equal to
-      --  zero which is not supported yet.
-
-      Most_Recent_Values : Port_Stream_Array;
-      Time_Stamps        : Time_Array;
       function Get_Most_Recent_Value (P : Port_Type) return Port_Stream_Entry;
       procedure Set_Most_Recent_Value
         (P : Port_Type;
@@ -210,6 +177,47 @@ package body PolyORB_HI.Thread_Interrogators is
       --  to store most recent values because there is no delayed
       --  connections for event data ports.
 
+   private
+      Global_Data_Queue : Big_Port_Stream_Array;
+      --  The structure of the buffer is as follows:
+
+      --  ----------------------------------------------------------------
+      --  |   Q1   |     Q2      |       Q3        |  ... |      Qn      |
+      --  ----------------------------------------------------------------
+      --  O1       O2            O3                O4 ... On
+
+      --  'On' is the offset associated to IN [event] [data] port n,
+      --  given from the generic formal, Thread_FIFO_Offsets. This
+      --  guarantees an O(1) access and storage time of a given
+      --  element in the global queue. Intrinsically, the global table
+      --  is a concatenation of circular arrays each one corresponding
+      --  to a port queue.
+
+      Firsts : Port_Index_Array := (Port_Type'Range => Default_Index_Value);
+      Lasts  : Port_Index_Array := (Port_Type'Range => 0);
+      --  Used for IN [event] [data] ports to navigate in the global
+      --  queue. For IN DATA ports, in case of immediate connection
+      --  only the 'Lasts' value is relevant and it is 0 or 1, in case
+      --  of a delayed connection both values are relevant.
+
+      Empties : Boolean_Array := (Port_Type'Range => True);
+      --  Indicates whether each port-FIFO is empty or not
+
+      Global_Data_History : Big_Port_Type_Array;
+      GH_First            : Big_Port_Index_Type := Default_Index_Value;
+      GH_Last             : Big_Port_Index_Type := 0;
+      --  This contains, in an increasing chronological order the IN
+      --  EVENT ports that have a pending event. Example (P_1, P_3,
+      --  P_1, P_2, P_3) means that the oldest pending message is
+      --  received on P_1 then on P_3, then on P_1 again and so on...
+
+      --  FIXME: Add N_Ports to the array size to handle the case the
+      --  thread has an IN event [data] port with a FIFO size equal to
+      --  zero which is not supported yet.
+
+      Most_Recent_Values : Port_Stream_Array;
+      Time_Stamps        : Time_Array;
+
       Initialized : Boolean_Array := (Port_Type'Range => False);
       --  To indicate whether the port ever received a data (or an
       --  event).
@@ -218,41 +226,23 @@ package body PolyORB_HI.Thread_Interrogators is
       --  To indicate whether the OUT port values have been set in
       --  order to be sent.
 
-      Not_Empty : Boolean := False;
-      --  The protected object barrier. True when there is at least
-      --  one pending event [data].
-
       N_Empties : Integer := N_Ports;
       --  Number of empty partial queues. At the beginning, all the
       --  queues are empty.
-   end Global_Queue;
 
-   ------------------
-   -- Global_Queue --
-   ------------------
+   end Unprotected_Queue;
 
-   protected body Global_Queue is
-
-      ----------------
-      -- Wait_Event --
-      ----------------
-
-      entry Wait_Event (P : out Port_Type) when Not_Empty is
-      begin
-         P := Global_Data_History (GH_First);
-
-         pragma Debug (Put_Line
-                       (Verbose,
-                        CE
-                        + ": Wait_Event: oldest unread event port = "
-                        + Thread_Port_Images (P)));
-      end Wait_Event;
+   package body Unprotected_Queue is
 
       ----------------
       -- Read_Event --
       ----------------
 
-      procedure Read_Event (P : out Port_Type; Valid : out Boolean) is
+      procedure Read_Event
+        (P : out Port_Type;
+         Valid : out Boolean;
+         Not_Empty : Boolean)
+      is
       begin
          Valid := Not_Empty;
 
@@ -271,13 +261,17 @@ package body PolyORB_HI.Thread_Interrogators is
       -- Dequeue --
       -------------
 
-      procedure Dequeue (T : Port_Type; P : out Port_Stream_Entry) is
+      procedure Dequeue
+        (T : Port_Type;
+         P : out Port_Stream_Entry;
+         Not_Empty : out Boolean)
+      is
          Is_Empty  : Boolean renames Empties (T);
-         First     : Integer renames Firsts (T);
-         Last      : Integer renames Lasts (T);
-         Fifo_Size : Integer renames Thread_Fifo_Sizes (T);
+         First     : Big_Port_Index_Type renames Firsts (T);
+         Last      : Big_Port_Index_Type renames Lasts (T);
+         FIFO_Size : Integer renames Thread_FIFO_Sizes (T);
          P_Kind    : Port_Kind renames Thread_Port_Kinds (T);
-         Offset    : Integer renames Thread_Fifo_Offsets (T);
+         Offset    : Integer renames Thread_FIFO_Offsets (T);
       begin
          --  This subprogram is called only when the thread has IN
          --  ports.
@@ -296,7 +290,7 @@ package body PolyORB_HI.Thread_Interrogators is
 
             P := Get_Most_Recent_Value (T);
 
-         elsif Fifo_Size = 0 then
+         elsif FIFO_Size = 0 then
             --  If the FIFO is empty or non-existent, return the
             --  latest received value during the previous dispatches.
 
@@ -328,9 +322,10 @@ package body PolyORB_HI.Thread_Interrogators is
 
             P := Global_Data_Queue (First + Offset - 1);
 
-            if First = Fifo_Size then
-               First := 1;
-            elsif Fifo_Size > 1 then
+            if First = FIFO_Size then
+               First := Default_Index_Value;
+            elsif Global_Data_Queue_Size > 0
+              and then FIFO_Size > 1 then
                First := First + 1;
             end if;
 
@@ -352,8 +347,8 @@ package body PolyORB_HI.Thread_Interrogators is
          P         : Port_Stream_Entry;
          Is_Empty  : Boolean renames Empties (T);
          First     : Integer renames Firsts (T);
-         Fifo_Size : Integer renames Thread_Fifo_Sizes (T);
-         Offset    : Integer renames Thread_Fifo_Offsets (T);
+         FIFO_Size : Integer renames Thread_FIFO_Sizes (T);
+         Offset    : Integer renames Thread_FIFO_Offsets (T);
          P_Kind    : Port_Kind renames Thread_Port_Kinds (T);
       begin
          --  This subprogram is called only when the thread has IN
@@ -361,7 +356,7 @@ package body PolyORB_HI.Thread_Interrogators is
 
          pragma Assert (Is_In (P_Kind));
 
-         if Is_Empty or else Fifo_Size = 0 then
+         if Is_Empty or else FIFO_Size = 0 then
             --  If the FIFO is empty or non-existent return the
             --  latest received value during the previous dispatches.
 
@@ -443,7 +438,7 @@ package body PolyORB_HI.Thread_Interrogators is
       -- Store_In --
       --------------
 
-      procedure Store_In (P : Port_Stream_Entry; T : Time) is
+      procedure Store_In (P : Port_Stream_Entry; T : Time; Not_Empty : out Boolean) is
          Thread_Interface : constant Thread_Interface_Type
            := Stream_To_Interface (P.Payload);
          PT                : Port_Type renames Thread_Interface.Port;
@@ -451,8 +446,8 @@ package body PolyORB_HI.Thread_Interrogators is
          First             : Integer   renames Firsts (PT);
          Last              : Integer   renames Lasts (PT);
          P_Kind            : Port_Kind renames Thread_Port_Kinds (PT);
-         Fifo_Size         : Integer   renames Thread_Fifo_Sizes (PT);
-         Offset            : Integer   renames Thread_Fifo_Offsets (PT);
+         FIFO_Size         : Integer   renames Thread_FIFO_Sizes (PT);
+         Offset            : Integer   renames Thread_FIFO_Offsets (PT);
          Urgency           : Integer   renames Urgencies (PT);
          Overflow_Protocol : Overflow_Handling_Protocol
            renames Thread_Overflow_Protocols (PT);
@@ -472,10 +467,10 @@ package body PolyORB_HI.Thread_Interrogators is
                --  If the FIFO is full apply the overflow-policy
                --  indicated by the user.
 
-               if Fifo_Size > 0 then
+               if FIFO_Size > 0 then
                   if not Is_Empty
                     and then (Last = First - 1
-                                or else (First = 1 and then Last = Fifo_Size))
+                                or else (First = 1 and then Last = FIFO_Size))
                   then
                      declare
                         Frst : Integer;
@@ -497,9 +492,11 @@ package body PolyORB_HI.Thread_Interrogators is
 
                               Last := First;
 
-                              if First = Fifo_Size then
-                                 First := 1;
-                              elsif Fifo_Size > 1 then
+                              if First = FIFO_Size then
+                                 First := Default_Index_Value;
+                              elsif Global_Data_Queue_Size > 0
+                                and then FIFO_Size > 1
+                              then
                                  First := First + 1;
                               end if;
 
@@ -612,9 +609,9 @@ package body PolyORB_HI.Thread_Interrogators is
 
                      Is_Empty := False;
 
-                     if Last = Fifo_Size then
-                        Last := 1;
-                     else
+                     if Last = FIFO_Size then
+                        Last := Default_Index_Value;
+                     elsif Global_Data_Queue_Size  > 0 then
                         Last := Last + 1;
                      end if;
 
@@ -782,7 +779,7 @@ package body PolyORB_HI.Thread_Interrogators is
          First     : Integer renames Firsts (T);
          Last      : Integer renames Lasts (T);
          P_Kind    : Port_Kind renames Thread_Port_Kinds (T);
-         Fifo_Size : Integer renames Thread_Fifo_Sizes (T);
+         FIFO_Size : Integer renames Thread_FIFO_Sizes (T);
       begin
          --  This subprogram is called only when the thread has IN
          --  ports.
@@ -805,7 +802,7 @@ package body PolyORB_HI.Thread_Interrogators is
                            + Thread_Port_Images (T)));
 
             return 0;
-         elsif Fifo_Size = 0 then
+         elsif FIFO_Size = 0 then
             pragma Debug (Put_Line
                           (Verbose,
                            CE
@@ -828,7 +825,7 @@ package body PolyORB_HI.Thread_Interrogators is
                --  -------------------------------------------------------
                --            First                       Last
 
-               return Last - First + 1;
+               return (Last - First) + 1;
             else
                --  Second configuration
 
@@ -837,7 +834,7 @@ package body PolyORB_HI.Thread_Interrogators is
                --  -------------------------------------------------------
                --            Last                        First
 
-               return Fifo_Size - First + Last + 1;
+               return FIFO_Size - First + Last + 1;
             end if;
          end if;
       end Count;
@@ -853,8 +850,8 @@ package body PolyORB_HI.Thread_Interrogators is
          First     : Integer renames Firsts (P);
          Last      : Integer renames Lasts (P);
          P_Kind    : Port_Kind renames Thread_Port_Kinds (P);
-         Fifo_Size : Integer renames Thread_Fifo_Sizes (P);
-         Offset    : Integer renames Thread_Fifo_Offsets (P);
+         FIFO_Size : Integer renames Thread_FIFO_Sizes (P);
+         Offset    : Integer renames Thread_FIFO_Offsets (P);
          T         : constant Time := Clock;
          S         : Port_Stream_Entry;
       begin
@@ -871,7 +868,7 @@ package body PolyORB_HI.Thread_Interrogators is
             end if;
          end if;
          if not Is_Event (P_Kind) then
-            if Fifo_Size = 1 then
+            if FIFO_Size = 1 then
                --  Immediate connection
 
                pragma Debug
@@ -990,12 +987,22 @@ package body PolyORB_HI.Thread_Interrogators is
          S : Port_Stream_Entry;
          T : Time)
       is
-         First     : Integer renames Firsts (P);
-         Last      : Integer renames Lasts (P);
+         First     : Big_Port_Index_Type renames Firsts (P);
+         Last      : Big_Port_Index_Type renames Lasts (P);
          P_Kind    : Port_Kind renames Thread_Port_Kinds (P);
-         Fifo_Size : Integer renames Thread_Fifo_Sizes (P);
-         Offset    : Integer renames Thread_Fifo_Offsets (P);
+         FIFO_Size : Integer renames Thread_FIFO_Sizes (P);
+         Offset    : Integer renames Thread_FIFO_Offsets (P);
       begin
+         if Global_Data_Queue_Size = 0 then
+            --  XXX Actually, if the queue has a null size, this
+            --  function is never called, hence we can exit
+            --  immediatly. This should be captured with a proper
+            --  pre-condition. We need this trap to avoid GNATProve
+            --  attempting to prove the code below in this particular
+            --  case.
+            return;
+         end if;
+
          if Has_Event_Ports then
             if Is_Event (P_Kind) then
                pragma Debug (Put_Line
@@ -1017,7 +1024,7 @@ package body PolyORB_HI.Thread_Interrogators is
          if not Is_Event (P_Kind) then
             Time_Stamps (P) := T;
 
-            if Fifo_Size = 1 then
+            if FIFO_Size = 1 then
                --  Immediate connection
 
                pragma Debug
@@ -1066,6 +1073,7 @@ package body PolyORB_HI.Thread_Interrogators is
                --  Delayed connection: The element indexed by First must be
                --  the oldest element and the element indexed by Last
                --  is the most recent element.
+               --  XXX JH: why?
 
                pragma Debug
                  (Put_Line
@@ -1126,6 +1134,190 @@ package body PolyORB_HI.Thread_Interrogators is
                         + Thread_Port_Images (P)));
 
          return Time_Stamps (P);
+      end Get_Time_Stamp;
+
+   end Unprotected_Queue;
+
+   ------------------
+   -- Global_Queue --
+   ------------------
+
+   --  The protected object below handles all the received events or
+   --  data on IN ports.
+   --
+   --  Finally, the protected object contains a second array to store
+   --  the number of received values for each IN EVENT [DATA] (0 .. n)
+   --  and IN DATA (0 .. 1) port.
+
+   protected Global_Queue is
+      pragma Priority (System.Priority'Last);
+
+      entry Wait_Event (P : out Port_Type);
+      --  Blocks until the thread receives a new event. Return the
+      --  corresponding Port that received the event.
+
+      procedure Read_Event (P : out Port_Type; Valid : out Boolean);
+      --  Same as 'Wait_Event' but without blocking. Valid is set to
+      --  False if there is nothing to receive.
+
+      procedure Dequeue (T : Port_Type; P : out Port_Stream_Entry);
+      --  Dequeue a value from the partial FIFO of port T. If there is
+      --  no enqueued value, return the latest dequeued value.
+
+      function Read_In (T : Port_Type) return Port_Stream_Entry;
+      --  Read the oldest queued value on the partial FIFO of IN port
+      --  T without dequeuing it. If there is no queued value, return
+      --  the latest dequeued value.
+
+      function Read_Out (T : Port_Type) return Port_Stream_Entry;
+      --  Return the value put for OUT port T.
+
+      function Is_Invalid (T : Port_Type) return Boolean;
+      --  Return True if no Put_Value has been called for this port
+      --  since the last Set_Invalid call.
+
+      procedure Set_Invalid (T : Port_Type);
+      --  Set the value stored for OUT port T as invalid to impede its
+      --  future sending without calling Put_Value. This procedure is
+      --  generally called just after Read_Out. However we cannot
+      --  combine them in one routine because we need Read_Out to be a
+      --  function and functions cannot modify protected object
+      --  states.
+
+      procedure Store_In (P : Port_Stream_Entry; T : Time);
+      --  Stores a new incoming message in its corresponding
+      --  position. If this is an event [data] incoming message, then
+      --  stores it in the queue, updates its most recent value and
+      --  unblock the barrier. Otherwise, it only overrides the most
+      --  recent value. T is the time stamp associated to the port
+      --  P. In case of data ports with delayed connections, it
+      --  indicates the instant from which the data of P becomes
+      --  deliverable.
+
+      procedure Store_Out (P : Port_Stream_Entry; T : Time);
+      --  Store a value of an OUT port to be sent at the next call to
+      --  Send_Output and mark the value as valid.
+
+      function Count (T : Port_Type) return Integer;
+      --  Return the number of pending messages on IN port T.
+
+      function Get_Time_Stamp (P : Port_Type) return Time;
+      --  Return the time stamp associated to port T
+
+   private
+
+      Not_Empty : Boolean := False;
+      --  The protected object barrier. True when there is at least
+      --  one pending event [data].
+
+   end Global_Queue;
+
+   protected body Global_Queue is
+
+      ----------------
+      -- Wait_Event --
+      ----------------
+
+      entry Wait_Event (P : out Port_Type) when Not_Empty is
+         Valid : Boolean;
+      begin
+         Unprotected_Queue.Read_Event (P, Valid, Not_Empty);
+
+         pragma Debug (Put_Line
+                       (Verbose,
+                        CE
+                        + ": Wait_Event: oldest unread event port = "
+                        + Thread_Port_Images (P)));
+      end Wait_Event;
+
+      ----------------
+      -- Read_Event --
+      ----------------
+
+      procedure Read_Event (P : out Port_Type; Valid : out Boolean) is
+      begin
+         Unprotected_Queue.Read_Event (P, Valid, Not_Empty);
+      end Read_Event;
+
+      -------------
+      -- Dequeue --
+      -------------
+
+      procedure Dequeue (T : Port_Type; P : out Port_Stream_Entry) is
+      begin
+         Unprotected_Queue.Dequeue (T, P, Not_Empty);
+      end Dequeue;
+
+      -------------
+      -- Read_In --
+      -------------
+
+      function Read_In (T : Port_Type) return Port_Stream_Entry is
+      begin
+         return Unprotected_Queue.Read_In (T);
+      end Read_In;
+
+      --------------
+      -- Read_Out --
+      --------------
+
+      function Read_Out (T : Port_Type) return Port_Stream_Entry is
+      begin
+         return Unprotected_Queue.Read_Out (T);
+      end Read_Out;
+
+      ----------------
+      -- Is_Invalid --
+      ----------------
+
+      function Is_Invalid (T : Port_Type) return Boolean is
+      begin
+         return Unprotected_Queue.Is_Invalid (T);
+      end Is_Invalid;
+
+      -----------------
+      -- Set_Invalid --
+      -----------------
+
+      procedure Set_Invalid (T : Port_Type) is
+      begin
+         Unprotected_Queue.Set_Invalid (T);
+      end Set_Invalid;
+
+      --------------
+      -- Store_In --
+      --------------
+
+      procedure Store_In (P : Port_Stream_Entry; T : Time) is
+      begin
+         Unprotected_Queue.Store_In (P, T, Not_Empty);
+      end Store_In;
+
+      ---------------
+      -- Store_Out --
+      ---------------
+
+      procedure Store_Out (P : Port_Stream_Entry; T : Time) is
+      begin
+         Unprotected_Queue.Store_Out (P, T);
+      end Store_Out;
+
+      -----------
+      -- Count --
+      -----------
+
+      function Count (T : Port_Type) return Integer is
+      begin
+         return Unprotected_Queue.Count (T);
+      end Count;
+
+      --------------------
+      -- Get_Time_Stamp --
+      --------------------
+
+      function Get_Time_Stamp (P : Port_Type) return Time is
+      begin
+         return Unprotected_Queue.Get_Time_Stamp (P);
       end Get_Time_Stamp;
 
    end Global_Queue;
@@ -1383,38 +1575,42 @@ package body PolyORB_HI.Thread_Interrogators is
    -- H_Increment_First --
    -----------------------
 
-   procedure H_Increment_First (F : in out Integer) is
+   procedure H_Increment_First (F : in out Big_Port_Index_Type) is
    begin
-      F := F + 1;
+      if Global_Data_Queue_Size > 0 then
+         if F < Global_Data_Queue_Size then
+            F := F + 1;
+         else
+            F := 1;
+         end if;
 
-      if F > Global_Data_Queue_Size then
-         F := 1;
+         pragma Debug (Put_Line
+                         (Verbose,
+                          CE
+                            + ": H_Increment_First: F ="
+                            + Integer'Image (F)));
       end if;
-
-      pragma Debug (Put_Line
-                    (Verbose,
-                     CE
-                     + ": H_Increment_First: F ="
-                     + Integer'Image (F)));
    end H_Increment_First;
 
    ----------------------
    -- H_Increment_Last --
    ----------------------
 
-   procedure H_Increment_Last (L : in out Integer) is
+   procedure H_Increment_Last (L : in out Big_Port_Index_Type) is
    begin
-      L := L + 1;
-
-      if L > Global_Data_Queue_Size then
-         L := 1;
-      end if;
+      if Global_Data_Queue_Size > 0 then
+         if L < Global_Data_Queue_Size then
+            L := L + 1;
+         else
+            L := 1;
+         end if;
 
       pragma Debug (Put_Line
                     (Verbose,
                      CE
                      + ": H_Increment_Last: L ="
                      + Integer'Image (L)));
+      end if;
    end H_Increment_Last;
 
    --------
