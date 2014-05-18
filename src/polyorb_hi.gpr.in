@@ -60,7 +60,7 @@ project PolyORB_HI is
                       --  Common_Options.
                       --@WARNINGS_ARE_ERRORS@"-gnatfy", --  Style warnings
                       --@WARNINGS_ARE_ERRORS@"-gnatwe", --  Warnings are errors
-                      "-gnat05"  --  Ada 2005 mode
+                      "-gnat12"  --  Ada 2012 mode
                      );
 
    Debug_Options := (
@@ -192,9 +192,8 @@ project PolyORB_HI is
 
    package Prove is
       for Switches use
-          ("--mode=prove", -- Prove subprogram contracts
-                           -- and absence of run-time errors
-           "--report=all"  -- Report all results of proving VCs
+          ("--warnings=continue", -- Issue warnings and continue
+           "--report=all"         -- Report all results of proving VCs
            );
    end Prove;
 
