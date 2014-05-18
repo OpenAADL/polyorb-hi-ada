@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -46,7 +46,10 @@ package body PolyORB_HI.Suspenders is
    -- Suspend_Forever --
    ---------------------
 
-   procedure Suspend_Forever is
+   procedure Suspend_Forever
+     with SPARK_Mode => Off
+     --  delay until not supported in GNATProve GPL2014
+   is
    begin
       --  Suspend_Until_True (The_Suspender);
 
