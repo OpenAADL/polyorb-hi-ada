@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -40,7 +40,10 @@ package body PolyORB_HI.Output_Low_Level is
    -- Put --
    ---------
 
-   procedure Put (S : String) is
+   procedure Put (S : String)
+     with SPARK_Mode => Off
+     --  SPARK_Mode is distabled because of the Address attribute
+   is
       procedure C_Write
         (Fd  : Interfaces.C.int;
          P   : System.Address;
