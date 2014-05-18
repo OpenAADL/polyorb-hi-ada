@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -48,7 +48,12 @@ with PolyORB_HI_Generated.Transport;
 
 --  Transport low-level service of PolyORB HI, using BSD sockets
 
-package body PolyORB_HI.Transport_Low_Level is
+package body PolyORB_HI.Transport_Low_Level
+  with Spark_Mode => Off
+  --  SPARK_Mode is disabled for this unit, it relies on OS-specific
+  --  libraries. We discard this unit for now.
+
+is
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely
@@ -115,7 +120,7 @@ package body PolyORB_HI.Transport_Low_Level is
       pragma Warnings (On);
 
       for J in Naming_Table'Range loop
-         if Naming_Table (J).Location.L = 0
+         if Length (Naming_Table (J).Location) = 0
            or else Naming_Table (J).Port = 0
          then
             Nodes (J).Address := (GNAT.Sockets.Family_Inet,
