@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -61,7 +61,9 @@ package body PolyORB_HI.Messages is
    Receiver_Offset : constant Stream_Element_Offset := Message_Length_Size + 1;
    Sender_Offset   : constant Stream_Element_Offset := Message_Length_Size + 2;
 
-   function Length (M : Message_Type) return PDU_Index;
+   function Length (M : Message_Type) return PDU_Index is
+      (M.Last - M.First + 1)
+        with Pre => (Valid (M));
    --  Return length of message M
 
    -----------------
@@ -75,49 +77,22 @@ package body PolyORB_HI.Messages is
      return Stream_Element_Array
    is
       L : constant Stream_Element_Count := Message.Last + Header_Size;
-      R : Stream_Element_Array (1 .. L);
+      R : Stream_Element_Array (1 .. L) := (others => 0);
+
+      P : constant Stream_Element_Array (1 .. Length (Message))
+        := Payload (Message);
    begin
       R (1 .. Message_Length_Size) := To_Buffer (L - 1);
       R (Receiver_Offset) := Stream_Element (Internal_Code (Entity));
       R (Sender_Offset)   := Stream_Element (Internal_Code (From));
-      R (Header_Size +  1 .. Header_Size + Message.Last)
-        := Message.Content (Message.First .. Message.Last);
-
+      R (Header_Size +  1 .. Header_Size + Length (Message)) := P;
+      --  XXX GNATProve GPL 2014 limitation ?
       return R;
    end Encapsulate;
 
    ------------
-   -- Length --
-   ------------
-
-   function Length (M : Message_Type) return PDU_Index is
-   begin
-      if M.First >= 1
-        and then M.Last - M.First >= 0
-      then
-         return M.Last - M.First + 1;
-      else
-         return 0; --  XXX defensive
-      end if;
-   end Length;
-
-   -------------
-   -- Payload --
-   -------------
-
-   function Payload (M : Message_Type) return Stream_Element_Array is
-   begin
-      return M.Content (M.First .. M.Last);
-   end Payload;
-
-   ------------
    -- Sender --
    ------------
-
-   function Sender (M : Message_Type) return Entity_Type is
-   begin
-      return Sender (M.Content (M.First .. M.Last));
-   end Sender;
 
    function Sender (M : Stream_Element_Array) return Entity_Type is
    begin
@@ -136,6 +111,8 @@ package body PolyORB_HI.Messages is
       Read_Elts : constant Stream_Element_Count
         := Stream_Element_Count'Min (Item'Length, Length (Stream));
    begin
+      Item := (others => 0);
+
       if Read_Elts < 1 then
          --  We have nothing to read, exit
          Last := 0;
@@ -176,10 +153,9 @@ package body PolyORB_HI.Messages is
    is
    begin
       if Stream.First > Stream.Last then
+         Reallocate (Stream);
          -- The message is invalid, we reset it
-
-         Stream.First := 1;
-         Stream.Last := 0;
+         -- XXX Do we need to do that ???
       end if;
 
       if Item'Length <= Stream.Content'Last - Stream.Last then

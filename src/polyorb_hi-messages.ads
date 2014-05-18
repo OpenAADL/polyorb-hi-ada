@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2013 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -61,13 +61,15 @@ package PolyORB_HI.Messages is
    --  The sub-buffer that holds the message length
 
    function To_Length (B : Message_Size_Buffer) return Stream_Element_Count;
-   function To_Buffer (L : Stream_Element_Count) return Message_Size_Buffer;
+   function To_Buffer (L : Stream_Element_Count) return Message_Size_Buffer
+     with Pre => (L < 2**16 -1); -- XXX Provide a better bound for L
    --  Conversion functions to store/extract a length in/from a sub-buffer.
 
    procedure Read
      (Stream : in out Message_Type;
       Item   :    out Stream_Element_Array;
-      Last   :    out Stream_Element_Offset);
+      Last   :    out Stream_Element_Offset)
+     with Pre => (Valid (Stream));
    --  Move Item'Length stream elements from the specified stream to
    --  fill the array Item. The index of the last stream element
    --  transferred is returned in Last. Last is less than Item'Last
@@ -75,16 +77,19 @@ package PolyORB_HI.Messages is
 
    procedure Write
      (Stream : in out Message_Type;
-      Item   :        Stream_Element_Array);
+      Item   :        Stream_Element_Array)
+     with Pre => (Valid (Stream));
    --  Append Item to the specified stream
 
    procedure Reallocate (M : in out Message_Type);
    --  Reset M
 
-   function Payload (M : Message_Type) return Stream_Element_Array;
+   function Payload (M : Message_Type) return Stream_Element_Array
+      with Pre => (Valid (M));
    --  Return the remaining payload of message M
 
-   function Sender (M : Message_Type) return Entity_Type;
+   function Sender (M : Message_Type) return Entity_Type
+       with Pre => (Valid (M));
    function Sender (M : Stream_Element_Array) return Entity_Type;
    --  Return the sender of the message M
 
@@ -92,20 +97,35 @@ package PolyORB_HI.Messages is
      (Message : Message_Type;
       From    : Entity_Type;
       Entity  : Entity_Type)
-     return Stream_Element_Array;
+     return Stream_Element_Array
+     with Pre => (Valid (Message));
    --  Return a byte array including a two byte header (length and
    --  originator entity) and Message payload.
+
+   function Valid (Message : Message_Type) return Boolean;
 
 private
 
    subtype PDU_Index is Stream_Element_Count range 0 .. PDU_Size;
    subtype PDU is Stream_Element_Array (1 .. PDU_Index'Last);
 
+   Empty_PDU : constant PDU := (others => 0);
+
    type Message_Type is record
-      Content : PDU;
+      Content : PDU := Empty_PDU;
       First   : PDU_Index := 1;
       Last    : PDU_Index := 0;
    end record;
+
+   function Valid (Message : Message_Type) return Boolean is
+      (Message.First >= Message.Content'First and then Message.First < Message.Last
+      and then Message.Last <= Message.Content'Last);
+
+   function Payload (M : Message_Type) return Stream_Element_Array is
+      (M.Content (M.First .. M.Last));
+
+   function Sender (M : Message_Type) return Entity_Type is
+      (Sender (Payload (M)));
 
    pragma Inline (To_Length);
    pragma Inline (To_Buffer);
