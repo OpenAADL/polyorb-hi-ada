@@ -17,7 +17,6 @@ ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi-aperiodic_task.ads	\
 	$(srcdir)/polyorb_hi-scheduler.ads			\
 	$(srcdir)/polyorb_hi-utils.ads
 
-
 ADA_SPECS = $(ADA_SPECS_WITH_BODY) $(srcdir)/polyorb_hi.ads	\
 	$(srcdir)/polyorb_hi-errors.ads				\
 	$(srcdir)/polyorb_hi_generated.ads			\
