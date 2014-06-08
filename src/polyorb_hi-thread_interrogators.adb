@@ -80,7 +80,7 @@ package body PolyORB_HI.Thread_Interrogators is
    subtype Big_Port_Index_Type is Integer range 0 .. Global_Data_Queue_Size;
 
    Default_Index_Value : constant Big_Port_Index_Type
-     := Big_Port_Index_Type'Min (1, Global_Data_Queue_Size);
+     := (if Global_Data_Queue_Size > 0 then 1 else 0);
 
    type Big_Port_Stream_Array is
      array (Big_Port_Index_Type) of Port_Stream_Entry;
@@ -326,7 +326,7 @@ package body PolyORB_HI.Thread_Interrogators is
                First := Default_Index_Value;
             elsif Global_Data_Queue_Size > 0
               and then FIFO_Size > 1 then
-               First := First + 1;
+               First := Big_Port_Index_Type'Succ (First);
             end if;
 
             --  Shift the First index of the global history queue
@@ -497,7 +497,7 @@ package body PolyORB_HI.Thread_Interrogators is
                               elsif Global_Data_Queue_Size > 0
                                 and then FIFO_Size > 1
                               then
-                                 First := First + 1;
+                                 First := Big_Port_Index_Type'Succ (First);
                               end if;
 
                               --  Search the oldest element in the history
@@ -612,7 +612,7 @@ package body PolyORB_HI.Thread_Interrogators is
                      if Last = FIFO_Size then
                         Last := Default_Index_Value;
                      elsif Global_Data_Queue_Size  > 0 then
-                        Last := Last + 1;
+                        Last := Big_Port_Index_Type'Succ (Last);
                      end if;
 
                      Global_Data_Queue (Last + Offset - 1) := P;
@@ -794,6 +794,7 @@ package body PolyORB_HI.Thread_Interrogators is
                            + Thread_Port_Images (T)));
 
             return -1;
+
          elsif Is_Empty then
             pragma Debug (Put_Line
                           (Verbose,
@@ -802,6 +803,7 @@ package body PolyORB_HI.Thread_Interrogators is
                            + Thread_Port_Images (T)));
 
             return 0;
+
          elsif FIFO_Size = 0 then
             pragma Debug (Put_Line
                           (Verbose,
@@ -810,6 +812,7 @@ package body PolyORB_HI.Thread_Interrogators is
                            + Thread_Port_Images (T)));
 
             return 0;
+
          else
             pragma Debug (Put_Line
                           (Verbose,
@@ -826,6 +829,7 @@ package body PolyORB_HI.Thread_Interrogators is
                --            First                       Last
 
                return (Last - First) + 1;
+
             else
                --  Second configuration
 
@@ -1577,11 +1581,11 @@ package body PolyORB_HI.Thread_Interrogators is
 
    procedure H_Increment_First (F : in out Big_Port_Index_Type) is
    begin
-      if Global_Data_Queue_Size > 0 then
-         if F < Global_Data_Queue_Size then
-            F := F + 1;
+      if Big_Port_Index_Type'Last > 0 then
+         if F < Big_Port_Index_Type'Last then
+            F := Big_Port_Index_Type'Succ (F);
          else
-            F := 1;
+            F := Default_Index_Value;
          end if;
 
          pragma Debug (Put_Line
@@ -1598,11 +1602,11 @@ package body PolyORB_HI.Thread_Interrogators is
 
    procedure H_Increment_Last (L : in out Big_Port_Index_Type) is
    begin
-      if Global_Data_Queue_Size > 0 then
-         if L < Global_Data_Queue_Size then
-            L := L + 1;
+      if Big_Port_Index_Type'Last > 0 then
+         if L < Big_Port_Index_Type'Last then
+            L := Big_Port_Index_Type'Succ (L);
          else
-            L := 1;
+            L := Default_Index_Value;
          end if;
 
       pragma Debug (Put_Line
