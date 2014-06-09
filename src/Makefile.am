@@ -8,6 +8,7 @@ ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi-aperiodic_task.ads	\
 	 $(srcdir)/polyorb_hi-isr_task.ads			\
 	 $(srcdir)/polyorb_hi-marshallers_g.ads			\
 	 $(srcdir)/polyorb_hi-messages.ads			\
+	 $(srcdir)/polyorb_hi-null_task.ads			\
 	 $(srcdir)/polyorb_hi-output.ads			\
 	 $(srcdir)/polyorb_hi-periodic_task.ads			\
 	 $(srcdir)/polyorb_hi-port_kinds.ads			\
@@ -16,6 +17,7 @@ ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi-aperiodic_task.ads	\
 	 $(srcdir)/polyorb_hi-suspenders.ads			\
 	 $(srcdir)/polyorb_hi-thread_interrogators.ads		\
 	 $(srcdir)/polyorb_hi-scheduler.ads			\
+	 $(srcdir)/polyorb_hi-unprotected_queue.ads		\
 	 $(srcdir)/polyorb_hi-utils.ads
 
 ADA_SPECS = $(ADA_SPECS_WITH_BODY) $(srcdir)/polyorb_hi.ads	\
