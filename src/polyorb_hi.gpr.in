@@ -186,4 +186,15 @@ project PolyORB_HI is
            "+RDecl_Blocks", "+RDiscr_Rec", "+RContr_Types");
    end Check;
 
+   -----------
+   -- Prove --
+   -----------
+
+   package Prove is
+      for Switches use
+          ("--warnings=continue", -- Issue warnings and continue
+           "--report=all"         -- Report all results of proving VCs
+           );
+   end Prove;
+
 end PolyORB_HI;
