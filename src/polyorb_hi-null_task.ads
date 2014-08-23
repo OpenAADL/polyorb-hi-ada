@@ -31,6 +31,13 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+--  Define a "null" task as a job to be scheduled by a
+--  software-defined scheduler in place of a OS scheduler. Its
+--  interface mimics the one of a periodic task.
+--
+--  Expected usage is for a Round-Robin non-preemptive scheduler
+--  defined through a cyclic function.
+
 with System;
 with Ada.Real_Time;
 with PolyORB_HI_Generated.Deployment;
@@ -65,6 +72,13 @@ generic
    --  detected.
 
 package PolyORB_HI.Null_Task is
+   --  The following parameters are not used for now. The usage is
+   --  reserved for future extensions.
+
+   pragma Unreferenced (Task_Priority);
+   pragma Unreferenced (Task_Stack_Size);
+   pragma Unreferenced (Task_Period);
+   pragma Unreferenced (Task_Deadline);
 
    procedure The_Null_Task;
 

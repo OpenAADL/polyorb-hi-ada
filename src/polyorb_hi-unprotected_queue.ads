@@ -33,12 +33,9 @@
 
 with Ada.Unchecked_Conversion;
 With Ada.Real_Time;
-With System;
 
 with PolyORB_HI_Generated.Deployment;
 
-with PolyORB_HI.Errors;
-with PolyORB_HI.Messages;
 with PolyORB_HI.Port_Kinds;
 with PolyORB_HI.Streams;
 
@@ -57,9 +54,6 @@ generic
    type Port_Image_Array is array (Port_Type) of
     PolyORB_HI_Generated.Deployment.Port_Sized_String;
    --  An array type to specify the image of each port.
-
-   type Address_Array is array (Port_Type) of System.Address;
-   --  An array to specify a list of arrays of various sizes.
 
    type Overflow_Protocol_Array is array (Port_Type) of
      Port_Kinds.Overflow_Handling_Protocol;
@@ -115,25 +109,6 @@ generic
    --  value as a generic formal in spite of the possibility of
    --  deducing it from Thread_Fifo_Sizes is done to guarantee static
    --  allocation of the global message queue of the thread.
-
-   N_Destinations : in Integer_Array;
-   --  For each OUT port, we give the number of destinations. This
-   --  will be used to know the length of each element of the array
-   --  below.
-
-   Destinations : in Address_Array;
-   --  For each OUT port, we give the address of an constant
-   --  Entity_Type array containing the list of all the destination of
-   --  the port. For IN ports, we give Null_Address.
-
-   with procedure Marshall
-     (R :        Thread_Interface_Type;
-      M : in out PolyORB_Hi.Messages.Message_Type);
-   --  A procedure that marshalls a Thread port content into a message.
-
-   with function Next_Deadline return Ada.Real_Time.Time;
-   --  To indicate when does the next deadline of the thread occur (in
-   --  absolute time).
 
 package PolyORB_HI.Unprotected_Queue is
 

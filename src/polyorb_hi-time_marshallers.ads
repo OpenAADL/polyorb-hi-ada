@@ -32,7 +32,18 @@
 ------------------------------------------------------------------------------
 
 with Ada.Real_Time;
-with PolyORB_HI.Marshallers_G;
+with PolyORB_HI.Messages;
 
 package PolyORB_HI.Time_Marshallers is
-   new PolyORB_HI.Marshallers_G (Ada.Real_Time.Time);
+
+   procedure Marshall
+     (R :        Ada.Real_Time.Time;
+      M : in out Messages.Message_Type);
+   --  Marshall a data R in message M
+
+   procedure Unmarshall
+     (R :    out Ada.Real_Time.Time;
+      M : in out Messages.Message_Type);
+      --  Unmarshall a data R from message M
+
+end PolyORB_HI.Time_Marshallers;

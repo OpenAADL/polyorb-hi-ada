@@ -31,19 +31,14 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Synchronous_Task_Control;
-
 with PolyORB_HI.Output;
-with PolyORB_HI.Suspenders;
 
 package body PolyORB_HI.Null_Task is
 
    use PolyORB_HI.Errors;
    use PolyORB_HI.Output;
    use PolyORB_HI_Generated.Deployment;
-   use PolyORB_HI.Suspenders;
    use Ada.Real_Time;
-   use Ada.Synchronous_Task_Control;
 
    -------------------
    -- The_Null_Task --
@@ -51,11 +46,15 @@ package body PolyORB_HI.Null_Task is
 
    procedure The_Null_Task is
       Error : Error_Kind;
+      Initialized : Boolean := True;
 
    begin
       --  Run the initialize entrypoint (if any)
 
-      Activate_Entrypoint;
+      if not Initialized then
+         Activate_Entrypoint;
+         Initialized := True;
+      end if;
 
       --  Wait for the network initialization to be finished
 
