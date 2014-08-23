@@ -118,8 +118,9 @@ private
    end record;
 
    function Valid (Message : Message_Type) return Boolean is
-      (Message.First >= Message.Content'First and then Message.First < Message.Last
-      and then Message.Last <= Message.Content'Last);
+      (Message.First >= Message.Content'First
+         and then Message.First < Message.Last
+         and then Message.Last <= Message.Content'Last);
 
    function Payload (M : Message_Type) return Stream_Element_Array is
       (M.Content (M.First .. M.Last));

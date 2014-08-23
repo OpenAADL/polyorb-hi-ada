@@ -32,16 +32,11 @@
 ------------------------------------------------------------------------------
 
 with PolyORB_HI.Output;
-with PolyORB_HI.Utils;
 
 package body PolyORB_HI.Unprotected_Queue is
 
-   use type PolyORB_HI.Streams.Stream_Element_Offset;
    use PolyORB_HI.Port_Kinds;
-   use Ada.Real_Time;
-   use PolyORB_HI_Generated.Deployment;
    use PolyORB_HI.Output;
-   use PolyORB_HI.Utils;
 
    ----------------
    -- Read_Event --
@@ -372,9 +367,11 @@ package body PolyORB_HI.Unprotected_Queue is
                                  Frst := Frst - 1;
                               end loop;
                            end if;
+
                         when Error =>
-                           raise Program_Error with
-                             CE + ": Store_In: FIFO is full";
+                           Put_Line (Verbose,
+                                     CE + ": Store_In: FIFO is full");
+                           --  XXX SHould raise an exception there !
                      end case;
 
                      --  Remove event in the history and shift
