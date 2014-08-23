@@ -291,7 +291,7 @@ aadl-sed-stamp:
 	touch aadl-sed-stamp
 
 dist-hook: all
-	cp -r $(srcdir)/$(GUIDE).html $(srcdir)/$(GUIDE).pdf $(distdir)
+	-cp -r $(srcdir)/$(GUIDE).html $(srcdir)/$(GUIDE).pdf $(distdir)
 
 debug-makefile:
 	@echo "SRC_CODE = $(SRC_CODE)"
