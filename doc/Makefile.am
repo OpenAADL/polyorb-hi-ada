@@ -87,7 +87,9 @@ polyorb_hi_ada_ug_TEXINFOS = $(GUIDE_TEXIFILES)
 
 SUFFIXES = .ada .ads .adb .aadl .texi .sed .pdf .html
 
-all-local: $(GUIDE_TEXIFILES) $(GUIDE).html $(GUIDE).pdf
+docs: $(GUIDE_TEXIFILES) $(GUIDE).html $(GUIDE).pdf
+
+all-local: @DOC_TARGETS@
 
 # The 3 target above are active only in developper mode. In package
 # mode, once the files in doc/ have been packaged, they are not
