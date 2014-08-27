@@ -170,7 +170,7 @@ AC_SUBST(CYGPATH_U)
 
 AC_CHECK_PROGS(TEXI2HTML, texi2html)
 
-DOC_TARGETS=docs
+DOC_TARGETS=
 
 AC_ARG_ENABLE(doc,
 [  --enable-doc            Build documentation [default=no]],
