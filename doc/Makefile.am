@@ -190,7 +190,8 @@ install-data-local: all
 	  for f in $(GUIDE).html/fig/*.png; do \
             $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html/fig; \
           done; \
-	else \
+	fi
+	if [ -r $(srcdir)/$(GUIDE).pdf ]; then \
 	  $(INSTALL_DATA) $(srcdir)/$(GUIDE).pdf  $(DESTDIR)$(po_hi_doc_dir); \
 	  for f in $(srcdir)/$(GUIDE).html/*.html; do \
             $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html; \
