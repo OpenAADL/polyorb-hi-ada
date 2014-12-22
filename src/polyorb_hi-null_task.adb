@@ -2,11 +2,11 @@
 --                                                                          --
 --                          PolyORB HI COMPONENTS                           --
 --                                                                          --
---          P O L Y O R B _ H I . O U T P U T _ L O W _ L E V E L           --
+--                 P O L Y O R B _ H I . N U L L _ T A S K                  --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
+--                     Copyright (C) 2014 ESA & ISAE.                       --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -31,40 +31,66 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces.C;
-with System;
+with PolyORB_HI.Output;
 
-package body PolyORB_HI.Output_Low_Level is
+package body PolyORB_HI.Null_Task is
 
-   ---------
-   -- Put --
-   ---------
+   use PolyORB_HI.Errors;
+   use PolyORB_HI.Output;
+   use PolyORB_HI_Generated.Deployment;
+   use Ada.Real_Time;
 
-   procedure Put (S : String)
-     with SPARK_Mode => Off
-     --  SPARK_Mode is distabled because of the Address attribute
-   is
-      procedure C_Write
-        (Fd  : Interfaces.C.int;
-         P   : System.Address;
-         Len : Interfaces.C.int);
-      pragma Import (C, C_Write, "write");
+   -------------------
+   -- The_Null_Task --
+   -------------------
+
+   procedure The_Null_Task is
+      Error : Error_Kind;
+      Initialized : Boolean := True;
 
    begin
-      C_Write (2, S (S'First)'Address, S'Length);
-      --  2 is standard error
+      --  Run the initialize entrypoint (if any)
 
-   end Put;
+      if not Initialized then
+         Activate_Entrypoint;
+         Initialized := True;
+      end if;
 
-   --------------
-   -- New_Line --
-   --------------
+      --  Wait for the network initialization to be finished
 
-   procedure New_Line is
-      S : constant String := (1 => Character'Val (10));
+      pragma Debug
+        (Put_Line
+         (Verbose,
+          "Null Task "
+          + Entity_Image (Entity)
+          + ": Wait initialization"));
 
+      pragma Debug (Put_Line
+                    (Verbose,
+                     "Null task initialized for entity "
+                     + Entity_Image (Entity)));
+
+      pragma Debug
+        (Put_Line
+         (Verbose,
+          "Null Task "
+            + Entity_Image (Entity)
+            + ": Run job"));
+
+      Error := Job;
+
+      if Error /= Error_None then
+         Recover_Entrypoint;
+      end if;
+   end The_Null_Task;
+
+   -------------------
+   -- Next_Deadline --
+   -------------------
+
+   function Next_Deadline return Ada.Real_Time.Time is
    begin
-      Put (S);
-   end New_Line;
+      return Ada.Real_Time.Clock;
+   end Next_Deadline;
 
-end PolyORB_HI.Output_Low_Level;
+end PolyORB_HI.Null_Task;

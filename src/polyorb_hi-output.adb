@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -37,39 +37,75 @@ with Ada.Real_Time;
 with System;
 
 package body PolyORB_HI.Output is
+
    use Ada.Real_Time;
 
-   protected Lock is
-      procedure Put (Text : in String);
-      --  To guarantee thread-safe output display
+   procedure Unprotected_Put_Line (Text : in String);
+   --  Not thread-safe Put_Line function
+
+   procedure Unprotected_Put (Text : in String);
+   --  Not thread-safe Put function
+
+   --  This package encapsulates specific elements to protect against
+   --  race condition on the output buffer. It is in a package to
+   --  abide with SPARK restrictions.
+
+   package Output_Lock is
 
       procedure Put_Line (Text : in String);
-      --  To guarantee thread-safe output display
+      --  As above but always displays the message
 
-   private
-      pragma Priority (System.Priority'Last);
-   end Lock;
+      procedure Put (Text : in String);
 
-   protected body Lock is
+   end Output_Lock;
 
-      --------------
-      -- Put_Line --
-      --------------
+   package body Output_Lock is
+      pragma SPARK_MOde (Off);
+
+      protected Lock is
+      --  This lock has been defined to guarantee thread-safe output
+      --  display
+
+      procedure Put (Text : in String);
+
+      procedure Put_Line (Text : in String);
+
+      private
+         pragma Priority (System.Priority'Last);
+      end Lock;
+
+      protected body Lock is
+
+         --------------
+         -- Put_Line --
+         --------------
+
+         procedure Put_Line (Text : in String) is
+         begin
+            Unprotected_Put_Line (Text);
+         end Put_Line;
+
+         ---------
+         -- Put --
+         ---------
+
+         procedure Put (Text : in String) is
+         begin
+            Unprotected_Put (Text);
+         end Put;
+      end Lock;
 
       procedure Put_Line (Text : in String) is
       begin
-         Unprotected_Put_Line (Text);
+         Lock.Put_Line (Text);
       end Put_Line;
-
-      ---------
-      -- Put --
-      ---------
 
       procedure Put (Text : in String) is
       begin
-         Unprotected_Put (Text);
+         Lock.Put (Text);
       end Put;
-   end Lock;
+
+   end Output_Lock;
 
    --------------
    -- Put_Line --
@@ -88,13 +124,9 @@ package body PolyORB_HI.Output is
 
    end Put_Line;
 
-   --------------
-   -- Put_Line --
-   --------------
-
    procedure Put_Line (Text : in String) is
    begin
-      Lock.Put_Line (Text);
+      Output_Lock.Put_Line (Text);
    end Put_Line;
 
    ---------
@@ -114,13 +146,9 @@ package body PolyORB_HI.Output is
 
    end Put;
 
-   ---------
-   -- Put --
-   ---------
-
    procedure Put (Text : in String) is
    begin
-      Lock.Put (Text);
+      Output_Lock.Put (Text);
    end Put;
 
    --------------------------
@@ -158,23 +186,25 @@ package body PolyORB_HI.Output is
    -- Dump --
    ----------
 
-   subtype Output_Line is String (1 .. 48);
+   subtype Output_Position is Positive range 1 .. 48;
 
-   Hex : constant String := "0123456789ABCDEF";
+   subtype Output_Line is String (Output_Position);
+
+   Hex : constant array (0 .. 15) of Character := "0123456789ABCDEF";
    Nil : constant Output_Line := (Output_Line'Range => ' ');
 
    procedure Dump
      (Stream : Stream_Element_Array;
       Mode   : Verbosity            := Verbose)
    is
-      Index   : Positive := 1;
+      Index   : Output_Position := Output_Position'First;
       Output  : Output_Line := Nil;
    begin
       for J in Stream'Range loop
-         if Index <= Output'Last - 3 then
+         if Index + 3 <= Output'Last then
             Output (Index)     := ' ';
-            Output (Index + 1) := Hex (Natural (Stream (J) / 16) + 1);
-            Output (Index + 2) := Hex (Natural (Stream (J) mod 16) + 1);
+            Output (Index + 1) := Hex (Natural (Stream (J) / 16));
+            Output (Index + 2) := Hex (Natural (Stream (J) mod 16));
             Index := Index + 3;
          else
             Put_Line (Mode, Output);
@@ -185,5 +215,18 @@ package body PolyORB_HI.Output is
 
       Put_Line (Mode,  Output);
    end Dump;
+
+   ---------
+   -- "+" --
+   ---------
+
+   function "+" (S1 : String; S2 : String) return String is
+      S : String (1 .. S1'Length + S2'Length) := (others => ' ');
+   begin
+      S (1 .. S1'Length) := S1 (S1'First .. S1'Last);
+      S (S1'Length + 1 .. S'Last) := S2 (S2'First .. S2'Last);
+
+      return S;
+   end "+";
 
 end PolyORB_HI.Output;

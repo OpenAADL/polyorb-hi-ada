@@ -324,7 +324,7 @@ package body PolyORB_HI_Drivers_Native_UART is
             begin
                PolyORB_HI_Generated.Transport.Deliver
                  (Corresponding_Entity
-                    (Integer_8 (SEA (Message_Length_Size + 1))),
+                    (Unsigned_8 (SEA (Message_Length_Size + 1))),
                   To_PO_HI_Full_Stream (SEA)
                     (1 .. Stream_Element_Offset (SEO)));
             exception

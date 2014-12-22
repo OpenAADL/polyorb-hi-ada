@@ -6,7 +6,7 @@
 --                                                                          --
 --                              P r o j e c t                               --
 --                                                                          --
---               Copyright (C) 2007-2008, GET-Telecom Paris.                --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -60,7 +60,7 @@ project PolyORB_HI is
                       --  Common_Options.
                       --@WARNINGS_ARE_ERRORS@"-gnatfy", --  Style warnings
                       --@WARNINGS_ARE_ERRORS@"-gnatwe", --  Warnings are errors
-                      "-gnat05"  --  Ada 2005 mode
+                      "-gnat12"  --  Ada 2012 mode
                      );
 
    Debug_Options := (
@@ -156,9 +156,9 @@ project PolyORB_HI is
    ------------
 
    package Binder is
-      for Default_Switches ("ada") use 
-        ("-r", 
-         "-T0" -- Force time slice to 0, 
+      for Default_Switches ("ada") use
+        ("-r",
+         "-T0" -- Force time slice to 0,
                -- see A.3 of GNAT user Manual for more details
         );
    end Binder;

@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -46,7 +46,10 @@ package body PolyORB_HI.Suspenders is
    -- Suspend_Forever --
    ---------------------
 
-   procedure Suspend_Forever is
+   procedure Suspend_Forever
+     with SPARK_Mode => Off
+     --  XXX: delay until not supported in GNATProve GPL2014
+   is
    begin
       --  Suspend_Until_True (The_Suspender);
 
@@ -66,24 +69,22 @@ package body PolyORB_HI.Suspenders is
         Ada.Real_Time.Clock + Ada.Real_Time.Milliseconds (1_000);
       pragma Debug
         (Put_Line
-         (Verbose, "Initialization of all subsystems finished,"
-            & " system startup in 1 second(s)"));
+         (Verbose, "Initialization finished, system startup in 1 second(s)"));
 
       for J in Task_Suspension_Objects'Range loop
          pragma Debug
            (Put_Line
             (Verbose, "Unblocking task "
-             & PolyORB_HI_Generated.Deployment.Entity_Image (J)));
+               + PolyORB_HI_Generated.Deployment.Entity_Image (J)));
 
          Set_True (Task_Suspension_Objects (J));
 
          pragma Debug
            (Put_Line
             (Verbose, "Task "
-             & PolyORB_HI_Generated.Deployment.Entity_Image (J)
-             & " unblocked"));
+             + PolyORB_HI_Generated.Deployment.Entity_Image (J)
+             + " unblocked"));
       end loop;
-
    end Unblock_All_Tasks;
 
 end PolyORB_HI.Suspenders;

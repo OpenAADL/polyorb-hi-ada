@@ -63,8 +63,8 @@ package body PolyORB_HI.Background_Task is
         (Put_Line
          (Verbose,
           "Background Task "
-          & Entity_Image (Entity)
-          & ": Wait initialization"));
+          + Entity_Image (Entity)
+          + ": Wait initialization"));
 
       Suspend_Until_True (Task_Suspension_Objects (Entity));
       delay until System_Startup_Time;
@@ -72,14 +72,14 @@ package body PolyORB_HI.Background_Task is
       pragma Debug (Put_Line
                     (Verbose,
                      "Background task initialized for entity "
-                     & Entity_Image (Entity)));
+                     + Entity_Image (Entity)));
 
       pragma Debug
         (Put_Line
          (Verbose,
           "Background Task "
-            & Entity_Image (Entity)
-            & ": Run job"));
+            + Entity_Image (Entity)
+            + ": Run job"));
 
       Error := Job;
 

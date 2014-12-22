@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2012 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2014 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -40,28 +40,41 @@ package body PolyORB_HI.Utils is
    function To_HI_String (S : String) return HI_String is
       R : String (1 .. HI_String_Size) := (others => ' ');
    begin
-      R (1 .. S'Length) := S;
-      return HI_String'(S => R,
-                        L => S'Length);
+      if S'Length < 1 then
+         return HI_String'(S => R,
+                           L => 0);
+
+      elsif S'Length <= HI_String_Size then
+         for J in 1 .. S'Length loop
+            R (J) := S (S'First + (J - 1));
+
+         end loop;
+
+         --  XXX GNATProve GPL2014 cannot prove the code below, which
+         --  appears equivalent, TBI
+         --  R (1 .. S'Length) := S (S'First .. S'Last);
+
+         return HI_String'(S => R,
+                           L => S'Length);
+
+      else
+         R (1 .. HI_String_Size) := S (S'First .. S'First + HI_String_Size - 1);
+         return HI_String'(S => R,
+                           L => HI_String_Size);
+      end if;
+
    end To_HI_String;
-
-   ---------------
-   -- To_String --
-   ---------------
-
-   function To_String (H : HI_String) return String is
-   begin
-      return H.S (1 .. H.L);
-   end To_String;
 
    ----------------
    -- Swap_Bytes --
    ----------------
+   --  XXX check intrinsic __builtint_bswapXX
 
    function Swap_Bytes (B : Interfaces.Unsigned_16)
                        return Interfaces.Unsigned_16
    is
       use System;
+
    begin
       pragma Warnings (Off);
       --  Note: this is to disable a warning on the following test
@@ -108,14 +121,12 @@ package body PolyORB_HI.Utils is
    function Parse_String (S : String; First : Integer; Delimiter : Character)
                          return Integer
    is
-      Last : Integer;
+      Last : Integer := S'Last;
    begin
       for J in First .. S'Last loop
          if S (J) = Delimiter then
             Last := J - 1;
             exit;
-         elsif J = S'Last then
-            Last := J;
          end if;
       end loop;
 

@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -48,7 +48,12 @@ with PolyORB_HI_Generated.Transport;
 
 --  Transport low-level service of PolyORB HI, using BSD sockets
 
-package body PolyORB_HI.Transport_Low_Level is
+package body PolyORB_HI.Transport_Low_Level
+  with Spark_Mode => Off
+  --  SPARK_Mode is disabled for this unit, it relies on OS-specific
+  --  libraries. We discard this unit for now.
+
+is
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely
@@ -115,7 +120,7 @@ package body PolyORB_HI.Transport_Low_Level is
       pragma Warnings (On);
 
       for J in Naming_Table'Range loop
-         if Naming_Table (J).Location.L = 0
+         if Length (Naming_Table (J).Location) = 0
            or else Naming_Table (J).Port = 0
          then
             Nodes (J).Address := (GNAT.Sockets.Family_Inet,
@@ -158,7 +163,7 @@ package body PolyORB_HI.Transport_Low_Level is
          pragma Debug (Put_Line
                        (Verbose,
                         "Local socket created for "
-                        & Image (Nodes (My_Node).Address)));
+                        + Image (Nodes (My_Node).Address)));
       end if;
 
       --  Start the protocol handler task
@@ -179,7 +184,7 @@ package body PolyORB_HI.Transport_Low_Level is
                   pragma Debug
                     (Put_Line
                      (Verbose,
-                      "Try to connect to " & Image (Nodes (N).Address)));
+                      "Try to connect to " + Image (Nodes (N).Address)));
 
                   delay until Next_Time;
 
@@ -198,14 +203,14 @@ package body PolyORB_HI.Transport_Low_Level is
 
             pragma Debug (Put_Line
                             (Verbose,
-                             "Connected to " & Image (Nodes (N).Address)));
+                             "Connected to " + Image (Nodes (N).Address)));
          end if;
       end loop;
 
       Suspend_Until_True (Other_Nodes_Init);
 
       pragma Debug (Put_Line (Verbose, "Initialization of socket subsystem"
-                              & " is complete"));
+                              + " is complete"));
 
       --  Unblock the receiver task
 
@@ -244,7 +249,7 @@ package body PolyORB_HI.Transport_Low_Level is
       if Nodes (My_Node).Address.Addr /= No_Inet_Addr then
          pragma Debug (Put_Line
                        (Verbose, "Waiting on "
-                        & Image (Nodes (My_Node).Address)));
+                        + Image (Nodes (My_Node).Address)));
 
          for N in Nodes'Range loop
             if N /= My_Node then
@@ -259,10 +264,10 @@ package body PolyORB_HI.Transport_Low_Level is
 
                --  Identify peer node
 
-               Node := Corresponding_Node (Integer_8 (SEC (SEC'First)));
+               Node := Corresponding_Node (Unsigned_8 (SEC (SEC'First)));
                Nodes (Node).Socket_Receive := Socket;
                pragma Debug (Put_Line (Verbose, "Connection from node "
-                                       & Node_Image (Node)));
+                                       + Node_Image (Node)));
 
             end if;
          end loop;
@@ -304,14 +309,15 @@ package body PolyORB_HI.Transport_Low_Level is
                --  Receive message length
 
                Receive_Socket (Nodes (N).Socket_Receive, SEL, SEO);
-
-               --  Receive zero bytes means that peer is dead
+               pragma Debug (Put_Line (Verbose, "SEL " + SEL'Length'Img
+                                         + "MLS" + Message_Length_Size'Img));
+               --  Receiving zero byte means that peer is dead
 
                if SEO = 0 then
                   pragma Debug (Put_Line
                                   (Verbose,
-                                   "Node " & Node_Image (N)
-                                   & " is dead"));
+                                   "Node " + Node_Image (N)
+                                     + " is dead"));
                   exit Main_Loop;
                end if;
 
@@ -320,8 +326,8 @@ package body PolyORB_HI.Transport_Low_Level is
                pragma Debug (Put_Line
                                (Verbose,
                                 "received"
-                                & AS.Stream_Element_Offset'Image (SEO)
-                                & " bytes from node " & Node_Image (N)));
+                                + AS.Stream_Element_Offset'Image (SEO)
+                                + " bytes from node " + Node_Image (N)));
 
                --  Get the message and preserve message length to keep
                --  compatible with a local message delivery.
@@ -334,7 +340,7 @@ package body PolyORB_HI.Transport_Low_Level is
 
                PolyORB_HI_Generated.Transport.Deliver
                  (Corresponding_Entity
-                  (Integer_8 (SEA (Message_Length_Size + 1))),
+                  (Unsigned_8 (SEA (Message_Length_Size + 1))),
                   To_PO_HI_Full_Stream (SEA)
                     (1 .. Stream_Element_Offset (SEO)));
             end if;
@@ -345,10 +351,10 @@ package body PolyORB_HI.Transport_Low_Level is
       when E : others =>
          pragma Debug (Put_Line
                        (Normal, "Exception "
-                        & Ada.Exceptions.Exception_Name (E)));
+                        + Ada.Exceptions.Exception_Name (E)));
          pragma Debug (Put_Line
                        (Normal, "Message "
-                        & Ada.Exceptions.Exception_Message (E)));
+                        + Ada.Exceptions.Exception_Message (E)));
          null;
    end Receiver_Task;
 
@@ -361,33 +367,29 @@ package body PolyORB_HI.Transport_Low_Level is
      return Error_Kind
    is
       L : AS.Stream_Element_Offset;
-      pragma Unreferenced (L);
 
-      --  We cannot cast both array types using
-      --  Ada.Unchecked_Conversion because they are unconstrained
-      --  types. We cannot either use direct casting because component
-      --  types are incompatible. The only time efficient manner to do
-      --  the casting is to use representation clauses.
+      --  We cannot cast both array types using Unchecked_Conversion
+      --  because they are unconstrained types. We cannot either use
+      --  direct casting because component types are incompatible. The
+      --  only time efficient manner to do the casting is to use
+      --  representation clauses.
       Msg : AS.Stream_Element_Array (1 .. Message'Length);
       pragma Import (Ada, Msg);
       for Msg'Address use Message'Address;
 
    begin
-      pragma Warnings (Off);
-      Send_Socket (Nodes (Node).Socket_Send,
-                   Msg,
-                   L);
-      --  WAG: GPL 2007
-      pragma Warnings (On);
+      pragma Debug (Put_Line (Verbose, "Sending message, size:" + L'Img));
+      Send_Socket (Nodes (Node).Socket_Send, Msg, L);
+
       return Error_Kind'(Error_None);
    exception
       when E : others =>
          pragma Debug (Put_Line
                        (Normal, "Exception "
-                          & Ada.Exceptions.Exception_Name (E)));
+                          + Ada.Exceptions.Exception_Name (E)));
          pragma Debug (Put_Line
                        (Normal, "Message "
-                          & Ada.Exceptions.Exception_Message (E)));
+                          + Ada.Exceptions.Exception_Message (E)));
       return Error_Kind'(Error_Transport);
    end Send;
 

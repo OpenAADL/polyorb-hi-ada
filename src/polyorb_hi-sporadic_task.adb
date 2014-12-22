@@ -67,8 +67,8 @@ package body PolyORB_HI.Sporadic_Task is
         (Put_Line
          (Verbose,
           "Sporadic Task "
-          & Entity_Image (Entity)
-          & ": Wait initialization"));
+          + Entity_Image (Entity)
+          + ": Wait initialization"));
 
       Suspend_Until_True (Task_Suspension_Objects (Entity));
       --      delay until System_Startup_Time;
@@ -76,7 +76,7 @@ package body PolyORB_HI.Sporadic_Task is
       pragma Debug (Put_Line
                     (Verbose,
                      "Sporadic task initialized for entity "
-                     & Entity_Image (Entity)));
+                     + Entity_Image (Entity)));
 
 
       --  Main task loop
@@ -86,8 +86,8 @@ package body PolyORB_HI.Sporadic_Task is
            (Put_Line
             (Verbose,
              "Sporadic Task "
-             & Entity_Image (Entity)
-             & ": New Dispatch"));
+             + Entity_Image (Entity)
+             + ": New Dispatch"));
 
          --  Block until an event is received
 
@@ -97,8 +97,8 @@ package body PolyORB_HI.Sporadic_Task is
            (Put_Line
             (Verbose,
              "Sporadic Task "
-             & Entity_Image (Entity)
-             & ": received event"));
+             + Entity_Image (Entity)
+             + ": received event"));
 
          --  Calculate the next start time according to the minimal
          --  inter-arrival time.

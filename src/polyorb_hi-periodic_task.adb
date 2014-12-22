@@ -63,8 +63,8 @@ package body PolyORB_HI.Periodic_Task is
         (Put_Line
          (Verbose,
           "Periodic Task "
-          & Entity_Image (Entity)
-          & ": Wait initialization"));
+          + Entity_Image (Entity)
+          + ": Wait initialization"));
 
       Suspend_Until_True (Task_Suspension_Objects (Entity));
       Next_Start := System_Startup_Time + Dispatch_Offset;
@@ -81,7 +81,7 @@ package body PolyORB_HI.Periodic_Task is
          pragma Debug
            (Put_Line
             (Verbose,
-             "Periodic Task " & Entity_Image (Entity) & ": New Cycle"));
+             "Periodic Task " + Entity_Image (Entity) + ": New Cycle"));
 
          --  Execute the task's job
 
@@ -94,8 +94,8 @@ package body PolyORB_HI.Periodic_Task is
          --  T := Ada.Real_Time.Clock;
          --  if T > Next_Start then
          --     Put_Line (Normal, "***** Overload detected in task "
-         --                 & Entity_Image (Entity) & " *****");
-         --     Put_Line (Normal, "Lag: " &
+         --                 + Entity_Image (Entity) + " *****");
+         --     Put_Line (Normal, "Lag: " +
          --                 Duration'Image (To_Duration (Next_Start - T)));
          --  end if;
 

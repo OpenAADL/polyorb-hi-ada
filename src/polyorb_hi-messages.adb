@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2012 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -61,6 +61,11 @@ package body PolyORB_HI.Messages is
    Receiver_Offset : constant Stream_Element_Offset := Message_Length_Size + 1;
    Sender_Offset   : constant Stream_Element_Offset := Message_Length_Size + 2;
 
+   function Length (M : Message_Type) return PDU_Index is
+      (M.Last - M.First + 1)
+        with Pre => (Valid (M));
+   --  Return length of message M
+
    -----------------
    -- Encapsulate --
    -----------------
@@ -71,51 +76,19 @@ package body PolyORB_HI.Messages is
       Entity  : Entity_Type)
      return Stream_Element_Array
    is
-      L : constant Stream_Element_Count := Length (Message) + Header_Size;
-      R : Stream_Element_Array (1 .. L);
+      L : constant Stream_Element_Count := Message.Last + Header_Size;
+      R : Stream_Element_Array (1 .. L) := (others => 0);
+
+      P : constant Stream_Element_Array (1 .. Length (Message))
+        := Payload (Message);
    begin
       R (1 .. Message_Length_Size) := To_Buffer (L - 1);
       R (Receiver_Offset) := Stream_Element (Internal_Code (Entity));
       R (Sender_Offset)   := Stream_Element (Internal_Code (From));
-
-      for J in 1 .. Length (Message) loop
-         R (Header_Size + J) := Message.Content (J);
-      end loop;
-
+      R (Header_Size +  1 .. Header_Size + Length (Message)) := P;
+      --  XXX GNATProve GPL 2014 limitation ?
       return R;
    end Encapsulate;
-
-   ------------
-   -- Length --
-   ------------
-
-   function Length (M : Message_Type) return Stream_Element_Count is
-   begin
-      return M.Last + 1 - M.First;
-   end Length;
-
-   -------------
-   -- Payload --
-   -------------
-
-   function Payload (M : Message_Type) return Stream_Element_Array is
-      Payload : Stream_Element_Array (M.First .. M.Last);
-   begin
-      for J in M.First .. M.Last loop
-         Payload (J) := M.Content (J);
-      end loop;
-
-      return Payload;
-   end Payload;
-
-   ------------
-   -- Sender --
-   ------------
-
-   function Sender (M : Message_Type) return Entity_Type is
-   begin
-      return Sender (M.Content (M.First .. M.Last));
-   end Sender;
 
    ------------
    -- Sender --
@@ -123,7 +96,7 @@ package body PolyORB_HI.Messages is
 
    function Sender (M : Stream_Element_Array) return Entity_Type is
    begin
-      return Corresponding_Entity (Integer_8 (M (Sender_Offset)));
+      return Corresponding_Entity (Unsigned_8 (M (Sender_Offset)));
    end Sender;
 
    ----------
@@ -135,19 +108,29 @@ package body PolyORB_HI.Messages is
       Item   :    out Stream_Element_Array;
       Last   :    out Stream_Element_Offset)
    is
-      L1 : constant Stream_Element_Count := Item'Length;
-      L2 : Stream_Element_Count := Length (Stream);
+      Read_Elts : constant Stream_Element_Count
+        := Stream_Element_Count'Min (Item'Length, Length (Stream));
    begin
-      if L1 < L2 then
-         L2 := L1;
+      Item := (others => 0);
+
+      if Read_Elts < 1 then
+         --  We have nothing to read, exit
+         Last := 0;
+         return;
+      elsif Read_Elts = Item'Length then
+         Last := Item'Last;
+      else
+         Last := Item'First + Read_Elts - 1;
       end if;
 
-      for J in 0 .. L2 - 1 loop
-         Item (Item'First + J) := Stream.Content (Stream.First + J);
-      end loop;
+      Item (Item'First .. Last)
+        := Stream.Content (Stream.First .. Stream.First + Read_Elts - 1);
 
-      Last := Item'First + L2 - 1;
-      Stream.First := Stream.First + L2;
+      if Stream.First + Read_Elts < Stream.Content'Last then
+         Stream.First := Stream.First + Read_Elts;
+      else
+         Stream.First := 0;
+      end if;
    end Read;
 
    ----------------
@@ -170,17 +153,15 @@ package body PolyORB_HI.Messages is
    is
    begin
       if Stream.First > Stream.Last then
-         Stream.First := 1;
-         Stream.Last := 0;
+         Reallocate (Stream);
+         -- The message is invalid, we reset it
+         -- XXX Do we need to do that ???
       end if;
 
-      for J in Item'Range loop
-         Stream.Content (Stream.Last
-                         + Stream_Element_Offset (J - Item'First + 1))
-           := Item (J);
-      end loop;
-
-      Stream.Last := Stream.Last + Item'Length;
+      if Item'Length <= Stream.Content'Last - Stream.Last then
+         Stream.Content (Stream.Last + 1 .. Stream.Last + Item'Length) := Item;
+         Stream.Last := Stream.Last + Item'Length;
+      end if;
    end Write;
 
    ---------------

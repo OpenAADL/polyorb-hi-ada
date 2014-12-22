@@ -2,11 +2,11 @@
 --                                                                          --
 --                          PolyORB HI COMPONENTS                           --
 --                                                                          --
---          P O L Y O R B _ H I . O U T P U T _ L O W _ L E V E L           --
+--                 P O L Y O R B _ H I . N U L L _ T A S K                  --
 --                                                                          --
---                                 B o d y                                  --
+--                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2014 ESA & ISAE.      --
+--                     Copyright (C) 2014 ESA & ISAE.                       --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -31,40 +31,58 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces.C;
+--  Define a "null" task as a job to be scheduled by a
+--  software-defined scheduler in place of a OS scheduler. Its
+--  interface mimics the one of a periodic task.
+--
+--  Expected usage is for a Round-Robin non-preemptive scheduler
+--  defined through a cyclic function.
+
 with System;
+with Ada.Real_Time;
+with PolyORB_HI_Generated.Deployment;
+with PolyORB_HI.Errors;
 
-package body PolyORB_HI.Output_Low_Level is
+generic
+   Entity          : in PolyORB_HI_Generated.Deployment.Entity_Type;
+   --  So that the task know from which AADL entity it has been
+   --  mapped.
 
-   ---------
-   -- Put --
-   ---------
+   Task_Priority   : in System.Any_Priority;
+   --  Task priority
 
-   procedure Put (S : String)
-     with SPARK_Mode => Off
-     --  SPARK_Mode is distabled because of the Address attribute
-   is
-      procedure C_Write
-        (Fd  : Interfaces.C.int;
-         P   : System.Address;
-         Len : Interfaces.C.int);
-      pragma Import (C, C_Write, "write");
+   Task_Stack_Size : in Natural;
+   --  Task stack size
 
-   begin
-      C_Write (2, S (S'First)'Address, S'Length);
-      --  2 is standard error
+   Task_Period     : in Ada.Real_Time.Time_Span;
+   --  Task period
 
-   end Put;
+   Task_Deadline   : in Ada.Real_Time.Time_Span;
+   --  Task deadline
 
-   --------------
-   -- New_Line --
-   --------------
+   with function Job return PolyORB_HI.Errors.Error_Kind;
+   --  Procedure to call at each dispatch of the sporadic thread
 
-   procedure New_Line is
-      S : constant String := (1 => Character'Val (10));
+   with procedure Activate_Entrypoint is null;
+   --  If given, the task run Activate_Entrypoint after the global
+   --  initialization and before the task main loop.
 
-   begin
-      Put (S);
-   end New_Line;
+   with procedure Recover_Entrypoint is null;
+   --  If given, the task runs Recover_Entrypoint when an error is
+   --  detected.
 
-end PolyORB_HI.Output_Low_Level;
+package PolyORB_HI.Null_Task is
+   --  The following parameters are not used for now. The usage is
+   --  reserved for future extensions.
+
+   pragma Unreferenced (Task_Priority);
+   pragma Unreferenced (Task_Stack_Size);
+   pragma Unreferenced (Task_Period);
+   pragma Unreferenced (Task_Deadline);
+
+   procedure The_Null_Task;
+
+   function Next_Deadline return Ada.Real_Time.Time;
+   --  Return the value of the next deadline (in absolute time)
+
+end PolyORB_HI.Null_Task;
