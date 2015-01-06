@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                     Copyright (C) 2012 ESA & ISAE.                       --
+--                   Copyright (C) 2012-2015 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB HI is free software; you  can  redistribute  it and/or modify it --
 -- under terms of the GNU General Public License as published by the Free   --
@@ -50,7 +50,9 @@ with POHICDRIVER_IP;
 --  This package provides support for the TCP_IP device driver as
 --  defined in the tcp_protocol.aadl AADLv2 model.
 
-package body PolyORB_HI_Drivers_Native_TCP_IP is
+package body PolyORB_HI_Drivers_Native_TCP_IP
+  with SPARK_Mode => Off
+is
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely
@@ -108,64 +110,64 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
       pragma Warnings (On);
 
       for J in Name_Table'Range loop
-	 if Name_Table (J).Variable = System.Null_Address then
-	    if Name_Table (J).Location.L = 0 then
-	       Nodes (J).Address := (GNAT.Sockets.Family_Inet,
-				     GNAT.Sockets.No_Inet_Addr,
-				     GNAT.Sockets.No_Port);
-	    else
-	       --  The structure of the location information is
-	       --  "ip address port"
+         if Name_Table (J).Variable = System.Null_Address then
+            if Length (Name_Table (J).Location) = 0 then
+               Nodes (J).Address := (GNAT.Sockets.Family_Inet,
+                                     GNAT.Sockets.No_Inet_Addr,
+                                     GNAT.Sockets.No_Port);
+            else
+               --  The structure of the location information is
+               --  "ip address port"
 
-	       declare
-		  S : constant String := PolyORB_HI.Utils.To_String
-		    (Name_Table (J).Location);
-		  Addr_First, Addr_Last : Integer;
-		  Port : Integer;
+               declare
+                  S : constant String := PolyORB_HI.Utils.To_String
+                    (Name_Table (J).Location);
+                  Addr_First, Addr_Last : Integer;
+                  Port : Integer;
 
-		  First : Integer;
-		  Last : Integer;
-	       begin
-		  First := S'First;
+                  First : Integer;
+                  Last : Integer;
+               begin
+                  First := S'First;
 
-		  --  First parse the prefix "ip"
+                  --  First parse the prefix "ip"
 
-		  Last := Parse_String (S, First, ' ');
+                  Last := Parse_String (S, First, ' ');
 
-		  if S (First .. Last) /= "ip" then
-		     raise Program_Error with "Invalid configuration";
-		  end if;
+                  if S (First .. Last) /= "ip" then
+                     raise Program_Error with "Invalid configuration";
+                  end if;
 
-		  --  Then, parse the address
+                  --  Then, parse the address
 
-		  First := Last + 2;
-		  Last := Parse_String (S, First, ' ');
-		  Addr_First := First;
-		  Addr_Last := Last;
+                  First := Last + 2;
+                  Last := Parse_String (S, First, ' ');
+                  Addr_First := First;
+                  Addr_Last := Last;
 
-		  --  Finally the port
+                  --  Finally the port
 
-		  First := Last + 2;
-		  Last := Parse_String (S, First, ' ');
-		  Port := Integer'Value (S (First .. Last));
+                  First := Last + 2;
+                  Last := Parse_String (S, First, ' ');
+                  Port := Integer'Value (S (First .. Last));
 
-		  Nodes (J).Address := (GNAT.Sockets.Family_Inet,
-					GNAT.Sockets.Inet_Addr
-					  (S (Addr_First .. Addr_Last)),
-					GNAT.Sockets.Port_Type (Port));
-	       end;
-	    end if;
-	 else
-	    declare
-	       Configuration : constant IP_Conf_T
-		 := To_IP_Conf_T_Acc (Name_Table (J).Variable).all;
-	    begin
-	       Nodes (J).Address :=
-		 (GNAT.Sockets.Family_Inet,
-		  GNAT.Sockets.Inet_Addr (Configuration.Address),
-		  GNAT.Sockets.Port_Type (Configuration.Port));
-	    end;
-	 end if;
+                  Nodes (J).Address := (GNAT.Sockets.Family_Inet,
+                                        GNAT.Sockets.Inet_Addr
+                                          (S (Addr_First .. Addr_Last)),
+                                        GNAT.Sockets.Port_Type (Port));
+               end;
+            end if;
+         else
+            declare
+               Configuration : constant IP_Conf_T
+                 := To_IP_Conf_T_Acc (Name_Table (J).Variable).all;
+            begin
+               Nodes (J).Address :=
+                 (GNAT.Sockets.Family_Inet,
+                  GNAT.Sockets.Inet_Addr (Configuration.Address),
+                  GNAT.Sockets.Port_Type (Configuration.Port));
+            end;
+         end if;
       end loop;
 
       --  Create the local socket if the node is remote-callable
