@@ -9,7 +9,7 @@ DIST_SUBDIRS = $(SUBDIRS) examples
 examples:: install
 	$(MAKE) -C examples build-all
 
-check-local: run-examples
+check-local: examples #run-examples
 
 run-examples:: examples
 	$(MAKE) -C examples check-all
