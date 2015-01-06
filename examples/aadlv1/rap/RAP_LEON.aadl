@@ -22,12 +22,8 @@ end C_Bus.Impl;
 
 system implementation RAP.LEON
 subcomponents
-  software : process Monolithic_RAP.LEON
-   {ARAO::Channel_Address => 2;
-    ARAO::Process_Id      => 1200;};
-  hardware : process Hardware_Emulator.Impl
-   {ARAO::Channel_Address => 3;
-    ARAO::Process_Id      => 1201;};
+  software : process Monolithic_RAP.LEON;
+  hardware : process Hardware_Emulator.Impl;
 
   s_cpu : processor cpu.LEON;
   h_cpu : processor cpu.LEON;

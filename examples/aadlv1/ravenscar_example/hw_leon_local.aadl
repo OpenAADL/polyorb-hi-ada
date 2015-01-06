@@ -4,7 +4,7 @@ processor The_Processor
 properties
   Deployment::Execution_Platform                 => LEON_ORK;
   Cheddar_Properties::Preemptive_Scheduler => true;
-  Scheduling_Protocol                      => 
+  Scheduling_Protocol                      =>
     POSIX_1003_HIGHEST_PRIORITY_FIRST_PROTOCOL;
 end The_Processor;
 
@@ -13,9 +13,7 @@ end Case_Study;
 
 system implementation Case_Study.LEON_Local
 subcomponents
-  WoM : process Workload_Manager.Impl
-    {Deployment::Channel_Address => 2;
-     Deployment::Process_Id      => 1200;};
+  WoM : process Workload_Manager.Impl;
   CPU_1 : processor The_Processor;
 properties
   Actual_Processor_Binding => reference CPU_1 applies to WoM;
