@@ -198,8 +198,8 @@ public
 
   process B
   features
-    Data_Sink : in data port s::Simple_Type;    
-    ack       : out data port s::Simple_Type;    
+    Data_Sink : in data port s::Simple_Type;
+    ack       : out data port s::Simple_Type;
   end B;
 
   process implementation B.Impl
@@ -229,15 +229,9 @@ public
 
   system implementation PING.ERC32
   subcomponents
-    Node_A : process A.Impl
-      {Deployment::Channel_Address => 2;
-       Deployment::Process_Id => 1200;};
-    Node_B : process B.Impl
-      {Deployment::Channel_Address => 3;
-       Deployment::Process_Id => 1201;};
-    Node_C : process C.Impl
-      {Deployment::Channel_Address => 4;
-       Deployment::Process_Id => 1202;};
+    Node_A : process A.Impl;
+    Node_B : process B.Impl;
+    Node_C : process C.Impl;
 
     CPU : processor the_processor.Impl;
 
@@ -549,12 +543,6 @@ property set Deployment is
     applies to (processor);
 
   Port_Number : aadlinteger
-    applies to (process);
-
-  Process_ID : aadlinteger
-    applies to (process);
-
-  Channel_Address : aadlinteger
     applies to (process);
 
   Protocol_Type : type enumeration (iiop, diop);

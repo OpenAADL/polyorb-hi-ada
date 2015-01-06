@@ -13,7 +13,7 @@ processor the_processor
 end the_processor;
 
 processor implementation the_processor.Impl
-properties 
+properties
    Scheduling_Protocol => (Posix_1003_Highest_Priority_First_Protocol);
    Cheddar_Properties::Scheduler_Quantum => 0 Ms;
    Cheddar_Properties::Preemptive_Scheduler => true;
@@ -43,9 +43,7 @@ end PING;
 
 system implementation PING.LEON
 subcomponents
-  Node_A : process A.Impl
-   {Deployment::Channel_Address => 2;
-    Deployment::Process_Id      => 1200;};
+  Node_A : process A.Impl;
 
   CPU : processor the_processor.Impl
    {Deployment::Execution_Platform => LEON_ORK;};
@@ -55,9 +53,7 @@ end PING.LEON;
 
 system implementation PING.LEON_GNAT
 subcomponents
-  Node_A : process A.Impl
-   {Deployment::Channel_Address => 2;
-    Deployment::Process_Id      => 1200;};
+  Node_A : process A.Impl;
 
   CPU : processor the_processor.Impl
    {Deployment::Execution_Platform => LEON_GNAT;};

@@ -46,9 +46,7 @@ end Prime_Numbers;
 
 system implementation Prime_Numbers.LEON
 subcomponents
-  Node_A : process A.Impl
-   {Deployment::Channel_Address => 2;
-    Deployment::Process_Id      => 1200;};
+  Node_A : process A.Impl;
 
   CPU : processor the_processor.Impl;
 properties

@@ -180,9 +180,7 @@ subcomponents
   P1            : processor the_processor
    {Priority_Range => 0 .. 255;
     Deployment::Execution_Platform => LEON_ORK;};
-  GNC_TMTC_POS  : process Toy_Example_Proc.Impl
-   {Deployment::Channel_Address => 2;
-    Deployment::Process_Id      => 1200;};
+  GNC_TMTC_POS  : process Toy_Example_Proc.Impl;
 properties
   Actual_Processor_Binding => reference (P1) applies to GNC_TMTC_POS;
 end toy_example.leon;
@@ -192,9 +190,7 @@ subcomponents
   P1            : processor the_processor
    {Priority_Range => 0 .. 255;
     Deployment::Execution_Platform => LEON_GNAT;};
-  GNC_TMTC_POS  : process Toy_Example_Proc.Impl
-   {Deployment::Channel_Address => 2;
-    Deployment::Process_Id      => 1200;};
+  GNC_TMTC_POS  : process Toy_Example_Proc.Impl;
 properties
   Actual_Processor_Binding => reference (P1) applies to GNC_TMTC_POS;
 end toy_example.leon_gnat;

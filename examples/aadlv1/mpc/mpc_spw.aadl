@@ -45,20 +45,14 @@ end MPC;
 
 system implementation MPC.LEON
 subcomponents
-  SC_1 : process Sender_Process.Impl 
-   {Deployment::Channel_Address => 2;
-    Deployment::Process_Id      => 1200;};
-  SC_2 : process Receiver_Process.Impl
-   {Deployment::Channel_Address => 3;
-    Deployment::Process_Id      => 1201;};
-  SC_3 : process Receiver_Process.Impl
-   {Deployment::Channel_Address => 4;
-    Deployment::Process_Id      => 1204;};
+  SC_1 : process Sender_Process.Impl;
+  SC_2 : process Receiver_Process.Impl;
+  SC_3 : process Receiver_Process.Impl;
 
   --  The CPUs
 
-  CPU_SC_1 : processor Complex_CPU.P4;  
-  CPU_SC_2 : processor Simple_CPU.P4;  
+  CPU_SC_1 : processor Complex_CPU.P4;
+  CPU_SC_2 : processor Simple_CPU.P4;
   CPU_SC_3 : processor Simple_CPU.P4;
 
   --  The SpaceWire buses

@@ -49,9 +49,7 @@ end Multiple_Instances;
 
 system implementation Multiple_Instances.LEON
 subcomponents
-  Node_A : process Send_Receive.Impl
-   {Deployment::Channel_Address => 2;
-    Deployment::Process_Id      => 1200;};
+  Node_A : process Send_Receive.Impl;
 
   CPU : processor the_processor.Impl;
 properties
