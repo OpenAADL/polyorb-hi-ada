@@ -82,7 +82,7 @@ EXTRA_DIST=\
 	$(srcdir)/polyorb-hi_ug.bib \
 	$(FIGURES)
 
-info_TEXINFOS = polyorb-hi-ada_ug.texi
+info_TEXINFOS =
 polyorb_hi_ada_ug_TEXINFOS = $(GUIDE_TEXIFILES)
 
 SUFFIXES = .ada .ads .adb .aadl .texi .sed .pdf .html
