@@ -17,7 +17,6 @@ ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi-aperiodic_task.ads	\
 	 $(srcdir)/polyorb_hi-suspenders.ads			\
 	 $(srcdir)/polyorb_hi-thread_interrogators.ads		\
 	 $(srcdir)/polyorb_hi-scheduler.ads			\
-	 $(srcdir)/polyorb_hi-time_marshallers.ads		\
 	 $(srcdir)/polyorb_hi-unprotected_queue.ads		\
 	 $(srcdir)/polyorb_hi-utils.ads
 
@@ -27,6 +26,7 @@ ADA_SPECS = $(ADA_SPECS_WITH_BODY) $(srcdir)/polyorb_hi.ads	\
 	$(srcdir)/polyorb_hi-output_low_level.ads		\
 	$(srcdir)/polyorb_hi-port_type_marshallers.ads		\
 	$(srcdir)/polyorb_hi-streams.ads			\
+	$(srcdir)/polyorb_hi-time_marshallers.ads		\
 	$(srcdir)/polyorb_hi-transport_low_level.ads
 
 ADA_BODIES = $(ADA_SPECS_WITH_BODY:.ads=.adb)			\
