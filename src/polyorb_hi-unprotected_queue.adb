@@ -370,17 +370,11 @@ package body PolyORB_HI.Unprotected_Queue is
                                  Frst := Frst - 1;
                               end loop;
                            end if;
-<<<<<<< HEAD
 
                         when Error =>
                            Put_Line (Verbose,
                                      CE + ": Store_In: FIFO is full");
                            --  XXX SHould raise an exception there !
-=======
-                        when Error =>
-                           raise Program_Error with
-                             CE + ": Store_In: FIFO is full";
->>>>>>>         * Move Unprotected_Queue to a dedicated package
                      end case;
 
                      --  Remove event in the history and shift

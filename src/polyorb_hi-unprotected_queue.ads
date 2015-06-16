@@ -56,12 +56,9 @@ generic
     PolyORB_HI_Generated.Deployment.Port_Sized_String;
    --  An array type to specify the image of each port.
 
-<<<<<<< HEAD
-=======
    type Address_Array is array (Port_Type) of System.Address;
    --  An array to specify a list of arrays of various sizes.
 
->>>>>>>         * Move Unprotected_Queue to a dedicated package
    type Overflow_Protocol_Array is array (Port_Type) of
      Port_Kinds.Overflow_Handling_Protocol;
    --  An array to specify the overflow_handling_protocol of each port
