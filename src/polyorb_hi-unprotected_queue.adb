@@ -30,11 +30,16 @@
 ------------------------------------------------------------------------------
 
 with PolyORB_HI.Output;
+with PolyORB_HI.Utils;
 
 package body PolyORB_HI.Unprotected_Queue is
 
+   use type PolyORB_HI.Streams.Stream_Element_Offset;
    use PolyORB_HI.Port_Kinds;
+   use Ada.Real_Time;
+   use PolyORB_HI_Generated.Deployment;
    use PolyORB_HI.Output;
+   use PolyORB_HI.Utils;
 
    ----------------
    -- Read_Event --
