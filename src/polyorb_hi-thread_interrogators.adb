@@ -28,24 +28,23 @@
 --                      (taste-users@lists.tuxfamily.org)                   --
 --                                                                          --
 ------------------------------------------------------------------------------
-
+pragma SPARK_Mode (Off);
 with Ada.Unchecked_Conversion;
 
 with PolyORB_HI.Output;
-with PolyORB_HI.Protocols;
 with PolyORB_HI.Port_Type_Marshallers;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Time_Marshallers;
-with POlyORB_HI.Utils;
 with PolyORB_HI.Unprotected_Queue;
+with POlyORB_HI.Utils;
 
 package body PolyORB_HI.Thread_Interrogators is
 
-   use type PolyORB_HI.Streams.Stream_Element_Offset;
-   use PolyORB_HI.Port_Kinds;
    use Ada.Real_Time;
-   use PolyORB_HI_Generated.Deployment;
+
+   use type PolyORB_HI.Streams.Stream_Element_Offset;
    use PolyORB_HI.Output;
+   use PolyORB_HI.Port_Kinds;
    use PolyORB_HI.Utils;
 
    --------
@@ -141,10 +140,7 @@ package body PolyORB_HI.Thread_Interrogators is
                   + " of "
                   + Entity_Image (Port_Table (Dst (To)))));
 
-            Error := Protocols.Send (Current_Entity,
-                                     Port_Table (Dst (To)),
-                                     Message);
-
+            Error := Send (Current_Entity, Port_Table (Dst (To)), Message);
             PolyORB_HI.Messages.Reallocate (Message);
 
             if Error /= Error_None then
