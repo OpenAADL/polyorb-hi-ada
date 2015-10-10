@@ -29,30 +29,25 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This package holds a routine to suspend the main application task
+--  This package implements routines to suspend application tasks
 
-with Ada.Synchronous_Task_Control;
 with Ada.Real_Time;
+
 with PolyORB_HI_Generated.Deployment;
+pragma Elaborate_All (PolyORB_HI_Generated.Deployment);
 
 package PolyORB_HI.Suspenders is
 
-   use Ada.Synchronous_Task_Control;
    use PolyORB_HI_Generated.Deployment;
-
-   use type Ada.Real_Time.Time;
 
    procedure Suspend_Forever;
    --  Suspends for ever each task that call it
 
-   Task_Suspension_Objects : array (Entity_Type'Range) of Suspension_Object;
-   --  This array is used so that each task waits on its corresponding
-   --  suspension object until the transport layer initialization is
-   --  complete. We are obliged to do so since Ravenscar forbids that
-   --  more than one task wait on a protected object entry.
-
    System_Startup_Time : Ada.Real_Time.Time := Ada.Real_Time.Time_First;
    --  Startup time of user tasks
+
+   procedure Block_Task (Entity : Entity_Type);
+   --  Block a task until Unblock_All_Tasks is called.
 
    procedure Unblock_All_Tasks;
    --  Unblocks all the tasks waiting on the suspension objects of
