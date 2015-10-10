@@ -29,19 +29,16 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Synchronous_Task_Control;
-
 with PolyORB_HI.Output;
 with PolyORB_HI.Suspenders;
 
 package body PolyORB_HI.Sporadic_Task is
 
+   use Ada.Real_Time;
    use PolyORB_HI.Errors;
    use PolyORB_HI.Output;
    use PolyORB_HI_Generated.Deployment;
    use PolyORB_HI.Suspenders;
-   use Ada.Real_Time;
-   use Ada.Synchronous_Task_Control;
 
    Next_Deadline_Val : Time;
 
@@ -68,8 +65,8 @@ package body PolyORB_HI.Sporadic_Task is
           + Entity_Image (Entity)
           + ": Wait initialization"));
 
-      Suspend_Until_True (Task_Suspension_Objects (Entity));
-      --      delay until System_Startup_Time;
+      Block_Task (Entity);
+      delay until System_Startup_Time;
 
       pragma Debug (Put_Line
                     (Verbose,
