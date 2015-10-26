@@ -28,6 +28,7 @@
 --                      (taste-users@lists.tuxfamily.org)                   --
 --                                                                          --
 ------------------------------------------------------------------------------
+
 pragma SPARK_Mode (Off);
 with Ada.Unchecked_Conversion;
 
@@ -74,6 +75,7 @@ package body PolyORB_HI.Thread_Interrogators is
    -----------------
 
    function Send_Output (Port : Port_Type) return Error_Kind is
+      pragma SPARK_Mode (Off);
 
        type Port_Type_Array is array (Positive)
          of PolyORB_HI_Generated.Deployment.Port_Type;
