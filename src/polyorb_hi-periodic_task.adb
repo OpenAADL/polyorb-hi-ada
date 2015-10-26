@@ -29,27 +29,29 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma SPARK_Mode (Off);
-
 with PolyORB_HI.Output;
-with PolyORB_HI.Suspenders;
+with PolyORB_HI.Epoch;
+
+With PolyORB_HI.Suspenders;
 pragma Elaborate_All (PolyORB_HI.Suspenders);
 
 package body PolyORB_HI.Periodic_Task is
 
    use Ada.Real_Time;
 
+   use PolyORB_HI.Epoch;
    use PolyORB_HI.Errors;
    use PolyORB_HI.Output;
    use PolyORB_HI.Suspenders;
    use PolyORB_HI_Generated.Deployment;
 
-   Next_Deadline_Val : Time;
+   --   Next_Deadline_Val : constant Time := Time_First;
 
    task body The_Periodic_Task is
       Next_Start : Ada.Real_Time.Time;
       --  T : Ada.Real_Time.Time;
       Error : Error_Kind;
+      T0 : Ada.Real_Time.Time;
 
    begin
       --  Run the initialize entrypoint (if any)
@@ -66,15 +68,16 @@ package body PolyORB_HI.Periodic_Task is
           + ": Wait initialization"));
 
       Block_Task (Entity);
-      Next_Start := System_Startup_Time + Dispatch_Offset;
+      System_Startup_Time (T0);
+      Next_Start := T0 + Dispatch_Offset;
 
       delay until Next_Start;
 
       --  Main task loop
 
       Next_Start        := Next_Start + Task_Period;
-      Next_Deadline_Val := System_Startup_Time
-        + Dispatch_Offset + Task_Deadline;
+--      Next_Deadline_Val := System_Startup_Time
+--        + Dispatch_Offset + Task_Deadline;
 
       loop
          pragma Debug
@@ -103,8 +106,8 @@ package body PolyORB_HI.Periodic_Task is
              "Periodic Task " + Entity_Image (Entity) + ": End of Cycle"));
 
          delay until Next_Start;
+--         Next_Deadline_Val := Next_Start + Task_Deadline;
          Next_Start        := Next_Start + Task_Period;
-         Next_Deadline_Val := Ada.Real_Time.Clock + Task_Deadline;
       end loop;
    end The_Periodic_Task;
 
@@ -114,7 +117,8 @@ package body PolyORB_HI.Periodic_Task is
 
    function Next_Deadline return Ada.Real_Time.Time is
    begin
-      return Next_Deadline_Val;
+      --   return Next_Deadline_Val;
+      return Time_First;
    end Next_Deadline;
 
 end PolyORB_HI.Periodic_Task;
