@@ -29,89 +29,91 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with PolyORB_HI.Output_Low_Level;
-with PolyORB_HI.Suspenders;
-pragma Elaborate_All (PolyORB_HI.Suspenders);
-
-with Ada.Real_Time;
-with System;
+With PolyORB_HI.Output_Low_Level;
 
 package body PolyORB_HI.Output is
 
    use Ada.Real_Time;
+   use PolyORB_HI.Epoch;
 
-   procedure Unprotected_Put_Line (Text : in String);
-   --  Not thread-safe Put_Line function
+   ---------------------
+   -- Build_Timestamp --
+   ---------------------
 
-   procedure Unprotected_Put (Text : in String);
-   --  Not thread-safe Put function
+   function Build_Timestamp return Time_Span
+     with Global => (Input => (Epoch.Elaborated_Variables,
+                               Ada.Real_Time.Clock_Time)),
+          Volatile_Function;
 
-   --  This package encapsulates specific elements to protect against
-   --  race condition on the output buffer. It is in a package to
-   --  abide with SPARK restrictions.
+   function Build_Timestamp return Time_Span is
+      Start_Time : Time;
+      Elapsed    : Time_Span;
+   begin
+      System_Startup_Time (Start_Time);
+      if Start_Time = Time_First then
+         Elapsed := To_Time_Span (0.0);
+      else
+         Elapsed := Clock - Start_Time;
+      end if;
+      return Elapsed;
+   end Build_Timestamp;
 
-   package Output_Lock is
+   ----------
+   -- Lock --
+   ----------
 
-      procedure Put_Line (Text : in String);
-      --  As above but always displays the message
+   protected body Lock is
 
-      procedure Put (Text : in String);
+      --------------
+      -- Put_Line --
+      --------------
 
-   end Output_Lock;
-
-   package body Output_Lock is
-      pragma SPARK_MOde (Off);
-
-      protected Lock is
-      --  This lock has been defined to guarantee thread-safe output
-      --  display
-
-      procedure Put (Text : in String);
-
-      procedure Put_Line (Text : in String);
-
-      private
-         pragma Priority (System.Priority'Last);
-      end Lock;
-
-      protected body Lock is
-
-         --------------
-         -- Put_Line --
-         --------------
-
-         procedure Put_Line (Text : in String) is
-         begin
-            Unprotected_Put_Line (Text);
-         end Put_Line;
-
-         ---------
-         -- Put --
-         ---------
-
-         procedure Put (Text : in String) is
-         begin
-            Unprotected_Put (Text);
-         end Put;
-      end Lock;
-
-      procedure Put_Line (Text : in String) is
+      procedure Put_Line (Text : String)
+        with Spark_Mode => Off
+      is
+         Elapsed : constant Time_Span := Build_Timestamp;
       begin
-         Lock.Put_Line (Text);
+         PolyORB_HI.Output_Low_Level.Put ("[");
+         PolyORB_HI.Output_Low_Level.Put
+           (Duration'Image (To_Duration (Elapsed * 1000)));
+         PolyORB_HI.Output_Low_Level.Put ("] ");
+         PolyORB_HI.Output_Low_Level.Put (Text);
+         PolyORB_HI.Output_Low_Level.New_Line;
       end Put_Line;
 
-      procedure Put (Text : in String) is
+      ---------
+      -- Put --
+      ---------
+
+      procedure Put (Text : String)
+        with Spark_Mode => Off
+      is
+         Elapsed : constant Time_Span := Build_Timestamp;
       begin
-         Lock.Put (Text);
+         PolyORB_HI.Output_Low_Level.Put ("[");
+         PolyORB_HI.Output_Low_Level.Put
+           (Duration'Image (To_Duration (Elapsed * 1000)));
+         PolyORB_HI.Output_Low_Level.Put ("] ");
+         PolyORB_HI.Output_Low_Level.Put (Text);
       end Put;
 
-   end Output_Lock;
+   end Lock;
+
+   procedure Put_Line (Text : String) is
+   begin
+      Lock.Put_Line (Text);
+   end Put_Line;
+
+   procedure Put (Text : String) is
+   begin
+      Lock.Put (Text);
+   end Put;
 
    --------------
    -- Put_Line --
    --------------
 
-   procedure Put_Line (Mode : in Verbosity := Normal; Text : in String) is
+   procedure Put_Line (Mode : Verbosity := Normal; Text : String) is
    begin
       pragma Warnings (Off);
       --  Disable warnings on "Condition always true/false" because
@@ -124,16 +126,11 @@ package body PolyORB_HI.Output is
 
    end Put_Line;
 
-   procedure Put_Line (Text : in String) is
-   begin
-      Output_Lock.Put_Line (Text);
-   end Put_Line;
-
    ---------
    -- Put --
    ---------
 
-   procedure Put (Mode : in Verbosity := Normal; Text : in String) is
+   procedure Put (Mode : Verbosity := Normal; Text : String) is
    begin
       pragma Warnings (Off);
       --  Disable warnings on "Condition always true/false" because
@@ -145,42 +142,6 @@ package body PolyORB_HI.Output is
       end if;
 
    end Put;
-
-   procedure Put (Text : in String) is
-   begin
-      Output_Lock.Put (Text);
-   end Put;
-
-   --------------------------
-   -- Unprotected_Put_Line --
-   --------------------------
-
-   procedure Unprotected_Put_Line (Text : in String) is
-   begin
-      Unprotected_Put (Text);
-      PolyORB_HI.Output_Low_Level.New_Line;
-   end Unprotected_Put_Line;
-
-   ---------------------
-   -- Unprotected_Put --
-   ---------------------
-
-   procedure Unprotected_Put (Text : in String) is
-      Start_Time : Time renames PolyORB_HI.Suspenders.System_Startup_Time;
-      Elapsed    : Time_Span;
-   begin
-      if Start_Time = Time_First then
-         Elapsed := To_Time_Span (0.0);
-      else
-         Elapsed := Clock - Start_Time;
-      end if;
-
-      PolyORB_HI.Output_Low_Level.Put ("[");
-      PolyORB_HI.Output_Low_Level.Put
-        (Duration'Image (To_Duration (Elapsed * 1000)));
-      PolyORB_HI.Output_Low_Level.Put ("] ");
-      PolyORB_HI.Output_Low_Level.Put (Text);
-   end Unprotected_Put;
 
    ----------
    -- Dump --
@@ -202,9 +163,9 @@ package body PolyORB_HI.Output is
    begin
       for J in Stream'Range loop
          if Index + 3 <= Output'Last then
-            Output (Index)     := ' ';
-            Output (Index + 1) := Hex (Natural (Stream (J) / 16));
-            Output (Index + 2) := Hex (Natural (Stream (J) mod 16));
+            Output (Index .. Index + 2) := ' '
+              & Hex (Natural (Stream (J) / 16))
+              & Hex (Natural (Stream (J) mod 16));
             Index := Index + 3;
          else
             Put_Line (Mode, Output);
@@ -223,7 +184,7 @@ package body PolyORB_HI.Output is
    function "+" (S1 : String; S2 : String) return String is
       S : String (1 .. S1'Length + S2'Length) := (others => ' ');
    begin
-      S (1 .. S1'Length) := S1 (S1'First .. S1'Last);
+      S (S'First .. S1'Length) := S1 (S1'First .. S1'Last);
       S (S1'Length + 1 .. S'Last) := S2 (S2'First .. S2'Last);
 
       return S;
