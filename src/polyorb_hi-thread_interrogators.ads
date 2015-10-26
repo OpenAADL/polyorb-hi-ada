@@ -139,7 +139,7 @@ generic
    --  entity.
 
    with function Next_Deadline return Ada.Real_Time.Time;
-   --  To indicate when does the next deadline of the thread occur (in
+   --  To indicate when the next deadline of the thread occurs (in
    --  absolute time).
 
 package PolyORB_HI.Thread_Interrogators is
