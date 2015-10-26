@@ -2,11 +2,11 @@
 --                                                                          --
 --                          PolyORB HI COMPONENTS                           --
 --                                                                          --
---                P O L Y O R B _ H I . S U S P E N D E R S                 --
+--                     P O L Y O R B _ H I . E P O C H                      --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--                     Copyright (C) 2015 ESA & ISAE.                       --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,29 +29,24 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This package implements routines to suspend application tasks
+with Ada.Real_Time;
 
-with PolyORB_HI_Generated.Deployment;
-pragma Elaborate_All (PolyORB_HI_Generated.Deployment);
-
-package PolyORB_HI.Suspenders
+package PolyORB_HI.Epoch
   with Abstract_State => (Elaborated_Variables with Synchronous,
                           External => (Effective_Reads,
                                        Effective_Writes,
                                        Async_Writers,
                                        Async_Readers)),
        Initializes => Elaborated_Variables
+
 is
 
-   use PolyORB_HI_Generated.Deployment;
+   procedure System_Startup_Time (SST: out Ada.Real_Time.Time)
+     with Global => (In_Out => Elaborated_Variables);
+   --  Startup time of user tasks
 
-   procedure Block_Task (Entity : Entity_Type);
-   --  Block a task until Unblock_All_Tasks is called.
+   procedure Set_Epoch
+     with Global => (In_Out => Elaborated_Variables,
+                     Input  => Ada.Real_Time.Clock_Time);
 
-   procedure Suspend_Forever;
-
-   procedure Unblock_All_Tasks;
-   --  Unblocks all the tasks waiting on the suspension objects of
-   --  Task_Suspension_Objects.
-
-end PolyORB_HI.Suspenders;
+end PolyORB_HI.Epoch;

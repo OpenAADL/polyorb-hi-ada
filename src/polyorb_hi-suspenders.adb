@@ -29,24 +29,20 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma SPARK_Mode (Off);
-
+with PolyORB_HI.Epoch;
+with Ada.Real_Time;
 with Ada.Synchronous_Task_Control;    use Ada.Synchronous_Task_Control;
 pragma Elaborate_All (Ada.Synchronous_Task_Control);
 
-package body PolyORB_HI.Suspenders is
-
-   use Ada.Real_Time;
+package body PolyORB_HI.Suspenders
+  with Refined_State => (Elaborated_Variables => Task_Suspension_Objects)
+is
 
    Task_Suspension_Objects : array (Entity_Type'Range) of Suspension_Object;
    --  This array is used so that each task waits on its corresponding
    --  suspension object until the transport layer initialization is
    --  complete. We are obliged to do so since Ravenscar forbids that
    --  more than one task wait on a protected object entry.
-
-   --  The_Suspender : Suspension_Object;
-   --  XXX: we cannot use the suspension object because of
-   --  gnatforleon 2.0w5
 
    ----------------
    -- Block_Task --
@@ -61,26 +57,20 @@ package body PolyORB_HI.Suspenders is
    -- Suspend_Forever --
    ---------------------
 
-   procedure Suspend_Forever
-     with SPARK_Mode => Off
-     --  XXX: delay until not supported in GNATProve GPL2014
-   is
+   procedure Suspend_Forever is
    begin
-      --  Suspend_Until_True (The_Suspender);
-
-      --  XXX: we cannot use the suspension object because of
-      --  gnatforleon 2.0w5
-      delay until Time_Last;
+      delay until Ada.Real_Time.Time_Last;
    end Suspend_Forever;
 
    -----------------------
    -- Unblock_All_Tasks --
    -----------------------
 
-   procedure Unblock_All_Tasks is
+   procedure Unblock_All_Tasks
+     with SPARK_Mode => OFf
+   is
    begin
-      System_Startup_Time :=
-        Ada.Real_Time.Clock + Ada.Real_Time.Milliseconds (1_000);
+      PolyORB_HI.Epoch.Set_Epoch;
 
       for Obj of Task_Suspension_Objects loop
          Set_True (Obj);
