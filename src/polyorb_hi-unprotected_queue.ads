@@ -29,9 +29,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Real_Time;
 with Ada.Unchecked_Conversion;
-With Ada.Real_Time;
-With System;
 
 with PolyORB_HI_Generated.Deployment;
 

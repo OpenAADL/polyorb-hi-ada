@@ -571,7 +571,6 @@ package body PolyORB_HI.Unprotected_Queue is
       Time_Stamps (PT) := T; -- overwritten below
                              --  Maxime workaround for backdoor accesses
       Time_Stamps (PT) := Ada.Real_time.clock;
-
    end Store_Out;
 
    -----------
