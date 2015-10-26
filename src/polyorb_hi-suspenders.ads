@@ -48,7 +48,10 @@ is
    procedure Block_Task (Entity : Entity_Type);
    --  Block a task until Unblock_All_Tasks is called.
 
+   pragma Warnings (Off, "subprogram ""Suspend_Forever"" has no effect",
+                   Reason => "No direct effect on any state visible by SPARK");
    procedure Suspend_Forever;
+   pragma Warnings (On);
 
    procedure Unblock_All_Tasks;
    --  Unblocks all the tasks waiting on the suspension objects of
