@@ -37,7 +37,8 @@ ADA_BODIES = $(ADA_SPECS_WITH_BODY:.ads=.adb)			\
 
 # END: DO NOT DELETE THIS LINE
 
-ADA_ADC = $(srcdir)/gnat.adc $(srcdir)/hi-e.adc $(srcdir)/native.adc
+ADA_ADC = $(srcdir)/gnat.adc $(srcdir)/hi-e.adc $(srcdir)/native.adc	\
+	$(srcdir)/spark.adc
 
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(ADA_ADC)
 

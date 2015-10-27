@@ -31,7 +31,7 @@
 
 project PolyORB_HI is
 
-   type Target_Type is ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS");
+   type Target_Type is ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS","SPARK");
    Target : Target_Type := external ("TARGET", "NATIVE");
 
    type Build_Type is ("Debug", "Release", "Analyzable");
@@ -124,6 +124,8 @@ project PolyORB_HI is
            for Local_Configuration_Pragmas use "native.adc";
         when "LEON_ORK" | "LEON_GNAT" | "ERC32" =>
            for Local_Configuration_Pragmas use "hi-e.adc";
+        when "SPARK" =>
+           for Local_Configuration_Pragmas use "spark.adc";
       end case;
    end Compiler;
 
