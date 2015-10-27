@@ -29,8 +29,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with PolyORB_HI.Epoch;
-with Ada.Real_Time;
 with Ada.Synchronous_Task_Control;    use Ada.Synchronous_Task_Control;
 pragma Elaborate_All (Ada.Synchronous_Task_Control);
 
