@@ -66,14 +66,12 @@ is
    -- Unblock_All_Tasks --
    -----------------------
 
-   procedure Unblock_All_Tasks
-     with SPARK_Mode => OFf
-   is
+   procedure Unblock_All_Tasks is
    begin
       PolyORB_HI.Epoch.Set_Epoch;
 
-      for Obj of Task_Suspension_Objects loop
-         Set_True (Obj);
+      for J in Entity_Type'Range loop
+         Set_True (Task_Suspension_Objects (J));
       end loop;
    end Unblock_All_Tasks;
 
