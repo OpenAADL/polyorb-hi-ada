@@ -31,7 +31,11 @@
 
 package PolyORB_HI.Output_Low_Level is
 
+   pragma Warnings (Off, "subprogram ""New_Line"" has no effect",
+                   Reason => "No direct effect on any state visible by SPARK");
    procedure New_Line;
+   pragma Warnings (On);
+
 
    procedure Put (S : String);
 
