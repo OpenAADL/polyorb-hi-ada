@@ -34,6 +34,9 @@
 with PolyORB_HI_Generated.Deployment;
 pragma Elaborate_All (PolyORB_HI_Generated.Deployment);
 
+with Ada.Real_Time;
+with PolyORB_HI.Epoch;
+
 package PolyORB_HI.Suspenders
   with Abstract_State => (Elaborated_Variables with Synchronous,
                           External => (Effective_Reads,
@@ -51,9 +54,14 @@ is
    pragma Warnings (Off, "subprogram ""Suspend_Forever"" has no effect",
                    Reason => "No direct effect on any state visible by SPARK");
    procedure Suspend_Forever;
+   --  Suspend the calling task "forever", that is until
+   --  Ada.Real_TIme.Time_Last.
    pragma Warnings (On);
 
-   procedure Unblock_All_Tasks;
+   procedure Unblock_All_Tasks
+     with Global => (In_Out => (Elaborated_Variables,
+                                Epoch.Elaborated_Variables),
+                    Input => Ada.Real_Time.Clock_Time);
    --  Unblocks all the tasks waiting on the suspension objects of
    --  Task_Suspension_Objects.
 
