@@ -38,16 +38,16 @@ package body PolyORB_HI.Output_Low_Level is
    -- Put --
    ---------
 
+   procedure C_Write
+     (Fd  : Interfaces.C.int;
+      P   : System.Address;
+      Len : Interfaces.C.int);
+   pragma Import (C, C_Write, "write");
+
    procedure Put (S : String)
      with SPARK_Mode => Off
      --  SPARK_Mode is distabled because of the Address attribute
    is
-      procedure C_Write
-        (Fd  : Interfaces.C.int;
-         P   : System.Address;
-         Len : Interfaces.C.int);
-      pragma Import (C, C_Write, "write");
-
    begin
       C_Write (2, S (S'First)'Address, S'Length);
       --  2 is standard error
