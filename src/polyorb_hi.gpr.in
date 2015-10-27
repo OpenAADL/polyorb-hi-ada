@@ -31,7 +31,16 @@
 
 project PolyORB_HI is
 
-   type Target_Type is ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS","SPARK");
+   -- Target type is used to configure the restrictions to be applied
+   -- on a given project
+
+   type Target_Type is ("NATIVE",     -- native, default
+                        "LEON_ORK",   -- ORK+ Ravenscar platform
+                        "LEON_GNAT",  -- AdaCore Ravenscar, for LEON2
+                        "ERC32",      -- AdaCore Ravenscar, for ERC32
+                        "MARTEOS",    -- UCan MARTE OS platform
+                        "SPARK");     -- pseudo-target, for proof using SPARK
+
    Target : Target_Type := external ("TARGET", "NATIVE");
 
    type Build_Type is ("Debug", "Release", "Analyzable");
