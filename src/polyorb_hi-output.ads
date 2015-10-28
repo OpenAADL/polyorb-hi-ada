@@ -31,13 +31,19 @@
 
 --  Debug facility of PolyORB HI
 
+with Ada.Real_Time;
+
+with PolyORB_HI.Epoch;
 with PolyORB_HI.Streams;
 
-with Ada.Real_Time;
-with System;
-with PolyORB_HI.Epoch;
-
-package PolyORB_HI.Output is
+package PolyORB_HI.Output
+  with Abstract_State => (Elaborated_Variables with Synchronous,
+                          External => (Effective_Reads,
+                                       Effective_Writes,
+                                       Async_Writers,
+                                       Async_Readers)),
+       Initializes => Elaborated_Variables
+is
    pragma Elaborate_Body;
 
    use PolyORB_HI.Streams;
@@ -67,19 +73,19 @@ package PolyORB_HI.Output is
    --  routine is thread-safe.
 
    procedure Put_Line (Text : in String)
-     with Global => (In_Out => Lock,
+     with Global => (In_Out => Elaborated_Variables,
                      Input => (Ada.Real_Time.Clock_Time,
                                Epoch.Elaborated_Variables));
    --  Same as above, but always displays the message
 
    procedure Put (Text : in String)
-     with Global => (In_Out => Lock,
+     with Global => (In_Out => Elaborated_Variables,
                     Input => (Ada.Real_Time.Clock_Time,
                               Epoch.Elaborated_Variables));
    --  Same as above but always displays the message
 
    procedure Dump (Stream : Stream_Element_Array; Mode : Verbosity := Verbose)
-     with Global => (In_Out => Lock,
+     with Global => (In_Out => Elaborated_Variables,
                      Input => (Ada.Real_Time.Clock_Time,
                                Epoch.Elaborated_Variables));
    --  Dump the content of Stream in an hexadecimal format
@@ -87,19 +93,5 @@ package PolyORB_HI.Output is
    function "+" (S1 : String; S2 : String) return String
      with Pre => (S1'Length <= 255 and S2'Length <= 255);
    --  Simple helper function to concatenate two strings
-
---  private
-
-   protected Lock is
-      --  This lock has been defined to guarantee thread-safe output
-      --  display
-
-      procedure Put (Text : in String);
-
-      procedure Put_Line (Text : in String);
-
-   private
-      pragma Priority (System.Priority'Last);
-   end Lock;
 
 end PolyORB_HI.Output;

@@ -29,38 +29,37 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-With PolyORB_HI.Output_Low_Level;
+with System;
 
-package body PolyORB_HI.Output is
+with PolyORB_HI.Output_Low_Level;
+
+package body PolyORB_HI.Output
+  with Refined_State => (Elaborated_Variables => (Lock))
+is
 
    use Ada.Real_Time;
    use PolyORB_HI.Epoch;
-
-   ---------------------
-   -- Build_Timestamp --
-   ---------------------
 
    function Build_Timestamp return Time_Span
      with Global => (Input => (Epoch.Elaborated_Variables,
                                Ada.Real_Time.Clock_Time)),
           Volatile_Function;
 
-   function Build_Timestamp return Time_Span is
-      Start_Time : Time;
-      Elapsed    : Time_Span;
-   begin
-      System_Startup_Time (Start_Time);
-      if Start_Time = Time_First then
-         Elapsed := To_Time_Span (0.0);
-      else
-         Elapsed := Clock - Start_Time;
-      end if;
-      return Elapsed;
-   end Build_Timestamp;
-
    ----------
    -- Lock --
    ----------
+
+   protected Lock is
+      --  This lock has been defined to guarantee thread-safe output
+      --  display
+
+      procedure Put (Text : in String);
+
+      procedure Put_Line (Text : in String);
+
+   private
+      pragma Priority (System.Priority'Last);
+   end Lock;
 
    protected body Lock is
 
@@ -99,19 +98,31 @@ package body PolyORB_HI.Output is
 
    end Lock;
 
-   procedure Put_Line (Text : String) is
-   begin
-      Lock.Put_Line (Text);
-   end Put_Line;
+   ---------------------
+   -- Build_Timestamp --
+   ---------------------
 
-   procedure Put (Text : String) is
+   function Build_Timestamp return Time_Span is
+      Start_Time : Time;
+      Elapsed    : Time_Span;
    begin
-      Lock.Put (Text);
-   end Put;
+      System_Startup_Time (Start_Time);
+      if Start_Time = Time_First then
+         Elapsed := To_Time_Span (0.0);
+      else
+         Elapsed := Clock - Start_Time;
+      end if;
+      return Elapsed;
+   end Build_Timestamp;
 
    --------------
    -- Put_Line --
    --------------
+
+   procedure Put_Line (Text : String) is
+   begin
+      Lock.Put_Line (Text);
+   end Put_Line;
 
    procedure Put_Line (Mode : Verbosity := Normal; Text : String) is
    begin
@@ -129,6 +140,11 @@ package body PolyORB_HI.Output is
    ---------
    -- Put --
    ---------
+
+   procedure Put (Text : String) is
+   begin
+      Lock.Put (Text);
+   end Put;
 
    procedure Put (Mode : Verbosity := Normal; Text : String) is
    begin
