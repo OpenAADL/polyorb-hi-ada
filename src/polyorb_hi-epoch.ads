@@ -38,7 +38,6 @@ package PolyORB_HI.Epoch
                                        Async_Writers,
                                        Async_Readers)),
        Initializes => Elaborated_Variables
-
 is
 
    procedure System_Startup_Time (SST: out Ada.Real_Time.Time)
