@@ -1,6 +1,6 @@
 --  Ada partition-wide configuration
 
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 -- Enforce FIFO_Within priorities for all modes. Note we cannot use
 -- directly the Ravenscar profile on native platforms because of the Ada
 -- runtime on non-RT OS.
@@ -11,14 +11,14 @@
 
 pragma Locking_Policy (Ceiling_Locking);                 -- D.13.1
 
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 -- Activate SPARK Mode, even if we do not actually use it on the
 -- target: the code has Spark_Mode disabled in some occurences,
 -- without this pragma the code would be rejected.
 
 pragma Spark_Mode (On);
 
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 --  The following define restrictions to be supported by the
 --  PolyORB-HI, common restrictions
 --
