@@ -438,14 +438,10 @@ package body PolyORB_HI.Thread_Interrogators is
    ------------------------------
 
    procedure Wait_For_Incoming_Events (Port : out Port_Type) is
-      Valid, Not_Empty : Boolean;
-      pragma Warnings (Off, Not_Empty);
-      --  Under this implementation, Not_Empty is not used.
-
    begin
       pragma Debug (Put_Line (Verbose, CE + ": Wait_For_Incoming_Events"));
 
-      Global_Queue.Read_Event (Port, Valid);
+      Global_Queue.Wait_Event (Port);
 
       pragma Debug (Put_Line
                     (Verbose,
