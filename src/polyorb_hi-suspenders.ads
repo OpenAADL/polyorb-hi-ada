@@ -30,6 +30,7 @@
 ------------------------------------------------------------------------------
 
 --  This package implements routines to suspend application tasks
+pragma SPARK_Mode (Off);
 
 with Ada.Real_Time;
 

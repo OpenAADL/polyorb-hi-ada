@@ -29,6 +29,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+pragma SPARK_MOde (Off);
+
 with PolyORB_HI.Output_Low_Level;
 with PolyORB_HI.Suspenders;
 pragma Elaborate_All (PolyORB_HI.Suspenders);
@@ -60,7 +62,6 @@ package body PolyORB_HI.Output is
    end Output_Lock;
 
    package body Output_Lock is
-      pragma SPARK_MOde (Off);
 
       protected Lock is
       --  This lock has been defined to guarantee thread-safe output

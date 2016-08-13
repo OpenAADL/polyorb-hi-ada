@@ -29,6 +29,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+pragma SPARK_Mode (Off);
+
 package PolyORB_HI.Output_Low_Level is
 
    procedure New_Line;

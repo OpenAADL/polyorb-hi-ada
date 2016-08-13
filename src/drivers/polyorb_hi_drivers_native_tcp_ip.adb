@@ -48,9 +48,9 @@ with POHICDRIVER_IP;
 --  This package provides support for the TCP_IP device driver as
 --  defined in the tcp_protocol.aadl AADLv2 model.
 
-package body PolyORB_HI_Drivers_Native_TCP_IP
-  with SPARK_Mode => Off
-is
+package body PolyORB_HI_Drivers_Native_TCP_IP is
+
+   pragma SPARK_Mode (Off);
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely

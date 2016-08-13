@@ -29,12 +29,11 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma SPARK_Mode (Off);
-
 with Ada.Synchronous_Task_Control;    use Ada.Synchronous_Task_Control;
 pragma Elaborate_All (Ada.Synchronous_Task_Control);
 
 package body PolyORB_HI.Suspenders is
+   pragma SPARK_Mode (Off);
 
    use Ada.Real_Time;
 
@@ -62,7 +61,7 @@ package body PolyORB_HI.Suspenders is
    ---------------------
 
    procedure Suspend_Forever
-     with SPARK_Mode => Off
+--     with SPARK_Mode => Off
      --  XXX: delay until not supported in GNATProve GPL2014
    is
    begin

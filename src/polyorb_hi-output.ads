@@ -31,6 +31,8 @@
 
 --  Debug facility of PolyORB HI
 
+pragma SPARK_Mode (Off);
+
 with PolyORB_HI.Streams;
 
 package PolyORB_HI.Output is

@@ -37,6 +37,9 @@ with PolyORB_HI.Streams;
 with PolyORB_HI_Generated.Deployment;
 
 package PolyORB_HI.Transport_Low_Level is
+   pragma SPARK_Mode (Off);
+   --  SPARK_Mode is disabled for this unit, it relies on OS-specific
+   --  libraries. We discard this unit for now.
 
    pragma Elaborate_Body;
 
