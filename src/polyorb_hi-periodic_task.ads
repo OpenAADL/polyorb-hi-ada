@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,6 +30,7 @@
 ------------------------------------------------------------------------------
 
 --  Define a periodic task that executes a Job
+
 with System;
 with Ada.Real_Time;
 with PolyORB_HI.Errors;
@@ -55,7 +56,7 @@ generic
    Task_Stack_Size : in Natural;
    --  Task stack size
 
-   with function Job return PolyORB_HI.Errors.Error_Kind;
+   with procedure Job (Result : out PolyORB_HI.Errors.Error_Kind);
    --  Parameterless procedure executed by the periodic task
 
    with procedure Activate_Entrypoint is null;
@@ -71,6 +72,9 @@ package PolyORB_HI.Periodic_Task is
    task The_Periodic_Task
       with Priority => (Task_Priority),
            Storage_Size => (Task_Stack_Size);
+   pragma Annotate (GNATprove, False_Positive,
+                    "multiple tasks might suspend on suspension object",
+                    "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error");
 
    function Next_Deadline return Ada.Real_Time.Time;
    --  Return the value of the next deadline (in absolute time)

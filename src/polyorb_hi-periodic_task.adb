@@ -68,6 +68,7 @@ package body PolyORB_HI.Periodic_Task is
           + ": Wait initialization"));
 
       Block_Task (Entity);
+
       System_Startup_Time (T0);
       Next_Start := T0 + Dispatch_Offset;
 
@@ -87,7 +88,7 @@ package body PolyORB_HI.Periodic_Task is
 
          --  Execute the task's job
 
-         Error := Job;
+         Job (Error);
 
          if Error /= Error_None then
             Recover_Entrypoint;
