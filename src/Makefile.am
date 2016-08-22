@@ -33,7 +33,8 @@ ADA_SPECS = $(ADA_SPECS_WITH_BODY) $(srcdir)/polyorb_hi.ads	\
 ADA_BODIES = $(ADA_SPECS_WITH_BODY:.ads=.adb)			\
 	$(srcdir)/polyorb_hi-output_low_level_leon.adb		\
 	$(srcdir)/polyorb_hi-output_low_level_native.adb	\
-	$(srcdir)/polyorb_hi-transport_low_level_sockets.adb
+	$(srcdir)/polyorb_hi-transport_low_level_sockets.adb	\
+	$(srcdir)/polyorb_hi-transport_low_level_spark.adb
 
 # END: DO NOT DELETE THIS LINE
 
@@ -43,6 +44,9 @@ ADA_ADC = $(srcdir)/gnat.adc $(srcdir)/hi-e.adc $(srcdir)/native.adc	\
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(ADA_ADC)
 
 alidir = ${shell $(CYGPATH_U) '$(OCARINA_RUNTIME)/polyorb-hi-ada'}
+
+clean-local:
+	-rm -rf *~
 
 install-data-local:
 	$(INSTALL) -d $(DESTDIR)$(alidir)
