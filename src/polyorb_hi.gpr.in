@@ -182,7 +182,7 @@ project PolyORB_HI is
       case Build is
          when "Debug" =>
             for Default_Switches ("ada") use ("-g");
-         when "Release" =>
+         when "Release" | "Analyzable" =>
             null;
       end case;
    end Linker;
