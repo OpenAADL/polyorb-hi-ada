@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -54,6 +54,11 @@ package PolyORB_HI.Messages is
    PDU_Size : constant := Header_Size + (Max_Payload_Size / 8) + 1;
    --  Maximum size of a request
 
+   subtype PDU_Index is Stream_Element_Count range 0 .. PDU_Size;
+   subtype PDU is Stream_Element_Array (1 .. PDU_Index'Last);
+
+   Empty_PDU : constant PDU := (others => 0);
+
    subtype Message_Size_Buffer is Stream_Element_Array
      (1 .. Message_Length_Size);
    --  The sub-buffer that holds the message length
@@ -62,6 +67,10 @@ package PolyORB_HI.Messages is
    function To_Buffer (L : Stream_Element_Count) return Message_Size_Buffer
      with Pre => (L < 2**16 -1); -- XXX Provide a better bound for L
    --  Conversion functions to store/extract a length in/from a sub-buffer.
+
+   function Length (M : Message_Type) return PDU_Index
+        with Pre => (Valid (M));
+   --  Return length of message M
 
    procedure Read
      (Stream : in out Message_Type;
@@ -79,15 +88,19 @@ package PolyORB_HI.Messages is
      with Pre => (Valid (Stream));
    --  Append Item to the specified stream
 
-   procedure Reallocate (M : in out Message_Type);
+   procedure Reallocate (M : out Message_Type);
    --  Reset M
 
+   function Is_Empty (M: Message_Type) return Boolean
+     with Pre => (Valid (M));
+
    function Payload (M : Message_Type) return Stream_Element_Array
-      with Pre => (Valid (M));
+   with Pre => (Valid (M) and then not Is_Empty (M)),
+        Post => (Payload'Result'Length = Length (M));
    --  Return the remaining payload of message M
 
    function Sender (M : Message_Type) return Entity_Type
-       with Pre => (Valid (M));
+       with Pre => (Valid (M) and then not Is_Empty (M));
    function Sender (M : Stream_Element_Array) return Entity_Type;
    --  Return the sender of the message M
 
@@ -96,18 +109,13 @@ package PolyORB_HI.Messages is
       From    : Entity_Type;
       Entity  : Entity_Type)
      return Stream_Element_Array
-     with Pre => (Valid (Message));
+     with Pre => (Valid (Message) and then not Is_Empty (Message));
    --  Return a byte array including a two byte header (length and
    --  originator entity) and Message payload.
 
    function Valid (Message : Message_Type) return Boolean;
 
 private
-
-   subtype PDU_Index is Stream_Element_Count range 0 .. PDU_Size;
-   subtype PDU is Stream_Element_Array (1 .. PDU_Index'Last);
-
-   Empty_PDU : constant PDU := (others => 0);
 
    type Message_Type is record
       Content : PDU := Empty_PDU;
@@ -116,14 +124,24 @@ private
    end record;
 
    function Valid (Message : Message_Type) return Boolean is
-      (Message.First >= Message.Content'First
-         and then Message.Last <= Message.Content'Last);
+     (Message.Content = Empty_PDU  or else
+        (Message.First >= Message.Content'First
+           and then Message.Last <= Message.Content'Last
+           and then Message.First <= Message.Last));
       --  The following part cannot be correct in the case Message is
       --  not initialized, see defaults for Message_Type
       --    and then Message.First <= Message.Last
 
+   function Length (M : Message_Type) return PDU_Index is
+      (if M.Content = Empty_PDU then 0 else (M.Last - M.First + 1));
+   --  Return length of message M
+
+   function Is_Empty (M: Message_Type) return Boolean is
+      (M.Content = Empty_PDU and then M.First = 1 and then M.Last = 0);
+
    function Payload (M : Message_Type) return Stream_Element_Array is
-      (M.Content (M.First .. M.Last));
+     (if M.Content = Empty_PDU then Empty_PDU
+      else M.Content (M.First .. M.Last));
 
    function Sender (M : Message_Type) return Entity_Type is
       (Sender (Payload (M)));

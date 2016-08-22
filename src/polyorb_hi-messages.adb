@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -59,11 +59,6 @@ package body PolyORB_HI.Messages is
    Receiver_Offset : constant Stream_Element_Offset := Message_Length_Size + 1;
    Sender_Offset   : constant Stream_Element_Offset := Message_Length_Size + 2;
 
-   function Length (M : Message_Type) return PDU_Index is
-      (M.Last - M.First + 1)
-        with Pre => (Valid (M));
-   --  Return length of message M
-
    -----------------
    -- Encapsulate --
    -----------------
@@ -77,14 +72,14 @@ package body PolyORB_HI.Messages is
       L : constant Stream_Element_Count := Message.Last + Header_Size;
       R : Stream_Element_Array (1 .. L) := (others => 0);
 
-      P : constant Stream_Element_Array (1 .. Length (Message))
+      P : constant Stream_Element_Array --  (1 .. Length (Message))
         := Payload (Message);
    begin
       R (1 .. Message_Length_Size) := To_Buffer (L - 1);
       R (Receiver_Offset) := Stream_Element (Internal_Code (Entity));
       R (Sender_Offset)   := Stream_Element (Internal_Code (From));
       R (Header_Size +  1 .. Header_Size + Length (Message)) := P;
-      --  XXX GNATProve GPL 2014 limitation ?
+
       return R;
    end Encapsulate;
 
@@ -135,8 +130,9 @@ package body PolyORB_HI.Messages is
    -- Reallocate --
    ----------------
 
-   procedure Reallocate (M : in out Message_Type) is
+   procedure Reallocate (M : out Message_Type) is
    begin
+      M.Content := Empty_PDU;
       M.First := 1;
       M.Last  := 0;
    end Reallocate;
