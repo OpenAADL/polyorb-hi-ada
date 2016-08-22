@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -32,7 +32,9 @@
 with Ada.Unchecked_Conversion;
 with PolyORB_HI.Streams;
 
-package body PolyORB_HI.Marshallers_G is
+package body PolyORB_HI.Marshallers_G
+  with SPARK_Mode => Off --  XXX because of 'Object_Size
+is
    use type PolyORB_HI.Streams.Stream_Element_Offset;
 
    Data_Size : constant PolyORB_HI.Streams.Stream_Element_Offset

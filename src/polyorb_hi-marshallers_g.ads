@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -36,7 +36,9 @@ with PolyORB_HI.Messages;
 generic
    type Data_Type (<>) is private;
 
-package PolyORB_HI.Marshallers_G is
+package PolyORB_HI.Marshallers_G
+  with SPARK_Mode => On
+is
 
    procedure Marshall
      (R :        Data_Type;
