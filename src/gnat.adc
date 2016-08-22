@@ -13,10 +13,10 @@ pragma Locking_Policy (Ceiling_Locking);                 -- D.13.1
 
 -------------------------------------------------------------------------------
 -- Activate SPARK Mode, even if we do not actually use it on the
--- target: the code has Spark_Mode disabled in some occurences,
+-- target: the code has SPARK_Mode disabled in some occurences,
 -- without this pragma the code would be rejected.
 
-pragma Spark_Mode (On);
+pragma SPARK_Mode (On);
 
 -------------------------------------------------------------------------------
 --  The following define restrictions to be supported by the
