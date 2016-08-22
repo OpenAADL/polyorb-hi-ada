@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---                   Copyright (C) 2014-2015 ESA & ISAE.                    --
+--                   Copyright (C) 2014-2016 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -108,7 +108,11 @@ generic
    --  deducing it from Thread_Fifo_Sizes is done to guarantee static
    --  allocation of the global message queue of the thread.
 
-package PolyORB_HI.Unprotected_Queue is
+package PolyORB_HI.Unprotected_Queue
+  with Abstract_State => (Elaborated_Variables),
+       Initializes => Elaborated_Variables
+
+is
 
    use Ada.Real_Time;
    use PolyORB_HI_Generated.Deployment;
@@ -121,11 +125,16 @@ package PolyORB_HI.Unprotected_Queue is
      new PolyORB_HI.Streams.Stream_Element_Array
      (1 .. Thread_Interface_Type'Size / 8);
 
+   Null_Port_Stream : constant Port_Stream := (others => 0);
+
    type Port_Stream_Entry is record
       From    : Entity_Type;
       Payload : Port_Stream;
    end record;
    --  A couple of a message and its sender
+
+   Null_Port_Stream_Entry : constant Port_Stream_Entry
+     := (Entity_Type'First, Null_Port_Stream);
 
    N_Ports : constant Integer :=
      Port_Type'Pos (Port_Type'Last) - Port_Type'Pos (Port_Type'First) + 1;
@@ -169,9 +178,9 @@ package PolyORB_HI.Unprotected_Queue is
    type Time_Array is array (Port_Type) of Time;
 
    procedure Read_Event
-     (P : out Port_Type;
-      Valid : out Boolean;
-      Not_Empty : Boolean);
+     (P         : out Port_Type;
+      Valid     : out Boolean;
+      Not_Empty :     Boolean);
    --  Same as 'Wait_Event' but without blocking. Valid is set to
    --  False if there is nothing to receive.
 
@@ -195,21 +204,19 @@ package PolyORB_HI.Unprotected_Queue is
    procedure Set_Invalid (T : Port_Type);
    --  Set the value stored for OUT port T as invalid to impede its
    --  future sending without calling Put_Value. This procedure is
-   --  generally called just after Read_Out. However we cannot
-   --  combine them in one routine because we need Read_Out to be a
-   --  function and functions cannot modify protected object
-   --  states.
+   --  generally called just after Read_Out. However we cannot combine
+   --  them in one routine because we need Read_Out to be a function
+   --  and functions cannot modify protected object states.
 
    procedure Store_In
      (P : Port_Stream_Entry; T : Time; Not_Empty : out Boolean);
-   --  Stores a new incoming message in its corresponding
-   --  position. If this is an event [data] incoming message, then
-   --  stores it in the queue, updates its most recent value and
-   --  unblock the barrier. Otherwise, it only overrides the most
-   --  recent value. T is the time stamp associated to the port
-   --  P. In case of data ports with delayed connections, it
-   --  indicates the instant from which the data of P becomes
-   --  deliverable.
+   --  Stores a new incoming message in its corresponding position. If
+   --  this is an event [data] incoming message, then stores it in the
+   --  queue, updates its most recent value and unblock the
+   --  barrier. Otherwise, it only overrides the most recent value. T
+   --  is the time stamp associated to the port P. In case of data
+   --  ports with delayed connections, it indicates the instant from
+   --  which the data of P becomes deliverable.
 
    procedure Store_Out (P : Port_Stream_Entry; T : Time);
    --  Store a value of an OUT port to be sent at the next call to
@@ -228,65 +235,13 @@ package PolyORB_HI.Unprotected_Queue is
      (P : Port_Type;
       S : Port_Stream_Entry;
       T : Time);
-   --  The protected object contains also an array to store the
-   --  values of received IN DATA ports as well as the most recent
-   --  value of IN EVENT DATA. For OUT port, the value is the
-   --  message to be send when Send_Output is called. In case of an
-   --  event data port, we do not use the 2 elements of the array
-   --  to store most recent values because there is no delayed
-   --  connections for event data ports.
-
-private
-   Global_Data_Queue : Big_Port_Stream_Array;
-   --  The structure of the buffer is as follows:
-
-   --  ----------------------------------------------------------------
-   --  |   Q1   |     Q2      |       Q3        |  ... |      Qn      |
-   --  ----------------------------------------------------------------
-   --  O1       O2            O3                O4 ... On
-
-   --  'On' is the offset associated to IN [event] [data] port n,
-   --  given from the generic formal, Thread_FIFO_Offsets. This
-   --  guarantees an O(1) access and storage time of a given
-   --  element in the global queue. Intrinsically, the global table
-   --  is a concatenation of circular arrays each one corresponding
-   --  to a port queue.
-
-   Firsts : Port_Index_Array := (Port_Type'Range => Default_Index_Value);
-   Lasts  : Port_Index_Array := (Port_Type'Range => 0);
-   --  Used for IN [event] [data] ports to navigate in the global
-   --  queue. For IN DATA ports, in case of immediate connection
-   --  only the 'Lasts' value is relevant and it is 0 or 1, in case
-   --  of a delayed connection both values are relevant.
-
-   Empties : Boolean_Array := (Port_Type'Range => True);
-   --  Indicates whether each port-FIFO is empty or not
-
-   Global_Data_History : Big_Port_Type_Array;
-   GH_First            : Big_Port_Index_Type := Default_Index_Value;
-   GH_Last             : Big_Port_Index_Type := 0;
-   --  This contains, in an increasing chronological order the IN
-   --  EVENT ports that have a pending event. Example (P_1, P_3,
-   --  P_1, P_2, P_3) means that the oldest pending message is
-   --  received on P_1 then on P_3, then on P_1 again and so on...
-
-   --  FIXME: Add N_Ports to the array size to handle the case the
-   --  thread has an IN event [data] port with a FIFO size equal to
-   --  zero which is not supported yet.
-
-   Most_Recent_Values : Port_Stream_Array;
-   Time_Stamps        : Time_Array;
-
-   Initialized : Boolean_Array := (Port_Type'Range => False);
-   --  To indicate whether the port ever received a data (or an
-   --  event).
-
-   Value_Put : Boolean_Array := (Port_Type'Range => False);
-   --  To indicate whether the OUT port values have been set in
-   --  order to be sent.
-
-   N_Empties : Integer := N_Ports;
-   --  Number of empty partial queues. At the beginning, all the
-   --  queues are empty.
+   --  The protected object contains also an array to store the values
+   --  of received IN DATA ports as well as the most recent value of
+   --  IN EVENT DATA. For OUT port, the value is the message to be
+   --  send when Send_Output is called.
+   --
+   --  In case of an event data port, we do not use the 2 elements of
+   --  the array to store most recent values because there is no
+   --  delayed connections for event data ports.
 
 end PolyORB_HI.Unprotected_Queue;

@@ -31,7 +31,14 @@
 
 with PolyORB_HI.Output;
 
-package body PolyORB_HI.Unprotected_Queue is
+package body PolyORB_HI.Unprotected_Queue
+  with Refined_State => (Elaborated_Variables =>
+                           (Global_Data_Queue,Firsts, Lasts, Empties,
+                            Global_Data_History, GH_First, GH_Last,
+                            Time_Stamps, Initialized,
+                            Most_Recent_Values, Value_Put, N_Empties))
+is
+
 
    use PolyORB_HI.Port_Kinds;
    use PolyORB_HI.Output;
@@ -56,6 +63,9 @@ package body PolyORB_HI.Unprotected_Queue is
                           CE
                             + ": Read_Event: read valid event [data] on "
                             + Thread_Port_Images (P)));
+      else
+         P := Port_Type'First; -- It is assumed by construction that
+                               --  this is an invalid port
       end if;
    end Read_Event;
 
@@ -168,7 +178,6 @@ package body PolyORB_HI.Unprotected_Queue is
                             + ": Read_In: Empty queue for port "
                             + Thread_Port_Images (T)
                             + ". Reading the last stored value."));
-
          P := Get_Most_Recent_Value (T);
       else
          pragma Debug (Put_Line
@@ -264,8 +273,8 @@ package body PolyORB_HI.Unprotected_Queue is
 
       Initialized (PT) := True;
 
-      if Has_Event_Ports then
-         if Is_Event (P_Kind) then
+      if Is_Event (P_Kind) then
+         if Has_Event_Ports then
             --  If the FIFO is full apply the overflow-policy
             --  indicated by the user.
 
@@ -370,6 +379,7 @@ package body PolyORB_HI.Unprotected_Queue is
                            Put_Line (Verbose,
                                      CE + ": Store_In: FIFO is full");
                            --  XXX SHould raise an exception there !
+                           raise Program_Error;
                      end case;
 
                      --  Remove event in the history and shift
@@ -487,7 +497,7 @@ package body PolyORB_HI.Unprotected_Queue is
                                       CE
                                         + ": Store_In: Insert event"
                                         + " in history at: "
-                                        + Integer'Image (1)));
+                                      + Integer'Image (1)));
                   else
                      GDH (Frst + 1) := PT;
                      pragma Debug (Put_Line
@@ -515,27 +525,29 @@ package body PolyORB_HI.Unprotected_Queue is
             --  Update the barrier
 
             Not_Empty := True;
+         else
+            Not_Empty := False; --  No need to update the barrier
          end if;
-      end if;
 
-      --  If this is a data port, we only override the
-      --  Most_Recent_Value corresponding to the port.
+      else
+         --  If this is a data port, we only override the
+         --  Most_Recent_Value corresponding to the port.
 
-      if not Is_Event (P_Kind) then
          pragma Debug (Put_Line
-                         (Verbose,
-                          CE
-                            + ": Store_In: Storing Data message in DATA port "
-                            + Thread_Port_Images (PT)));
+                       (Verbose,
+                        CE
+                          + ": Store_In: Storing Data message in DATA port "
+                          + Thread_Port_Images (PT)));
 
          Set_Most_Recent_Value (PT, P, T);
 
          pragma Debug (Put_Line
-                         (Verbose,
-                          CE
-                            + ": Store_In: Stored Data message in DATA port "
-                            + Thread_Port_Images (PT)));
+                       (Verbose,
+                        CE
+                          + ": Store_In: Stored Data message in DATA port "
+                          + Thread_Port_Images (PT)));
 
+         Not_Empty := False; --  No need to update the barrier
       end if;
    end Store_In;
 
@@ -544,9 +556,10 @@ package body PolyORB_HI.Unprotected_Queue is
    ---------------
 
    procedure Store_Out (P : Port_Stream_Entry; T : Time) is
-      Thread_Interface : constant Thread_Interface_Type
-        := Stream_To_Interface (P.Payload);
-      PT               : Port_Type renames Thread_Interface.Port;
+    Thread_Interface : constant Thread_Interface_Type
+      := Stream_To_Interface (P.Payload);
+      PT               : Port_Type  := Port_Type'First;
+        --renames Thread_Interface.Port;
    begin
       pragma Debug (Put_Line
                       (Verbose,
@@ -570,7 +583,7 @@ package body PolyORB_HI.Unprotected_Queue is
       Most_Recent_Values (PT) := P;
       Time_Stamps (PT) := T; -- overwritten below
                              --  Maxime workaround for backdoor accesses
-      Time_Stamps (PT) := Ada.Real_time.clock;
+                             --      Time_Stamps (PT) := Ada.Real_time.clock;
    end Store_Out;
 
    -----------
@@ -654,27 +667,30 @@ package body PolyORB_HI.Unprotected_Queue is
      (P : Port_Type)
      return Port_Stream_Entry
    is
+      --      pragma SPARK_Mode (Off);
       First     : Integer renames Firsts (P);
       Last      : Integer renames Lasts (P);
       P_Kind    : Port_Kind renames Thread_Port_Kinds (P);
       FIFO_Size : Integer renames Thread_FIFO_Sizes (P);
       Offset    : Integer renames Thread_FIFO_Offsets (P);
-      T         : constant Time := Clock;
+      T         : constant Time := Time_First; -- Clock;
+      --  XXX Actually, T should be decided depending on the freezing
+      --  time of the port value
+
       S         : Port_Stream_Entry;
    begin
-      if Has_Event_Ports then
-         if Is_Event (P_Kind) then
-            pragma Debug
-              (Put_Line
-                 (Verbose,
-                  CE
-                    + ": Get_Most_Recent_Value: event [data] port "
-                    + Thread_Port_Images (P)));
+      if Is_Event (P_Kind)
+        and then Has_Event_Ports
+      then
+         pragma Debug
+           (Put_Line
+            (Verbose,
+             CE
+               + ": Get_Most_Recent_Value: event [data] port "
+               + Thread_Port_Images (P)));
 
-            S := Most_Recent_Values (P);
-         end if;
-      end if;
-      if not Is_Event (P_Kind) then
+         S := Most_Recent_Values (P);
+      else
          if FIFO_Size = 1 then
             --  Immediate connection
 
