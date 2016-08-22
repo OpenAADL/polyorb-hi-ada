@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -34,7 +34,7 @@ with System;
 with PolyORB_HI.Output_Low_Level;
 
 package body PolyORB_HI.Output
-  with Refined_State => (Elaborated_Variables => (Lock))
+  with Refined_State => (Elaborated_Variables => Lock)
 is
 
    use Ada.Real_Time;
@@ -50,13 +50,17 @@ is
    ----------
 
    protected Lock is
-      --  This lock has been defined to guarantee thread-safe output
-      --  display
+      --  This lock guarantees thread-safe output
 
       procedure Put (Text : in String);
+      pragma Annotate (GNATProve, Intentional,
+                       "potentially blocking operation in protected operation",
+                       "Work-around for OA26-047");
 
       procedure Put_Line (Text : in String);
-
+      pragma Annotate (GNATProve, Intentional,
+                       "potentially blocking operation in protected operation",
+                       "Work-around for OA26-047");
    private
       pragma Priority (System.Priority'Last);
    end Lock;
@@ -67,9 +71,7 @@ is
       -- Put_Line --
       --------------
 
-      procedure Put_Line (Text : String)
-        with Spark_Mode => Off
-      is
+      procedure Put_Line (Text : String) is
          Elapsed : constant Time_Span := Build_Timestamp;
       begin
          PolyORB_HI.Output_Low_Level.Put ("[");
@@ -84,9 +86,7 @@ is
       -- Put --
       ---------
 
-      procedure Put (Text : String)
-        with Spark_Mode => Off
-      is
+      procedure Put (Text : String) is
          Elapsed : constant Time_Span := Build_Timestamp;
       begin
          PolyORB_HI.Output_Low_Level.Put ("[");
@@ -105,12 +105,13 @@ is
    function Build_Timestamp return Time_Span is
       Start_Time : Time;
       Elapsed    : Time_Span;
+      Now : constant Ada.Real_Time.Time := Ada.Real_Time.Clock;
    begin
       System_Startup_Time (Start_Time);
       if Start_Time = Time_First then
          Elapsed := To_Time_Span (0.0);
       else
-         Elapsed := Clock - Start_Time;
+         Elapsed := Now - Start_Time;
       end if;
       return Elapsed;
    end Build_Timestamp;
