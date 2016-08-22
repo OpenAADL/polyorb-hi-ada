@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                     Copyright (C) 2015 ESA & ISAE.                       --
+--                   Copyright (C) 2015-2016 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -41,7 +41,7 @@ is
 
    protected Epoch_Data is
      function System_Startup_Time return Ada.Real_Time.Time;
-     procedure Set_Epoch;
+     procedure Set_Epoch (The_Time : Ada.Real_Time.Time);
 
    private
       The_System_Startup_Time : Ada.Real_Time.Time
@@ -55,10 +55,9 @@ is
         return The_System_Startup_Time;
      end System_Startup_Time;
 
-     procedure Set_Epoch is
+     procedure Set_Epoch (The_Time : Ada.Real_Time.Time) is
      begin
-        The_System_Startup_Time :=
-          Ada.Real_Time.Clock + Ada.Real_Time.Milliseconds (1_000);
+        The_System_Startup_Time := The_Time;
      end Set_Epoch;
 
    end Epoch_Data;
@@ -67,8 +66,7 @@ is
   -- System_Startup_Time --
   -------------------------
 
-   procedure System_Startup_Time (SST: out Ada.Real_Time.Time)
-   is
+   procedure System_Startup_Time (SST: out Ada.Real_Time.Time) is
    begin
       SST := Epoch_Data.System_Startup_Time;
    end System_Startup_Time;
@@ -78,8 +76,11 @@ is
    ---------------
 
    procedure Set_Epoch is
+      CTime : constant Ada.Real_Time.Time
+        := Ada.Real_Time.Clock;
    begin
-      Epoch_Data.Set_Epoch;
+      Epoch_Data.Set_Epoch
+        (CTime + Ada.Real_Time.Milliseconds (1_000));
    end Set_Epoch;
 
 end PolyORB_HI.Epoch;
