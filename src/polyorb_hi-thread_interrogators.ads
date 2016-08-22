@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -32,9 +32,7 @@
 --  This package contains a generic definition of the interrogation
 --  functions that the AADL standard requires for thread ports.
 
-pragma SPARK_Mode (Off);
 with Ada.Real_Time;
-
 with System;
 
 with PolyORB_HI_Generated.Deployment; use PolyORB_HI_Generated.Deployment;
@@ -142,13 +140,18 @@ generic
    --  To indicate when the next deadline of the thread occurs (in
    --  absolute time).
 
-package PolyORB_HI.Thread_Interrogators is
+package PolyORB_HI.Thread_Interrogators
+  with Abstract_State => (Elaborated_Variables with Synchronous, External),
+       Initializes => (Elaborated_Variables)
+is
 
-   function Send_Output (Port : Port_Type) return Error_Kind;
+   function Send_Output (Port : Port_Type) return Error_Kind
+     with Global => (Input => Elaborated_Variables), Volatile_Function;
    --  Explicitly cause events, event data, or data to be transmitted
    --  through outgoing ports to receiver ports.
 
-   procedure Put_Value (Thread_Interface : Thread_Interface_Type);
+   procedure Put_Value (Thread_Interface : Thread_Interface_Type)
+     with Global => (In_Out => (Elaborated_Variables));
    --  Supply a data value to a port variable. This data value will
    --  be transmitted at the next Send call in the source text or by
    --  the runtime system at completion time or deadline.
@@ -159,47 +162,53 @@ package PolyORB_HI.Thread_Interrogators is
    --  during the current dispatch. The parameter of the function has
    --  the only utility to allow having one Receive_Input per thread.
 
-   function Get_Value (Port : Port_Type) return Thread_Interface_Type;
+   procedure Get_Value (Port : Port_Type; T_Port : out Thread_Interface_Type)
+     with Global => (In_Out => (Elaborated_Variables));
    --  Return the value corresponding to a given port. A second call to
    --  Get_Value returns always the same value unless Next_Value has
    --  been called. If no new values have come, return the latest
    --  received value.
 
-   function Get_Sender
-     (Port : Port_Type)
-     return PolyORB_HI_Generated.Deployment.Entity_Type;
+   procedure Get_Sender (Port : Port_Type; Sender : out Entity_Type)
+     with Global => (In_Out => (Elaborated_Variables));
    --  Return the sender entity of value corresponding to the given port.
    --  A second call to Get_Sender returns always the same sender unless
    --  Next_Value has been called. If no new values have come, return
    --  the latest received value sender entity.
 
-   function Get_Count (Port : Port_Type) return Integer;
+   procedure Get_Count (Port : Port_Type; Count : out Integer)
+     with Global => (In_Out => (Elaborated_Variables));
    --  Return the number of event [data] that have been queued in an
    --  IN port. A special value of -1 is returned if the Port never
    --  received a value since the beginning of the application.
 
-   procedure Next_Value (Port : Port_Type);
+   procedure Next_Value (Port : Port_Type)
+     with Global => (In_Out => (Elaborated_Variables));
    --  Dequeue one value from the IN port queue.
 
-   procedure Wait_For_Incoming_Events (Port : out Port_Type);
+   procedure Wait_For_Incoming_Events (Port : out Port_Type)
+     with Global => (In_Out => (Elaborated_Variables));
    --  Blocks until an event arrives. The port on which the event
    --  arrived is returned.
 
-   procedure Get_Next_Event (Port : out Port_Type; Valid : out Boolean);
+   procedure Get_Next_Event (Port : out Port_Type; Valid : out Boolean)
+     with Global => (In_Out => (Elaborated_Variables));
    --  Like 'Wait_For_Incoming_Events' but not blocking. Valid is set
    --  to False if no event has been received.
 
    procedure Store_Received_Message
      (Thread_Interface : Thread_Interface_Type;
       From             : PolyORB_HI_Generated.Deployment.Entity_Type;
-      Time_Stamp       : Ada.Real_Time.Time    := Ada.Real_Time.Clock);
+      Time_Stamp       : Ada.Real_Time.Time    := Ada.Real_Time.Clock)
+     with Global => (In_Out => (Elaborated_Variables));
    --  This subprogram is usually called by the transport layer to
    --  store new incoming messages. Time_Stamp indicates from which
    --  instant a data port with a delayed connection becomes
    --  deliverable. For other kinds of ports, this parameter value is
    --  set to the message reception time.
 
-   function Get_Time_Stamp (P : Port_Type) return Ada.Real_Time.Time;
-   --  Return the timestamp of the latest value received on data port  P
+   procedure Get_Time_Stamp (P : Port_Type; Result : out Ada.Real_Time.Time)
+     with Global => (In_OUt => Elaborated_Variables);
+   --  Return the timestamp of the latest value received on data port P
 
 end PolyORB_HI.Thread_Interrogators;
