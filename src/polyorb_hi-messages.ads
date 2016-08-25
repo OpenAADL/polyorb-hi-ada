@@ -36,13 +36,13 @@ with PolyORB_HI_Generated.Deployment;
 
 package PolyORB_HI.Messages is
 
-   pragma Preelaborate;
-
    use PolyORB_HI.Streams;
    use PolyORB_HI_Generated.Deployment;
 
    type Message_Type is private;
    --  Base type of messages exchanged between nodes
+
+   Empty_Message : constant Message_Type;
 
    Message_Length_Size : constant := 2;
    --  Number of bytes to store a message size
@@ -99,9 +99,12 @@ package PolyORB_HI.Messages is
         Post => (Payload'Result'Length = Length (M));
    --  Return the remaining payload of message M
 
-   function Sender (M : Message_Type) return Entity_Type
-       with Pre => (Valid (M) and then not Is_Empty (M));
-   function Sender (M : Stream_Element_Array) return Entity_Type;
+   --   function Sender (M : Message_Type) return Entity_Type
+   --       with Pre => (Valid (M) and then not Is_Empty (M));
+   --   XXX This function seems unused, to be investigated
+
+   function Sender (M : Stream_Element_Array) return Entity_Type
+     with Pre =>(M'First = 1 and M'Last >= Header_Size);
    --  Return the sender of the message M
 
    function Encapsulate
@@ -121,30 +124,33 @@ private
       Content : PDU := Empty_PDU;
       First   : PDU_Index := 1;
       Last    : PDU_Index := 0;
-   end record;
+   end record with Dynamic_Predicate =>
+     (Message_Type = (Empty_PDU, 1, 0) or else
+        (Message_Type.First >= Message_Type.Content'First
+           and then Message_Type.Last <= Message_Type.Content'Last
+           and then Message_Type.First <= Message_Type.Last));
+
+   Empty_Message : constant Message_Type :=
+     Message_Type'(Content => Empty_PDU, First => 1, Last => 0);
 
    function Valid (Message : Message_Type) return Boolean is
-     (Message.Content = Empty_PDU  or else
+     (Message = Empty_Message or else
         (Message.First >= Message.Content'First
            and then Message.Last <= Message.Content'Last
            and then Message.First <= Message.Last));
-      --  The following part cannot be correct in the case Message is
-      --  not initialized, see defaults for Message_Type
-      --    and then Message.First <= Message.Last
 
    function Length (M : Message_Type) return PDU_Index is
-      (if M.Content = Empty_PDU then 0 else (M.Last - M.First + 1));
+      (if M = Empty_Message then 0 else (M.Last - M.First) + 1);
    --  Return length of message M
 
    function Is_Empty (M: Message_Type) return Boolean is
-      (M.Content = Empty_PDU and then M.First = 1 and then M.Last = 0);
+      (M = Empty_Message);
 
    function Payload (M : Message_Type) return Stream_Element_Array is
-     (if M.Content = Empty_PDU then Empty_PDU
-      else M.Content (M.First .. M.Last));
+      (M.Content (M.First .. M.Last));
 
-   function Sender (M : Message_Type) return Entity_Type is
-      (Sender (Payload (M)));
+--   function Sender (M : Message_Type) return Entity_Type is
+--      (Sender (Payload (M)));
 
    pragma Inline (To_Length);
    pragma Inline (To_Buffer);

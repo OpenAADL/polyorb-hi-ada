@@ -72,7 +72,7 @@ package body PolyORB_HI.Messages is
       L : constant Stream_Element_Count := Message.Last + Header_Size;
       R : Stream_Element_Array (1 .. L) := (others => 0);
 
-      P : constant Stream_Element_Array --  (1 .. Length (Message))
+      P : constant Stream_Element_Array  (1 .. Length (Message))
         := Payload (Message);
    begin
       R (1 .. Message_Length_Size) := To_Buffer (L - 1);
@@ -113,16 +113,16 @@ package body PolyORB_HI.Messages is
       elsif Read_Elts = Item'Length then
          Last := Item'Last;
       else
-         Last := Item'First + Read_Elts - 1;
+         Last := Item'First + (Read_Elts - 1);
       end if;
 
       Item (Item'First .. Last)
-        := Stream.Content (Stream.First .. Stream.First + Read_Elts - 1);
+        := Stream.Content (Stream.First .. Stream.First + (Read_Elts - 1));
 
-      if Stream.First + Read_Elts < Stream.Content'Last then
+      if Stream.First + Read_Elts < Stream.Last then
          Stream.First := Stream.First + Read_Elts;
       else
-         Stream.First := 0;
+         Stream.First := Stream.Last;
       end if;
    end Read;
 
@@ -132,9 +132,7 @@ package body PolyORB_HI.Messages is
 
    procedure Reallocate (M : out Message_Type) is
    begin
-      M.Content := Empty_PDU;
-      M.First := 1;
-      M.Last  := 0;
+      M := Empty_Message;
    end Reallocate;
 
    -----------
@@ -153,8 +151,9 @@ package body PolyORB_HI.Messages is
       end if;
 
       if Item'Length <= Stream.Content'Last - Stream.Last then
-         Stream.Content (Stream.Last + 1 .. Stream.Last + Item'Length) := Item;
          Stream.Last := Stream.Last + Item'Length;
+         Stream.Content (Stream.Last + 1 .. Stream.Last + Item'Length)
+           := Item;
       end if;
    end Write;
 
