@@ -42,14 +42,8 @@ pragma Restrictions (No_Recursion);                   -- H.4 (22)
 --  Style-check to enforce compliance with pure Ada, but also to avoid
 --  the 'Unrestricted_Access attribute, which is GNAT specific.
 
---  pragma Restrictions (No_Obsolescent_Features);        -- 13.12 (4)
--- Deactivated as of 20090702: GPL 2009 deprecated
--- GNAT.Sockets.Initialize, but it might still be required for older
--- compilers supported.
-
-pragma Restrictions (No_Unchecked_Deallocation);      -- J.13 (4)
---  Sibling of the No_Allocators restriction.
---  XXX to be replaced with a No_Dependence restriction
+pragma Restrictions (No_Obsolescent_Features);        -- 13.12 (4)
+pragma Restrictions (No_Dependence => Ada.Unchecked_Deallocation); -- 6.4
 
 --  GNAT Specific restrictions
 
