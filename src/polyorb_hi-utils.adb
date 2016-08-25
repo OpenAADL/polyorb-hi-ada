@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2015 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2016 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -43,14 +43,7 @@ package body PolyORB_HI.Utils is
                            L => 0);
 
       elsif S'Length <= HI_String_Size then
-         for J in 1 .. S'Length loop
-            R (J) := S (S'First + (J - 1));
-
-         end loop;
-
-         --  XXX GNATProve GPL2014 cannot prove the code below, which
-         --  appears equivalent, TBI
-         --  R (1 .. S'Length) := S (S'First .. S'Last);
+         R (1 .. S'Length) := S (S'First .. S'Last);
 
          return HI_String'(S => R,
                            L => S'Length);
