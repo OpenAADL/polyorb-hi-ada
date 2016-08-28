@@ -300,8 +300,7 @@ is
          Offset    : Integer renames Thread_FIFO_Offsets (T);
 
       begin
-         --  This subprogram is called only when the thread has IN
-         --  ports.
+         --  This subprogram is called only when the thread has IN ports
 
          pragma Assert (Is_In (P_Kind));
 
@@ -347,7 +346,7 @@ is
                Is_Empty := True;
             end if;
 
-            P := Global_Data_Queue (First + Offset - 1);
+            P := Global_Data_Queue (First + (Offset - 1));
 
             if First = FIFO_Size then
                First := Default_Index_Value;
@@ -360,18 +359,17 @@ is
 
             if Big_Port_Index_Type'Last > 0 then
                if GH_First < Big_Port_Index_Type'Last then
-                  Gh_First := Big_Port_Index_Type'Succ (Gh_First);
+                  GH_First := Big_Port_Index_Type'Succ (GH_First);
                else
-                  Gh_First := Default_Index_Value;
+                  GH_First := Default_Index_Value;
                end if;
 
                pragma Debug (Put_Line
                              (Verbose,
                               CE
                                 + ": H_Increment_First: F ="
-                                + Integer'Image (Gh_First)));
+                                + Integer'Image (GH_First)));
             end if;
-            --  H_Increment_First (GH_First);
          end if;
 
          --  Update the barrier
