@@ -42,7 +42,7 @@ package body PolyORB_HI.Thread_Interrogators
 is
 
    use type PolyORB_HI.Streams.Stream_Element_Offset;
-   use PolyORB_HI.Port_Kinds;
+
    use Ada.Real_Time;
    use PolyORB_HI.Output;
    use PolyORB_HI.Utils;
@@ -122,14 +122,20 @@ is
       --  Same as 'Wait_Event' but without blocking. Valid is set to
       --  False if there is nothing to receive.
 
-      procedure Dequeue (T : Port_Type);
+      procedure Dequeue (T : Port_Type)
+        with Pre => (Is_In (Thread_Port_Kinds (T)));
       --  Dequeue a value from the partial FIFO of port T. If there is
       --  no enqueued value, return the latest dequeued value.
+      --
+      --  Note: by construction, this subprogram is called only on IN ports.
 
-      function Read_In (T : Port_Type) return Port_Stream_Entry;
+      function Read_In (T : Port_Type) return Port_Stream_Entry
+        with Pre => (Is_In (Thread_Port_Kinds (T)));
       --  Read the oldest queued value on the partial FIFO of IN port
       --  T without dequeuing it. If there is no queued value, return
       --  the latest dequeued value.
+      --
+      --  Note: by construction, this subprogram is called only on IN ports.
 
       function Read_Out (T : Port_Type) return Port_Stream_Entry;
       --  Return the value put for OUT port T.
@@ -160,7 +166,8 @@ is
       --  Store a value of an OUT port to be sent at the next call to
       --  Send_Output and mark the value as valid.
 
-      function Count (T : Port_Type) return Integer;
+      function Count (T : Port_Type) return Integer
+        with Pre => (Is_In (Thread_Port_Kinds (T)));
       --  Return the number of pending messages on IN port T.
 
       function Get_Time_Stamp (P : Port_Type) return Time;
@@ -216,21 +223,21 @@ is
         := (Port_Type'Range => Null_Port_Stream_Entry);
       Time_Stamps        : Time_Array := (Port_Type'Range => Time_First);
 
-   --  The following are accessors to some internal data of the event queue
+      --  The following are accessors to some internal data of the event queue
 
-   function Get_Most_Recent_Value (P : Port_Type) return Port_Stream_Entry;
-   procedure Set_Most_Recent_Value
-     (P : Port_Type;
-      S : Port_Stream_Entry;
-      T : Time);
-   --  The protected object contains also an array to store the values
-   --  of received IN DATA ports as well as the most recent value of
-   --  IN EVENT DATA. For OUT port, the value is the message to be
-   --  send when Send_Output is called.
-   --
-   --  In case of an event data port, we do not use the 2 elements of
-   --  the array to store most recent values because there is no
-   --  delayed connections for event data ports.
+      function Get_Most_Recent_Value (P : Port_Type) return Port_Stream_Entry;
+      procedure Set_Most_Recent_Value
+        (P : Port_Type;
+         S : Port_Stream_Entry;
+         T : Time);
+      --  The protected object contains also an array to store the values
+      --  of received IN DATA ports as well as the most recent value of
+      --  IN EVENT DATA. For OUT port, the value is the message to be
+      --  send when Send_Output is called.
+      --
+      --  In case of an event data port, we do not use the 2 elements of
+      --  the array to store most recent values because there is no
+      --  delayed connections for event data ports.
 
       Initialized : Boolean_Array := (Port_Type'Range => False);
       --  To indicate whether the port ever received a data (or an
@@ -300,10 +307,6 @@ is
          Offset    : Integer renames Thread_FIFO_Offsets (T);
 
       begin
-         --  This subprogram is called only when the thread has IN ports
-
-         pragma Assert (Is_In (P_Kind));
-
          if Is_Empty then
             --  If the FIFO is empty, return the latest received value
             --  during the previous dispatches.
@@ -341,9 +344,8 @@ is
 
                if not Is_Empty and then Is_Event (P_Kind) then
                   N_Empties := N_Empties + 1;
+                  Is_Empty := True;
                end if;
-
-               Is_Empty := True;
             end if;
 
             P := Global_Data_Queue (First + (Offset - 1));
@@ -387,13 +389,7 @@ is
          First     : Integer renames Firsts (T);
          FIFO_Size : Integer renames Thread_FIFO_Sizes (T);
          Offset    : Integer renames Thread_FIFO_Offsets (T);
-         P_Kind    : Port_Kind renames Thread_Port_Kinds (T);
       begin
-         --  This subprogram is called only when the thread has IN
-         --  ports.
-
-         pragma Assert (Is_In (P_Kind));
-
          if Is_Empty or else FIFO_Size = 0 then
             --  If the FIFO is empty or non-existent return the
             --  latest received value during the previous dispatches.
@@ -493,11 +489,6 @@ is
          Replace           : Boolean := False;
 
       begin
-         --  This subprogram is called only when the thread has IN
-         --  ports.
-
-         pragma Assert (Is_In (P_Kind));
-
          --  Set PT as initialized
 
          Initialized (PT) := True;
@@ -839,14 +830,8 @@ is
          Is_Empty  : Boolean renames Empties (T);
          First     : Integer renames Firsts (T);
          Last      : Integer renames Lasts (T);
-         P_Kind    : Port_Kind renames Thread_Port_Kinds (T);
          FIFO_Size : Integer renames Thread_FIFO_Sizes (T);
       begin
-         --  This subprogram is called only when the thread has IN
-         --  ports.
-
-         pragma Assert (Is_In (P_Kind));
-
          if not Initialized (T) then
             pragma Debug (Put_Line
                             (Verbose,
@@ -1021,14 +1006,14 @@ is
                     (Verbose,
                      CE + ": Get_Most_Recent_Value: Getting NEW value"));
 
-               S := Global_Data_Queue (Last + Offset - 1);
+               S := Global_Data_Queue (Last + (Offset - 1));
             else
                pragma Debug
                  (Put_Line
                     (Verbose,
                      CE + ": Get_Most_Recent_Value: Getting OLD value"));
 
-               S := Global_Data_Queue (First + Offset - 1);
+               S := Global_Data_Queue (First + (Offset - 1));
             end if;
 
             pragma Debug

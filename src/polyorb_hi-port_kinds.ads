@@ -58,6 +58,9 @@ package PolyORB_HI.Port_Kinds is
 
 private
 
+   function Is_In (K : Port_Kind) return Boolean is
+      (K in In_Event_Port .. In_Out_Data_Port);
+
    pragma Inline (Is_In);
    pragma Inline (Is_Out);
    pragma Inline (Is_Event);

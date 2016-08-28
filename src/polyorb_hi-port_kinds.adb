@@ -31,15 +31,6 @@
 
 package body PolyORB_HI.Port_Kinds is
 
-   -----------
-   -- Is_In --
-   -----------
-
-   function Is_In (K : Port_Kind) return Boolean is
-   begin
-      return K in In_Event_Port .. In_Out_Data_Port;
-   end Is_In;
-
    ------------
    -- Is_Out --
    ------------
