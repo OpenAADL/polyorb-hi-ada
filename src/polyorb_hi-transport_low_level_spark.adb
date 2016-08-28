@@ -31,10 +31,18 @@
 
 package body PolyORB_HI.Transport_Low_Level is
 
+   ----------------
+   -- Initialize --
+   ----------------
+
    procedure Initialize is
    begin
       null;
    end Initialize;
+
+   ----------
+   -- Send --
+   ----------
 
    function Send (Node : Node_Type; Message : Stream_Element_Array)
                  return Error_Kind
