@@ -6784,7 +6784,7 @@
   <proof prover="1"><result status="valid" time="0.05" steps="131"/></proof>
   </goal>
   <goal name="WP_parameter def.2" expl="2. precondition">
-  <proof prover="0"><result status="unknown" time="0.06" steps="152"/></proof>
+  <proof prover="0"><result status="unknown" time="0.07" steps="152"/></proof>
   <proof prover="1"><result status="unknown" time="0.05" steps="195"/></proof>
   </goal>
  </transf>

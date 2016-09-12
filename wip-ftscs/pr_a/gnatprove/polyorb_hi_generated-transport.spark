@@ -68,6 +68,7 @@
         ]
       },
       "tracefile": "polyorb_hi_generated-transport__flow__38.trace",
+      "msg_id": 0,
       "how_proved": "flow"
     },
     {
@@ -86,6 +87,7 @@
         ]
       },
       "tracefile": "polyorb_hi_generated-transport__flow__38.trace",
+      "msg_id": 1,
       "how_proved": "flow"
     },
     {
@@ -104,6 +106,7 @@
         ]
       },
       "tracefile": "polyorb_hi_generated-transport__flow__64.trace",
+      "msg_id": 2,
       "how_proved": "flow"
     },
     {
@@ -235,7 +238,7 @@
           }
         ]
       },
-      "msg_id": 0,
+      "msg_id": 3,
       "how_proved": "flow"
     }
   ],
@@ -310,7 +313,7 @@
           ]
         }
       },
-      "msg_id": 1,
+      "msg_id": 4,
       "how_proved": "prover"
     }
   ],
@@ -333,34 +336,6 @@
     },
     {
       "assumptions": [
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Transport_Low_Level.Send",
-            "sloc": [
-              {
-                "file": "polyorb_hi-transport_low_level.ads",
-                "line": 50
-              }
-            ]
-          }
-        }
-      ],
-      "claim": {
-        "predicate": "CLAIM_EFFECTS",
-        "arg": {
-          "name": "PolyORB_HI_Generated.Transport.Producer_Consumer_Producer_Send",
-          "sloc": [
-            {
-              "file": "polyorb_hi_generated-transport.adb",
-              "line": 62
-            }
-          ]
-        }
-      }
-    },
-    {
-      "assumptions": [
       ],
       "claim": {
         "predicate": "CLAIM_AORTE",
@@ -370,46 +345,6 @@
             {
               "file": "polyorb_hi_generated-transport.ads",
               "line": 16
-            }
-          ]
-        }
-      }
-    },
-    {
-      "assumptions": [
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Encapsulate",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 110
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Transport_Low_Level.Send",
-            "sloc": [
-              {
-                "file": "polyorb_hi-transport_low_level.ads",
-                "line": 50
-              }
-            ]
-          }
-        }
-      ],
-      "claim": {
-        "predicate": "CLAIM_EFFECTS",
-        "arg": {
-          "name": "PolyORB_HI_Generated.Transport.Send",
-          "sloc": [
-            {
-              "file": "polyorb_hi_generated-transport.ads",
-              "line": 22
             }
           ]
         }

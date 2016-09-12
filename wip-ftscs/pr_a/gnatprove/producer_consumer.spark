@@ -58,6 +58,7 @@
         ]
       },
       "tracefile": "producer_consumer__flow__67.trace",
+      "msg_id": 0,
       "how_proved": "flow"
     },
     {
@@ -76,6 +77,7 @@
         ]
       },
       "tracefile": "producer_consumer__flow__67.trace",
+      "msg_id": 1,
       "how_proved": "flow"
     }
   ],
@@ -108,7 +110,7 @@
           ]
         }
       },
-      "msg_id": 0,
+      "msg_id": 2,
       "how_proved": "prover"
     },
     {
@@ -160,7 +162,7 @@
         "producer_consumer.ads": {
         }
       },
-      "msg_id": 1,
+      "msg_id": 3,
       "how_proved": "prover"
     },
     {
@@ -178,12 +180,13 @@
           }
         ]
       },
+      "msg_id": 4,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 1.99999995529652E-02
+          "max_time": 2.99999993294477E-02
         }
       }
     },
@@ -236,7 +239,7 @@
         "producer_consumer.ads": {
         }
       },
-      "msg_id": 2,
+      "msg_id": 5,
       "how_proved": "prover"
     },
     {
@@ -267,51 +270,11 @@
           ]
         }
       },
-      "msg_id": 3,
+      "msg_id": 6,
       "how_proved": "prover"
     }
   ],
   "assumptions": [
-    {
-      "assumptions": [
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Output.Put_Line",
-            "sloc": [
-              {
-                "file": "polyorb_hi-output.ads",
-                "line": 67
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "Producer_Consumer.Get_Node",
-            "sloc": [
-              {
-                "file": "producer_consumer.adb",
-                "line": 44
-              }
-            ]
-          }
-        }
-      ],
-      "claim": {
-        "predicate": "CLAIM_EFFECTS",
-        "arg": {
-          "name": "Producer_Consumer.Produce_Spg",
-          "sloc": [
-            {
-              "file": "producer_consumer.ads",
-              "line": 38
-            }
-          ]
-        }
-      }
-    },
     {
       "assumptions": [
       ],

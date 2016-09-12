@@ -78,6 +78,7 @@
         ]
       },
       "tracefile": "polyorb_hi-epoch__flow__66.trace",
+      "msg_id": 0,
       "how_proved": "flow"
     }
   ],
@@ -94,6 +95,18 @@
               {
                 "file": "a-reatim.ads",
                 "line": 67
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Clock",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 63
               }
             ]
           }
@@ -118,18 +131,6 @@
               {
                 "file": "a-reatim.ads",
                 "line": 121
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "Ada.Real_Time.Clock",
-            "sloc": [
-              {
-                "file": "a-reatim.ads",
-                "line": 63
               }
             ]
           }
@@ -175,34 +176,6 @@
             {
               "file": "polyorb_hi-epoch.adb",
               "line": 44
-            }
-          ]
-        }
-      }
-    },
-    {
-      "assumptions": [
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Epoch.Epoch_DataT.System_Startup_Time",
-            "sloc": [
-              {
-                "file": "polyorb_hi-epoch.adb",
-                "line": 43
-              }
-            ]
-          }
-        }
-      ],
-      "claim": {
-        "predicate": "CLAIM_EFFECTS",
-        "arg": {
-          "name": "PolyORB_HI.Epoch.System_Startup_Time",
-          "sloc": [
-            {
-              "file": "polyorb_hi-epoch.ads",
-              "line": 43
             }
           ]
         }

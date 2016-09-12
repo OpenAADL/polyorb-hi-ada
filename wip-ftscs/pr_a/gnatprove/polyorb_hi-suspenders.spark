@@ -97,11 +97,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "Ada.Synchronous_Task_Control.Set_True",
+            "name": "PolyORB_HI.Epoch.Set_Epoch",
             "sloc": [
               {
-                "file": "a-sytaco.ads",
-                "line": 50
+                "file": "polyorb_hi-epoch.ads",
+                "line": 47
               }
             ]
           }
@@ -109,11 +109,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Epoch.Set_Epoch",
+            "name": "Ada.Synchronous_Task_Control.Set_True",
             "sloc": [
               {
-                "file": "polyorb_hi-epoch.ads",
-                "line": 47
+                "file": "a-sytaco.ads",
+                "line": 50
               }
             ]
           }

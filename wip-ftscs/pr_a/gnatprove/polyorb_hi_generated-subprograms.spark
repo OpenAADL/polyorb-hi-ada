@@ -48,6 +48,7 @@
         ]
       },
       "tracefile": "polyorb_hi_generated-subprograms__flow__52.trace",
+      "msg_id": 0,
       "how_proved": "flow"
     }
   ],
@@ -77,34 +78,6 @@
             {
               "file": "polyorb_hi_generated-subprograms.ads",
               "line": 16
-            }
-          ]
-        }
-      }
-    },
-    {
-      "assumptions": [
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "Producer_Consumer.Produce_Spg",
-            "sloc": [
-              {
-                "file": "producer_consumer.ads",
-                "line": 38
-              }
-            ]
-          }
-        }
-      ],
-      "claim": {
-        "predicate": "CLAIM_EFFECTS",
-        "arg": {
-          "name": "PolyORB_HI_Generated.Subprograms.Software_Produce_Spg",
-          "sloc": [
-            {
-              "file": "polyorb_hi_generated-subprograms.ads",
-              "line": 13
             }
           ]
         }

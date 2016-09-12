@@ -188,6 +188,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__44.trace",
+      "msg_id": 0,
       "how_proved": "flow"
     },
     {
@@ -206,6 +207,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__44.trace",
+      "msg_id": 1,
       "how_proved": "flow"
     },
     {
@@ -224,6 +226,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__44.trace",
+      "msg_id": 2,
       "how_proved": "flow"
     },
     {
@@ -242,6 +245,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__44.trace",
+      "msg_id": 3,
       "how_proved": "flow"
     },
     {
@@ -260,6 +264,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__101.trace",
+      "msg_id": 4,
       "how_proved": "flow"
     },
     {
@@ -278,6 +283,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__101.trace",
+      "msg_id": 5,
       "how_proved": "flow"
     },
     {
@@ -296,6 +302,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__101.trace",
+      "msg_id": 6,
       "how_proved": "flow"
     },
     {
@@ -314,6 +321,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__199.trace",
+      "msg_id": 7,
       "how_proved": "flow"
     },
     {
@@ -332,6 +340,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__199.trace",
+      "msg_id": 8,
       "how_proved": "flow"
     },
     {
@@ -350,6 +359,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__199.trace",
+      "msg_id": 9,
       "how_proved": "flow"
     },
     {
@@ -368,6 +378,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__199.trace",
+      "msg_id": 10,
       "how_proved": "flow"
     },
     {
@@ -386,6 +397,7 @@
         ]
       },
       "tracefile": "polyorb_hi-messages__flow__199.trace",
+      "msg_id": 11,
       "how_proved": "flow"
     }
   ],
@@ -405,6 +417,7 @@
           }
         ]
       },
+      "msg_id": 12,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -429,6 +442,7 @@
           }
         ]
       },
+      "msg_id": 13,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -453,12 +467,13 @@
           }
         ]
       },
+      "msg_id": 14,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 2,
           "max_steps": 1,
-          "max_time": 5.00000007450581E-02
+          "max_time": 7.99999982118607E-02
         }
       }
     },
@@ -477,6 +492,7 @@
           }
         ]
       },
+      "msg_id": 15,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -501,12 +517,13 @@
           }
         ]
       },
+      "msg_id": 16,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 7.00000002980232E-02
+          "max_time": 9.00000035762787E-02
         }
       }
     },
@@ -525,12 +542,13 @@
           }
         ]
       },
+      "msg_id": 17,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 7.99999982118607E-02
+          "max_time": 9.00000035762787E-02
         }
       }
     },
@@ -549,6 +567,7 @@
           }
         ]
       },
+      "msg_id": 18,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -573,6 +592,7 @@
           }
         ]
       },
+      "msg_id": 19,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -597,6 +617,7 @@
           }
         ]
       },
+      "msg_id": 20,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -621,6 +642,7 @@
           }
         ]
       },
+      "msg_id": 21,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -645,6 +667,7 @@
           }
         ]
       },
+      "msg_id": 22,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -669,12 +692,13 @@
           }
         ]
       },
+      "msg_id": 23,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 2,
           "max_steps": 1,
-          "max_time": 5.00000007450581E-02
+          "max_time": 5.99999986588955E-02
         }
       }
     },
@@ -693,6 +717,7 @@
           }
         ]
       },
+      "msg_id": 24,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -717,6 +742,7 @@
           }
         ]
       },
+      "msg_id": 25,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -741,12 +767,13 @@
           }
         ]
       },
+      "msg_id": 26,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 3.99999991059303E-02
+          "max_time": 5.00000007450581E-02
         }
       }
     },
@@ -765,6 +792,7 @@
           }
         ]
       },
+      "msg_id": 27,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -789,12 +817,13 @@
           }
         ]
       },
+      "msg_id": 28,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 5.99999986588955E-02
+          "max_time": 5.00000007450581E-02
         }
       }
     },
@@ -813,12 +842,13 @@
           }
         ]
       },
+      "msg_id": 29,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 7.00000002980232E-02
+          "max_time": 5.99999986588955E-02
         }
       }
     },
@@ -837,12 +867,13 @@
           }
         ]
       },
+      "msg_id": 30,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 2.99999993294477E-02
+          "max_time": 1.99999995529652E-02
         }
       }
     },
@@ -861,12 +892,13 @@
           }
         ]
       },
+      "msg_id": 31,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 3.99999991059303E-02
+          "max_time": 2.99999993294477E-02
         }
       }
     },
@@ -885,12 +917,13 @@
           }
         ]
       },
+      "msg_id": 32,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 7.00000002980232E-02
+          "max_time": 5.99999986588955E-02
         }
       }
     },
@@ -909,12 +942,13 @@
           }
         ]
       },
+      "msg_id": 33,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 2,
           "max_steps": 1,
-          "max_time": 7.00000002980232E-02
+          "max_time": 1.09999999403954E-01
         }
       }
     },
@@ -933,12 +967,13 @@
           }
         ]
       },
+      "msg_id": 34,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 5.99999986588955E-02
+          "max_time": 3.99999991059303E-02
         }
       }
     },
@@ -957,12 +992,13 @@
           }
         ]
       },
+      "msg_id": 35,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 2,
           "max_steps": 1,
-          "max_time": 7.99999982118607E-02
+          "max_time": 1.00000001490116E-01
         }
       }
     },
@@ -981,6 +1017,7 @@
           }
         ]
       },
+      "msg_id": 36,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1005,6 +1042,7 @@
           }
         ]
       },
+      "msg_id": 37,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1029,6 +1067,7 @@
           }
         ]
       },
+      "msg_id": 38,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1053,6 +1092,7 @@
           }
         ]
       },
+      "msg_id": 39,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1077,12 +1117,13 @@
           }
         ]
       },
+      "msg_id": 40,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 2.99999993294477E-02
+          "max_time": 3.99999991059303E-02
         }
       }
     },
@@ -1101,12 +1142,13 @@
           }
         ]
       },
+      "msg_id": 41,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 2,
           "max_steps": 1,
-          "max_time": 7.99999982118607E-02
+          "max_time": 1.00000001490116E-01
         }
       }
     },
@@ -1125,6 +1167,7 @@
           }
         ]
       },
+      "msg_id": 42,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1149,12 +1192,13 @@
           }
         ]
       },
+      "msg_id": 43,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 4,
           "max_steps": 1,
-          "max_time": 5.99999986588955E-02
+          "max_time": 1.09999999403954E-01
         }
       }
     },
@@ -1173,6 +1217,7 @@
           }
         ]
       },
+      "msg_id": 44,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1197,12 +1242,13 @@
           }
         ]
       },
+      "msg_id": 45,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 7.99999982118607E-02
+          "max_time": 7.00000002980232E-02
         }
       }
     },
@@ -1221,12 +1267,13 @@
           }
         ]
       },
+      "msg_id": 46,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 4,
           "max_steps": 1,
-          "max_time": 3.99999991059303E-02
+          "max_time": 5.99999986588955E-02
         }
       }
     },
@@ -1245,6 +1292,7 @@
           }
         ]
       },
+      "msg_id": 47,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1269,6 +1317,7 @@
           }
         ]
       },
+      "msg_id": 48,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1293,12 +1342,13 @@
           }
         ]
       },
+      "msg_id": 49,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 9.00000035762787E-02
+          "max_time": 7.99999982118607E-02
         }
       }
     },
@@ -1317,6 +1367,7 @@
           }
         ]
       },
+      "msg_id": 50,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1341,12 +1392,13 @@
           }
         ]
       },
+      "msg_id": 51,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 2,
           "max_steps": 1,
-          "max_time": 1.99999995529652E-02
+          "max_time": 3.99999991059303E-02
         }
       }
     },
@@ -1365,12 +1417,13 @@
           }
         ]
       },
+      "msg_id": 52,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 7.00000002980232E-02
+          "max_time": 5.99999986588955E-02
         }
       }
     },
@@ -1389,12 +1442,13 @@
           }
         ]
       },
+      "msg_id": 53,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 7.00000002980232E-02
+          "max_time": 5.99999986588955E-02
         }
       }
     },
@@ -1413,6 +1467,7 @@
           }
         ]
       },
+      "msg_id": 54,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1437,6 +1492,7 @@
           }
         ]
       },
+      "msg_id": 55,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1461,6 +1517,7 @@
           }
         ]
       },
+      "msg_id": 56,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
@@ -1485,12 +1542,13 @@
           }
         ]
       },
+      "msg_id": 57,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 5.99999986588955E-02
+          "max_time": 9.00000035762787E-02
         }
       }
     },
@@ -1509,12 +1567,13 @@
           }
         ]
       },
+      "msg_id": 58,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 7.00000002980232E-02
+          "max_time": 1.00000001490116E-01
         }
       }
     },
@@ -1533,12 +1592,13 @@
           }
         ]
       },
+      "msg_id": 59,
       "how_proved": "prover",
       "stats": {
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 3.99999991059303E-02
+          "max_time": 5.00000007450581E-02
         }
       }
     }
@@ -1549,17 +1609,17 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Messages.Length",
+            "name": "PolyORB_HI.Messages.Valid",
             "sloc": [
               {
                 "file": "polyorb_hi-messages.ads",
-                "line": 71
+                "line": 119
               }
             ]
           }
         },
         {
-          "predicate": "CLAIM_EFFECTS",
+          "predicate": "CLAIM_AORTE",
           "arg": {
             "name": "PolyORB_HI.Messages.Valid",
             "sloc": [
@@ -1569,23 +1629,7 @@
               }
             ]
           }
-        }
-      ],
-      "claim": {
-        "predicate": "CLAIM_EFFECTS",
-        "arg": {
-          "name": "PolyORB_HI.Messages.Read",
-          "sloc": [
-            {
-              "file": "polyorb_hi-messages.ads",
-              "line": 75
-            }
-          ]
-        }
-      }
-    },
-    {
-      "assumptions": [
+        },
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
@@ -1606,30 +1650,6 @@
               {
                 "file": "polyorb_hi-messages.ads",
                 "line": 71
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Valid",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 119
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Valid",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 119
               }
             ]
           }
@@ -1737,54 +1757,6 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Messages.Is_Empty",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 94
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Is_Empty",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 94
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Length",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 71
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Length",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 71
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
             "name": "PolyORB_HI.Messages.Valid",
             "sloc": [
               {
@@ -1838,6 +1810,54 @@
               {
                 "file": "polyorb_hi-messages.ads",
                 "line": 97
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Is_Empty",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 94
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Is_Empty",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 94
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Length",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 71
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Length",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 71
               }
             ]
           }
@@ -1861,30 +1881,6 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Messages.Is_Empty",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 94
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Length",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 71
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
             "name": "PolyORB_HI.Messages.Valid",
             "sloc": [
               {
@@ -1905,6 +1901,30 @@
               }
             ]
           }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Is_Empty",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 94
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Length",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 71
+              }
+            ]
+          }
         }
       ],
       "claim": {
@@ -1922,54 +1942,6 @@
     },
     {
       "assumptions": [
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Is_Empty",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 94
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Is_Empty",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 94
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Length",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 71
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Length",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 71
-              }
-            ]
-          }
-        },
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
@@ -2026,6 +1998,54 @@
               {
                 "file": "polyorb_hi-messages.ads",
                 "line": 97
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Is_Empty",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 94
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Is_Empty",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 94
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Length",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 71
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Length",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 71
               }
             ]
           }
@@ -2133,11 +2153,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Messages.Reallocate",
+            "name": "PolyORB_HI.Messages.Valid",
             "sloc": [
               {
                 "file": "polyorb_hi-messages.ads",
-                "line": 91
+                "line": 119
               }
             ]
           }
@@ -2145,11 +2165,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Messages.Valid",
+            "name": "PolyORB_HI.Messages.Reallocate",
             "sloc": [
               {
                 "file": "polyorb_hi-messages.ads",
-                "line": 119
+                "line": 91
               }
             ]
           }
@@ -2173,11 +2193,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Messages.Reallocate",
+            "name": "PolyORB_HI.Messages.Valid",
             "sloc": [
               {
                 "file": "polyorb_hi-messages.ads",
-                "line": 91
+                "line": 119
               }
             ]
           }
@@ -2185,11 +2205,11 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI.Messages.Reallocate",
+            "name": "PolyORB_HI.Messages.Valid",
             "sloc": [
               {
                 "file": "polyorb_hi-messages.ads",
-                "line": 91
+                "line": 119
               }
             ]
           }
@@ -2197,11 +2217,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Messages.Valid",
+            "name": "PolyORB_HI.Messages.Reallocate",
             "sloc": [
               {
                 "file": "polyorb_hi-messages.ads",
-                "line": 119
+                "line": 91
               }
             ]
           }
@@ -2209,11 +2229,11 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI.Messages.Valid",
+            "name": "PolyORB_HI.Messages.Reallocate",
             "sloc": [
               {
                 "file": "polyorb_hi-messages.ads",
-                "line": 119
+                "line": 91
               }
             ]
           }
@@ -2500,22 +2520,6 @@
       "assumptions": [
       ],
       "claim": {
-        "predicate": "CLAIM_EFFECTS",
-        "arg": {
-          "name": "PolyORB_HI.Messages.Reallocate",
-          "sloc": [
-            {
-              "file": "polyorb_hi-messages.ads",
-              "line": 91
-            }
-          ]
-        }
-      }
-    },
-    {
-      "assumptions": [
-      ],
-      "claim": {
         "predicate": "CLAIM_AORTE",
         "arg": {
           "name": "PolyORB_HI.Messages.Reallocate",
@@ -2533,159 +2537,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Messages.Is_Empty",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 94
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Length",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 71
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.To_Buffer",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 67
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
             "name": "PolyORB_HI.Messages.Valid",
             "sloc": [
               {
                 "file": "polyorb_hi-messages.ads",
                 "line": 119
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Payload",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 97
-              }
-            ]
-          }
-        }
-      ],
-      "claim": {
-        "predicate": "CLAIM_EFFECTS",
-        "arg": {
-          "name": "PolyORB_HI.Messages.Encapsulate",
-          "sloc": [
-            {
-              "file": "polyorb_hi-messages.ads",
-              "line": 110
-            }
-          ]
-        }
-      }
-    },
-    {
-      "assumptions": [
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Is_Empty",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 94
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Is_Empty",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 94
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Length",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 71
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Length",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 71
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.To_Buffer",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 67
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Messages.Valid",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 119
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Messages.To_Buffer",
-            "sloc": [
-              {
-                "file": "polyorb_hi-messages.ads",
-                "line": 67
               }
             ]
           }
@@ -2734,6 +2590,78 @@
               {
                 "file": "polyorb_hi-messages.ads",
                 "line": 97
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Is_Empty",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 94
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Is_Empty",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 94
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Length",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 71
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Length",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 71
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.To_Buffer",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 67
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Messages.To_Buffer",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 67
               }
             ]
           }
