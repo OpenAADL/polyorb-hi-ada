@@ -1,0 +1,2 @@
+polyorb_hi_generated-transport.adb:110:25: medium: precondition might fail
+polyorb_hi-periodic_task.ads:72:09: high: possible data race when accessing variable "producer_consumer.the_data", in instantiation at polyorb_hi_generated-activity.ads:101

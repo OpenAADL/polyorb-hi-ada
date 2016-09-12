@@ -1,0 +1,45 @@
+[GENERATED OBJECT FILE]
+b__pr_a.o
+[PROJECT FILES]
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/pr_a.gpr
+20160821121116
+/Users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/polyorb_hi.gpr
+20160912191658
+[BOUND OBJECT FILES]
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-streams.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi_generated.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi_generated-deployment.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-utils.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-epoch.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-errors.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-messages.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-marshallers_g.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-output_low_level_native.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-output.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-port_kinds.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-port_type_marshallers.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-suspenders.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-periodic_task.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-time_marshallers.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-thread_interrogators.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi-transport_low_level_spark.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi_generated-types.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi_generated-marshallers.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi_generated-transport.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi_generated-activity.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/producer_consumer.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/polyorb_hi_generated-subprograms.o
+/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/pr_a.o
+[GENERATED SOURCE FILES]
+b__pr_a.ads
+b__pr_a.adb
+b__pr_a.ali
+[RESULTING OPTIONS]
+-L/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/
+-L/Users/hugues/Desktop/Work/Dev/git/po-hi-ada/examples/aadlv2/producer_consumer/pc_simple_native_spark/pr_a/
+-L/Users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/
+-L/users/hugues/local/gnat-gpl-2016/lib/gcc/x86_64-apple-darwin14.5.0/4.9.4/adalib/
+-static
+/users/hugues/local/gnat-gpl-2016/lib/gcc/x86_64-apple-darwin14.5.0/4.9.4/adalib/libgnarl.a
+/users/hugues/local/gnat-gpl-2016/lib/gcc/x86_64-apple-darwin14.5.0/4.9.4/adalib/libgnat.a

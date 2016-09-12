@@ -1,0 +1,114 @@
+{
+  "spark": [
+    {
+      "name": "PolyORB_HI_Generated.Subprograms",
+      "sloc": [
+        {
+          "file": "polyorb_hi_generated-subprograms.ads",
+          "line": 11
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI_Generated.Subprograms.Software_Produce_Spg",
+      "sloc": [
+        {
+          "file": "polyorb_hi_generated-subprograms.ads",
+          "line": 13
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI_Generated.Subprograms.Software_Consume_Spg",
+      "sloc": [
+        {
+          "file": "polyorb_hi_generated-subprograms.ads",
+          "line": 16
+        }
+      ],
+      "spark": "all"
+    }
+  ],
+  "flow": [
+    {
+      "file": "polyorb_hi_generated-subprograms.ads",
+      "line": 14,
+      "col": 5,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Subprograms.Software_Produce_Spg",
+        "sloc": [
+          {
+            "file": "polyorb_hi_generated-subprograms.ads",
+            "line": 13
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi_generated-subprograms__flow__52.trace",
+      "how_proved": "flow"
+    }
+  ],
+  "proof": [
+  ],
+  "assumptions": [
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Producer_Consumer.Consume_Spg",
+            "sloc": [
+              {
+                "file": "producer_consumer.ads",
+                "line": 40
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI_Generated.Subprograms.Software_Consume_Spg",
+          "sloc": [
+            {
+              "file": "polyorb_hi_generated-subprograms.ads",
+              "line": 16
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Producer_Consumer.Produce_Spg",
+            "sloc": [
+              {
+                "file": "producer_consumer.ads",
+                "line": 38
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI_Generated.Subprograms.Software_Produce_Spg",
+          "sloc": [
+            {
+              "file": "polyorb_hi_generated-subprograms.ads",
+              "line": 13
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

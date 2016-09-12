@@ -1,0 +1,131 @@
+V "GNAT Lib v17.0"
+A -g
+A -gnatwa
+A -gnatwG
+A -gnat12
+A -g
+A -O1
+A -gnata
+A -gnato
+A -gnatc
+P DB GP ES FX
+
+RN
+RR SIMPLE_BARRIERS
+RR NO_ABORT_STATEMENTS
+RR NO_ALLOCATORS
+RR NO_ASYNCHRONOUS_CONTROL
+RR NO_CALENDAR
+RR NO_DISPATCH
+RR NO_DYNAMIC_ATTACHMENT
+RR NO_DYNAMIC_PRIORITIES
+RR NO_ENTRY_QUEUE
+RR NO_IO
+RR NO_IMPLICIT_HEAP_ALLOCATIONS
+RR NO_LOCAL_TIMING_EVENTS
+RR NO_LOCAL_PROTECTED_OBJECTS
+RR NO_PROTECTED_TYPE_ALLOCATORS
+RR NO_RECURSION
+RR NO_RELATIVE_DELAY
+RR NO_REQUEUE_STATEMENTS
+RR NO_SELECT_STATEMENTS
+RR NO_SPECIFIC_TERMINATION_HANDLERS
+RR NO_TASK_ALLOCATORS
+RR NO_TASK_ATTRIBUTES_PACKAGE
+RR NO_TASK_HIERARCHY
+RR NO_TASK_TERMINATION
+RR NO_TERMINATE_ALTERNATIVES
+RR NO_UNCHECKED_ACCESS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RR NO_OBSOLESCENT_FEATURES
+RV SPARK_05
+RR MAX_PROTECTED_ENTRIES=1
+RR MAX_SELECT_ALTERNATIVES=0
+RR MAX_TASK_ENTRIES=0
+RR MAX_ASYNCHRONOUS_SELECT_NESTING=0
+
+U polyorb_hi.transport_low_level%b  polyorb_hi-transport_low_level_spark.adb  fade26d4 OO PK
+W polyorb_hi%s		polyorb_hi.ads		polyorb_hi.ali
+W system%s		system.ads		system.ali
+
+U polyorb_hi.transport_low_level%s  polyorb_hi-transport_low_level.ads  c67e314a EB EE OO PK
+W polyorb_hi%s		polyorb_hi.ads		polyorb_hi.ali
+W polyorb_hi.errors%s	polyorb_hi-errors.ads	polyorb_hi-errors.ali
+W polyorb_hi.streams%s	polyorb_hi-streams.ads	polyorb_hi-streams.ali
+W polyorb_hi_generated%s  polyorb_hi_generated.ads  polyorb_hi_generated.ali
+W polyorb_hi_generated.deployment%s  polyorb_hi_generated-deployment.ads  polyorb_hi_generated-deployment.ali
+
+D polyorb_hi.ads	20160912191658 f77a07a6 polyorb_hi%s
+D polyorb_hi-errors.ads	20160912191658 6deb16d4 polyorb_hi.errors%s
+D polyorb_hi-streams.ads  20160912191658 e9ea0084 polyorb_hi.streams%s
+D polyorb_hi-transport_low_level.ads  20160912191658 1bd3eb69 polyorb_hi.transport_low_level%s
+D polyorb_hi-transport_low_level_spark.adb  20160912191658 e10dcdbd polyorb_hi.transport_low_level%b
+D polyorb_hi_generated.ads  20160912191658 32a22d97 polyorb_hi_generated%s
+D polyorb_hi_generated-deployment.ads  20160912192525 aed6cbd5 polyorb_hi_generated.deployment%s
+D system.ads		20151020122115 c3282aa7 system%s
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/spark.adc  20160912191658 00000000
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/gnat.adc  20160912191658 00000000
+X 1 polyorb_hi.ads
+35K9*PolyORB_HI 39e15 4|35r6 36r6 39r9 43r8 44r8 54r5 5|32r14 55r5
+X 2 polyorb_hi-errors.ads
+32K20*Errors 39e22 4|35w17 43r19
+34E9*Error_Kind 37e7 4|51r13 5|48r25
+35n7*Error_None{34E9} 5|52r14
+X 3 polyorb_hi-streams.ads
+37K20*Streams 56e23 4|36w17 44r19
+44M9*Stream_Element
+53A9*Stream_Element_Array(44M9)<46I9> 4|50r47 5|47r47
+X 4 polyorb_hi-transport_low_level.ads
+39K20*Transport_Low_Level 1|35k9 4|54l16 54e35 5|32b25 55l16 55t35
+47U14*Initialize 5|38b14 41l8 41t18
+50V13*Send{2|34E9} 50>19 50>37 5|47b13 53l8 53t12
+50e19 Node{7|16E8} 5|47b19 50r28
+50a37 Message{3|53A9} 5|47b37 50r34
+X 6 polyorb_hi_generated.ads
+34K9*PolyORB_HI_Generated 4|37r6 45r8 6|38e25
+X 7 polyorb_hi_generated-deployment.ads
+10K30*Deployment 4|37w27 45r29 7|215e36
+16E8*Node_Type 4|50r26 5|47r26 7|18e12
+FD 1 polyorb_hi.ads
+FS .1 35K9 polyorb_hi
+FD 2 polyorb_hi-errors.ads
+FS .1 32K20 polyorb_hi__errors
+FD 3 polyorb_hi-streams.ads
+FS .1 37K20 polyorb_hi__streams
+FD 4 polyorb_hi-transport_low_level.ads
+FS .1 39K20 polyorb_hi__transport_low_level
+FS .2 47U14 polyorb_hi__transport_low_level__initialize
+FS .3 50V13 polyorb_hi__transport_low_level__send
+FD 5 polyorb_hi-transport_low_level_spark.adb
+FS .1 32K25 polyorb_hi__transport_low_level -> 4.1
+FS .2 38U14 polyorb_hi__transport_low_level__initialize -> 4.2
+FS .3 47V13 polyorb_hi__transport_low_level__send -> 4.3
+FD 6 polyorb_hi_generated.ads
+FS .1 34K9 polyorb_hi_generated
+FD 7 polyorb_hi_generated-deployment.ads
+FS .1 10K30 polyorb_hi_generated__deployment
+FD 8 system.ads
+FS .1 37K9 system
+FS .2 77V13 system__Olt
+FS .3 78V13 system__Ole
+FS .4 79V13 system__Ogt
+FS .5 80V13 system__Oge
+FS .6 81V13 system__Oeq
+FX 4 polyorb_hi-transport_low_level.ads .3 polyorb_hi__transport_low_level__send
+F 50>19 polyorb_hi__transport_low_level__send__node 5|.3:50c28
+F 50>37 polyorb_hi__transport_low_level__send__message 5|.3:50c34
+
+QQ SPARKVERSION 17.0w (20160724)
+GG EK_REMOTE_STATES RS 0
+GG EK_GLOBALS polyorb_hi__transport_low_level__initialize KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 0 local_sub 0
+GG EK_GLOBALS polyorb_hi__transport_low_level__send KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 2 polyorb_hi__transport_low_level__send__node polyorb_hi__transport_low_level__send__message local_sub 0
+GG EK_GLOBALS polyorb_hi__transport_low_level KIND_PACKAGE_BODY ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 0 local_sub 2 polyorb_hi__transport_low_level__initialize polyorb_hi__transport_low_level__send local_init 0
+GG EK_VOLATILES AR 0 AW 0 ER 0 EW 0
+GG EK_NONBLOCKING 2 polyorb_hi__transport_low_level__initialize polyorb_hi__transport_low_level__send
+GG EK_DIRECT_CALLS polyorb_hi__transport_low_level__initialize 0
+GG EK_DIRECT_CALLS polyorb_hi__transport_low_level__send 0
+GG EK_TASKING_INFO polyorb_hi__transport_low_level__initialize SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__transport_low_level__send SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_END_MARKER

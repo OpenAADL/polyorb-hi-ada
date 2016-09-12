@@ -1,0 +1,96 @@
+{
+  "spark": [
+    {
+      "name": "PolyORB_HI.Output_Low_Level",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output_low_level.ads",
+          "line": 32
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output_Low_Level.New_Line",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output_low_level.ads",
+          "line": 36
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output_Low_Level.Put",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output_low_level.ads",
+          "line": 40
+        }
+      ],
+      "spark": "spec"
+    },
+    {
+      "name": "PolyORB_HI.Output_Low_Level.C_Write",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output_low_level_native.adb",
+          "line": 41
+        }
+      ],
+      "spark": "spec"
+    }
+  ],
+  "flow": [
+    {
+      "file": "polyorb_hi-output_low_level.ads",
+      "line": 36,
+      "col": 14,
+      "suppressed": "No direct effect on any state visible by SPARK",
+      "rule": "INEFFECTIVE",
+      "severity": "warning",
+      "entity": {
+        "name": "PolyORB_HI.Output_Low_Level.New_Line",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output_low_level.ads",
+            "line": 36
+          }
+        ]
+      },
+      "how_proved": "flow"
+    }
+  ],
+  "proof": [
+  ],
+  "assumptions": [
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Output_Low_Level.New_Line",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output_low_level.ads",
+              "line": 36
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

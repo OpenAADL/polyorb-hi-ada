@@ -1,0 +1,142 @@
+{
+  "spark": [
+  ],
+  "flow": [
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 191
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 191
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 101
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 101
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 101
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 101
+          }
+        ]
+      },
+      "msg_id": 0,
+      "how_proved": "flow"
+    }
+  ],
+  "proof": [
+  ],
+  "assumptions": [
+  ]
+}

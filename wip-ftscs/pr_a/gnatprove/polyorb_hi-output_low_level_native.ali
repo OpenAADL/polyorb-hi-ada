@@ -1,0 +1,184 @@
+V "GNAT Lib v17.0"
+A -g
+A -gnatwa
+A -gnatwG
+A -gnat12
+A -g
+A -O1
+A -gnata
+A -gnato
+A -gnatc
+P DB GP ES FX
+
+RN
+RR SIMPLE_BARRIERS
+RR NO_ABORT_STATEMENTS
+RR NO_ALLOCATORS
+RR NO_ASYNCHRONOUS_CONTROL
+RR NO_CALENDAR
+RR NO_DISPATCH
+RR NO_DYNAMIC_ATTACHMENT
+RR NO_DYNAMIC_PRIORITIES
+RR NO_ENTRY_QUEUE
+RR NO_IO
+RR NO_IMPLICIT_HEAP_ALLOCATIONS
+RR NO_LOCAL_TIMING_EVENTS
+RR NO_LOCAL_PROTECTED_OBJECTS
+RR NO_PROTECTED_TYPE_ALLOCATORS
+RR NO_RECURSION
+RR NO_RELATIVE_DELAY
+RR NO_REQUEUE_STATEMENTS
+RR NO_SELECT_STATEMENTS
+RR NO_SPECIFIC_TERMINATION_HANDLERS
+RR NO_TASK_ALLOCATORS
+RR NO_TASK_ATTRIBUTES_PACKAGE
+RR NO_TASK_HIERARCHY
+RR NO_TASK_TERMINATION
+RR NO_TERMINATE_ALTERNATIVES
+RR NO_UNCHECKED_ACCESS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RR NO_OBSOLESCENT_FEATURES
+RV SPARK_05
+RR MAX_PROTECTED_ENTRIES=1
+RR MAX_SELECT_ALTERNATIVES=0
+RR MAX_TASK_ENTRIES=0
+RR MAX_ASYNCHRONOUS_SELECT_NESTING=0
+
+U polyorb_hi.output_low_level%b  polyorb_hi-output_low_level_native.adb  3f17e8e2 OO PK
+W interfaces%s		interfac.ads		interfac.ali
+W interfaces.c%s	i-c.adb			i-c.ali
+W polyorb_hi%s		polyorb_hi.ads		polyorb_hi.ali
+W system%s		system.ads		system.ali
+
+U polyorb_hi.output_low_level%s  polyorb_hi-output_low_level.ads  ce6fdc73 EE OO PK
+W polyorb_hi%s		polyorb_hi.ads		polyorb_hi.ali
+
+D interfac.ads		20160308115645 5ab55268 interfaces%s
+D i-c.ads		20101110140309 5421119b interfaces.c%s
+D polyorb_hi.ads	20160912191658 f77a07a6 polyorb_hi%s
+D polyorb_hi-output_low_level.ads  20160912191658 3915dbd5 polyorb_hi.output_low_level%s
+D polyorb_hi-output_low_level_native.adb  20160912191658 910b080b polyorb_hi.output_low_level%b
+D system.ads		20151020122115 c3282aa7 system%s
+D s-parame.ads		20140604164142 7e2a0d7f system.parameters%s
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/spark.adc  20160912191658 00000000
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/gnat.adc  20160912191658 00000000
+X 1 interfac.ads
+38K9*Interfaces 184e15 5|32r6 42r13 44r13
+X 2 i-c.ads
+18K20*C 230e17 5|32w17 42r24 44r24
+35I9*int<integer> 5|42r26 44r26
+X 3 polyorb_hi.ads
+35K9*PolyORB_HI 39e15 4|32r9 42r5 5|35r14 68r5
+X 4 polyorb_hi-output_low_level.ads
+32K20*Output_Low_Level 3|35k9 4|42l16 42e32 5|35b25 68l16 68t32
+36U14*New_Line 5|61b14 66l8 66t16
+40U14*Put 40>19 5|47b14 55l8 55t11 65s7
+40a19 S{string} 5|47b19 52r19 52r22 52r40
+X 5 polyorb_hi-output_low_level_native.adb
+41U14 C_Write 42>7 43>7 44>7 45b<c,write>22 52s7
+42i7 Fd{2|35I9}
+43m7 P{6|67M9}
+44i7 Len{2|35I9}
+62a7 S{string} 65r12
+X 6 system.ads
+37K9*System 5|33w6 43r13 6|174e11
+67M9*Address 5|43r20
+FD 1 interfac.ads
+FS .1 38K9 interfaces
+FS .2 81V13 interfaces__shift_left
+FS .3 85V13 interfaces__shift_right
+FS .4 89V13 interfaces__shift_right_arithmetic
+FS .5 93V13 interfaces__rotate_left
+FS .6 97V13 interfaces__rotate_right
+FS .7 101V13 interfaces__shift_left__2
+FS .8 105V13 interfaces__shift_right__2
+FS .9 109V13 interfaces__shift_right_arithmetic__2
+FS .10 113V13 interfaces__rotate_left__2
+FS .11 117V13 interfaces__rotate_right__2
+FS .12 121V13 interfaces__shift_left__3
+FS .13 125V13 interfaces__shift_right__3
+FS .14 129V13 interfaces__shift_right_arithmetic__3
+FS .15 133V13 interfaces__rotate_left__3
+FS .16 137V13 interfaces__rotate_right__3
+FS .17 141V13 interfaces__shift_left__4
+FS .18 145V13 interfaces__shift_right__4
+FS .19 149V13 interfaces__shift_right_arithmetic__4
+FS .20 153V13 interfaces__rotate_left__4
+FS .21 157V13 interfaces__rotate_right__4
+FD 2 i-c.ads
+FS .1 18K20 interfaces__c
+FS .2 76V13 interfaces__c__to_c
+FS .3 77V13 interfaces__c__to_ada
+FS .4 82V13 interfaces__c__is_nul_terminated
+FS .5 84V13 interfaces__c__to_c__2
+FS .6 88V13 interfaces__c__to_ada__2
+FS .7 92U14 interfaces__c__to_c__3
+FS .8 98U14 interfaces__c__to_ada__3
+FS .9 113V13 interfaces__c__to_c__4
+FS .10 114V13 interfaces__c__to_ada__4
+FS .11 118V13 interfaces__c__is_nul_terminated__2
+FS .12 120V13 interfaces__c__to_c__5
+FS .13 124V13 interfaces__c__to_ada__5
+FS .14 128U14 interfaces__c__to_c__6
+FS .15 134U14 interfaces__c__to_ada__6
+FS .16 152V13 interfaces__c__to_c__7
+FS .17 155V13 interfaces__c__to_ada__7
+FS .18 161V13 interfaces__c__is_nul_terminated__3
+FS .19 164V13 interfaces__c__to_c__8
+FS .20 169V13 interfaces__c__to_ada__8
+FS .21 174U14 interfaces__c__to_c__9
+FS .22 181U14 interfaces__c__to_ada__9
+FS .23 194V13 interfaces__c__to_c__10
+FS .24 197V13 interfaces__c__to_ada__10
+FS .25 203V13 interfaces__c__is_nul_terminated__4
+FS .26 206V13 interfaces__c__to_c__11
+FS .27 211V13 interfaces__c__to_ada__11
+FS .28 216U14 interfaces__c__to_c__12
+FS .29 223U14 interfaces__c__to_ada__12
+FD 3 polyorb_hi.ads
+FS .1 35K9 polyorb_hi
+FD 4 polyorb_hi-output_low_level.ads
+FS .1 32K20 polyorb_hi__output_low_level
+FS .2 36U14 polyorb_hi__output_low_level__new_line
+FS .3 40U14 polyorb_hi__output_low_level__put
+FD 5 polyorb_hi-output_low_level_native.adb
+FS .1 35K25 polyorb_hi__output_low_level -> 4.1
+FS .2 41U14 polyorb_hi__output_low_level__c_write
+FS .3 47U14 polyorb_hi__output_low_level__put -> 4.3
+FS .4 61U14 polyorb_hi__output_low_level__new_line -> 4.2
+FD 6 system.ads
+FS .1 37K9 system
+FS .2 77V13 system__Olt
+FS .3 78V13 system__Ole
+FS .4 79V13 system__Ogt
+FS .5 80V13 system__Oge
+FS .6 81V13 system__Oeq
+FD 7 s-parame.ads
+FS .1 51K16 system__parameters
+FS .2 81V13 system__parameters__default_stack_size
+FS .3 84V13 system__parameters__minimum_stack_size
+FS .4 87V13 system__parameters__adjust_storage_size
+FX 4 polyorb_hi-output_low_level.ads .1 polyorb_hi__output_low_level
+F 40*14 polyorb_hi__output_low_level__put 5|.4:65s7
+FX 4 polyorb_hi-output_low_level.ads .3 polyorb_hi__output_low_level__put
+F 40>19 polyorb_hi__output_low_level__put__s 5|.3:52c19 52c22 52c40
+FX 5 polyorb_hi-output_low_level_native.adb .1 polyorb_hi__output_low_level
+F 41*14 polyorb_hi__output_low_level__c_write .3:52s7
+FX 5 polyorb_hi-output_low_level_native.adb .4 polyorb_hi__output_low_level__new_line
+F 62*7 polyorb_hi__output_low_level__new_line__s 65r12
+
+QQ SPARKVERSION 17.0w (20160724)
+GG EK_REMOTE_STATES RS 0
+GG EK_GLOBALS polyorb_hi__output_low_level__new_line KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 1 polyorb_hi__output_low_level__put calls_conditional 0 local_var 0 local_sub 0
+GG EK_GLOBALS polyorb_hi__output_low_level__put KIND_SUBPROGRAM ORIGIN_FRONTEND var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 1 polyorb_hi__output_low_level__c_write local_var 0 local_sub 0
+GG EK_GLOBALS polyorb_hi__output_low_level__c_write KIND_SUBPROGRAM ORIGIN_FRONTEND var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 0 local_sub 0
+GG EK_GLOBALS polyorb_hi__output_low_level KIND_PACKAGE_BODY ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 0 local_sub 3 polyorb_hi__output_low_level__c_write polyorb_hi__output_low_level__put polyorb_hi__output_low_level__new_line local_init 0
+GG EK_VOLATILES AR 0 AW 0 ER 0 EW 0
+GG EK_NONBLOCKING 1 polyorb_hi__output_low_level__new_line
+GG EK_DIRECT_CALLS polyorb_hi__output_low_level__new_line 1 polyorb_hi__output_low_level__put
+GG EK_DIRECT_CALLS polyorb_hi__output_low_level__put 0
+GG EK_DIRECT_CALLS polyorb_hi__output_low_level__c_write 0
+GG EK_TASKING_INFO polyorb_hi__output_low_level__new_line SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_END_MARKER

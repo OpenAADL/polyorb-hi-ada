@@ -1,0 +1,118 @@
+V "GNAT Lib v17.0"
+A -g
+A -gnatwa
+A -gnatwG
+A -gnat12
+A -g
+A -O1
+A -gnata
+A -gnato
+A -gnatc
+P DB GP ES FX
+
+RN
+RR SIMPLE_BARRIERS
+RR NO_ABORT_STATEMENTS
+RR NO_ALLOCATORS
+RR NO_ASYNCHRONOUS_CONTROL
+RR NO_CALENDAR
+RR NO_DISPATCH
+RR NO_DYNAMIC_ATTACHMENT
+RR NO_DYNAMIC_PRIORITIES
+RR NO_ENTRY_QUEUE
+RR NO_IO
+RR NO_IMPLICIT_HEAP_ALLOCATIONS
+RR NO_LOCAL_TIMING_EVENTS
+RR NO_LOCAL_PROTECTED_OBJECTS
+RR NO_PROTECTED_TYPE_ALLOCATORS
+RR NO_RECURSION
+RR NO_RELATIVE_DELAY
+RR NO_REQUEUE_STATEMENTS
+RR NO_SELECT_STATEMENTS
+RR NO_SPECIFIC_TERMINATION_HANDLERS
+RR NO_TASK_ALLOCATORS
+RR NO_TASK_ATTRIBUTES_PACKAGE
+RR NO_TASK_HIERARCHY
+RR NO_TASK_TERMINATION
+RR NO_TERMINATE_ALTERNATIVES
+RR NO_UNCHECKED_ACCESS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RR NO_OBSOLESCENT_FEATURES
+RV SPARK_05
+RR MAX_PROTECTED_ENTRIES=1
+RR MAX_SELECT_ALTERNATIVES=0
+RR MAX_TASK_ENTRIES=0
+RR MAX_ASYNCHRONOUS_SELECT_NESTING=0
+
+U polyorb_hi_generated.deployment%s  polyorb_hi_generated-deployment.ads  9c74e642 EE OO PR PK
+W polyorb_hi_generated%s  polyorb_hi_generated.ads  polyorb_hi_generated.ali
+W system%s		system.ads		system.ali
+
+D polyorb_hi_generated.ads  20160912191658 32a22d97 polyorb_hi_generated%s
+D polyorb_hi_generated-deployment.ads  20160912192525 aed6cbd5 polyorb_hi_generated.deployment%s
+D system.ads		20151020122115 c3282aa7 system%s
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/spark.adc  20160912191658 00000000
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/gnat.adc  20160912191658 00000000
+X 1 polyorb_hi_generated.ads
+34K9*PolyORB_HI_Generated 38e25 2|10r9 189r12 215r5
+X 2 polyorb_hi_generated-deployment.ads
+10K30*Deployment 1|34k9 2|189r33 215l26 215e36
+16E8*Node_Type 18e12 22r7 30r7 40r4 40r20 40r39 60r22 94r9
+17n5*pr_A_K{16E8} 23r5 55r7 61r4 99r8 101r8
+18n5*pr_B_K{16E8} 25r5 57r7 103r8 105r8
+32i3*Max_Node_Image_Size{integer} 43r23
+39E11*UT_Deployment_Pr_A_Node_Type_Range{16E8} 50r11
+42I11*UT_Deployment_Pr_A_1_Max_Node_Image_Size{integer} 47r7
+45A11*UT_Deployment_Pr_A_Node_Image_Component{string}<integer> 51r9
+49A8*UT_Deployment_Pr_A_Node_Image_Array(45A11)<16E8> 53r25 54r4
+53a3*Node_Image{49A8}
+60e3*My_Node{16E8}
+65E8*Entity_Type 69e28 73r7 85r7 90r4 90r22 90r43 169r9
+66n5*pr_A_Producer_K{65E8} 74r5 98r7 127r7 174r8
+67n5*pr_A_Result_Consumer_K{65E8} 76r5 100r7 129r7 176r8
+68n5*pr_B_Consumer_K{65E8} 78r5 102r7 131r7 178r8
+69n5*pr_B_Result_Producer_K{65E8} 80r5 104r7 133r7 180r8
+89E11*UT_Deployment_Pr_A_Entity_Type_Range{65E8} 93r11 122r11
+92A8*UT_Deployment_Pr_A_Entity_Table_Array(16E8)<65E8> 96r27 97r4
+96a3*Entity_Table{92A8}
+107i3*Max_Entity_Image_Size{integer} 115r23
+114I11*UT_Deployment_Pr_A_1_Max_Entity_Image_Size{integer} 119r7
+117A11*UT_Deployment_Pr_A_Entity_Image_Component{string}<integer> 123r9
+121A8*UT_Deployment_Pr_A_Entity_Image_Array(117A11)<65E8> 125r27 126r4
+125a3*Entity_Image{121A8}
+139E8*Port_Type 143e41 147r7 160r7 165r4 165r20 165r39
+140n11*Pr_A_Producer_Data_Source_K{139E8} 149r6 173r7 199r7
+141n6*pr_A_Result_Consumer_Data_Sink_K{139E8} 151r5 175r7 201r7
+142n6*pr_B_Consumer_Data_Sink_K{139E8} 153r5 177r7 203r7
+143n6*pr_B_Result_Producer_Data_Source_K{139E8} 155r5 179r7 205r7
+164E11*UT_Deployment_Pr_A_Port_Type_Range{139E8} 168r11 194r11
+167A8*UT_Deployment_Pr_A_Port_Table_Array(65E8)<139E8> 171r25 172r4
+171a3*Port_Table{167A8}
+182i3*Max_Port_Image_Size{integer} 189r44
+187A11*Port_Sized_String{string}<integer> 195r9
+193A8*UT_Deployment_Pr_A_Port_Image_Array(187A11)<139E8> 197r25 198r4
+197a3*Port_Image{193A8}
+210i3*Max_Payload_Size{integer}
+FD 1 polyorb_hi_generated.ads
+FS .1 34K9 polyorb_hi_generated
+FD 2 polyorb_hi_generated-deployment.ads
+FS .1 10K30 polyorb_hi_generated__deployment
+FD 3 system.ads
+FS .1 37K9 system
+FS .2 77V13 system__Olt
+FS .3 78V13 system__Ole
+FS .4 79V13 system__Ogt
+FS .5 80V13 system__Oge
+FS .6 81V13 system__Oeq
+FX 2 polyorb_hi_generated-deployment.ads .1 polyorb_hi_generated__deployment
+F 32*3 polyorb_hi_generated__deployment__max_node_image_size 43c23
+F 107*3 polyorb_hi_generated__deployment__max_entity_image_size 115c23
+F 182*3 polyorb_hi_generated__deployment__max_port_image_size 189c44
+
+QQ SPARKVERSION 17.0w (20160724)
+GG EK_REMOTE_STATES RS 0
+GG EK_GLOBALS polyorb_hi_generated__deployment KIND_PACKAGE ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 0 local_sub 0 local_init 0
+GG EK_VOLATILES AR 0 AW 0 ER 0 EW 0
+GG EK_NONBLOCKING 0
+GG EK_END_MARKER

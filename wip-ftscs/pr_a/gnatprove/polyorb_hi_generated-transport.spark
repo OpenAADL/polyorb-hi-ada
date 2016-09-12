@@ -1,0 +1,435 @@
+{
+  "spark": [
+    {
+      "name": "PolyORB_HI_Generated.Transport",
+      "sloc": [
+        {
+          "file": "polyorb_hi_generated-transport.ads",
+          "line": 16
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI_Generated.Transport.Deliver",
+      "sloc": [
+        {
+          "file": "polyorb_hi_generated-transport.ads",
+          "line": 18
+        }
+      ],
+      "spark": "spec"
+    },
+    {
+      "name": "PolyORB_HI_Generated.Transport.Send",
+      "sloc": [
+        {
+          "file": "polyorb_hi_generated-transport.ads",
+          "line": 22
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI_Generated.Transport.Producer_Consumer_Result_Consumer_Deliver",
+      "sloc": [
+        {
+          "file": "polyorb_hi_generated-transport.adb",
+          "line": 21
+        }
+      ],
+      "spark": "spec"
+    },
+    {
+      "name": "PolyORB_HI_Generated.Transport.Producer_Consumer_Producer_Send",
+      "sloc": [
+        {
+          "file": "polyorb_hi_generated-transport.adb",
+          "line": 62
+        }
+      ],
+      "spark": "all"
+    }
+  ],
+  "flow": [
+    {
+      "file": "polyorb_hi_generated-transport.adb",
+      "line": 96,
+      "col": 12,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Transport.Send",
+        "sloc": [
+          {
+            "file": "polyorb_hi_generated-transport.ads",
+            "line": 22
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi_generated-transport__flow__38.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi_generated-transport.adb",
+      "line": 126,
+      "col": 12,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Transport.Send",
+        "sloc": [
+          {
+            "file": "polyorb_hi_generated-transport.ads",
+            "line": 22
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi_generated-transport__flow__38.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi_generated-transport.adb",
+      "line": 96,
+      "col": 12,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Transport.Producer_Consumer_Producer_Send",
+        "sloc": [
+          {
+            "file": "polyorb_hi_generated-transport.adb",
+            "line": 62
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi_generated-transport__flow__64.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 191
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 191
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 101
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 101
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "suppressed": "The_Periodic_Task uses Suspenders.Block, using Entity as parameter. By construction, each task is given a different value for 'Entity', it is thus impossible to have this error",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 101
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-periodic_task.ads",
+      "line": 72,
+      "col": 9,
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Task.The_Periodic_Task",
+        "sloc": [
+          {
+            "file": "polyorb_hi-periodic_task.ads",
+            "line": 72
+          },
+          {
+            "file": "polyorb_hi_generated-activity.ads",
+            "line": 101
+          }
+        ]
+      },
+      "msg_id": 0,
+      "how_proved": "flow"
+    }
+  ],
+  "proof": [
+    {
+      "file": "polyorb_hi_generated-transport.adb",
+      "line": 110,
+      "col": 25,
+      "rule": "VC_PRECONDITION",
+      "severity": "medium",
+      "entity": {
+        "name": "PolyORB_HI_Generated.Transport.Send",
+        "sloc": [
+          {
+            "file": "polyorb_hi_generated-transport.ads",
+            "line": 22
+          }
+        ]
+      },
+      "cntexmp": {
+        "polyorb_hi-messages.ads": {
+          "60": [
+            {
+              "name": "Empty_PDU",
+              "value": "(others => 0)",
+              "kind": "variable"
+            }
+          ]
+        },
+        "polyorb_hi_generated-deployment.ads": {
+          "96": [
+            {
+              "name": "Entity_Table",
+              "value": "(others => 0)",
+              "kind": "variable"
+            }
+          ]
+        },
+        "polyorb_hi_generated-transport.adb": {
+          "109": [
+            {
+              "name": "Msg",
+              "value": "(others => 0)",
+              "kind": "variable"
+            },
+            {
+              "name": "Msg'First",
+              "value": "0",
+              "kind": "variable"
+            },
+            {
+              "name": "Msg'Last",
+              "value": "0",
+              "kind": "variable"
+            }
+          ]
+        },
+        "polyorb_hi_generated-transport.ads": {
+          "23": [
+            {
+              "name": "From",
+              "value": "pr_A_Producer_K",
+              "kind": "variable"
+            }
+          ],
+          "24": [
+            {
+              "name": "Entity",
+              "value": "pr_A_Producer_K",
+              "kind": "variable"
+            }
+          ]
+        }
+      },
+      "msg_id": 1,
+      "how_proved": "prover"
+    }
+  ],
+  "assumptions": [
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI_Generated.Transport.Producer_Consumer_Result_Consumer_Deliver",
+          "sloc": [
+            {
+              "file": "polyorb_hi_generated-transport.adb",
+              "line": 21
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Transport_Low_Level.Send",
+            "sloc": [
+              {
+                "file": "polyorb_hi-transport_low_level.ads",
+                "line": 50
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI_Generated.Transport.Producer_Consumer_Producer_Send",
+          "sloc": [
+            {
+              "file": "polyorb_hi_generated-transport.adb",
+              "line": 62
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI_Generated.Transport",
+          "sloc": [
+            {
+              "file": "polyorb_hi_generated-transport.ads",
+              "line": 16
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Messages.Encapsulate",
+            "sloc": [
+              {
+                "file": "polyorb_hi-messages.ads",
+                "line": 110
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Transport_Low_Level.Send",
+            "sloc": [
+              {
+                "file": "polyorb_hi-transport_low_level.ads",
+                "line": 50
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI_Generated.Transport.Send",
+          "sloc": [
+            {
+              "file": "polyorb_hi_generated-transport.ads",
+              "line": 22
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI_Generated.Transport.Deliver",
+          "sloc": [
+            {
+              "file": "polyorb_hi_generated-transport.ads",
+              "line": 18
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

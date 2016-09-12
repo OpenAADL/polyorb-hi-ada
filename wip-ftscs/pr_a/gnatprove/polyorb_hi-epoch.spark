@@ -1,0 +1,212 @@
+{
+  "spark": [
+    {
+      "name": "PolyORB_HI.Epoch",
+      "sloc": [
+        {
+          "file": "polyorb_hi-epoch.ads",
+          "line": 34
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Epoch.System_Startup_Time",
+      "sloc": [
+        {
+          "file": "polyorb_hi-epoch.ads",
+          "line": 43
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Epoch.Set_Epoch",
+      "sloc": [
+        {
+          "file": "polyorb_hi-epoch.ads",
+          "line": 47
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Epoch.Epoch_DataT",
+      "sloc": [
+        {
+          "file": "polyorb_hi-epoch.adb",
+          "line": 42
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Epoch.Epoch_DataT.System_Startup_Time",
+      "sloc": [
+        {
+          "file": "polyorb_hi-epoch.adb",
+          "line": 43
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Epoch.Epoch_DataT.Set_Epoch",
+      "sloc": [
+        {
+          "file": "polyorb_hi-epoch.adb",
+          "line": 44
+        }
+      ],
+      "spark": "all"
+    }
+  ],
+  "flow": [
+    {
+      "file": "polyorb_hi-epoch.ads",
+      "line": 43,
+      "col": 35,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Epoch.System_Startup_Time",
+        "sloc": [
+          {
+            "file": "polyorb_hi-epoch.ads",
+            "line": 43
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-epoch__flow__66.trace",
+      "how_proved": "flow"
+    }
+  ],
+  "proof": [
+  ],
+  "assumptions": [
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Oadd",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 67
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Epoch.Epoch_DataT.Set_Epoch",
+            "sloc": [
+              {
+                "file": "polyorb_hi-epoch.adb",
+                "line": 44
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Milliseconds",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 121
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Clock",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 63
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Epoch.Set_Epoch",
+          "sloc": [
+            {
+              "file": "polyorb_hi-epoch.ads",
+              "line": 47
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Epoch.Epoch_DataT.System_Startup_Time",
+          "sloc": [
+            {
+              "file": "polyorb_hi-epoch.adb",
+              "line": 43
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Epoch.Epoch_DataT.Set_Epoch",
+          "sloc": [
+            {
+              "file": "polyorb_hi-epoch.adb",
+              "line": 44
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Epoch.Epoch_DataT.System_Startup_Time",
+            "sloc": [
+              {
+                "file": "polyorb_hi-epoch.adb",
+                "line": 43
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Epoch.System_Startup_Time",
+          "sloc": [
+            {
+              "file": "polyorb_hi-epoch.ads",
+              "line": 43
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

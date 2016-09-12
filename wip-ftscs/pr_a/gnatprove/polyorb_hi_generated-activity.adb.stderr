@@ -1,0 +1,23 @@
+polyorb_hi_generated-activity.adb:338:46: medium: precondition might fail (e.g. when Port = Data_Source and Thread_Port_Kinds = (0 => 8, others => -1))
+polyorb_hi_generated-activity.adb:355:46: medium: precondition might fail (e.g. when Port = Data_Source and Thread_Port_Kinds = (0 => 8, others => -1))
+polyorb_hi_generated-activity.adb:373:46: medium: precondition might fail (e.g. when Port = Data_Source and Thread_Port_Kinds = (0 => 8, others => -1))
+polyorb_hi_generated-activity.adb:406:45: medium: precondition might fail (e.g. when Port = Data_Source and Thread_Port_Kinds = (0 => 8, others => -1))
+polyorb_hi_generated-activity.ads:51:13: warning: subprogram "Receive_Input" has no effect
+polyorb_hi_generated-activity.ads:101:03: warning: in instantiation at polyorb_hi-periodic_task.ads:74
+polyorb_hi_generated-activity.ads:101:03: warning: pragma "Storage_Size" ignored (not yet supported)
+polyorb_hi_generated-activity.ads:140:13: warning: subprogram "Receive_Input" has no effect
+polyorb_hi_generated-activity.ads:191:03: warning: in instantiation at polyorb_hi-periodic_task.ads:74
+polyorb_hi_generated-activity.ads:191:03: warning: pragma "Storage_Size" ignored (not yet supported)
+polyorb_hi-periodic_task.ads:62:19: warning: subprogram "Activate_Entrypoint" has no effect, in instantiation at polyorb_hi_generated-activity.ads:101
+polyorb_hi-periodic_task.ads:62:19: warning: subprogram "Activate_Entrypoint" has no effect, in instantiation at polyorb_hi_generated-activity.ads:191
+polyorb_hi-periodic_task.ads:66:19: warning: subprogram "Recover_Entrypoint" has no effect, in instantiation at polyorb_hi_generated-activity.ads:101
+polyorb_hi-periodic_task.ads:66:19: warning: subprogram "Recover_Entrypoint" has no effect, in instantiation at polyorb_hi_generated-activity.ads:191
+polyorb_hi-periodic_task.ads:72:09: high: possible data race when accessing variable "producer_consumer.the_data", in instantiation at polyorb_hi_generated-activity.ads:101
+polyorb_hi-thread_interrogators.ads:159:14: warning: subprogram "Receive_Input" has no effect, in instantiation at polyorb_hi_generated-activity.adb:102
+polyorb_hi-thread_interrogators.ads:159:14: warning: subprogram "Receive_Input" has no effect, in instantiation at polyorb_hi_generated-activity.adb:193
+polyorb_hi-thread_interrogators.adb:54:04: medium: range check might fail, in instantiation at polyorb_hi_generated-activity.adb:193
+polyorb_hi-thread_interrogators.adb:54:04: medium: range check might fail, in instantiation at polyorb_hi_generated-activity.adb:102
+polyorb_hi-thread_interrogators.adb:346:42: medium: overflow check might fail, in instantiation at polyorb_hi_generated-activity.adb:193
+polyorb_hi-thread_interrogators.adb:1009:45: medium: array index check might fail, in instantiation at polyorb_hi_generated-activity.adb:102
+polyorb_hi-thread_interrogators.adb:1016:46: medium: array index check might fail, in instantiation at polyorb_hi_generated-activity.adb:102
+polyorb_hi-thread_interrogators.adb:1318:14: medium: discriminant check might fail, in instantiation at polyorb_hi_generated-activity.adb:193

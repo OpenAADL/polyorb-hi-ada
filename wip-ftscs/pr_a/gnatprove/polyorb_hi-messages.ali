@@ -1,0 +1,373 @@
+V "GNAT Lib v17.0"
+A -g
+A -gnatwa
+A -gnatwG
+A -gnat12
+A -g
+A -O1
+A -gnata
+A -gnato
+A -gnatc
+P DB GP ES FX
+
+RN
+RR SIMPLE_BARRIERS
+RR NO_ABORT_STATEMENTS
+RR NO_ALLOCATORS
+RR NO_ASYNCHRONOUS_CONTROL
+RR NO_CALENDAR
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RR NO_DISPATCH
+RR NO_DYNAMIC_ATTACHMENT
+RR NO_DYNAMIC_PRIORITIES
+RR NO_ENTRY_QUEUE
+RR NO_IO
+RR NO_IMPLICIT_HEAP_ALLOCATIONS
+RR NO_LOCAL_TIMING_EVENTS
+RR NO_LOCAL_PROTECTED_OBJECTS
+RR NO_PROTECTED_TYPE_ALLOCATORS
+RR NO_RECURSION
+RR NO_RELATIVE_DELAY
+RR NO_REQUEUE_STATEMENTS
+RR NO_SELECT_STATEMENTS
+RR NO_SPECIFIC_TERMINATION_HANDLERS
+RR NO_TASK_ALLOCATORS
+RR NO_TASK_ATTRIBUTES_PACKAGE
+RR NO_TASK_HIERARCHY
+RR NO_TASK_TERMINATION
+RR NO_TERMINATE_ALTERNATIVES
+RR NO_UNCHECKED_ACCESS
+RV NO_UNCHECKED_CONVERSION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RR NO_OBSOLESCENT_FEATURES
+RV SPARK_05
+RR MAX_PROTECTED_ENTRIES=1
+RR MAX_SELECT_ALTERNATIVES=0
+RR MAX_TASK_ENTRIES=0
+RR MAX_ASYNCHRONOUS_SELECT_NESTING=0
+
+U polyorb_hi.messages%b	polyorb_hi-messages.adb	a5d422aa OO PK
+W ada%s			ada.ads			ada.ali
+W ada.unchecked_conversion%s  a-unccon.ads	a-unccon.ali
+W interfaces%s		interfac.ads		interfac.ali
+W polyorb_hi%s		polyorb_hi.ads		polyorb_hi.ali
+W polyorb_hi.utils%s	polyorb_hi-utils.adb	polyorb_hi-utils.ali
+W system%s		system.ads		system.ali
+
+U polyorb_hi.messages%s	polyorb_hi-messages.ads	c169da34 EE OO PK
+W polyorb_hi%s		polyorb_hi.ads		polyorb_hi.ali
+W polyorb_hi.streams%s	polyorb_hi-streams.ads	polyorb_hi-streams.ali
+W polyorb_hi_generated%s  polyorb_hi_generated.ads  polyorb_hi_generated.ali
+W polyorb_hi_generated.deployment%s  polyorb_hi_generated-deployment.ads  polyorb_hi_generated-deployment.ali
+
+D ada.ads		20160617151202 76789da1 ada%s
+D a-unccon.ads		20160617151202 31484697 ada.unchecked_conversion%s
+D interfac.ads		20160308115645 5ab55268 interfaces%s
+D polyorb_hi.ads	20160912191658 f77a07a6 polyorb_hi%s
+D polyorb_hi-messages.ads  20160912191658 712f16c3 polyorb_hi.messages%s
+D polyorb_hi-messages.adb  20160912191658 f520663e polyorb_hi.messages%b
+D polyorb_hi-streams.ads  20160912191658 e9ea0084 polyorb_hi.streams%s
+D polyorb_hi-utils.ads	20160912191658 4a2646a8 polyorb_hi.utils%s
+D polyorb_hi_generated.ads  20160912191658 32a22d97 polyorb_hi_generated%s
+D polyorb_hi_generated-deployment.ads  20160912192525 aed6cbd5 polyorb_hi_generated.deployment%s
+D system.ads		20151020122115 c3282aa7 system%s
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/spark.adc  20160912191658 00000000
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/gnat.adc  20160912191658 00000000
+X 1 ada.ads
+16K9*Ada 20e8 6|34r6 51r39 53r39
+X 2 a-unccon.ads
+20v14*Unchecked_Conversion 6|34w10 51r43 53r43
+X 3 interfac.ads
+38K9*Interfaces 184e15 6|32w6 39r8 168r13 178r31
+63M9*Unsigned_8 6|92r36
+66M9*Unsigned_16 6|168r24 178r42
+X 4 polyorb_hi.ads
+35K9*PolyORB_HI 39e15 5|34r6 37r9 39r8 158r5 6|33r6 36r14 38r8 181r5
+X 5 polyorb_hi-messages.ads
+37K20*Messages 4|35k9 5|158l16 158e24 6|36b25 181l16 181t24
+42R9*Message_Type 45r29 71r25 76r23 86r23 91r34 94r26 97r26 111r17 119r30
+. 123c9 127e15 133r29 134r6 136r30 142r25 146r26 149r26 6|67r17 100r23 133r34
+. 143r23
+45r4*Empty_Message{42R9} 133c4 137r17 143r15 147r12 6|135r12
+47N4*Message_Length_Size 50r30 63r12 6|48r21 49r25 59r56 60r56 78r15
+50N4*Header_Size 54r27 107r44 6|72r59 81r10 81r30
+54N4*PDU_Size 57r57
+57I12*PDU_Index{7|50I12} 58r46 71r46 125r17 126r17 142r46
+58A12*PDU{7|53A9}<7|46I9> 60r25 124r17
+60a4*Empty_PDU{58A12} 124r24 128r23 134r31
+62A12*Message_Size_Buffer{7|53A9}<7|46I9> 66r28 67r57 6|52r7 54r16 164r28
+. 175r57
+66V13*To_Length{7|50I12} 66>24 6|164b13 169l8 169t17
+66a24 B{62A12} 6|164b24 168r57
+67V13*To_Buffer{62A12} 67>24 6|78s39 175b13 179l8 179t17
+67i24 L{7|50I12} 68r19 6|175b24 178r55
+71V13*Length{57I12} 71>21 99s42 142b13 6|75s48 81s44 105s51
+71r21 M{42R9} 72r29 143r11 143r42 143r51
+75U14*Read 76=7 77<7 78<7 6|99b14 127l8 127t12
+76r7 Stream{42R9} 79r26 6|100b7 105r59 120r12 120r28 120r44 122r10 122r37
+. 123m10 123r26 125m10 125r26
+77a7 Item{7|53A9} 6|101b7 105r38 107m7 113r25 114r18 116r18 119m7 119r13
+78i7 Last{7|46I9} 6|102b7 111m10 114m10 116m10 119r27
+85U14*Write 86=7 87>7 6|142b14 158l8 158t13
+86r7 Stream{42R9} 88r26 6|143b7 147r10 147r25 148m22 153r25 153r47 154m10
+. 154r25 155m10 155r26 155r45
+87a7 Item{7|53A9} 6|144b7 153r10 154r39 155r59 156r15
+91U14*Reallocate 91<26 6|133b14 136l8 136t18 148s10
+91r26 M{42R9} 6|133b26 135m7
+94V13*Is_Empty{boolean} 94>23 98s40 115s48 146b13
+94r23 M{42R9} 95r26 147r8
+97V13*Payload{7|53A9} 97>22 99r18 149b13 6|76s12
+97r22 M{42R9} 98r24 98r50 99r50 150r8 150r19 150r30
+106V13*Sender{10|65E8} 106>21 6|90b13 93l8 93t14
+106a21 M{7|53A9} 107r18 107r34 6|90b21 92r48
+110V13*Encapsulate{7|53A9} 111>7 112>7 113>7 6|66b13 84l8 84t19
+111r7 Message{42R9} 115r26 115r58 6|67b7 72r44 75r56 76r21 81r52
+112e7 From{10|65E8} 6|68b7 80r61
+113e7 Entity{10|65E8} 6|69b7 79r61
+119V13*Valid{boolean} 72s22 79s19 88s19 95s19 98s17 115s19 119>20 136b13
+119r20 Message{42R9} 137r7 138r10 138r27 139r21 139r37 140r21 140r38
+124a7*Content{58A12} 129r45 130r55 134m20 138r35 139r45 150r10 6|120r19 153r32
+. 155m17
+125i7*First{57I12} 129r23 131r34 134m42 138r18 140r29 143r53 150r21 6|120r35
+. 120r51 122r17 123m17 123r33 125m17 147r17
+126i7*Last{57I12} 130r34 131r56 134m54 139r29 140r46 143r44 150r32 6|72r52
+. 122r44 125r33 147r32 153r54 154m17 154r32 155r33 155r52
+X 6 polyorb_hi-messages.adb
+47I9 Wrapper<7|46I9> 49r8 52r28 54r7 178r10
+51V13 Internal_To_Length[2|20]{47I9} 168s37
+53V13 Internal_To_Buffer[2|20]{7|53A9} 177s14
+59i4 Receiver_Offset{7|46I9} 79r10
+60i4 Sender_Offset{7|46I9} 80r10 92r51
+72i7 L{7|50I12} 73r38 78r50
+73a7 R{7|53A9} 78m7 79m7 80m7 81m7 83r14
+75a7 P{7|53A9} 81r65
+104i7 Read_Elts{7|50I12} 109r10 113r13 116r32 120r60 122r25 123r41
+17A9*Source{5|62A12}<7|46I9> 20r40[51] 20r40[53]
+18I9*Target{47I9} 20r55[51] 20r55[53]
+X 7 polyorb_hi-streams.ads
+37K20*Streams 5|34w17 39r19 7|56e23
+44M9*Stream_Element 6|79r30 80r30
+46I9*Stream_Element_Offset<long_integer> 5|78r23 6|59r31 60r31 102r23
+50I12*Stream_Element_Count{46I9} 5|57r25 66r56 67r28 6|47r24 72r20 104r28
+. 105r12 164r56 166r14 175r28
+53A9*Stream_Element_Array(44M9)<46I9> 5|58r19 62r35 77r23 87r23 97r47 106r25
+. 114r13 149r47 6|70r13 73r11 75r20 90r25 101r23 144r23
+X 8 polyorb_hi-utils.ads
+40K20*Utils 6|33w17 38r19 8|140e21
+62V13*Internal_Code[2|20]{3|63M9} 6|79s46 80s46
+64V13*Corresponding_Entity[2|20]{10|65E8} 6|92s14
+75V13*Swap_Bytes{3|66M9} 6|167s10 178s19
+X 9 polyorb_hi_generated.ads
+34K9*PolyORB_HI_Generated 5|35r6 40r8 9|38e25
+X 10 polyorb_hi_generated-deployment.ads
+10K30*Deployment 5|35w27 40r29 10|215e36
+65E8*Entity_Type 5|106r54 112r17 113r17 6|68r17 69r17 90r54 10|69e28
+210i3*Max_Payload_Size{integer} 5|54r42
+FD 1 ada.ads
+FS .1 16K9 ada
+FD 2 a-unccon.ads
+FD 3 interfac.ads
+FS .1 38K9 interfaces
+FS .2 81V13 interfaces__shift_left
+FS .3 85V13 interfaces__shift_right
+FS .4 89V13 interfaces__shift_right_arithmetic
+FS .5 93V13 interfaces__rotate_left
+FS .6 97V13 interfaces__rotate_right
+FS .7 101V13 interfaces__shift_left__2
+FS .8 105V13 interfaces__shift_right__2
+FS .9 109V13 interfaces__shift_right_arithmetic__2
+FS .10 113V13 interfaces__rotate_left__2
+FS .11 117V13 interfaces__rotate_right__2
+FS .12 121V13 interfaces__shift_left__3
+FS .13 125V13 interfaces__shift_right__3
+FS .14 129V13 interfaces__shift_right_arithmetic__3
+FS .15 133V13 interfaces__rotate_left__3
+FS .16 137V13 interfaces__rotate_right__3
+FS .17 141V13 interfaces__shift_left__4
+FS .18 145V13 interfaces__shift_right__4
+FS .19 149V13 interfaces__shift_right_arithmetic__4
+FS .20 153V13 interfaces__rotate_left__4
+FS .21 157V13 interfaces__rotate_right__4
+FD 4 polyorb_hi.ads
+FS .1 35K9 polyorb_hi
+FD 5 polyorb_hi-messages.ads
+FS .1 37K20 polyorb_hi__messages
+FS .2 66V13 polyorb_hi__messages__to_length
+FS .3 67V13 polyorb_hi__messages__to_buffer
+FS .4 71V13 polyorb_hi__messages__length
+FS .5 75U14 polyorb_hi__messages__read
+FS .6 85U14 polyorb_hi__messages__write
+FS .7 91U14 polyorb_hi__messages__reallocate
+FS .8 94V13 polyorb_hi__messages__is_empty
+FS .9 97V13 polyorb_hi__messages__payload
+FS .10 106V13 polyorb_hi__messages__sender
+FS .11 110V13 polyorb_hi__messages__encapsulate
+FS .12 119V13 polyorb_hi__messages__valid
+FS .13 123V9 polyorb_hi__messages__message_typePredicate
+FS .14 123V9 polyorb_hi__messages__message_typePredicate -> 5.13
+FS .15 136V13 polyorb_hi__messages__valid -> 5.12
+FS .16 142V13 polyorb_hi__messages__length -> 5.4
+FS .17 146V13 polyorb_hi__messages__is_empty -> 5.8
+FS .18 149V13 polyorb_hi__messages__payload -> 5.9
+FD 6 polyorb_hi-messages.adb
+FS .1 36K25 polyorb_hi__messages -> 5.1
+FS .2 51K4 polyorb_hi__messages__internal_to_lengthGP2921
+FS .3 51V13 polyorb_hi__messages__internal_to_lengthGP2921__internal_to_lengthR
+FS .4 53K4 polyorb_hi__messages__internal_to_bufferGP3021
+FS .5 53V13 polyorb_hi__messages__internal_to_bufferGP3021__internal_to_bufferR
+FS .6 66V13 polyorb_hi__messages__encapsulate -> 5.11
+FS .7 90V13 polyorb_hi__messages__sender -> 5.10
+FS .8 99U14 polyorb_hi__messages__read -> 5.5
+FS .9 133U14 polyorb_hi__messages__reallocate -> 5.7
+FS .10 142U14 polyorb_hi__messages__write -> 5.6
+FS .11 164V13 polyorb_hi__messages__to_length -> 5.2
+FS .12 175V13 polyorb_hi__messages__to_buffer -> 5.3
+FD 7 polyorb_hi-streams.ads
+FS .1 37K20 polyorb_hi__streams
+FD 8 polyorb_hi-utils.ads
+FS .1 40K20 polyorb_hi__utils
+FS .2 62K4 polyorb_hi__utils__internal_codeGP3220
+FS .3 62V13 polyorb_hi__utils__internal_codeGP3220__internal_codeR
+FS .4 64K4 polyorb_hi__utils__corresponding_entityGP3310
+FS .5 64V13 polyorb_hi__utils__corresponding_entityGP3310__corresponding_entityR
+FS .6 67K4 polyorb_hi__utils__internal_codeGP3408
+FS .7 67V13 polyorb_hi__utils__internal_codeGP3408__internal_codeR
+FS .8 69K4 polyorb_hi__utils__corresponding_nodeGP3496
+FS .9 69V13 polyorb_hi__utils__corresponding_nodeGP3496__corresponding_nodeR
+FS .10 72V13 polyorb_hi__utils__internal_code__3
+FS .11 73V13 polyorb_hi__utils__corresponding_port
+FS .12 75V13 polyorb_hi__utils__swap_bytes
+FS .13 88V13 polyorb_hi__utils__to_hi_string
+FS .14 91V13 polyorb_hi__utils__to_string
+FS .15 94V13 polyorb_hi__utils__length
+FS .16 97V13 polyorb_hi__utils__valid
+FS .17 99V13 polyorb_hi__utils__parse_string
+FS .18 131V13 polyorb_hi__utils__length -> 8.15
+FS .19 134V13 polyorb_hi__utils__valid -> 8.16
+FS .20 137V13 polyorb_hi__utils__to_string -> 8.14
+FD 9 polyorb_hi_generated.ads
+FS .1 34K9 polyorb_hi_generated
+FD 10 polyorb_hi_generated-deployment.ads
+FS .1 10K30 polyorb_hi_generated__deployment
+FD 11 system.ads
+FS .1 37K9 system
+FS .2 77V13 system__Olt
+FS .3 78V13 system__Ole
+FS .4 79V13 system__Ogt
+FS .5 80V13 system__Oge
+FS .6 81V13 system__Oeq
+FX 5 polyorb_hi-messages.ads .1 polyorb_hi__messages
+F 45*4 polyorb_hi__messages__empty_message .15:137r17 .16:143r15 .17:147r12
+. 6|.9:135r12
+F 60*4 polyorb_hi__messages__empty_pdu 124r24 128r23 134r31 .14:128r23
+F 67*13 polyorb_hi__messages__to_buffer 6|.6:78s39
+F 71*13 polyorb_hi__messages__length .9:99s42 6|.6:75s48 81s44 .8:105s51
+F 91*14 polyorb_hi__messages__reallocate 6|.10:148s10
+F 94*13 polyorb_hi__messages__is_empty .9:98s40 .11:115s48
+F 97*13 polyorb_hi__messages__payload 6|.6:76s12
+F 119*13 polyorb_hi__messages__valid .4:72s22 .5:79s19 .6:88s19 .8:95s19
+. .9:98s17 .11:115s19
+FX 5 polyorb_hi-messages.ads .2 polyorb_hi__messages__to_length
+F 66>24 polyorb_hi__messages__to_length__b 6|.11:168c57
+FX 5 polyorb_hi-messages.ads .3 polyorb_hi__messages__to_buffer
+F 67>24 polyorb_hi__messages__to_buffer__l 68c19 6|.12:178c55
+FX 5 polyorb_hi-messages.ads .4 polyorb_hi__messages__length
+F 71>21 polyorb_hi__messages__length__m 72c29 .16:143c11 143c42 143c51
+FX 5 polyorb_hi-messages.ads .5 polyorb_hi__messages__read
+F 76=7 polyorb_hi__messages__read__stream 79r26 6|.8:105r59 120r12 120r28
+. 120r44 122r10 122r37 123m10 123r26 125m10 125r26
+F 77<7 polyorb_hi__messages__read__item 6|.8:105r38 107m7 113r25 114r18 116r18
+. 119m7 119r13
+F 78<7 polyorb_hi__messages__read__last 6|.8:111m10 114m10 116m10 119r27
+FX 5 polyorb_hi-messages.ads .6 polyorb_hi__messages__write
+F 86=7 polyorb_hi__messages__write__stream 88r26 6|.10:147r10 147r25 148m22
+. 153r25 153r47 154m10 154r25 155m10 155r26 155r45
+F 87>7 polyorb_hi__messages__write__item 6|.10:153c10 154c39 155c59 156c15
+FX 5 polyorb_hi-messages.ads .7 polyorb_hi__messages__reallocate
+F 91<26 polyorb_hi__messages__reallocate__m 6|.9:135m7
+FX 5 polyorb_hi-messages.ads .8 polyorb_hi__messages__is_empty
+F 94>23 polyorb_hi__messages__is_empty__m 95c26 .17:147c8
+FX 5 polyorb_hi-messages.ads .9 polyorb_hi__messages__payload
+F 97>22 polyorb_hi__messages__payload__m 98c24 98c50 99c50 .18:150c8 150c19
+. 150c30
+FX 5 polyorb_hi-messages.ads .10 polyorb_hi__messages__sender
+F 106>21 polyorb_hi__messages__sender__m 107c18 107c34 6|.7:92c48
+FX 5 polyorb_hi-messages.ads .11 polyorb_hi__messages__encapsulate
+F 111>7 polyorb_hi__messages__encapsulate__message 115c26 115c58 6|.6:72c44
+. 75c56 76c21 81c52
+F 112>7 polyorb_hi__messages__encapsulate__from 6|.6:80c61
+F 113>7 polyorb_hi__messages__encapsulate__entity 6|.6:79c61
+FX 5 polyorb_hi-messages.ads .12 polyorb_hi__messages__valid
+F 119>20 polyorb_hi__messages__valid__message .15:137c7 138c10 138c27 139c21
+. 139c37 140c21 140c38
+FX 6 polyorb_hi-messages.adb .1 polyorb_hi__messages
+F 59*4 polyorb_hi__messages__receiver_offset .6:79c10
+F 60*4 polyorb_hi__messages__sender_offset .6:80c10 .7:92c51
+FX 6 polyorb_hi-messages.adb .2 polyorb_hi__messages__internal_to_lengthGP2921
+F 51*13 polyorb_hi__messages__internal_to_length .11:168s37
+FX 6 polyorb_hi-messages.adb .4 polyorb_hi__messages__internal_to_bufferGP3021
+F 53*13 polyorb_hi__messages__internal_to_buffer .12:177s14
+FX 6 polyorb_hi-messages.adb .6 polyorb_hi__messages__encapsulate
+F 72*7 polyorb_hi__messages__encapsulate__l 73r38 78r50
+F 73*7 polyorb_hi__messages__encapsulate__r 78m7 79m7 80m7 81m7 83r14
+F 75*7 polyorb_hi__messages__encapsulate__p 81r65
+FX 6 polyorb_hi-messages.adb .8 polyorb_hi__messages__read
+F 104*7 polyorb_hi__messages__read__read_elts 109r10 113r13 116r32 120r60
+. 122r25 123r41
+FX 8 polyorb_hi-utils.ads .1 polyorb_hi__utils
+F 75*13 polyorb_hi__utils__swap_bytes 6|.11:167s10 .12:178s19
+FX 8 polyorb_hi-utils.ads .2 polyorb_hi__utils__internal_codeGP3220
+F 62*13 polyorb_hi__utils__internal_code 6|.6:79s46 80s46
+FX 8 polyorb_hi-utils.ads .4 polyorb_hi__utils__corresponding_entityGP3310
+F 64*13 polyorb_hi__utils__corresponding_entity 6|.7:92s14
+FX 10 polyorb_hi_generated-deployment.ads .1 polyorb_hi_generated__deployment
+F 210*3 polyorb_hi_generated__deployment__max_payload_size 5|.1:54c42
+
+QQ SPARKVERSION 17.0w (20160724)
+GG EK_REMOTE_STATES RS 0
+GG EK_GLOBALS polyorb_hi__messages__internal_to_lengthGP2921__internal_to_lengthR KIND_SUBPROGRAM ORIGIN_FRONTEND var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 0 local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__internal_to_bufferGP3021__internal_to_bufferR KIND_SUBPROGRAM ORIGIN_FRONTEND var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 0 local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__to_length KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 1 polyorb_hi__utils__swap_bytes calls_conditional 0 local_var 1 polyorb_hi__messages__to_length__b local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__to_buffer KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 1 polyorb_hi__utils__swap_bytes calls_conditional 0 local_var 1 polyorb_hi__messages__to_buffer__l local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__length KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 1 polyorb_hi__messages__valid calls 0 calls_conditional 0 local_var 1 polyorb_hi__messages__length__m local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__read KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 1 polyorb_hi__messages__valid calls 1 polyorb_hi__messages__length calls_conditional 0 local_var 7 polyorb_hi__messages__read__read_elts polyorb_hi__messages__read__R16b polyorb_hi__messages__read__R19b polyorb_hi__messages__read__R20b polyorb_hi__messages__read__stream polyorb_hi__messages__read__item polyorb_hi__messages__read__last local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__write KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 1 polyorb_hi__messages__valid calls 0 calls_conditional 1 polyorb_hi__messages__reallocate local_var 4 polyorb_hi__messages__write__R24b polyorb_hi__messages__write__R25b polyorb_hi__messages__write__stream polyorb_hi__messages__write__item local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__reallocate KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 1 polyorb_hi__messages__reallocate__m local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__is_empty KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 1 polyorb_hi__messages__valid calls 0 calls_conditional 0 local_var 1 polyorb_hi__messages__is_empty__m local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__payload KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 4 polyorb_hi__messages__valid polyorb_hi__messages__length polyorb_hi__messages__payload polyorb_hi__messages__is_empty calls 0 calls_conditional 0 local_var 1 polyorb_hi__messages__payload__m local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__sender KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 1 polyorb_hi__messages__sender__m local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__encapsulate KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 2 polyorb_hi__messages__valid polyorb_hi__messages__is_empty calls 3 polyorb_hi__messages__to_buffer polyorb_hi__messages__length polyorb_hi__messages__payload calls_conditional 0 local_var 8 polyorb_hi__messages__encapsulate__l polyorb_hi__messages__encapsulate__r polyorb_hi__messages__encapsulate__R6b polyorb_hi__messages__encapsulate__p polyorb_hi__messages__encapsulate__R3b polyorb_hi__messages__encapsulate__message polyorb_hi__messages__encapsulate__from polyorb_hi__messages__encapsulate__entity local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__valid KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 1 polyorb_hi__messages__valid__message local_sub 0
+GG EK_GLOBALS polyorb_hi__messages__message_typePredicate KIND_SUBPROGRAM ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 1 polyorb_hi__messages__message_typePredicate__I14s local_sub 0
+GG EK_GLOBALS polyorb_hi__messages KIND_PACKAGE_BODY ORIGIN_FLOW var_proof 0 var_in 0 var_out 0 calls_proof 0 calls 0 calls_conditional 0 local_var 0 local_sub 14 polyorb_hi__messages__to_buffer polyorb_hi__messages__reallocate polyorb_hi__messages__message_typePredicate polyorb_hi__messages__valid polyorb_hi__messages__to_length polyorb_hi__messages__read polyorb_hi__messages__write polyorb_hi__messages__sender polyorb_hi__messages__encapsulate polyorb_hi__messages__length polyorb_hi__messages__payload polyorb_hi__messages__is_empty polyorb_hi__messages__internal_to_lengthGP2921__internal_to_lengthR polyorb_hi__messages__internal_to_bufferGP3021__internal_to_bufferR local_init 0
+GG EK_VOLATILES AR 0 AW 0 ER 0 EW 0
+GG EK_NONBLOCKING 12 polyorb_hi__messages__to_length polyorb_hi__messages__to_buffer polyorb_hi__messages__length polyorb_hi__messages__read polyorb_hi__messages__write polyorb_hi__messages__reallocate polyorb_hi__messages__is_empty polyorb_hi__messages__payload polyorb_hi__messages__sender polyorb_hi__messages__encapsulate polyorb_hi__messages__valid polyorb_hi__messages__message_typePredicate
+GG EK_DIRECT_CALLS polyorb_hi__messages__internal_to_lengthGP2921__internal_to_lengthR 0
+GG EK_DIRECT_CALLS polyorb_hi__messages__internal_to_bufferGP3021__internal_to_bufferR 0
+GG EK_DIRECT_CALLS polyorb_hi__messages__to_length 1 polyorb_hi__utils__swap_bytes
+GG EK_DIRECT_CALLS polyorb_hi__messages__to_buffer 1 polyorb_hi__utils__swap_bytes
+GG EK_DIRECT_CALLS polyorb_hi__messages__length 1 polyorb_hi__messages__valid
+GG EK_DIRECT_CALLS polyorb_hi__messages__read 2 polyorb_hi__messages__length polyorb_hi__messages__valid
+GG EK_DIRECT_CALLS polyorb_hi__messages__write 2 polyorb_hi__messages__reallocate polyorb_hi__messages__valid
+GG EK_DIRECT_CALLS polyorb_hi__messages__reallocate 0
+GG EK_DIRECT_CALLS polyorb_hi__messages__is_empty 1 polyorb_hi__messages__valid
+GG EK_DIRECT_CALLS polyorb_hi__messages__payload 4 polyorb_hi__messages__length polyorb_hi__messages__is_empty polyorb_hi__messages__payload polyorb_hi__messages__valid
+GG EK_DIRECT_CALLS polyorb_hi__messages__sender 0
+GG EK_DIRECT_CALLS polyorb_hi__messages__encapsulate 5 polyorb_hi__messages__to_buffer polyorb_hi__messages__length polyorb_hi__messages__is_empty polyorb_hi__messages__payload polyorb_hi__messages__valid
+GG EK_DIRECT_CALLS polyorb_hi__messages__valid 0
+GG EK_DIRECT_CALLS polyorb_hi__messages__message_typePredicate 0
+GG EK_TASKING_INFO polyorb_hi__messages__to_length SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__to_buffer SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__length SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__read SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__write SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__reallocate SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__is_empty SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__payload SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__sender SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__encapsulate SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__valid SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_TASKING_INFO polyorb_hi__messages__message_typePredicate SUSPENDS_ON 0 ENTRY_CALLS 0 UNSYNCH_ACCESSES 0 READ_LOCKS 0 WRITE_LOCKS 0
+GG EK_END_MARKER

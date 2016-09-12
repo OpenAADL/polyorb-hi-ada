@@ -1,0 +1,2 @@
+polyorb_hi-output.ads:68:11: low: global input "Output.Elaborated_Variables" of "Put_Line" not read
+polyorb_hi-output.ads:74:11: low: global input "Output.Elaborated_Variables" of "Put" not read

@@ -1,0 +1,5 @@
+producer_consumer.adb:51:04: info: no contextual analysis of "Get_Node" (unconstrained return type)
+producer_consumer.adb:71:17: low: range check might fail
+producer_consumer.adb:72:17: low: range check might fail
+producer_consumer.adb:82:17: low: range check might fail
+producer_consumer.adb:83:17: low: range check might fail

@@ -1,0 +1,404 @@
+{
+  "spark": [
+    {
+      "name": "Producer_Consumer",
+      "sloc": [
+        {
+          "file": "producer_consumer.ads",
+          "line": 36
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "Producer_Consumer.Produce_Spg",
+      "sloc": [
+        {
+          "file": "producer_consumer.ads",
+          "line": 38
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "Producer_Consumer.Consume_Spg",
+      "sloc": [
+        {
+          "file": "producer_consumer.ads",
+          "line": 40
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "Producer_Consumer.Get_Node",
+      "sloc": [
+        {
+          "file": "producer_consumer.adb",
+          "line": 44
+        }
+      ],
+      "spark": "all"
+    }
+  ],
+  "flow": [
+    {
+      "file": "producer_consumer.ads",
+      "line": 38,
+      "col": 27,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "Producer_Consumer.Produce_Spg",
+        "sloc": [
+          {
+            "file": "producer_consumer.ads",
+            "line": 38
+          }
+        ]
+      },
+      "tracefile": "producer_consumer__flow__67.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "producer_consumer.adb",
+      "line": 72,
+      "col": 37,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "Producer_Consumer.Produce_Spg",
+        "sloc": [
+          {
+            "file": "producer_consumer.ads",
+            "line": 38
+          }
+        ]
+      },
+      "tracefile": "producer_consumer__flow__67.trace",
+      "how_proved": "flow"
+    }
+  ],
+  "proof": [
+    {
+      "file": "producer_consumer.adb",
+      "line": 83,
+      "col": 17,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "low",
+      "entity": {
+        "name": "Producer_Consumer.Consume_Spg",
+        "sloc": [
+          {
+            "file": "producer_consumer.ads",
+            "line": 40
+          }
+        ]
+      },
+      "cntexmp": {
+        "producer_consumer.adb": {
+        },
+        "producer_consumer.ads": {
+          "40": [
+            {
+              "name": "Data_Sink",
+              "value": "0",
+              "kind": "variable"
+            }
+          ]
+        }
+      },
+      "msg_id": 0,
+      "how_proved": "prover"
+    },
+    {
+      "file": "producer_consumer.adb",
+      "line": 71,
+      "col": 17,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "low",
+      "entity": {
+        "name": "Producer_Consumer.Produce_Spg",
+        "sloc": [
+          {
+            "file": "producer_consumer.ads",
+            "line": 38
+          }
+        ]
+      },
+      "cntexmp": {
+        "producer_consumer.adb": {
+          "42": [
+            {
+              "name": "The_Data",
+              "value": "-1",
+              "kind": "variable"
+            }
+          ],
+          "62": [
+            {
+              "name": "Data_Source",
+              "value": "-1",
+              "kind": "variable"
+            }
+          ],
+          "65": [
+            {
+              "name": "The_Data",
+              "value": "-1",
+              "kind": "variable"
+            }
+          ],
+          "68": [
+            {
+              "name": "The_Data",
+              "value": "0",
+              "kind": "variable"
+            }
+          ]
+        },
+        "producer_consumer.ads": {
+        }
+      },
+      "msg_id": 1,
+      "how_proved": "prover"
+    },
+    {
+      "file": "producer_consumer.adb",
+      "line": 68,
+      "col": 28,
+      "rule": "VC_OVERFLOW_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "Producer_Consumer.Produce_Spg",
+        "sloc": [
+          {
+            "file": "producer_consumer.ads",
+            "line": 38
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 1.99999995529652E-02
+        }
+      }
+    },
+    {
+      "file": "producer_consumer.adb",
+      "line": 72,
+      "col": 17,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "low",
+      "entity": {
+        "name": "Producer_Consumer.Produce_Spg",
+        "sloc": [
+          {
+            "file": "producer_consumer.ads",
+            "line": 38
+          }
+        ]
+      },
+      "cntexmp": {
+        "producer_consumer.adb": {
+          "42": [
+            {
+              "name": "The_Data",
+              "value": "-1",
+              "kind": "variable"
+            }
+          ],
+          "62": [
+            {
+              "name": "Data_Source",
+              "value": "-1",
+              "kind": "variable"
+            }
+          ],
+          "65": [
+            {
+              "name": "The_Data",
+              "value": "-1",
+              "kind": "variable"
+            }
+          ],
+          "68": [
+            {
+              "name": "The_Data",
+              "value": "0",
+              "kind": "variable"
+            }
+          ]
+        },
+        "producer_consumer.ads": {
+        }
+      },
+      "msg_id": 2,
+      "how_proved": "prover"
+    },
+    {
+      "file": "producer_consumer.adb",
+      "line": 82,
+      "col": 17,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "low",
+      "entity": {
+        "name": "Producer_Consumer.Consume_Spg",
+        "sloc": [
+          {
+            "file": "producer_consumer.ads",
+            "line": 40
+          }
+        ]
+      },
+      "cntexmp": {
+        "producer_consumer.adb": {
+        },
+        "producer_consumer.ads": {
+          "40": [
+            {
+              "name": "Data_Sink",
+              "value": "0",
+              "kind": "variable"
+            }
+          ]
+        }
+      },
+      "msg_id": 3,
+      "how_proved": "prover"
+    }
+  ],
+  "assumptions": [
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.ads",
+                "line": 67
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Producer_Consumer.Get_Node",
+            "sloc": [
+              {
+                "file": "producer_consumer.adb",
+                "line": 44
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "Producer_Consumer.Produce_Spg",
+          "sloc": [
+            {
+              "file": "producer_consumer.ads",
+              "line": 38
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "Producer_Consumer.Get_Node",
+          "sloc": [
+            {
+              "file": "producer_consumer.adb",
+              "line": 44
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "Producer_Consumer.Get_Node",
+          "sloc": [
+            {
+              "file": "producer_consumer.adb",
+              "line": 44
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.ads",
+                "line": 67
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Producer_Consumer.Get_Node",
+            "sloc": [
+              {
+                "file": "producer_consumer.adb",
+                "line": 44
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "Producer_Consumer.Consume_Spg",
+          "sloc": [
+            {
+              "file": "producer_consumer.ads",
+              "line": 40
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "Producer_Consumer",
+          "sloc": [
+            {
+              "file": "producer_consumer.ads",
+              "line": 36
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

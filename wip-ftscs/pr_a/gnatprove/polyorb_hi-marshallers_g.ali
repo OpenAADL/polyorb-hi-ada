@@ -1,0 +1,149 @@
+V "GNAT Lib v17.0"
+A -g
+A -gnatwa
+A -gnatwG
+A -gnat12
+A -g
+A -O1
+A -gnata
+A -gnato
+A -gnatc
+P DB GP ES FX
+
+RN
+RR SIMPLE_BARRIERS
+RR NO_ABORT_STATEMENTS
+RR NO_ALLOCATORS
+RR NO_ASYNCHRONOUS_CONTROL
+RR NO_CALENDAR
+RR NO_DISPATCH
+RR NO_DYNAMIC_ATTACHMENT
+RR NO_DYNAMIC_PRIORITIES
+RR NO_ENTRY_QUEUE
+RR NO_IO
+RR NO_IMPLICIT_HEAP_ALLOCATIONS
+RR NO_LOCAL_TIMING_EVENTS
+RR NO_LOCAL_PROTECTED_OBJECTS
+RR NO_PROTECTED_TYPE_ALLOCATORS
+RR NO_RECURSION
+RR NO_RELATIVE_DELAY
+RR NO_REQUEUE_STATEMENTS
+RR NO_SELECT_STATEMENTS
+RR NO_SPECIFIC_TERMINATION_HANDLERS
+RR NO_TASK_ALLOCATORS
+RR NO_TASK_ATTRIBUTES_PACKAGE
+RR NO_TASK_HIERARCHY
+RR NO_TASK_TERMINATION
+RR NO_TERMINATE_ALTERNATIVES
+RR NO_UNCHECKED_ACCESS
+RV NO_UNCHECKED_CONVERSION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_ATTRIBUTES
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RR NO_OBSOLESCENT_FEATURES
+RV SPARK_05
+RR MAX_PROTECTED_ENTRIES=1
+RR MAX_SELECT_ALTERNATIVES=0
+RR MAX_TASK_ENTRIES=0
+RR MAX_ASYNCHRONOUS_SELECT_NESTING=0
+
+U polyorb_hi.marshallers_g%b  polyorb_hi-marshallers_g.adb  2f40e83c OO PK GE
+W ada%s			ada.ads			ada.ali
+W ada.unchecked_conversion%s  a-unccon.ads	a-unccon.ali
+W polyorb_hi%s		polyorb_hi.ads		polyorb_hi.ali
+W polyorb_hi.streams%s	polyorb_hi-streams.ads	polyorb_hi-streams.ali
+W system%s		system.ads		system.ali
+
+U polyorb_hi.marshallers_g%s  polyorb_hi-marshallers_g.ads  98b2e792 BN EE OO PK GE
+W polyorb_hi%s		polyorb_hi.ads		polyorb_hi.ali
+W polyorb_hi.messages%s	polyorb_hi-messages.adb	polyorb_hi-messages.ali
+
+D ada.ads		20160617151202 76789da1 ada%s
+D a-unccon.ads		20160617151202 31484697 ada.unchecked_conversion%s
+D polyorb_hi.ads	20160912191658 f77a07a6 polyorb_hi%s
+D polyorb_hi-marshallers_g.ads  20160912191658 1ee7f6f7 polyorb_hi.marshallers_g%s
+D polyorb_hi-marshallers_g.adb  20160912191658 e90558d8 polyorb_hi.marshallers_g%b
+D polyorb_hi-messages.ads  20160912191658 712f16c3 polyorb_hi.messages%s
+D polyorb_hi-streams.ads  20160912191658 e9ea0084 polyorb_hi.streams%s
+D polyorb_hi_generated.ads  20160912191658 32a22d97 polyorb_hi_generated%s
+D polyorb_hi_generated-deployment.ads  20160912192525 aed6cbd5 polyorb_hi_generated.deployment%s
+D system.ads		20151020122115 c3282aa7 system%s
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/spark.adc  20160912191658 00000000
+D /users/hugues/local/ocarina/include/ocarina/runtime/polyorb-hi-ada/gnat.adc  20160912191658 00000000
+X 1 ada.ads
+16K9*Ada 20e8 5|32r6 47r11 49r11
+X 2 a-unccon.ads
+20v14*Unchecked_Conversion 5|32w10 47r15 49r15
+X 3 polyorb_hi.ads
+35K9*PolyORB_HI 39e15 4|34r6 39r9 53r5 5|33r6 35r14 38r13 40r25 44r6 73r14
+. 74r14 83r5
+X 4 polyorb_hi-marshallers_g.ads
+37+9 Data_Type 44r18 49r18 5|41r9 47r37 49r55 56r18 70r18
+39k20*Marshallers_G 3|35k9 4|37z9 53l16 53e29 5|35b25 83l16 83t29
+43U14*Marshall 44>7 45=7 5|55b14 63l8 63t16
+44*7 R{37+9} 5|56b7 59r64
+45r7 M{6|42R9} 5|57b7 62m23
+48U14*Unmarshall 49<7 50=7 5|69b14 81l8 81t18
+49*7 R{37+9} 5|70b7 79m10
+50r7 M{6|42R9} 5|71b7 76m22
+X 5 polyorb_hi-marshallers_g.adb
+40i4 Data_Size{7|46I9} 44r52 73r60 78r17
+43A12 Data_Type_Stream{7|53A9}<7|46I9> 47r48 49r37 59r23 79r36
+46V13 Data_Type_To_Stream[2|20]{7|53A9} 59s43
+48V13 Stream_To_Data_Type[2|20]{4|37+9} 79s15
+59a7 Data{43A12} 62r26
+73a7 Data{7|53A9} 76m25 79r54
+74i7 Last{7|46I9} 76m31 78r10
+17+9 Source{4|37+9} 20r40[46] 20r40[48]
+18A9 Target{43A12}<7|46I9> 20r55[46] 20r55[48]
+X 6 polyorb_hi-messages.ads
+37K20*Messages 4|34w17 45r18 50r18 5|57r18 62r7 71r18 76r7 6|158e24
+42R9*Message_Type 4|45r27 50r27 5|57r27 71r27 6|127e15
+75U14*Read 5|76s16
+85U14*Write 5|62s16
+X 7 polyorb_hi-streams.ads
+37K20*Streams 5|33w17 38r24 40r36 44r17 73r25 74r25 7|56e23
+44M9*Stream_Element
+46I9*Stream_Element_Offset<long_integer> 5|38r32 40r44 74r33
+53A9*Stream_Element_Array(44M9)<46I9> 5|44r25 73r33
+FD 1 ada.ads
+FS .1 16K9 ada
+FD 2 a-unccon.ads
+FD 3 polyorb_hi.ads
+FS .1 35K9 polyorb_hi
+FD 4 polyorb_hi-marshallers_g.ads
+FD 5 polyorb_hi-marshallers_g.adb
+FD 6 polyorb_hi-messages.ads
+FS .1 37K20 polyorb_hi__messages
+FS .2 66V13 polyorb_hi__messages__to_length
+FS .3 67V13 polyorb_hi__messages__to_buffer
+FS .4 71V13 polyorb_hi__messages__length
+FS .5 75U14 polyorb_hi__messages__read
+FS .6 85U14 polyorb_hi__messages__write
+FS .7 91U14 polyorb_hi__messages__reallocate
+FS .8 94V13 polyorb_hi__messages__is_empty
+FS .9 97V13 polyorb_hi__messages__payload
+FS .10 106V13 polyorb_hi__messages__sender
+FS .11 110V13 polyorb_hi__messages__encapsulate
+FS .12 119V13 polyorb_hi__messages__valid
+FS .13 123V9 polyorb_hi__messages__message_typePredicate
+FS .14 123V9 polyorb_hi__messages__message_typePredicate -> 6.13
+FS .15 136V13 polyorb_hi__messages__valid -> 6.12
+FS .16 142V13 polyorb_hi__messages__length -> 6.4
+FS .17 146V13 polyorb_hi__messages__is_empty -> 6.8
+FS .18 149V13 polyorb_hi__messages__payload -> 6.9
+FD 7 polyorb_hi-streams.ads
+FS .1 37K20 polyorb_hi__streams
+FD 8 polyorb_hi_generated.ads
+FS .1 34K9 polyorb_hi_generated
+FD 9 polyorb_hi_generated-deployment.ads
+FS .1 10K30 polyorb_hi_generated__deployment
+FD 10 system.ads
+FS .1 37K9 system
+FS .2 77V13 system__Olt
+FS .3 78V13 system__Ole
+FS .4 79V13 system__Ogt
+FS .5 80V13 system__Oge
+FS .6 81V13 system__Oeq
+

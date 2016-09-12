@@ -1,0 +1,1842 @@
+{
+  "spark": [
+    {
+      "name": "PolyORB_HI.Output",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.ads",
+          "line": 39
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.Put_Line",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.ads",
+          "line": 67
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.Put",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.ads",
+          "line": 73
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.Put_Line",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.ads",
+          "line": 79
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.Put",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.ads",
+          "line": 85
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.Dump",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.ads",
+          "line": 92
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.Oadd",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.ads",
+          "line": 97
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.Build_Timestamp",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.adb",
+          "line": 43
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.LockT",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.adb",
+          "line": 52
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.LockT.Put",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.adb",
+          "line": 55
+        }
+      ],
+      "spark": "all"
+    },
+    {
+      "name": "PolyORB_HI.Output.LockT.Put_Line",
+      "sloc": [
+        {
+          "file": "polyorb_hi-output.adb",
+          "line": 60
+        }
+      ],
+      "spark": "all"
+    }
+  ],
+  "flow": [
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 55,
+      "col": 17,
+      "suppressed": "Work-around for OA26-047",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI.Output.LockT.Put",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.adb",
+            "line": 55
+          }
+        ]
+      },
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.ads",
+      "line": 74,
+      "col": 11,
+      "rule": "GLOBAL_WRONG",
+      "severity": "low",
+      "entity": {
+        "name": "PolyORB_HI.Output.Put",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 73
+          }
+        ]
+      },
+      "msg_id": 0,
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 204,
+      "col": 32,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__88.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 205,
+      "col": 35,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__88.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 207,
+      "col": 14,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__88.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.ads",
+      "line": 68,
+      "col": 11,
+      "rule": "GLOBAL_WRONG",
+      "severity": "low",
+      "entity": {
+        "name": "PolyORB_HI.Output.Put_Line",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 67
+          }
+        ]
+      },
+      "msg_id": 1,
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 111,
+      "col": 10,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Build_Timestamp",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.adb",
+            "line": 43
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__120.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 114,
+      "col": 27,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Build_Timestamp",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.adb",
+            "line": 43
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__120.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 116,
+      "col": 14,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Build_Timestamp",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.adb",
+            "line": 43
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__120.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 182,
+      "col": 13,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__121.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 183,
+      "col": 21,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__121.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 183,
+      "col": 30,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__121.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 183,
+      "col": 41,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__121.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 186,
+      "col": 22,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__121.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 188,
+      "col": 29,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__121.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 194,
+      "col": 24,
+      "rule": "UNINITIALIZED",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "tracefile": "polyorb_hi-output__flow__121.trace",
+      "how_proved": "flow"
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 60,
+      "col": 17,
+      "suppressed": "Work-around for OA26-047",
+      "rule": "EMPTY_TAG",
+      "severity": "high",
+      "entity": {
+        "name": "PolyORB_HI.Output.LockT.Put_Line",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.adb",
+            "line": 60
+          }
+        ]
+      },
+      "how_proved": "flow"
+    }
+  ],
+  "proof": [
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 184,
+      "col": 15,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 5.99999986588955E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 185,
+      "col": 15,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 9.00000035762787E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 204,
+      "col": 32,
+      "rule": "VC_LENGTH_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 5.00000007450581E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 205,
+      "col": 38,
+      "rule": "VC_LENGTH_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 9.00000035762787E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 65,
+      "col": 39,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.LockT",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.adb",
+            "line": 52
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 2,
+          "max_steps": 1,
+          "max_time": 9.99999977648258E-03
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 202,
+      "col": 34,
+      "rule": "VC_OVERFLOW_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 7.00000002980232E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 184,
+      "col": 42,
+      "rule": "VC_DIVISION_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 5.99999986588955E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 171,
+      "col": 51,
+      "rule": "VC_LENGTH_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 39
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 1.99999995529652E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 205,
+      "col": 35,
+      "rule": "VC_LENGTH_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 3.99999991059303E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 186,
+      "col": 28,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 7.00000002980232E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 204,
+      "col": 35,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 4,
+          "max_steps": 1,
+          "max_time": 3.99999991059303E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 55,
+      "col": 17,
+      "rule": "VC_CEILING_PRIORITY_PROTOCOL",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.LockT.Put",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.adb",
+            "line": 55
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 2.99999993294477E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 202,
+      "col": 7,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 2,
+          "max_steps": 1,
+          "max_time": 5.99999986588955E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 183,
+      "col": 41,
+      "rule": "VC_LENGTH_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 5.99999986588955E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 60,
+      "col": 17,
+      "rule": "VC_CEILING_PRIORITY_PROTOCOL",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.LockT.Put_Line",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.adb",
+            "line": 60
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 5.00000007450581E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 204,
+      "col": 35,
+      "rule": "VC_LENGTH_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 7.00000002980232E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 185,
+      "col": 42,
+      "rule": "VC_DIVISION_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 3.99999991059303E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 202,
+      "col": 50,
+      "rule": "VC_LENGTH_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 5.00000007450581E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 205,
+      "col": 38,
+      "rule": "VC_RANGE_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Oadd",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 97
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 4,
+          "max_steps": 1,
+          "max_time": 2.99999993294477E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 172,
+      "col": 34,
+      "rule": "VC_LENGTH_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 39
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 1.99999995529652E-02
+        }
+      }
+    },
+    {
+      "file": "polyorb_hi-output.adb",
+      "line": 185,
+      "col": 15,
+      "rule": "VC_LENGTH_CHECK",
+      "severity": "info",
+      "entity": {
+        "name": "PolyORB_HI.Output.Dump",
+        "sloc": [
+          {
+            "file": "polyorb_hi-output.ads",
+            "line": 92
+          }
+        ]
+      },
+      "how_proved": "prover",
+      "stats": {
+        "CVC4": {
+          "count": 1,
+          "max_steps": 1,
+          "max_time": 7.00000002980232E-02
+        }
+      }
+    }
+  ],
+  "assumptions": [
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.LockT.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 55
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Output.Put",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 85
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.LockT.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 55
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output.LockT.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 55
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.Put",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 85
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Output.Oadd",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 97
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.Oadd",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 97
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.ads",
+                "line": 79
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.ads",
+                "line": 79
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.Put_Line",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 67
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.LockT.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 60
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Output.Put_Line",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 79
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.LockT.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 60
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output.LockT.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 60
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.Put_Line",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 79
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Omultiply",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 91
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.To_Duration",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 112
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Build_Timestamp",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Output.LockT.Put",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.adb",
+              "line": 55
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Omultiply",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 91
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "Ada.Real_Time.Omultiply",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 91
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.To_Duration",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 112
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "Ada.Real_Time.To_Duration",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 112
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Build_Timestamp",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output.Build_Timestamp",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.LockT.Put",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.adb",
+              "line": 55
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Epoch.System_Startup_Time",
+            "sloc": [
+              {
+                "file": "polyorb_hi-epoch.ads",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Osubtract",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 73
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Clock",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 63
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.To_Time_Span",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 114
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Output.Build_Timestamp",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.adb",
+              "line": 43
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Epoch.System_Startup_Time",
+            "sloc": [
+              {
+                "file": "polyorb_hi-epoch.ads",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Epoch.System_Startup_Time",
+            "sloc": [
+              {
+                "file": "polyorb_hi-epoch.ads",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Osubtract",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 73
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Clock",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 63
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "Ada.Real_Time.Osubtract",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 73
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "Ada.Real_Time.Clock",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 63
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.To_Time_Span",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 114
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "Ada.Real_Time.To_Time_Span",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 114
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.Build_Timestamp",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.adb",
+              "line": 43
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Omultiply",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 91
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.To_Duration",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 112
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Build_Timestamp",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.New_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 36
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Output.LockT.Put_Line",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.adb",
+              "line": 60
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Omultiply",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 91
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "Ada.Real_Time.Omultiply",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 91
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.To_Duration",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 112
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "Ada.Real_Time.To_Duration",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 112
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Build_Timestamp",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output.Build_Timestamp",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.adb",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.New_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 36
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.New_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 36
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.LockT.Put_Line",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.adb",
+              "line": 60
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.LockT",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.adb",
+              "line": 52
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.ads",
+                "line": 85
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.ads",
+                "line": 85
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.Put",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 73
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 39
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.ads",
+                "line": 67
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_EFFECTS",
+        "arg": {
+          "name": "PolyORB_HI.Output.Dump",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 92
+            }
+          ]
+        }
+      }
+    },
+    {
+      "assumptions": [
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.ads",
+                "line": 67
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output.Put_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output.ads",
+                "line": 67
+              }
+            ]
+          }
+        }
+      ],
+      "claim": {
+        "predicate": "CLAIM_AORTE",
+        "arg": {
+          "name": "PolyORB_HI.Output.Dump",
+          "sloc": [
+            {
+              "file": "polyorb_hi-output.ads",
+              "line": 92
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
