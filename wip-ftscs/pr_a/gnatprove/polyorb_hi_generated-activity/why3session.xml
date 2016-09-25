@@ -8286,7 +8286,7 @@
  <goal name="WP_parameter def" expl="VC for def" expanded="true">
  <transf name="split_goal_wp_conj" expanded="true">
   <goal name="WP_parameter def.1" expl="1. precondition">
-  <proof prover="0"><result status="unknown" time="0.10" steps="54"/></proof>
+  <proof prover="0"><result status="unknown" time="0.09" steps="54"/></proof>
   <proof prover="1"><result status="unknown" time="0.09" steps="79"/></proof>
   </goal>
  </transf>
@@ -8306,7 +8306,7 @@
  <goal name="WP_parameter def" expl="VC for def" expanded="true">
  <transf name="split_goal_wp_conj" expanded="true">
   <goal name="WP_parameter def.1" expl="1. precondition">
-  <proof prover="0"><result status="unknown" time="0.14" steps="54"/></proof>
+  <proof prover="0"><result status="unknown" time="0.09" steps="54"/></proof>
   <proof prover="1"><result status="unknown" time="0.08" steps="79"/></proof>
   </goal>
  </transf>
@@ -8374,10 +8374,10 @@
   <proof prover="1"><result status="valid" time="0.14" steps="5"/></proof>
   </goal>
   <goal name="WP_parameter def.2" expl="2. check">
-  <proof prover="1"><result status="valid" time="0.14" steps="5"/></proof>
+  <proof prover="1"><result status="valid" time="0.18" steps="5"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. check">
-  <proof prover="1"><result status="valid" time="0.18" steps="5"/></proof>
+  <proof prover="1"><result status="valid" time="0.14" steps="5"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. postcondition">
   <proof prover="1"><result status="valid" time="0.13" steps="5"/></proof>
@@ -9128,7 +9128,7 @@
   <proof prover="1"><result status="valid" time="0.17" steps="113"/></proof>
   </goal>
   <goal name="WP_parameter def.7" expl="7. assertion">
-  <proof prover="0"><result status="unknown" time="0.18" steps="450"/></proof>
+  <proof prover="0"><result status="unknown" time="0.13" steps="450"/></proof>
   <proof prover="1"><result status="unknown" time="0.12" steps="491"/></proof>
   </goal>
   <goal name="WP_parameter def.8" expl="8. assertion">
@@ -9236,7 +9236,7 @@
   <proof prover="1"><result status="valid" time="0.22" steps="5"/></proof>
   </goal>
   <goal name="WP_parameter def.11" expl="11. precondition">
-  <proof prover="0"><result status="unknown" time="0.24" steps="88"/></proof>
+  <proof prover="0"><result status="unknown" time="0.23" steps="88"/></proof>
   <proof prover="1"><result status="unknown" time="0.22" steps="88"/></proof>
   </goal>
   <goal name="WP_parameter def.12" expl="12. assertion">
@@ -9279,7 +9279,7 @@
   <proof prover="1"><result status="valid" time="0.15" steps="51"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. assertion">
-  <proof prover="0"><result status="unknown" time="0.15" steps="397"/></proof>
+  <proof prover="0"><result status="unknown" time="0.11" steps="397"/></proof>
   <proof prover="1"><result status="unknown" time="0.15" steps="384"/></proof>
   </goal>
  </transf>

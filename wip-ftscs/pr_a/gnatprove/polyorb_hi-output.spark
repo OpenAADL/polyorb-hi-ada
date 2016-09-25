@@ -1181,11 +1181,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "Ada.Real_Time.To_Duration",
+            "name": "PolyORB_HI.Output_Low_Level.Put",
             "sloc": [
               {
-                "file": "a-reatim.ads",
-                "line": 112
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
               }
             ]
           }
@@ -1193,11 +1193,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "name": "Ada.Real_Time.To_Duration",
             "sloc": [
               {
-                "file": "polyorb_hi-output_low_level.ads",
-                "line": 40
+                "file": "a-reatim.ads",
+                "line": 112
               }
             ]
           }
@@ -1219,18 +1219,6 @@
     {
       "assumptions": [
         {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Output_Low_Level.Put",
-            "sloc": [
-              {
-                "file": "polyorb_hi-output_low_level.ads",
-                "line": 40
-              }
-            ]
-          }
-        },
-        {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
             "name": "PolyORB_HI.Output.Build_Timestamp",
@@ -1281,6 +1269,30 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.Put",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
             "name": "Ada.Real_Time.To_Duration",
             "sloc": [
               {
@@ -1298,18 +1310,6 @@
               {
                 "file": "a-reatim.ads",
                 "line": 112
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Output_Low_Level.Put",
-            "sloc": [
-              {
-                "file": "polyorb_hi-output_low_level.ads",
-                "line": 40
               }
             ]
           }
@@ -1333,54 +1333,6 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "Ada.Real_Time.Clock",
-            "sloc": [
-              {
-                "file": "a-reatim.ads",
-                "line": 63
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "Ada.Real_Time.Clock",
-            "sloc": [
-              {
-                "file": "a-reatim.ads",
-                "line": 63
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Epoch.System_Startup_Time",
-            "sloc": [
-              {
-                "file": "polyorb_hi-epoch.ads",
-                "line": 43
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Epoch.System_Startup_Time",
-            "sloc": [
-              {
-                "file": "polyorb_hi-epoch.ads",
-                "line": 43
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
             "name": "Ada.Real_Time.Osubtract",
             "sloc": [
               {
@@ -1422,6 +1374,54 @@
               {
                 "file": "a-reatim.ads",
                 "line": 114
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Epoch.System_Startup_Time",
+            "sloc": [
+              {
+                "file": "polyorb_hi-epoch.ads",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Epoch.System_Startup_Time",
+            "sloc": [
+              {
+                "file": "polyorb_hi-epoch.ads",
+                "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.Clock",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 63
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "Ada.Real_Time.Clock",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 63
               }
             ]
           }
@@ -1457,30 +1457,6 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "Ada.Real_Time.Omultiply",
-            "sloc": [
-              {
-                "file": "a-reatim.ads",
-                "line": 91
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "Ada.Real_Time.To_Duration",
-            "sloc": [
-              {
-                "file": "a-reatim.ads",
-                "line": 112
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
             "name": "PolyORB_HI.Output_Low_Level.New_Line",
             "sloc": [
               {
@@ -1493,11 +1469,35 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
+            "name": "Ada.Real_Time.Omultiply",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 91
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
             "name": "PolyORB_HI.Output_Low_Level.Put",
             "sloc": [
               {
                 "file": "polyorb_hi-output_low_level.ads",
                 "line": 40
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.To_Duration",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 112
               }
             ]
           }
@@ -1519,18 +1519,6 @@
     {
       "assumptions": [
         {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Output_Low_Level.Put",
-            "sloc": [
-              {
-                "file": "polyorb_hi-output_low_level.ads",
-                "line": 40
-              }
-            ]
-          }
-        },
-        {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
             "name": "PolyORB_HI.Output.Build_Timestamp",
@@ -1543,6 +1531,18 @@
           }
         },
         {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.New_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 36
+              }
+            ]
+          }
+        },
+        {
           "predicate": "CLAIM_AORTE",
           "arg": {
             "name": "PolyORB_HI.Output.Build_Timestamp",
@@ -1550,6 +1550,18 @@
               {
                 "file": "polyorb_hi-output.adb",
                 "line": 43
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Output_Low_Level.New_Line",
+            "sloc": [
+              {
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 36
               }
             ]
           }
@@ -1581,59 +1593,47 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "Ada.Real_Time.To_Duration",
+            "name": "PolyORB_HI.Output_Low_Level.Put",
             "sloc": [
               {
-                "file": "a-reatim.ads",
-                "line": 112
+                "file": "polyorb_hi-output_low_level.ads",
+                "line": 40
               }
             ]
           }
         },
         {
           "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "Ada.Real_Time.To_Duration",
-            "sloc": [
-              {
-                "file": "a-reatim.ads",
-                "line": 112
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Output_Low_Level.New_Line",
-            "sloc": [
-              {
-                "file": "polyorb_hi-output_low_level.ads",
-                "line": 36
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Output_Low_Level.New_Line",
-            "sloc": [
-              {
-                "file": "polyorb_hi-output_low_level.ads",
-                "line": 36
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
           "arg": {
             "name": "PolyORB_HI.Output_Low_Level.Put",
             "sloc": [
               {
                 "file": "polyorb_hi-output_low_level.ads",
                 "line": 40
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "Ada.Real_Time.To_Duration",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 112
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "Ada.Real_Time.To_Duration",
+            "sloc": [
+              {
+                "file": "a-reatim.ads",
+                "line": 112
               }
             ]
           }

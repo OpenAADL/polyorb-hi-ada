@@ -6145,7 +6145,7 @@
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 1.80000007152557E-01
+          "max_time": 1.40000000596046E-01
         }
       }
     },
@@ -11371,7 +11371,7 @@
         "CVC4": {
           "count": 1,
           "max_steps": 1,
-          "max_time": 1.40000000596046E-01
+          "max_time": 1.80000007152557E-01
         }
       }
     },
@@ -13306,11 +13306,15 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Read_In",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 132
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 193
               }
             ]
           }
@@ -13318,11 +13322,15 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Read_In",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 132
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 193
               }
             ]
           }
@@ -13330,15 +13338,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Read_In",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 132
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 193
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -13346,15 +13350,11 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Read_In",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 132
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 193
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -13646,6 +13646,22 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
+            "sloc": [
+              {
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 228
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 193
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
             "name": "PolyORB_HI.Port_Kinds.Is_Event",
             "sloc": [
               {
@@ -13663,22 +13679,6 @@
               {
                 "file": "polyorb_hi-port_kinds.ads",
                 "line": 53
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
-            "sloc": [
-              {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 228
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 193
               }
             ]
           }
@@ -14490,18 +14490,6 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
-            "sloc": [
-              {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
             "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Dequeue",
             "sloc": [
               {
@@ -14511,6 +14499,18 @@
               {
                 "file": "polyorb_hi_generated-activity.adb",
                 "line": 102
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "sloc": [
+              {
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -14590,11 +14590,15 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Dequeue",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 125
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 102
               }
             ]
           }
@@ -14602,11 +14606,15 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Dequeue",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 125
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 102
               }
             ]
           }
@@ -14614,15 +14622,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Dequeue",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 125
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 102
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -14630,15 +14634,11 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Dequeue",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 125
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 102
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -14752,7 +14752,7 @@
     {
       "assumptions": [
         {
-          "predicate": "CLAIM_AORTE",
+          "predicate": "CLAIM_EFFECTS",
           "arg": {
             "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Receive_Input",
             "sloc": [
@@ -14768,7 +14768,7 @@
           }
         },
         {
-          "predicate": "CLAIM_EFFECTS",
+          "predicate": "CLAIM_AORTE",
           "arg": {
             "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Receive_Input",
             "sloc": [
@@ -14950,11 +14950,15 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 228
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 102
               }
             ]
           }
@@ -14962,11 +14966,15 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 228
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 102
               }
             ]
           }
@@ -14974,15 +14982,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 228
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 102
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -14990,15 +14994,11 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 228
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 102
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -15212,6 +15212,22 @@
     {
       "assumptions": [
         {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Count",
+            "sloc": [
+              {
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 169
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 102
+              }
+            ]
+          }
+        },
+        {
           "predicate": "CLAIM_AORTE",
           "arg": {
             "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Count",
@@ -15247,22 +15263,6 @@
               {
                 "file": "polyorb_hi-port_kinds.ads",
                 "line": 53
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Count",
-            "sloc": [
-              {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 169
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 102
               }
             ]
           }
@@ -15480,7 +15480,7 @@
     {
       "assumptions": [
         {
-          "predicate": "CLAIM_AORTE",
+          "predicate": "CLAIM_EFFECTS",
           "arg": {
             "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Get_Time_Stamp",
             "sloc": [
@@ -15496,7 +15496,7 @@
           }
         },
         {
-          "predicate": "CLAIM_EFFECTS",
+          "predicate": "CLAIM_AORTE",
           "arg": {
             "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Get_Time_Stamp",
             "sloc": [
@@ -15730,11 +15730,15 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 228
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 193
               }
             ]
           }
@@ -15742,11 +15746,15 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 228
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 193
               }
             ]
           }
@@ -15754,15 +15762,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 228
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 193
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -15770,15 +15774,11 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 228
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 193
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -15946,18 +15946,6 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
-            "sloc": [
-              {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
             "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Dequeue",
             "sloc": [
               {
@@ -15967,6 +15955,18 @@
               {
                 "file": "polyorb_hi_generated-activity.adb",
                 "line": 193
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "sloc": [
+              {
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -16046,11 +16046,15 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Dequeue",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 125
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 193
               }
             ]
           }
@@ -16058,11 +16062,15 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Dequeue",
             "sloc": [
               {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 125
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 193
               }
             ]
           }
@@ -16070,15 +16078,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Dequeue",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 125
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 193
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -16086,15 +16090,11 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Global_QueueT.Dequeue",
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 125
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 193
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -16798,6 +16798,22 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
+            "sloc": [
+              {
+                "file": "polyorb_hi-thread_interrogators.adb",
+                "line": 228
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 102
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
             "name": "PolyORB_HI.Port_Kinds.Is_Event",
             "sloc": [
               {
@@ -16815,22 +16831,6 @@
               {
                 "file": "polyorb_hi-port_kinds.ads",
                 "line": 53
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
-            "sloc": [
-              {
-                "file": "polyorb_hi-thread_interrogators.adb",
-                "line": 228
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 102
               }
             ]
           }
@@ -16858,54 +16858,6 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_Event",
-            "sloc": [
-              {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 56
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
-            "sloc": [
-              {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_Event",
-            "sloc": [
-              {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 56
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_AORTE",
-          "arg": {
-            "name": "PolyORB_HI.Port_Kinds.Is_In",
-            "sloc": [
-              {
-                "file": "polyorb_hi-port_kinds.ads",
-                "line": 53
-              }
-            ]
-          }
-        },
-        {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
             "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Global_QueueT.Get_Most_Recent_Value",
             "sloc": [
               {
@@ -16931,6 +16883,54 @@
               {
                 "file": "polyorb_hi_generated-activity.adb",
                 "line": 102
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Port_Kinds.Is_Event",
+            "sloc": [
+              {
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 56
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Port_Kinds.Is_Event",
+            "sloc": [
+              {
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 56
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "sloc": [
+              {
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI.Port_Kinds.Is_In",
+            "sloc": [
+              {
+                "file": "polyorb_hi-port_kinds.ads",
+                "line": 53
               }
             ]
           }
@@ -16958,15 +16958,11 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Send_Output",
+            "name": "PolyORB_HI_Generated.Subprograms.Software_Produce_Spg",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.ads",
-                "line": 148
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 102
+                "file": "polyorb_hi_generated-subprograms.ads",
+                "line": 13
               }
             ]
           }
@@ -16974,15 +16970,11 @@
         {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Send_Output",
+            "name": "PolyORB_HI_Generated.Subprograms.Software_Produce_Spg",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.ads",
-                "line": 148
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 102
+                "file": "polyorb_hi_generated-subprograms.ads",
+                "line": 13
               }
             ]
           }
@@ -17004,6 +16996,22 @@
           }
         },
         {
+          "predicate": "CLAIM_EFFECTS",
+          "arg": {
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Send_Output",
+            "sloc": [
+              {
+                "file": "polyorb_hi-thread_interrogators.ads",
+                "line": 148
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 102
+              }
+            ]
+          }
+        },
+        {
           "predicate": "CLAIM_AORTE",
           "arg": {
             "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Put_Value",
@@ -17020,25 +17028,17 @@
           }
         },
         {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI_Generated.Subprograms.Software_Produce_Spg",
-            "sloc": [
-              {
-                "file": "polyorb_hi_generated-subprograms.ads",
-                "line": 13
-              }
-            ]
-          }
-        },
-        {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI_Generated.Subprograms.Software_Produce_Spg",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Producer_Interrogators.Send_Output",
             "sloc": [
               {
-                "file": "polyorb_hi_generated-subprograms.ads",
-                "line": 13
+                "file": "polyorb_hi-thread_interrogators.ads",
+                "line": 148
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 102
               }
             ]
           }
@@ -17136,7 +17136,7 @@
     {
       "assumptions": [
         {
-          "predicate": "CLAIM_AORTE",
+          "predicate": "CLAIM_EFFECTS",
           "arg": {
             "name": "PolyORB_HI_Generated.Subprograms.Software_Consume_Spg",
             "sloc": [
@@ -17148,33 +17148,13 @@
           }
         },
         {
-          "predicate": "CLAIM_EFFECTS",
-          "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Get_Count",
-            "sloc": [
-              {
-                "file": "polyorb_hi-thread_interrogators.ads",
-                "line": 181
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 193
-              }
-            ]
-          }
-        },
-        {
           "predicate": "CLAIM_AORTE",
           "arg": {
-            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Get_Count",
+            "name": "PolyORB_HI_Generated.Subprograms.Software_Consume_Spg",
             "sloc": [
               {
-                "file": "polyorb_hi-thread_interrogators.ads",
-                "line": 181
-              },
-              {
-                "file": "polyorb_hi_generated-activity.adb",
-                "line": 193
+                "file": "polyorb_hi_generated-subprograms.ads",
+                "line": 16
               }
             ]
           }
@@ -17214,11 +17194,31 @@
         {
           "predicate": "CLAIM_EFFECTS",
           "arg": {
-            "name": "PolyORB_HI_Generated.Subprograms.Software_Consume_Spg",
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Get_Count",
             "sloc": [
               {
-                "file": "polyorb_hi_generated-subprograms.ads",
-                "line": 16
+                "file": "polyorb_hi-thread_interrogators.ads",
+                "line": 181
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 193
+              }
+            ]
+          }
+        },
+        {
+          "predicate": "CLAIM_AORTE",
+          "arg": {
+            "name": "PolyORB_HI_Generated.Activity.Producer_Consumer_Result_Consumer_Interrogators.Get_Count",
+            "sloc": [
+              {
+                "file": "polyorb_hi-thread_interrogators.ads",
+                "line": 181
+              },
+              {
+                "file": "polyorb_hi_generated-activity.adb",
+                "line": 193
               }
             ]
           }
