@@ -1,8 +1,0 @@
-producer_consumer.adb:51:04: info: no contextual analysis of "Get_Node" (unconstrained return type)
-producer_consumer.adb:68:28: info: overflow check proved
-producer_consumer.adb:71:17: low: range check might fail
-producer_consumer.adb:72:17: low: range check might fail
-producer_consumer.adb:72:37: info: initialization of "Data_Source" proved
-producer_consumer.adb:82:17: low: range check might fail
-producer_consumer.adb:83:17: low: range check might fail
-producer_consumer.ads:38:27: info: initialization of "Data_Source" proved

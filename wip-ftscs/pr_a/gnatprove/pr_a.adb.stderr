@@ -1,3 +1,0 @@
-pr_a.adb:20:11: info: ceiling priority protocol is respected
-pr_a.adb:22:20: info: range check proved
-polyorb_hi-periodic_task.ads:72:09: high: possible data race when accessing variable "producer_consumer.the_data", in instantiation at polyorb_hi_generated-activity.ads:101
