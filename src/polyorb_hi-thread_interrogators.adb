@@ -225,7 +225,9 @@ is
 
       --  The following are accessors to some internal data of the event queue
 
-      function Get_Most_Recent_Value (P : Port_Type) return Port_Stream_Entry;
+      function Get_Most_Recent_Value (P : Port_Type) return Port_Stream_Entry
+        with Pre => (Is_In (Thread_Port_Kinds (P)));
+
       procedure Set_Most_Recent_Value
         (P : Port_Type;
          S : Port_Stream_Entry;
@@ -320,16 +322,14 @@ is
             P := Get_Most_Recent_Value (T);
 
          elsif FIFO_Size = 0 then
-            --  If the FIFO is empty or non-existent, return the
-            --  latest received value during the previous dispatches.
+            --  If the FIFO is non-existent, we have nothing to do
 
             pragma Debug (Put_Line
                           (Verbose,
                            CE
                              + ": Dequeue: NO FIFO for "
                              + Thread_Port_Images (T)));
-
-            P := Get_Most_Recent_Value (T);
+            null;
 
          else
             pragma Debug (Put_Line
@@ -639,9 +639,8 @@ is
 
                      if Is_Empty then
                         N_Empties := N_Empties - 1;
+                        Is_Empty := False;
                      end if;
-
-                     Is_Empty := False;
 
                      if Last = FIFO_Size then
                         Last := Default_Index_Value;
@@ -784,7 +783,6 @@ is
 
             Not_Empty := False; --  No need to update the barrier
          end if;
-
       end Store_In;
 
       ---------------
