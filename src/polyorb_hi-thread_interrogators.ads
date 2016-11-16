@@ -163,7 +163,7 @@ is
    --  the only utility to allow having one Receive_Input per thread.
 
    procedure Get_Value (Port : Port_Type; T_Port : out Thread_Interface_Type)
-     with Global => (In_Out => (Elaborated_Variables)),
+     with Global => (Input => (Elaborated_Variables)),
           Pre => (Is_In (Thread_Port_Kinds (Port)));
    --  Return the value corresponding to a given port. A second call to
    --  Get_Value returns always the same value unless Next_Value has
@@ -171,7 +171,7 @@ is
    --  received value.
 
    procedure Get_Sender (Port : Port_Type; Sender : out Entity_Type)
-     with Global => (In_Out => (Elaborated_Variables)),
+     with Global => (Input => (Elaborated_Variables)),
           Pre => (Is_In (Thread_Port_Kinds (Port)));
    --  Return the sender entity of value corresponding to the given port.
    --  A second call to Get_Sender returns always the same sender unless
@@ -179,7 +179,7 @@ is
    --  the latest received value sender entity.
 
    procedure Get_Count (Port : Port_Type; Count : out Integer)
-     with Global => (In_Out => (Elaborated_Variables)),
+     with Global => (Input => (Elaborated_Variables)),
           Pre => (Is_In (Thread_Port_Kinds (Port)));
    --  Return the number of event [data] that have been queued in an
    --  IN port. A special value of -1 is returned if the Port never
@@ -212,7 +212,7 @@ is
    --  set to the message reception time.
 
    procedure Get_Time_Stamp (P : Port_Type; Result : out Ada.Real_Time.Time)
-     with Global => (In_Out => Elaborated_Variables);
+     with Global => (Input => Elaborated_Variables);
    --  Return the timestamp of the latest value received on data port P
 
 end PolyORB_HI.Thread_Interrogators;
