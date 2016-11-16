@@ -149,9 +149,6 @@ private
    function Payload (M : Message_Type) return Stream_Element_Array is
       (M.Content (M.First .. M.Last));
 
---   function Sender (M : Message_Type) return Entity_Type is
---      (Sender (Payload (M)));
-
    pragma Inline (To_Length);
    pragma Inline (To_Buffer);
 
