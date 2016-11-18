@@ -43,7 +43,6 @@ is
 
    use type PolyORB_HI.Streams.Stream_Element_Offset;
 
-   use Ada.Real_Time;
    use PolyORB_HI.Output;
    use PolyORB_HI.Utils;
    use PolyORB_HI.Streams;
@@ -1309,26 +1308,26 @@ is
    -- Get_Value --
    ---------------
 
-   procedure Get_Value (Port : Port_Type; T_Port : out Thread_Interface_Type) is
+   function Get_Value (Port : Port_Type) return Thread_Interface_Type is
       Stream : constant Port_Stream := Global_Queue.Read_In (Port).Payload;
 
    begin
-      T_Port := Stream_To_Interface (Stream);
       pragma Debug (Put_Line
                     (Verbose,
                      CE
                      + ": Get_Value: Value of port "
                      + Thread_Port_Images (Port)
                      + " got"));
+      return Stream_To_Interface (Stream);
    end Get_Value;
 
    ----------------
    -- Get_Sender --
    ----------------
 
-   procedure Get_Sender (Port : Port_Type; Sender : out Entity_Type) is
-   begin
-      Sender := Global_Queue.Read_In (Port).From;
+   function Get_Sender (Port : Port_Type) return Entity_Type is
+      Sender : constant Entity_Type := Global_Queue.Read_In (Port).From;
+   Begin
       pragma Debug (Put_Line
                     (Verbose,
                      CE
@@ -1336,15 +1335,16 @@ is
                      + Thread_Port_Images (Port)
                      + " = "
                      + Entity_Image (Sender)));
+      return Sender;
    end Get_Sender;
 
    ---------------
    -- Get_Count --
    ---------------
 
-   procedure Get_Count (Port : Port_Type; Count : out Integer) is
+   function Get_Count (Port : Port_Type) return Integer is
+      Count : constant Integer := Global_Queue.Count (Port);
    begin
-      Count := Global_Queue.Count (Port);
       pragma Debug (Put_Line (Verbose,
                               CE
                               + ": Get_Count: port "
@@ -1352,6 +1352,7 @@ is
                               + " ="
                               + Integer'Image (Count)));
 
+      return Count;
    end Get_Count;
 
    ----------------
@@ -1424,9 +1425,9 @@ is
    -- Get_Time_Stamp --
    --------------------
 
-   procedure Get_Time_Stamp (P : Port_Type; Result : out Ada.Real_Time.Time) is
+   function Get_Time_Stamp (P : Port_Type) return Time is
    begin
-      Result := Global_Queue.Get_Time_Stamp (P);
+      return Global_Queue.Get_Time_Stamp (P);
    end Get_Time_Stamp;
 
    --------

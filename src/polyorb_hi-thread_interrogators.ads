@@ -32,13 +32,13 @@
 --  This package contains a generic definition of the interrogation
 --  functions that the AADL standard requires for thread ports.
 
-with Ada.Real_Time;
+with Ada.Real_Time;  use Ada.Real_Time;
 with System;
 
 with PolyORB_HI_Generated.Deployment; use PolyORB_HI_Generated.Deployment;
-with PolyORB_HI.Errors; use PolyORB_HI.Errors;
-with PolyORB_HI.Messages; use PolyORB_HI.Messages;
-with PolyORB_HI.Port_Kinds; use PolyORB_HI.Port_Kinds;
+with PolyORB_HI.Errors;               use PolyORB_HI.Errors;
+with PolyORB_HI.Messages;             use PolyORB_HI.Messages;
+with PolyORB_HI.Port_Kinds;           use PolyORB_HI.Port_Kinds;
 
 generic
 
@@ -162,25 +162,28 @@ is
    --  during the current dispatch. The parameter of the function has
    --  the only utility to allow having one Receive_Input per thread.
 
-   procedure Get_Value (Port : Port_Type; T_Port : out Thread_Interface_Type)
+   function Get_Value (Port : Port_Type) return Thread_Interface_Type
      with Global => (Input => (Elaborated_Variables)),
-          Pre => (Is_In (Thread_Port_Kinds (Port)));
+          Pre => (Is_In (Thread_Port_Kinds (Port))),
+          Volatile_Function;
    --  Return the value corresponding to a given port. A second call to
    --  Get_Value returns always the same value unless Next_Value has
    --  been called. If no new values have come, return the latest
    --  received value.
 
-   procedure Get_Sender (Port : Port_Type; Sender : out Entity_Type)
+   function Get_Sender (Port : Port_Type) return Entity_Type
      with Global => (Input => (Elaborated_Variables)),
-          Pre => (Is_In (Thread_Port_Kinds (Port)));
+          Pre => (Is_In (Thread_Port_Kinds (Port))),
+          Volatile_Function;
    --  Return the sender entity of value corresponding to the given port.
    --  A second call to Get_Sender returns always the same sender unless
    --  Next_Value has been called. If no new values have come, return
    --  the latest received value sender entity.
 
-   procedure Get_Count (Port : Port_Type; Count : out Integer)
+   function Get_Count (Port : Port_Type) return Integer
      with Global => (Input => (Elaborated_Variables)),
-          Pre => (Is_In (Thread_Port_Kinds (Port)));
+          Pre => (Is_In (Thread_Port_Kinds (Port))),
+          Volatile_Function;
    --  Return the number of event [data] that have been queued in an
    --  IN port. A special value of -1 is returned if the Port never
    --  received a value since the beginning of the application.
@@ -211,8 +214,8 @@ is
    --  deliverable. For other kinds of ports, this parameter value is
    --  set to the message reception time.
 
-   procedure Get_Time_Stamp (P : Port_Type; Result : out Ada.Real_Time.Time)
-     with Global => (Input => Elaborated_Variables);
+   function Get_Time_Stamp (P : Port_Type) return Time
+     with Global => (Input => Elaborated_Variables), Volatile_Function;
    --  Return the timestamp of the latest value received on data port P
 
 end PolyORB_HI.Thread_Interrogators;
