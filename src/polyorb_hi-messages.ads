@@ -85,10 +85,13 @@ package PolyORB_HI.Messages is
    procedure Write
      (Stream : in out Message_Type;
       Item   :        Stream_Element_Array)
-     with Pre => (Valid (Stream));
+     with Pre => (Valid (Stream)
+                    and Item'Length <= PDU_Size),
+     Post => (Valid (Stream));
    --  Append Item to the specified stream
 
-   procedure Reallocate (M : out Message_Type);
+   procedure Reallocate (M : out Message_Type)
+     with Post => (Valid (M));
    --  Reset M
 
    function Is_Empty (M: Message_Type) return Boolean
