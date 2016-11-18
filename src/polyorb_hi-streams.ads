@@ -38,8 +38,8 @@ package PolyORB_HI.Streams is
 
    pragma Pure;
 
-   --  The definition of the types above requires the use of GNAT
-   --  specific attribute 'Address_Size'.
+   --  Note: the definition of the types above requires the use of
+   --  GNAT specific attribute 'Address_Size'.
 
    type Stream_Element is mod 2 ** System.Storage_Unit;
 
@@ -51,6 +51,6 @@ package PolyORB_HI.Streams is
      Stream_Element_Offset range 0 .. Stream_Element_Offset'Last;
 
    type Stream_Element_Array is
-     array (Stream_Element_Offset range <>) of aliased Stream_Element;
+     array (Stream_Element_Count range <>) of aliased Stream_Element;
 
 end PolyORB_HI.Streams;
