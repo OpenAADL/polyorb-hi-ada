@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -38,10 +38,8 @@ with PolyORB_HI.Streams;
 
 package PolyORB_HI.Output
   with Abstract_State => (Elaborated_Variables with Synchronous,
-                          External => (Effective_Reads,
-                                       Effective_Writes,
-                                       Async_Writers,
-                                       Async_Readers)),
+                            External => (Async_Writers,
+                                         Async_Readers)),
        Initializes => Elaborated_Variables
 is
    pragma Elaborate_Body;
@@ -66,7 +64,8 @@ is
 
    procedure Put_Line (Mode : in Verbosity := Normal; Text : in String)
      with Global => (In_Out => (Epoch.Elaborated_Variables),
-                     Input => (Elaborated_Variables, Ada.Real_Time.Clock_Time));
+                     Input => (Elaborated_Variables,
+                               Ada.Real_Time.Clock_Time));
    --  Display Text iff Mode is greater than Current_Mode. This
    --  routine is thread-safe.
 
@@ -86,12 +85,11 @@ is
      with Global => (In_Out => (Elaborated_Variables,
                                 Epoch.Elaborated_Variables),
                      Input => Ada.Real_Time.Clock_Time);
-
    --  Same as above but always displays the message
 
    procedure Dump (Stream : Stream_Element_Array; Mode : Verbosity := Verbose)
-     with Global => (Input => (Ada.Real_Time.Clock_Time,
-                               Epoch.Elaborated_Variables));
+     with Global => (Input => (Elaborated_Variables, Ada.Real_Time.Clock_Time),
+                     In_Out => (Epoch.Elaborated_Variables));
    --  Dump the content of Stream in an hexadecimal format
 
    function "+" (S1 : String; S2 : String) return String
