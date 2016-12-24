@@ -1,5 +1,5 @@
 AC_PREREQ(2.57)
-AC_INIT(PolyORB-HI/Ada, 1.1w, polyorb-hi-devel@listes.enst.fr)
+AC_INIT(PolyORB-HI/Ada, 2017.1)
 AC_CONFIG_SRCDIR(src)
 AC_CONFIG_AUX_DIR(support)
 
@@ -65,15 +65,15 @@ AM_CONDITIONAL(HAS_GNATMAKE_FOR_LEON_GNAT, [test ! "x$GNATMAKE_FOR_LEON_GNAT" = 
 
 if test "x$GNATMAKE_FOR_LEON" = "x"; then
    AC_MSG_WARN([
-${TAB}${TAB}${TAB} GNAT for LEON target has not been found. 
-${TAB}${TAB}${TAB} All examples using this platform will 
+${TAB}${TAB}${TAB} GNAT for LEON target has not been found.
+${TAB}${TAB}${TAB} All examples using this platform will
 ${TAB}${TAB}${TAB} be disabled.])
 fi
 
 if test "x$GNATMAKE_FOR_LEON_GNAT" = "x"; then
    AC_MSG_WARN([
-${TAB}${TAB}${TAB} GNATPRO for LEON target has not been found. 
-${TAB}${TAB}${TAB} All examples using this platform will 
+${TAB}${TAB}${TAB} GNATPRO for LEON target has not been found.
+${TAB}${TAB}${TAB} All examples using this platform will
 ${TAB}${TAB}${TAB} be disabled.])
 fi
 
@@ -88,8 +88,8 @@ AM_CONDITIONAL(HAS_TSIM_FOR_ERC32, [test ! "x$TSIM_FOR_ERC32" = "x"])
 
 if test "x$GNATMAKE_FOR_ERC32" = "x"; then
    AC_MSG_WARN([
-${TAB}${TAB}${TAB} GNAT for ERC32 target has not been found. 
-${TAB}${TAB}${TAB} All examples using this platform will 
+${TAB}${TAB}${TAB} GNAT for ERC32 target has not been found.
+${TAB}${TAB}${TAB} All examples using this platform will
 ${TAB}${TAB}${TAB} be disabled.])
 fi
 
@@ -99,8 +99,8 @@ AM_CONDITIONAL(HAS_GNATMAKE_FOR_MARTE, [test ! "x$GNATMAKE_FOR_MARTE" = "x"])
 
 if test "x$GNATMAKE_FOR_MARTE" = "x"; then
    AC_MSG_WARN([
-${TAB}${TAB}${TAB} GNAT for MARTE target has not been found. 
-${TAB}${TAB}${TAB} All examples using this platform will 
+${TAB}${TAB}${TAB} GNAT for MARTE target has not been found.
+${TAB}${TAB}${TAB} All examples using this platform will
 ${TAB}${TAB}${TAB} be disabled.])
 fi
 
@@ -193,7 +193,7 @@ prefix='$(OCARINA_PREFIX)'
 
 dnl Important! One file per line, nothing before
 dnl or after except whitespace! This section
-dnl may, one day, be edited automatically to remove 
+dnl may, one day, be edited automatically to remove
 dnl some entries.
 
 AC_OUTPUT([
@@ -204,7 +204,7 @@ AC_OUTPUT([
 	share/Makefile
 	share/make/Makefile
 	src/Makefile
-	src/drivers/Makefile	
+	src/drivers/Makefile
 	src/polyorb_hi.gpr
 	examples/Makefile
 	examples/aadlv1/Makefile
