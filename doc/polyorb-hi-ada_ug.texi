@@ -2,7 +2,7 @@
 
 @c $Id: polyorb-hi-ada_ug.texi 7043 2009-10-08 14:20:49Z hugues $
 
-@include version.texi
+@c @include version.texi
 
 @setfilename polyorb-hi-ada_ug.info
 @settitle PolyORB-HI User's Guide
