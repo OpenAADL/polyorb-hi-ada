@@ -29,8 +29,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Synchronous_Task_Control;
-
 with PolyORB_HI.Output;
 with PolyORB_HI.Suspenders;
 
@@ -41,11 +39,10 @@ package body PolyORB_HI.Background_Task is
    use PolyORB_HI_Generated.Deployment;
    use PolyORB_HI.Suspenders;
    use Ada.Real_Time;
-   use Ada.Synchronous_Task_Control;
 
-   -----------------------
+   --------------------------
    -- The_Background_Task --
-   -----------------------
+   -------------------------
 
    task body The_Background_Task is
       Error : Error_Kind;
@@ -64,7 +61,7 @@ package body PolyORB_HI.Background_Task is
           + Entity_Image (Entity)
           + ": Wait initialization"));
 
-      Suspend_Until_True (Task_Suspension_Objects (Entity));
+      Block_Task (Entity);
       delay until System_Startup_Time;
 
       pragma Debug (Put_Line

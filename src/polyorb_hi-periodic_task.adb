@@ -29,19 +29,20 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Synchronous_Task_Control;
+pragma SPARK_Mode (Off);
 
 with PolyORB_HI.Output;
 with PolyORB_HI.Suspenders;
+pragma Elaborate_All (PolyORB_HI.Suspenders);
 
 package body PolyORB_HI.Periodic_Task is
 
+   use Ada.Real_Time;
+
    use PolyORB_HI.Errors;
    use PolyORB_HI.Output;
-   use Ada.Real_Time;
    use PolyORB_HI.Suspenders;
    use PolyORB_HI_Generated.Deployment;
-   use Ada.Synchronous_Task_Control;
 
    Next_Deadline_Val : Time;
 
@@ -64,7 +65,7 @@ package body PolyORB_HI.Periodic_Task is
           + Entity_Image (Entity)
           + ": Wait initialization"));
 
-      Suspend_Until_True (Task_Suspension_Objects (Entity));
+      Block_Task (Entity);
       Next_Start := System_Startup_Time + Dispatch_Offset;
 
       delay until Next_Start;
@@ -96,6 +97,10 @@ package body PolyORB_HI.Periodic_Task is
          --     Put_Line (Normal, "Lag: " +
          --                 Duration'Image (To_Duration (Next_Start - T)));
          --  end if;
+         pragma Debug
+           (Put_Line
+            (Verbose,
+             "Periodic Task " + Entity_Image (Entity) + ": End of Cycle"));
 
          delay until Next_Start;
          Next_Start        := Next_Start + Task_Period;

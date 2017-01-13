@@ -25,11 +25,9 @@ po_hi_doc_dir=${shell $(CYGPATH_U) '$(OCARINA_PREFIX)/share/doc/ocarina'}
 install-data-local:
 	$(MAKE) -C examples DESTDIR="$(DESTDIR)" install
 	$(INSTALL) -d $(DESTDIR)$(po_hi_doc_dir)
-	$(INSTALL_DATA) $(srcdir)/ChangeLog $(DESTDIR)$(po_hi_doc_dir)/ChangeLog_polyorb_hi_ada
 
 uninstall-local:
 	$(MAKE) -C examples DESTDIR="$(DESTDIR)" uninstall
-	rm -f $(DESTDIR)$(po_hi_doc_dir)/ChangeLog_polyorb_hi_ada
 
 debug-makefile:
 	@echo "GNATMAKE           = $(GNATMAKE)"

@@ -30,6 +30,7 @@
 ------------------------------------------------------------------------------
 
 with PolyORB_HI.Marshallers_G;
+pragma Elaborate_All (PolyORB_HI.Marshallers_G);
 with Interfaces;
 
 package PolyORB_HI.Port_Type_Marshallers is

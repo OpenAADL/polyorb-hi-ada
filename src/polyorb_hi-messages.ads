@@ -117,8 +117,10 @@ private
 
    function Valid (Message : Message_Type) return Boolean is
       (Message.First >= Message.Content'First
-         and then Message.First < Message.Last
          and then Message.Last <= Message.Content'Last);
+      --  The following part cannot be correct in the case Message is
+      --  not initialized, see defaults for Message_Type
+      --    and then Message.First <= Message.Last
 
    function Payload (M : Message_Type) return Stream_Element_Array is
       (M.Content (M.First .. M.Last));

@@ -32,13 +32,14 @@
 --  This package contains a generic definition of the interrogation
 --  functions that the AADL standard requires for thread ports.
 
+pragma SPARK_Mode (Off);
 with Ada.Real_Time;
 
 with System;
-with PolyORB_HI_Generated.Deployment;
 
-with PolyORB_HI.Errors;
-with PolyORB_HI.Messages;
+with PolyORB_HI_Generated.Deployment; use PolyORB_HI_Generated.Deployment;
+with PolyORB_HI.Errors; use PolyORB_HI.Errors;
+with PolyORB_HI.Messages; use PolyORB_HI.Messages;
 with PolyORB_HI.Port_Kinds;
 
 generic
@@ -130,13 +131,18 @@ generic
       M : in out PolyORB_Hi.Messages.Message_Type);
    --  A procedure that marshalls a Thread port content into a message.
 
+   with function Send
+     (From    : Entity_Type;
+      Entity  : Entity_Type;
+      Message : Message_Type) return Error_Kind;
+   --  Send Message to the application node corresponding to the given
+   --  entity.
+
    with function Next_Deadline return Ada.Real_Time.Time;
    --  To indicate when does the next deadline of the thread occur (in
    --  absolute time).
 
 package PolyORB_HI.Thread_Interrogators is
-
-   use PolyORB_HI.Errors;
 
    function Send_Output (Port : Port_Type) return Error_Kind;
    --  Explicitly cause events, event data, or data to be transmitted

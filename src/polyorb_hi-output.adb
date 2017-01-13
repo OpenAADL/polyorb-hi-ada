@@ -29,8 +29,12 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+pragma SPARK_MOde (Off);
+
 with PolyORB_HI.Output_Low_Level;
 with PolyORB_HI.Suspenders;
+pragma Elaborate_All (PolyORB_HI.Suspenders);
+
 with Ada.Real_Time;
 with System;
 
@@ -58,7 +62,6 @@ package body PolyORB_HI.Output is
    end Output_Lock;
 
    package body Output_Lock is
-      pragma SPARK_MOde (Off);
 
       protected Lock is
       --  This lock has been defined to guarantee thread-safe output
@@ -164,7 +167,7 @@ package body PolyORB_HI.Output is
    ---------------------
 
    procedure Unprotected_Put (Text : in String) is
-      Start_Time : Time renames  PolyORB_HI.Suspenders.System_Startup_Time;
+      Start_Time : Time renames PolyORB_HI.Suspenders.System_Startup_Time;
       Elapsed    : Time_Span;
    begin
       if Start_Time = Time_First then

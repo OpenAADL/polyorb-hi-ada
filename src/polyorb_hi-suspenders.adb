@@ -29,23 +29,39 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with PolyORB_HI.Output;
+with Ada.Synchronous_Task_Control;    use Ada.Synchronous_Task_Control;
+pragma Elaborate_All (Ada.Synchronous_Task_Control);
 
 package body PolyORB_HI.Suspenders is
+   pragma SPARK_Mode (Off);
 
    use Ada.Real_Time;
-   use PolyORB_HI.Output;
+
+   Task_Suspension_Objects : array (Entity_Type'Range) of Suspension_Object;
+   --  This array is used so that each task waits on its corresponding
+   --  suspension object until the transport layer initialization is
+   --  complete. We are obliged to do so since Ravenscar forbids that
+   --  more than one task wait on a protected object entry.
 
    --  The_Suspender : Suspension_Object;
    --  XXX: we cannot use the suspension object because of
    --  gnatforleon 2.0w5
+
+   ----------------
+   -- Block_Task --
+   ----------------
+
+   procedure Block_Task (Entity : Entity_Type) is
+   begin
+      Suspend_Until_True (Task_Suspension_Objects (Entity));
+   end Block_Task;
 
    ---------------------
    -- Suspend_Forever --
    ---------------------
 
    procedure Suspend_Forever
-     with SPARK_Mode => Off
+--     with SPARK_Mode => Off
      --  XXX: delay until not supported in GNATProve GPL2014
    is
    begin
@@ -61,27 +77,12 @@ package body PolyORB_HI.Suspenders is
    -----------------------
 
    procedure Unblock_All_Tasks is
-      pragma Suppress (Range_Check);
    begin
       System_Startup_Time :=
         Ada.Real_Time.Clock + Ada.Real_Time.Milliseconds (1_000);
-      pragma Debug
-        (Put_Line
-         (Verbose, "Initialization finished, system startup in 1 second(s)"));
 
-      for J in Task_Suspension_Objects'Range loop
-         pragma Debug
-           (Put_Line
-            (Verbose, "Unblocking task "
-               + PolyORB_HI_Generated.Deployment.Entity_Image (J)));
-
-         Set_True (Task_Suspension_Objects (J));
-
-         pragma Debug
-           (Put_Line
-            (Verbose, "Task "
-             + PolyORB_HI_Generated.Deployment.Entity_Image (J)
-             + " unblocked"));
+      for Obj of Task_Suspension_Objects loop
+         Set_True (Obj);
       end loop;
    end Unblock_All_Tasks;
 

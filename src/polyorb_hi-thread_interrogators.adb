@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,23 +29,23 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+pragma SPARK_Mode (Off);
 with Ada.Unchecked_Conversion;
 
 with PolyORB_HI.Output;
-with PolyORB_HI.Protocols;
 with PolyORB_HI.Port_Type_Marshallers;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Time_Marshallers;
-with POlyORB_HI.Utils;
 with PolyORB_HI.Unprotected_Queue;
+with POlyORB_HI.Utils;
 
 package body PolyORB_HI.Thread_Interrogators is
 
-   use type PolyORB_HI.Streams.Stream_Element_Offset;
-   use PolyORB_HI.Port_Kinds;
    use Ada.Real_Time;
-   use PolyORB_HI_Generated.Deployment;
+
+   use type PolyORB_HI.Streams.Stream_Element_Offset;
    use PolyORB_HI.Output;
+   use PolyORB_HI.Port_Kinds;
    use PolyORB_HI.Utils;
 
    --------
@@ -70,6 +70,191 @@ package body PolyORB_HI.Thread_Interrogators is
       Global_Data_Queue_Size);
    use UQ;
 
+   ------------------
+   -- Global_Queue --
+   ------------------
+
+   --  The protected object below handles all the received events or
+   --  data on IN ports.
+   --
+   --  Finally, the protected object contains a second array to store
+   --  the number of received values for each IN EVENT [DATA] (0 .. n)
+   --  and IN DATA (0 .. 1) port.
+
+   protected Global_Queue is
+      pragma Priority (System.Priority'Last);
+
+      entry Wait_Event (P : out Port_Type);
+      --  Blocks until the thread receives a new event. Return the
+      --  corresponding Port that received the event.
+
+      procedure Read_Event (P : out Port_Type; Valid : out Boolean);
+      --  Same as 'Wait_Event' but without blocking. Valid is set to
+      --  False if there is nothing to receive.
+
+      procedure Dequeue (T : Port_Type; P : out Port_Stream_Entry);
+      --  Dequeue a value from the partial FIFO of port T. If there is
+      --  no enqueued value, return the latest dequeued value.
+
+      function Read_In (T : Port_Type) return Port_Stream_Entry;
+      --  Read the oldest queued value on the partial FIFO of IN port
+      --  T without dequeuing it. If there is no queued value, return
+      --  the latest dequeued value.
+
+      function Read_Out (T : Port_Type) return Port_Stream_Entry;
+      --  Return the value put for OUT port T.
+
+      function Is_Invalid (T : Port_Type) return Boolean;
+      --  Return True if no Put_Value has been called for this port
+      --  since the last Set_Invalid call.
+
+      procedure Set_Invalid (T : Port_Type);
+      --  Set the value stored for OUT port T as invalid to impede its
+      --  future sending without calling Put_Value. This procedure is
+      --  generally called just after Read_Out. However we cannot
+      --  combine them in one routine because we need Read_Out to be a
+      --  function and functions cannot modify protected object
+      --  states.
+
+      procedure Store_In (P : Port_Stream_Entry; T : Time);
+      --  Stores a new incoming message in its corresponding
+      --  position. If this is an event [data] incoming message, then
+      --  stores it in the queue, updates its most recent value and
+      --  unblock the barrier. Otherwise, it only overrides the most
+      --  recent value. T is the time stamp associated to the port
+      --  P. In case of data ports with delayed connections, it
+      --  indicates the instant from which the data of P becomes
+      --  deliverable.
+
+      procedure Store_Out (P : Port_Stream_Entry; T : Time);
+      --  Store a value of an OUT port to be sent at the next call to
+      --  Send_Output and mark the value as valid.
+
+      function Count (T : Port_Type) return Integer;
+      --  Return the number of pending messages on IN port T.
+
+      function Get_Time_Stamp (P : Port_Type) return Time;
+      --  Return the time stamp associated to port T
+
+   private
+
+      Not_Empty : Boolean := False;
+      --  The protected object barrier. True when there is at least
+      --  one pending event [data].
+
+   end Global_Queue;
+
+   protected body Global_Queue is
+
+      ----------------
+      -- Wait_Event --
+      ----------------
+
+      entry Wait_Event (P : out Port_Type) when Not_Empty is
+         Valid : Boolean;
+         pragma Unreferenced (Valid);
+      begin
+         UQ.Read_Event (P, Valid, Not_Empty);
+
+         pragma Debug (Put_Line
+                       (Verbose,
+                        CE
+                        + ": Wait_Event: oldest unread event port = "
+                        + Thread_Port_Images (P)));
+      end Wait_Event;
+
+      ----------------
+      -- Read_Event --
+      ----------------
+
+      procedure Read_Event (P : out Port_Type; Valid : out Boolean) is
+      begin
+         UQ.Read_Event (P, Valid, Not_Empty);
+      end Read_Event;
+
+      -------------
+      -- Dequeue --
+      -------------
+
+      procedure Dequeue (T : Port_Type; P : out Port_Stream_Entry) is
+      begin
+         UQ.Dequeue (T, P, Not_Empty);
+      end Dequeue;
+
+      -------------
+      -- Read_In --
+      -------------
+
+      function Read_In (T : Port_Type) return Port_Stream_Entry is
+      begin
+         return UQ.Read_In (T);
+      end Read_In;
+
+      --------------
+      -- Read_Out --
+      --------------
+
+      function Read_Out (T : Port_Type) return Port_Stream_Entry is
+      begin
+         return UQ.Read_Out (T);
+      end Read_Out;
+
+      ----------------
+      -- Is_Invalid --
+      ----------------
+
+      function Is_Invalid (T : Port_Type) return Boolean is
+      begin
+         return UQ.Is_Invalid (T);
+      end Is_Invalid;
+
+      -----------------
+      -- Set_Invalid --
+      -----------------
+
+      procedure Set_Invalid (T : Port_Type) is
+      begin
+         UQ.Set_Invalid (T);
+      end Set_Invalid;
+
+      --------------
+      -- Store_In --
+      --------------
+
+      procedure Store_In (P : Port_Stream_Entry; T : Time) is
+      begin
+         UQ.Store_In (P, T, Not_Empty);
+      end Store_In;
+
+      ---------------
+      -- Store_Out --
+      ---------------
+
+      procedure Store_Out (P : Port_Stream_Entry; T : Time) is
+      begin
+         UQ.Store_Out (P, T);
+      end Store_Out;
+
+      -----------
+      -- Count --
+      -----------
+
+      function Count (T : Port_Type) return Integer is
+      begin
+         return UQ.Count (T);
+      end Count;
+
+      --------------------
+      -- Get_Time_Stamp --
+      --------------------
+
+      function Get_Time_Stamp (P : Port_Type) return Time is
+      begin
+         return UQ.Get_Time_Stamp (P);
+      end Get_Time_Stamp;
+
+   end Global_Queue;
+
    -----------------
    -- Send_Output --
    -----------------
@@ -90,7 +275,7 @@ package body PolyORB_HI.Thread_Interrogators is
 
         Message   : PolyORB_HI.Messages.Message_Type;
         Value     : constant Thread_Interface_Type := Stream_To_Interface
-          (UQ.Read_Out (Port).Payload);
+          (Global_Queue.Read_Out (Port).Payload);
 
       Error : Error_Kind := Error_None;
    begin
@@ -101,7 +286,7 @@ package body PolyORB_HI.Thread_Interrogators is
 
       --  If no valid value is to be sent, quit
 
-      if UQ.Is_Invalid (Port) then
+      if Global_Queue.Is_Invalid (Port) then
          pragma Debug (Put_Line (Verbose,
                                  CE
                                    + ": Send_Output: Invalid value in port "
@@ -110,7 +295,7 @@ package body PolyORB_HI.Thread_Interrogators is
       else
          --  Mark the port value as invalid to impede future sendings
 
-         UQ.Set_Invalid (Port);
+         Global_Queue.Set_Invalid (Port);
 
          --  Begin the sending to all destinations
 
@@ -124,7 +309,7 @@ package body PolyORB_HI.Thread_Interrogators is
 
             if not Is_Event (P_Kind) then
                Time_Marshallers.Marshall
-                 (UQ.Get_Time_Stamp (Port),
+                 (Global_Queue.Get_Time_Stamp (Port),
                   Message);
             end if;
 
@@ -141,10 +326,7 @@ package body PolyORB_HI.Thread_Interrogators is
                   + " of "
                   + Entity_Image (Port_Table (Dst (To)))));
 
-            Error := Protocols.Send (Current_Entity,
-                                     Port_Table (Dst (To)),
-                                     Message);
-
+            Error := Send (Current_Entity, Port_Table (Dst (To)), Message);
             PolyORB_HI.Messages.Reallocate (Message);
 
             if Error /= Error_None then
@@ -170,7 +352,7 @@ package body PolyORB_HI.Thread_Interrogators is
    begin
       pragma Debug (Put_Line (Verbose, CE + ": Put_Value"));
 
-      UQ.Store_Out
+      Global_Queue.Store_Out
         ((Current_Entity, Interface_To_Stream (Thread_Interface)),
          Next_Deadline);
    end Put_Value;
@@ -190,7 +372,7 @@ package body PolyORB_HI.Thread_Interrogators is
    ---------------
 
    function Get_Value (Port : Port_Type) return Thread_Interface_Type is
-      Stream : constant Port_Stream := UQ.Read_In (Port).Payload;
+      Stream : constant Port_Stream := Global_Queue.Read_In (Port).Payload;
       T_Port : constant Thread_Interface_Type := Stream_To_Interface (Stream);
    begin
       pragma Debug (Put_Line
@@ -207,7 +389,7 @@ package body PolyORB_HI.Thread_Interrogators is
    ----------------
 
    function Get_Sender (Port : Port_Type) return Entity_Type is
-      Sender : constant Entity_Type := UQ.Read_In (Port).From;
+      Sender : constant Entity_Type := Global_Queue.Read_In (Port).From;
    begin
       pragma Debug (Put_Line
                     (Verbose,
@@ -224,7 +406,7 @@ package body PolyORB_HI.Thread_Interrogators is
    ---------------
 
    function Get_Count (Port : Port_Type) return Integer is
-      Count : constant Integer := UQ.Count (Port);
+      Count : constant Integer := Global_Queue.Count (Port);
    begin
       pragma Debug (Put_Line (Verbose,
                               CE
@@ -242,14 +424,13 @@ package body PolyORB_HI.Thread_Interrogators is
 
    procedure Next_Value (Port : Port_Type) is
       P : Port_Stream_Entry;
-      Not_Empty : Boolean;
    begin
       pragma Debug (Put_Line (Verbose,
                               CE
                               + ": Next_Value for port "
                               + Thread_Port_Images (Port)));
 
-      UQ.Dequeue (Port, P, Not_Empty);
+      Global_Queue.Dequeue (Port, P);
    end Next_Value;
 
    ------------------------------
@@ -257,14 +438,10 @@ package body PolyORB_HI.Thread_Interrogators is
    ------------------------------
 
    procedure Wait_For_Incoming_Events (Port : out Port_Type) is
-      Valid, Not_Empty : Boolean;
-      pragma Warnings (Off, Not_Empty);
-      --  Under this implementation, Not_Empty is not used.
-
    begin
       pragma Debug (Put_Line (Verbose, CE + ": Wait_For_Incoming_Events"));
 
-      UQ.Read_Event (Port, Valid, Not_Empty);
+      Global_Queue.Wait_Event (Port);
 
       pragma Debug (Put_Line
                     (Verbose,
@@ -283,7 +460,7 @@ package body PolyORB_HI.Thread_Interrogators is
       pragma Warnings (Off, Not_Empty);
       --  Under this implementation, Not_Empty is not used.
    begin
-      UQ.Read_Event (Port, Valid, Not_Empty);
+      Global_Queue.Read_Event (Port, Valid);
 
       if Valid then
          pragma Debug (Put_Line
@@ -311,13 +488,11 @@ package body PolyORB_HI.Thread_Interrogators is
       From             : Entity_Type;
       Time_Stamp       : Ada.Real_Time.Time    := Ada.Real_Time.Clock)
    is
-      Not_Empty : Boolean;
-      pragma Unreferenced (Not_Empty);
    begin
       pragma Debug (Put_Line (Verbose, CE + ": Store_Received_Message"));
 
-      UQ.Store_In
-        ((From, Interface_To_Stream (Thread_Interface)), Time_Stamp, Not_Empty);
+      Global_Queue.Store_In
+        ((From, Interface_To_Stream (Thread_Interface)), Time_Stamp);
    end Store_Received_Message;
 
    --------------------
@@ -326,7 +501,7 @@ package body PolyORB_HI.Thread_Interrogators is
 
    function Get_Time_Stamp (P : Port_Type) return Time is
    begin
-      return UQ.Get_Time_Stamp (P);
+      return Global_Queue.Get_Time_Stamp (P);
    end Get_Time_Stamp;
 
 end PolyORB_HI.Thread_Interrogators;

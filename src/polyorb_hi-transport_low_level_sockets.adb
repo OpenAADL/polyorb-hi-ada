@@ -39,6 +39,8 @@ with Ada.Unchecked_Conversion;
 with GNAT.Sockets;
 
 with PolyORB_HI.Output;
+pragma Elaborate_All (PolyORB_HI.Output);
+
 with PolyORB_HI.Messages;
 with PolyORB_HI.Utils;
 with PolyORB_HI_Generated.Naming;
@@ -46,12 +48,11 @@ with PolyORB_HI_Generated.Transport;
 
 --  Transport low-level service of PolyORB HI, using BSD sockets
 
-package body PolyORB_HI.Transport_Low_Level
-  with Spark_Mode => Off
-  --  SPARK_Mode is disabled for this unit, it relies on OS-specific
-  --  libraries. We discard this unit for now.
+package body PolyORB_HI.Transport_Low_Level is
 
-is
+   pragma SPARK_Mode (Off);
+   --  SPARK_Mode is disabled for this unit, it relies on OS-specific
+   --  libraries. We discard this unit for now.
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely

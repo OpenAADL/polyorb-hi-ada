@@ -1,4 +1,4 @@
-/* 
+/*
  *  COPYRIGHT (c) 1989-2007.
  *  On-Line Applications Research Corporation (OAR).
  *
@@ -122,7 +122,7 @@ void parse_arguments(
       }
       printf( "\n" );
     }
-  #endif 
+  #endif
 }
 
 
@@ -134,7 +134,7 @@ void parse_arguments(
  *  of the "Ada environment task".  Otherwise, we would be
  *  stuck with the defaults set by RTEMS.
  */
- 
+
 void *start_gnat_main( void * argument )
 {
   extern int gnat_main ( int argc, char **argv, char **envp );
@@ -258,3 +258,13 @@ void *POSIX_Init( void *argument )
 
 void _flush_cache() {}
 #include <rtems/confdefs.h>
+
+size_t _ada_pthread_minimum_stack_size( void )
+{
+  /*
+   *  Eventually this may need to include a per cpu family calculation
+   *  but for now, this will do.
+   */
+
+  return CONFIGURE_MINIMUM_TASK_STACK_SIZE * 2;
+}

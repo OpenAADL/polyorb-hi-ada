@@ -31,6 +31,7 @@
 
 with Ada.Real_Time;
 with PolyORB_HI.Marshallers_G;
+pragma Elaborate_All (PolyORB_HI.Marshallers_G);
 
 package PolyORB_HI.Time_Marshallers is
    new PolyORB_HI.Marshallers_G (Ada.Real_Time.Time);

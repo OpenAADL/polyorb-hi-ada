@@ -28,9 +28,9 @@
 --                      (taste-users@lists.tuxfamily.org)                   --
 --                                                                          --
 ------------------------------------------------------------------------------
+pragma SPARK_Mode (Off);
 
 --  Define a periodic task that executes a Job
-
 with System;
 with Ada.Real_Time;
 with PolyORB_HI.Errors;
