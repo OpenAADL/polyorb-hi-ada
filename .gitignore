@@ -63,3 +63,5 @@ support/install-sh
 support/missing
 support/texinfo.tex
 support/headers_po_hi*
+src/polyorb_hi.gpr
+support/compile
