@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -177,8 +177,10 @@ package body PolyORB_HI.Output is
       end if;
 
       PolyORB_HI.Output_Low_Level.Put ("[");
-      PolyORB_HI.Output_Low_Level.Put
-        (Duration'Image (To_Duration (Elapsed * 1000)));
+      --  XXX The following is disabled as some cross-runtime do not have
+      --  the capability to build Duration'Image
+      --      PolyORB_HI.Output_Low_Level.Put
+      --        (Duration'Image (To_Duration (Elapsed * 1000)));
       PolyORB_HI.Output_Low_Level.Put ("] ");
       PolyORB_HI.Output_Low_Level.Put (Text);
    end Unprotected_Put;

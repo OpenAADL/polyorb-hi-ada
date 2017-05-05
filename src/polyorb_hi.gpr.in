@@ -6,7 +6,7 @@
 --                                                                          --
 --                              P r o j e c t                               --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -31,7 +31,8 @@
 
 project PolyORB_HI is
 
-   type Target_Type is ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS");
+   type Target_Type is
+   ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS", "ARM_CORTEX");
    Target : Target_Type := external ("TARGET", "NATIVE");
 
    type Build_Type is ("Debug", "Release", "Analyzable");
@@ -122,10 +123,24 @@ project PolyORB_HI is
       case Target is
         when "NATIVE" | "MARTEOS" =>
            for Local_Configuration_Pragmas use "native.adc";
-        when "LEON_ORK" | "LEON_GNAT" | "ERC32" =>
+        when "LEON_ORK" | "LEON_GNAT" | "ERC32" | "ARM_CORTEX" =>
            for Local_Configuration_Pragmas use "hi-e.adc";
       end case;
    end Compiler;
+
+   --  Default configuration for GNAT runtime for some cross-targets.
+   --  Note: PolyORB-HI/Ada requires a Ravenscar runtime
+
+   --  XXX: one would need to have this overriden from the command line
+
+   gnat_runtime := "";
+   case Target is
+      when "ARM_CORTEX" =>
+        gnat_runtime := "ravenscar-sfp-stm32f4";
+
+      when others =>
+        gnat_runtime := "";
+   end case;
 
    -------------
    -- Builder --
