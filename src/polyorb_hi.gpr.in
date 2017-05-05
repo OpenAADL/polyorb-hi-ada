@@ -136,7 +136,7 @@ project PolyORB_HI is
    gnat_runtime := "";
    case Target is
       when "ARM_CORTEX" =>
-        gnat_runtime := "ravenscar-sfp-stm32f4";
+        gnat_runtime := "ravenscar-full-stm32f4";
 
       when others =>
         gnat_runtime := "";
