@@ -128,20 +128,6 @@ project PolyORB_HI is
       end case;
    end Compiler;
 
-   --  Default configuration for GNAT runtime for some cross-targets.
-   --  Note: PolyORB-HI/Ada requires a Ravenscar runtime
-
-   --  XXX: one would need to have this overriden from the command line
-
-   gnat_runtime := "";
-   case Target is
-      when "ARM_CORTEX" =>
-        gnat_runtime := "ravenscar-full-stm32f4";
-
-      when others =>
-        gnat_runtime := "";
-   end case;
-
    -------------
    -- Builder --
    -------------

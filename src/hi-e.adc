@@ -2,7 +2,7 @@
 
 pragma Profile (Ravenscar);                              -- D.13.1
 
-pragma Restrictions (No_Dependence => Ada.Finalization); -- 13.12.1 (12)
+--  pragma Restrictions (No_Dependence => Ada.Finalization); -- 13.12.1 (12)
 --  No controlled types, cannot be enforced for native compilers
 --  because of the s-tpoben file.
 

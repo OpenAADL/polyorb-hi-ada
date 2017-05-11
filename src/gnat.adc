@@ -25,13 +25,13 @@ pragma Locking_Policy (Ceiling_Locking);                 -- D.13.1
 --  For each restriction, we list its definition place in the Ada 2005
 --  reference manual.
 
-pragma Restrictions (No_Allocators);                  -- H.4 (7)
+--  pragma Restrictions (No_Allocators);                  -- H.4 (7)
 --  pragma Restrictions (No_Floating_Point);              -- H.4 (14)
 --  pragma Restrictions (No_Access_Subprograms);          -- H.4 (17)
-pragma Restrictions (No_Unchecked_Access);            -- H.4 (18)
-pragma Restrictions (No_Dispatch);                    -- H.4 (19)
-pragma Restrictions (No_IO);                          -- H.4 (20)
-pragma Restrictions (No_Recursion);                   -- H.4 (22)
+--  pragma Restrictions (No_Unchecked_Access);            -- H.4 (18)
+--  pragma Restrictions (No_Dispatch);                    -- H.4 (19)
+--  pragma Restrictions (No_IO);                          -- H.4 (20)
+--  pragma Restrictions (No_Recursion);                   -- H.4 (22)
 
 --  pragma Partition_Elaboration_Policy (Sequential); -- H.6 (3)
 --  This policy eases task initial synchronization and the bootstrap
@@ -47,7 +47,7 @@ pragma Restrictions (No_Recursion);                   -- H.4 (22)
 -- GNAT.Sockets.Initialize, but it might still be required for older
 -- compilers supported.
 
-pragma Restrictions (No_Unchecked_Deallocation);      -- J.13 (4)
+--  pragma Restrictions (No_Unchecked_Deallocation);      -- J.13 (4)
 --  Sibling of the No_Allocators restriction.
 --  XXX to be replaced with a No_Dependence restriction
 
