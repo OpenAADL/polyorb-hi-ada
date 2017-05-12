@@ -43,14 +43,16 @@ package body PolyORB_HI.Output_Low_Level is
    procedure Put (S : String)
      --  SPARK_Mode is distabled because of the Address attribute
    is
-      procedure C_Write
-        (Fd  : Interfaces.C.int;
-         P   : System.Address;
-         Len : Interfaces.C.int);
-      pragma Import (C, C_Write, "write");
+   --  NOT POSSIBLE IN THE AdaCore GPL GNAT
+   --
+   --    procedure C_Write
+   --      (Fd  : Interfaces.C.int;
+   --       P   : System.Address;
+   --       Len : Interfaces.C.int);
+   --    pragma Import (C, C_Write, "write");
 
    begin
-      C_Write (2, S (S'First)'Address, S'Length);
+      null; -- C_Write (2, S (S'First)'Address, S'Length);
       --  2 is standard error
 
    end Put;
