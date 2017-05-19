@@ -11,6 +11,6 @@ It has been tested on Linux, OS X, Windows and RTEMS.
 
 The recommended installation process is through the proper configuration and installation of [Ocarina](https://github.com/OpenAADL/ocarina), see Ocarina documentation for details.
 
-##Q&A
+## Q&A
 
 Build status for Linux and OS X: [![Build Status](https://travis-ci.org/OpenAADL/polyorb-hi-ada.svg?branch=master)](https://travis-ci.org/OpenAADL/polyorb-hi-ada)
