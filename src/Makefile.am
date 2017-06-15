@@ -30,6 +30,7 @@ ADA_SPECS = $(ADA_SPECS_WITH_BODY) $(srcdir)/polyorb_hi.ads	\
 	$(srcdir)/polyorb_hi-transport_low_level.ads
 
 ADA_BODIES = $(ADA_SPECS_WITH_BODY:.ads=.adb)			\
+	$(srcdir)/polyorb_hi-output_low_level_gnatruntime.adb	\
 	$(srcdir)/polyorb_hi-output_low_level_leon.adb		\
 	$(srcdir)/polyorb_hi-output_low_level_native.adb	\
 	$(srcdir)/polyorb_hi-transport_low_level_sockets.adb
