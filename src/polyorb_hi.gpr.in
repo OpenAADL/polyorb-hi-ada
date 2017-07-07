@@ -32,7 +32,7 @@
 project PolyORB_HI is
 
    type Target_Type is
-   ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS", "ARM_CORTEX");
+   ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS", "GNAT_Runtime");
    Target : Target_Type := external ("TARGET", "NATIVE");
 
    type Build_Type is ("Debug", "Release", "Analyzable");
@@ -123,8 +123,15 @@ project PolyORB_HI is
       case Target is
         when "NATIVE" | "MARTEOS" =>
            for Local_Configuration_Pragmas use "native.adc";
-        when "LEON_ORK" | "LEON_GNAT" | "ERC32" | "ARM_CORTEX" =>
+
+        when "LEON_ORK" | "LEON_GNAT" | "ERC32" =>
            for Local_Configuration_Pragmas use "hi-e.adc";
+
+        when "GNAT_Runtime" =>
+           --  For GNAT runtimes, it is assumed an external configuration file
+           --  is provided
+
+           null;
       end case;
    end Compiler;
 
@@ -133,8 +140,6 @@ project PolyORB_HI is
    -------------
 
    package Builder is
-      for Global_Configuration_Pragmas use "gnat.adc";
-
       case Build is
          when "Debug" =>
             for Default_Switches ("Ada") use ("-s", "-m", "-g");
@@ -171,7 +176,17 @@ project PolyORB_HI is
    package Linker is
       case Build is
          when "Debug" =>
-            for Default_Switches ("ada") use ("-g");
+            case Target is
+               when "GNAT_Runtime" =>
+                  --  For GNAT runtimes, we clean up unused symbols.
+                  --  Unfortunately, this does not work for macOS
+                  --  because of clang linker.
+
+                  for Default_Switches ("ada") use ("-g", "-Wl,--gc-sections");
+               when others =>
+                  for Default_Switches ("ada") use ("-g");
+            end case;
+
          when "Release" =>
             null;
       end case;

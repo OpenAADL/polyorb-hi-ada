@@ -179,8 +179,8 @@ package body PolyORB_HI.Output is
       PolyORB_HI.Output_Low_Level.Put ("[");
       --  XXX The following is disabled as some cross-runtime do not have
       --  the capability to build Duration'Image
-      --      PolyORB_HI.Output_Low_Level.Put
-      --        (Duration'Image (To_Duration (Elapsed * 1000)));
+      PolyORB_HI.Output_Low_Level.Put
+        (Integer'Image (Integer (To_Duration (Elapsed * 1000))));
       PolyORB_HI.Output_Low_Level.Put ("] ");
       PolyORB_HI.Output_Low_Level.Put (Text);
    end Unprotected_Put;
