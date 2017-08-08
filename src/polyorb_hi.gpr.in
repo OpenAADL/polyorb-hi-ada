@@ -64,7 +64,7 @@ project PolyORB_HI is
                       "-gnatE",  -- Dynamic elaboration checking mode enabled
                       --   XXX This is a work around, see issue #106 for details
 
-                      "-gnat12",  --  Ada 2012 mode
+                      "-gnat12"  --  Ada 2012 mode
                      );
 
    Debug_Options := (
