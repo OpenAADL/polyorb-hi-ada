@@ -25,7 +25,7 @@ all: compile-c-files $(PROGRAM).exe
 
 $(PROGRAM).exe: rtems_init.o $(EXTRA_OBJS)
 	$(AS:as=gnatmake) -x -g -v $(EXTRA_GNATFLAGS) \
-            -I$(RTEMS_MAKEFILE_PATH)/lib/include/adainclude \
+            -I$(RTEMS_MAKEFILE_PATH)/lib/include/adainclude -XTARGET=RTEMS \
  	    -O -gnata -gnatE -gnato -P $(PROGRAM).gpr -o $(@) \
 	    -bargs -Mgnat_main \
 	    -largs $(SPECFLAGS) $(CFLAGS) $(LINKARGS) \

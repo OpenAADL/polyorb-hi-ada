@@ -32,7 +32,7 @@
 project PolyORB_HI is
 
    type Target_Type is
-   ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS", "GNAT_Runtime");
+   ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS", "GNAT_Runtime", "RTEMS");
    Target : Target_Type := external ("TARGET", "NATIVE");
 
    type Build_Type is ("Debug", "Release", "Analyzable");
@@ -124,7 +124,7 @@ project PolyORB_HI is
         when "NATIVE" | "MARTEOS" =>
            for Local_Configuration_Pragmas use "native.adc";
 
-        when "LEON_ORK" | "LEON_GNAT" | "ERC32" =>
+        when "LEON_ORK" | "LEON_GNAT" | "ERC32" | "RTEMS" =>
            for Local_Configuration_Pragmas use "hi-e.adc";
 
         when "GNAT_Runtime" =>
