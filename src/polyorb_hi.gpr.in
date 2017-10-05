@@ -32,7 +32,8 @@
 project PolyORB_HI is
 
    type Target_Type is
-   ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS", "GNAT_Runtime", "RTEMS");
+   ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS", "GNAT_Runtime",
+    "RTEMS");
    Target : Target_Type := external ("TARGET", "NATIVE");
 
    type Build_Type is ("Debug", "Release", "Analyzable");
@@ -61,6 +62,9 @@ project PolyORB_HI is
                       --@WARNINGS_ARE_ERRORS@"-gnatfy", --  Style warnings
                       --@WARNINGS_ARE_ERRORS@"-gnatwe", --  Warnings are errors
                       "-gnatwG", -- Suppress warnings on unrecognized pragmas
+                      "-gnatE",  -- Dynamic elaboration checking mode enabled
+                      --   XXX This is a work around, see issue #106 for details
+
                       "-gnat12"  --  Ada 2012 mode
                      );
 
@@ -187,7 +191,7 @@ project PolyORB_HI is
                   for Default_Switches ("ada") use ("-g");
             end case;
 
-         when "Release" =>
+         when "Release" | "Analyzable" =>
             null;
       end case;
    end Linker;

@@ -1,4 +1,4 @@
---  $Id: flt_mgmt.aadl 6713 2009-06-20 20:58:28Z lanarre $
+--  Model of a basic flight management system, contributed by Irfan Hamid
 
 package flight::mgmt
 public
