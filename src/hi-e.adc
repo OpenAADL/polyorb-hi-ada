@@ -5,6 +5,8 @@
 
 pragma Profile (Ravenscar);                              -- D.13.1
 
+pragma Suppress (Elaboration_Check);
+
 --------------------------------------------------------------------------------
 -- Activate SPARK Mode, even if we do not actually use it on the
 -- target: the code has Spark_Mode disabled in some occurences,

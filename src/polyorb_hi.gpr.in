@@ -62,9 +62,6 @@ project PolyORB_HI is
                       --@WARNINGS_ARE_ERRORS@"-gnatfy", --  Style warnings
                       --@WARNINGS_ARE_ERRORS@"-gnatwe", --  Warnings are errors
                       "-gnatwG", -- Suppress warnings on unrecognized pragmas
-                      "-gnatE",  -- Dynamic elaboration checking mode enabled
-                      --   XXX This is a work around, see issue #106 for details
-
                       "-gnat12"  --  Ada 2012 mode
                      );
 
@@ -132,10 +129,8 @@ project PolyORB_HI is
            for Local_Configuration_Pragmas use "hi-e.adc";
 
         when "GNAT_Runtime" =>
-           --  For GNAT runtimes, it is assumed an external configuration file
-           --  is provided
+           for Local_Configuration_Pragmas use "gnat_runtime.adc";
 
-           null;
       end case;
    end Compiler;
 
@@ -187,12 +182,13 @@ project PolyORB_HI is
                   --  because of clang linker.
 
                   for Default_Switches ("ada") use ("-g", "-Wl,--gc-sections");
-               when others =>
+
+	        when others =>
                   for Default_Switches ("ada") use ("-g");
             end case;
 
          when "Release" | "Analyzable" =>
-            null;
+	     null;
       end case;
    end Linker;
 
