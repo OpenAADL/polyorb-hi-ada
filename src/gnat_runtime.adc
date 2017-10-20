@@ -1,20 +1,10 @@
---  Ada restrictions to be supported by PolyORB-HI/Ada, for NATIVE targets
+--  Ada restrictions to be supported by PolyORB-HI/Ada, for GNAT
+--  Runtime targets, e.g. ARM driver libraries
 
 --------------------------------------------------------------------------------
 --  Enforce Ravenscar profile.
---
--- Note that NATIVE targets are not Ravenscar compatible, we simply
--- look for warning. The user must run the program with admin rights
--- to have the right scheduling behavior.
 
---pragma Task_Dispatching_Policy (FIFO_Within_Priotities); -- D.13.1
--- Note: GCC 4.3.5 does not support this policy, changed to binder
--- option "-T0" per section A.3 of the GNAT user manual
-
-pragma Locking_Policy (Ceiling_Locking);                 -- D.13.1
-pragma Profile_Warnings (Ravenscar);                     -- D.13.1
-
-pragma Suppress (Elaboration_Check);
+pragma Profile (Ravenscar);                              -- D.13.1
 
 --------------------------------------------------------------------------------
 -- Activate SPARK Mode, even if we do not actually use it on the
@@ -30,15 +20,18 @@ pragma Suppress (Elaboration_Check);
 --  For each restriction, we list its definition place in the Ada 2005
 --  reference manual.
 
-pragma Restrictions (No_Allocators);                  -- H.4 (7)
---  pragma Restrictions (No_Floating_Point);              -- H.4 (14)
-pragma Restrictions (No_Access_Subprograms);          -- H.4 (17)
-pragma Restrictions (No_Unchecked_Access);            -- H.4 (18)
-pragma Restrictions (No_Dispatch);                    -- H.4 (19)
-pragma Restrictions (No_IO);                          -- H.4 (20)
-pragma Restrictions (No_Recursion);                   -- H.4 (22)
+--  Note: most of these restrictions are *NOT* supported by
+--  Ada_Drivers_Library
 
---  pragma Partition_Elaboration_Policy (Sequential); -- H.6 (3)
+--  pragma Restrictions (No_Allocators);                  -- H.4 (7)
+--  pragma Restrictions (No_Floating_Point);              -- H.4 (14)
+--  pragma Restrictions (No_Access_Subprograms);          -- H.4 (17)
+--  pragma Restrictions (No_Unchecked_Access);            -- H.4 (18)
+--  pragma Restrictions (No_Dispatch);                    -- H.4 (19)
+--  pragma Restrictions (No_IO);                          -- H.4 (20)
+--  pragma Restrictions (No_Recursion);                   -- H.4 (22)
+
+pragma Partition_Elaboration_Policy (Sequential); -- H.6 (3)
 --  This policy eases task initial synchronization and the bootstrap
 --  of the VM, see Ada 2005 Rationale for more details). (Not yet
 --  supported by GNAT for Native platforms)
