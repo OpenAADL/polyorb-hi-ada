@@ -58,7 +58,9 @@ pragma Restrictions (No_Unchecked_Deallocation);      -- J.13 (4)
 
 --  GNAT Specific restrictions
 
-pragma Restrictions (No_Streams);                     -- GNAT specific
+--  pragma Restrictions (No_Streams);                     -- GNAT specific
+--  XXX: this restriction cannot be fullfilled by some drivers relying
+--  on Ada.Streams
 
 --  pragma Restrictions (No_Direct_Boolean_Operators);    -- GNAT specific
 --  For the use of "and then" and "or else" in boolean operations
