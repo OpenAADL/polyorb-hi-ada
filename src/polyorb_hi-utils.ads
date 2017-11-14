@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -69,9 +69,6 @@ package PolyORB_HI.Utils is
    function Corresponding_Node is new Ada.Unchecked_Conversion
      (Unsigned_8, Node_Type);
 
-   function Internal_Code (P : Port_Type) return Unsigned_16;
-   function Corresponding_Port (I : Unsigned_16) return Port_Type;
-
    function Swap_Bytes (B : Interfaces.Unsigned_16)
                        return Interfaces.Unsigned_16;
    --  Swap bytes iff the host is little endian. This function is
@@ -118,6 +115,13 @@ package PolyORB_HI.Utils is
 
    type Naming_Table_Type is array (Node_Type'Range)
      of PolyORB_HI.Utils.Naming_Entry;
+
+   ---------------------
+   -- Task_Id mapping --
+   ---------------------
+
+   procedure Set_Task_Id (My_Id : Entity_Type);
+   function Get_Task_Id return Entity_Type;
 
 private
 

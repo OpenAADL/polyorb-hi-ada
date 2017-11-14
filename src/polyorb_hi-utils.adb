@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2015 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2017 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,6 +28,8 @@
 --                      (taste-users@lists.tuxfamily.org)                   --
 --                                                                          --
 ------------------------------------------------------------------------------
+
+with Ada.Task_Identification; use Ada.Task_Identification;
 
 package body PolyORB_HI.Utils is
 
@@ -90,28 +92,6 @@ package body PolyORB_HI.Utils is
       end if;
    end Swap_Bytes;
 
-   -------------------
-   -- Internal_Code --
-   -------------------
-
-   function Internal_Code (P : Port_Type) return Unsigned_16 is
-      function To_Internal_Code is new Ada.Unchecked_Conversion
-        (Port_Type, Unsigned_16);
-   begin
-      return Swap_Bytes (To_Internal_Code (P));
-   end Internal_Code;
-
-   ------------------------
-   -- Corresponding_Port --
-   ------------------------
-
-   function Corresponding_Port (I : Unsigned_16) return Port_Type is
-      function To_Corresponding_Port is new Ada.Unchecked_Conversion
-        (Unsigned_16, Port_Type);
-   begin
-      return To_Corresponding_Port (Swap_Bytes (I));
-   end Corresponding_Port;
-
    ------------------
    -- Parse_String --
    ------------------
@@ -130,5 +110,31 @@ package body PolyORB_HI.Utils is
 
       return Last;
    end Parse_String;
+
+   -----------------
+   -- Set_Task_Id --
+   -----------------
+
+   Task_Id_Mapping : array (Entity_Type'Range) of Task_Id;
+
+   procedure Set_Task_Id (My_Id : Entity_Type) is
+   begin
+      Task_Id_Mapping (My_Id) := Current_Task;
+   end Set_Task_Id;
+
+   -----------------
+   -- Get_Task_Id --
+   -----------------
+
+   function Get_Task_Id return Entity_Type is
+      My_Task_Id : constant Task_Id := Current_Task;
+   begin
+      for J in Task_Id_Mapping'Range loop
+         if Task_Id_Mapping (J) = Current_Task then
+            return J;
+         end if;
+      end loop;
+      return Entity_Type'First;
+   end Get_Task_Id;
 
 end PolyORB_HI.Utils;

@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -34,6 +34,7 @@ pragma SPARK_Mode (Off);
 with PolyORB_HI.Output;
 with PolyORB_HI.Suspenders;
 pragma Elaborate_All (PolyORB_HI.Suspenders);
+with PolyORB_HI.Utils;
 
 package body PolyORB_HI.Periodic_Task is
 
@@ -42,6 +43,7 @@ package body PolyORB_HI.Periodic_Task is
    use PolyORB_HI.Errors;
    use PolyORB_HI.Output;
    use PolyORB_HI.Suspenders;
+   use PolyORB_HI.Utils;
    use PolyORB_HI_Generated.Deployment;
 
    Next_Deadline_Val : Time;
@@ -52,6 +54,10 @@ package body PolyORB_HI.Periodic_Task is
       Error : Error_Kind;
 
    begin
+      --  Register task
+
+      Set_Task_Id (Entity);
+
       --  Run the initialize entrypoint (if any)
 
       Activate_Entrypoint;
