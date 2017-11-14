@@ -66,11 +66,11 @@ end Task.impl_2;
 
 processor cpurm
 properties
-  Deployment::Execution_Platform => LEON_ORK;
+  Deployment::Execution_Platform => Native;
 end cpurm;
 
 processor implementation cpurm.impl
-properties 
+properties
    Scheduling_Protocol => (Posix_1003_Highest_Priority_First_Protocol);
 end cpurm.impl;
 
@@ -91,7 +91,7 @@ end node_a.impl;
 -- System --
 ------------
 
-system rma 
+system rma
 end rma;
 
 system implementation rma.ERC32

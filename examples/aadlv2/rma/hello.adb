@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2008-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2008-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -32,6 +32,7 @@
 --  $Id: hello.adb 6273 2009-03-25 17:36:51Z lasnier $
 
 with PolyORB_HI.Output;
+with PolyORB_HI.Utils;
 
 package body Hello is
 
@@ -41,9 +42,10 @@ package body Hello is
 
    procedure Hello_Spg_1 is
       use PolyORB_HI.Output;
+      use PolyORB_HI.Utils;
 
    begin
-      Put_Line (Normal, "Hello! This is task ONE");
+      Put_Line (Normal, "Hello! This is task " & Get_Task_Id'Img);
    end Hello_Spg_1;
 
    -----------------
