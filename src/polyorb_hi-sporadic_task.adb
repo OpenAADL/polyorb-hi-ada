@@ -40,6 +40,7 @@ package body PolyORB_HI.Sporadic_Task is
    use PolyORB_HI.Output;
    use PolyORB_HI_Generated.Deployment;
    use PolyORB_HI.Suspenders;
+   use PolyORB_HI.Utils;
 
    Next_Deadline_Val : Time;
 
