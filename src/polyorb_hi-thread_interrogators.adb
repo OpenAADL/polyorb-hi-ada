@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -38,6 +38,7 @@ with PolyORB_HI.Streams;
 with PolyORB_HI.Time_Marshallers;
 with PolyORB_HI.Unprotected_Queue;
 with POlyORB_HI.Utils;
+with POlyORB_HI.Port_Types;
 
 package body PolyORB_HI.Thread_Interrogators is
 
@@ -46,6 +47,7 @@ package body PolyORB_HI.Thread_Interrogators is
    use type PolyORB_HI.Streams.Stream_Element_Offset;
    use PolyORB_HI.Output;
    use PolyORB_HI.Port_Kinds;
+   use POlyORB_HI.Port_Types;
    use PolyORB_HI.Utils;
 
    --------
