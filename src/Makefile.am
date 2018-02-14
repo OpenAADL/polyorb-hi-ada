@@ -12,6 +12,7 @@ ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi-aperiodic_task.ads	\
 	 $(srcdir)/polyorb_hi-output.ads			\
 	 $(srcdir)/polyorb_hi-periodic_task.ads			\
 	 $(srcdir)/polyorb_hi-port_kinds.ads			\
+	 $(srcdir)/polyorb_hi-port_types.ads			\
 	 $(srcdir)/polyorb_hi-protocols.ads			\
 	 $(srcdir)/polyorb_hi-sporadic_task.ads			\
 	 $(srcdir)/polyorb_hi-suspenders.ads			\

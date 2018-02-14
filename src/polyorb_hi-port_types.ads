@@ -2,11 +2,11 @@
 --                                                                          --
 --                          PolyORB HI COMPONENTS                           --
 --                                                                          --
---                                H E L L O                                 --
+--                P O L Y O R B _ H I . P O R T _ T Y P E S                 --
 --                                                                          --
---                                 B o d y                                  --
+--                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2008-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
+--                     Copyright (C) 2017 ESA & ISAE.                       --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,34 +29,12 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  $Id: hello.adb 6273 2009-03-25 17:36:51Z lasnier $
+with PolyORB_HI_Generated.Deployment; use PolyORB_HI_Generated.Deployment;
+with Interfaces; use Interfaces;
 
-with PolyORB_HI.Output;
-with PolyORB_HI.Utils;
+package PolyORB_HI.Port_Types is
 
-package body Hello is
+   function Internal_Code (P : Port_Type) return Unsigned_16;
+   function Corresponding_Port (I : Unsigned_16) return Port_Type;
 
-   -----------------
-   -- Hello_Spg_1 --
-   -----------------
-
-   procedure Hello_Spg_1 is
-      use PolyORB_HI.Output;
-      use PolyORB_HI.Utils;
-
-   begin
-      Put_Line (Normal, "Hello! This is task " & Get_Task_Id'Img);
-   end Hello_Spg_1;
-
-   -----------------
-   -- Hello_Spg_2 --
-   -----------------
-
-   procedure Hello_Spg_2 is
-      use PolyORB_HI.Output;
-
-   begin
-      Put_Line (Normal, "Hello! This is task TWO");
-   end Hello_Spg_2;
-
-end Hello;
+end PolyORB_HI.Port_Types;

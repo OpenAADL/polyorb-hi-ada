@@ -2,11 +2,11 @@
 --                                                                          --
 --                          PolyORB HI COMPONENTS                           --
 --                                                                          --
---                                H E L L O                                 --
+--                P O L Y O R B _ H I . P O R T _ T Y P E S                 --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2008-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
+--                     Copyright (C) 2017 ESA & ISAE.                       --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,34 +29,31 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  $Id: hello.adb 6273 2009-03-25 17:36:51Z lasnier $
+with Ada.Unchecked_Conversion;
+with PolyORB_HI.Utils; use PolyORB_HI.Utils;
 
-with PolyORB_HI.Output;
-with PolyORB_HI.Utils;
+package body PolyORB_HI.Port_Types is
 
-package body Hello is
+   -------------------
+   -- Internal_Code --
+   -------------------
 
-   -----------------
-   -- Hello_Spg_1 --
-   -----------------
-
-   procedure Hello_Spg_1 is
-      use PolyORB_HI.Output;
-      use PolyORB_HI.Utils;
-
+   function Internal_Code (P : Port_Type) return Unsigned_16 is
+      function To_Internal_Code is new Ada.Unchecked_Conversion
+        (Port_Type, Unsigned_16);
    begin
-      Put_Line (Normal, "Hello! This is task " & Get_Task_Id'Img);
-   end Hello_Spg_1;
+      return Swap_Bytes (To_Internal_Code (P));
+   end Internal_Code;
 
-   -----------------
-   -- Hello_Spg_2 --
-   -----------------
+   ------------------------
+   -- Corresponding_Port --
+   ------------------------
 
-   procedure Hello_Spg_2 is
-      use PolyORB_HI.Output;
-
+   function Corresponding_Port (I : Unsigned_16) return Port_Type is
+      function To_Corresponding_Port is new Ada.Unchecked_Conversion
+        (Unsigned_16, Port_Type);
    begin
-      Put_Line (Normal, "Hello! This is task TWO");
-   end Hello_Spg_2;
+      return To_Corresponding_Port (Swap_Bytes (I));
+   end Corresponding_Port;
 
-end Hello;
+end PolyORB_HI.Port_Types;

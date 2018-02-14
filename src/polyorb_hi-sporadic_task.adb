@@ -31,6 +31,7 @@
 
 with PolyORB_HI.Output;
 with PolyORB_HI.Suspenders;
+with PolyORB_HI.Utils;
 
 package body PolyORB_HI.Sporadic_Task is
 
@@ -39,6 +40,7 @@ package body PolyORB_HI.Sporadic_Task is
    use PolyORB_HI.Output;
    use PolyORB_HI_Generated.Deployment;
    use PolyORB_HI.Suspenders;
+   use PolyORB_HI.Utils;
 
    Next_Deadline_Val : Time;
 
@@ -52,6 +54,10 @@ package body PolyORB_HI.Sporadic_Task is
       Error : Error_Kind;
 
    begin
+       --  Register task
+
+      Set_Task_Id (Entity);
+
       --  Run the initialize entrypoint (if any)
 
       Activate_Entrypoint;
