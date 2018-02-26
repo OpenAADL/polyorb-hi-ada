@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -63,33 +63,36 @@ is
    --  Curent debug level
 
    procedure Put_Line (Mode : in Verbosity := Normal; Text : in String)
-     with Global => (In_Out => (Epoch.Elaborated_Variables),
-                     Input => (Elaborated_Variables,
-                               Ada.Real_Time.Clock_Time));
+      with Global => (In_Out => (Elaborated_Variables,
+                                 Epoch.Elaborated_Variables),
+                      Input => Ada.Real_Time.Clock_Time);
+
    --  Display Text iff Mode is greater than Current_Mode. This
    --  routine is thread-safe.
 
    procedure Put (Mode : in Verbosity := Normal; Text : in String)
-     with Global => (In_Out => (Epoch.Elaborated_Variables),
-                     Input => (Elaborated_Variables, Ada.Real_Time.Clock_Time));
+      with Global => (In_Out => (Elaborated_Variables,
+                                 Epoch.Elaborated_Variables),
+                      Input => (Ada.Real_Time.Clock_Time));
    --  Display Text iff Mode is greater than Current_Mode. This
    --  routine is thread-safe.
 
    procedure Put_Line (Text : in String)
-     with Global => (In_Out => (Elaborated_Variables,
-                                Epoch.Elaborated_Variables),
-                     Input => Ada.Real_Time.Clock_Time);
+      with Global => (In_Out => (Elaborated_Variables,
+                                 Epoch.Elaborated_Variables),
+                      Input => Ada.Real_Time.Clock_Time);
    --  Same as above, but always displays the message
 
    procedure Put (Text : in String)
-     with Global => (In_Out => (Elaborated_Variables,
-                                Epoch.Elaborated_Variables),
-                     Input => Ada.Real_Time.Clock_Time);
+      with Global => (In_Out => (Elaborated_Variables,
+                                 Epoch.Elaborated_Variables),
+                      Input => Ada.Real_Time.Clock_Time);
    --  Same as above but always displays the message
 
    procedure Dump (Stream : Stream_Element_Array; Mode : Verbosity := Verbose)
-     with Global => (Input => (Elaborated_Variables, Ada.Real_Time.Clock_Time),
-                     In_Out => (Epoch.Elaborated_Variables));
+      with Global => (Input => Ada.Real_Time.Clock_Time,
+                      In_Out => (Elaborated_Variables,
+                                 Epoch.Elaborated_Variables));
    --  Dump the content of Stream in an hexadecimal format
 
    function "+" (S1 : String; S2 : String) return String

@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -125,7 +125,9 @@ is
       Lock.Put_Line (Text);
    end Put_Line;
 
-   procedure Put_Line (Mode : Verbosity := Normal; Text : String) is
+   procedure Put_Line (Mode : Verbosity := Normal; Text : String)
+      with Refined_Global => (In_Out => (Epoch.Elaborated_Variables,Lock),
+                              Input => (Ada.Real_Time.Clock_Time)) is
    begin
       pragma Warnings (Off);
       --  Disable warnings on "Condition always true/false" because
@@ -147,7 +149,9 @@ is
       Lock.Put (Text);
    end Put;
 
-   procedure Put (Mode : Verbosity := Normal; Text : String) is
+   procedure Put (Mode : Verbosity := Normal; Text : String)
+      with Refined_Global => (In_Out => (Epoch.Elaborated_Variables,Lock),
+                              Input => Ada.Real_Time.Clock_Time) is
    begin
       pragma Warnings (Off);
       --  Disable warnings on "Condition always true/false" because
