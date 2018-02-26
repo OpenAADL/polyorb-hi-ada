@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,10 +29,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma SPARK_Mode (Off);
---  SPARK_Mode is disabled for this unit, it relies on OS-specific
---  libraries. We discard this unit for now.
-
 with Ada.Synchronous_Task_Control;
 with Ada.Exceptions;
 with Ada.Real_Time;
@@ -52,7 +48,11 @@ with PolyORB_HI_Generated.Transport;
 
 --  Transport low-level service of PolyORB HI, using BSD sockets
 
-package body PolyORB_HI.Transport_Low_Level is
+package body PolyORB_HI.Transport_Low_Level
+   with SPARK_Mode => Off
+   --  SPARK_Mode is disabled for this unit, it relies on OS-specific
+   --  libraries. We discard this unit for now.
+is
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
    --  We do not want a pragma Elaborate_All to be implicitely
