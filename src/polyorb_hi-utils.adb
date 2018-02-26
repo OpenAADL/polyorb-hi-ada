@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2016 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2018 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -49,7 +49,8 @@ package body PolyORB_HI.Utils is
                            L => S'Length);
 
       else
-         R (1 .. HI_String_Size) := S (S'First .. S'First + HI_String_Size - 1);
+         R (1 .. HI_String_Size)
+           := S (S'First .. S'First + (HI_String_Size - 1));
          return HI_String'(S => R,
                            L => HI_String_Size);
       end if;
@@ -76,7 +77,7 @@ package body PolyORB_HI.Utils is
 
          pragma Warnings (On);
 
-      --  Little-endian case. We must swap the high and low bytes
+         --  Little-endian case. We must swap the high and low bytes
 
       else
          return (B / 256) + (B mod 256) * 256;
@@ -109,19 +110,23 @@ package body PolyORB_HI.Utils is
    -- Parse_String --
    ------------------
 
-   function Parse_String (S : String; First : Integer; Delimiter : Character)
-                         return Integer
+   function Parse_String
+     (S : String; First : Integer; Delimiter : Character)
+     return Integer
    is
-      Last : Integer := S'Last;
    begin
+      if S (First) = Delimiter then
+         return S'Last;
+      end if;
+
       for J in First .. S'Last loop
          if S (J) = Delimiter then
-            Last := J - 1;
-            exit;
+            return J - 1;
          end if;
+         pragma Loop_Invariant (for all K in First .. J => S (K) /= Delimiter);
       end loop;
 
-      return Last;
+      return S'Last;
    end Parse_String;
 
 end PolyORB_HI.Utils;

@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -98,12 +98,11 @@ package PolyORB_HI.Utils is
 
    function Parse_String (S : String; First : Integer; Delimiter : Character)
                          return Integer
-     with Pre => (First >= S'First and First <= S'Last);
-   --  XXX GNATProve GPL2014 cannot prove this, TBI
-   --            Post => ((Parse_String'Result = S'Last)
-   --                     or (Parse_String'Result in S'Range
-   --                           and then Parse_String'Result > S'First
-   --                           and then S (Parse_String'Result - 1) = Delimiter));
+   with Pre => (First >= S'First and then First <= S'Last),
+     Post => (Parse_String'Result = S'Last
+                or else (Parse_String'Result in S'First .. S'Last - 1
+                           and then Parse_String'Result >= S'First
+                           and then S (Parse_String'Result + 1) = Delimiter));
    --  Return index of the character just before Delimiter, or return S'last
 
    ------------------
