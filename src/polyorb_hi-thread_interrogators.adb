@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2016 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -50,9 +50,12 @@ is
    --  The types and the routines below give a flexible way to handle
    --  Thread_Interface_Type variables and to store them in arrays.
 
+   Port_Stream_Last : constant Stream_Element_Offset
+     := Stream_Element_Offset (Thread_Interface_Type'Size / 8);
+
    type Port_Stream is
      new PolyORB_HI.Streams.Stream_Element_Array
-     (1 .. Thread_Interface_Type'Size / 8);
+     (1 .. Port_Stream_Last);
 
    Null_Port_Stream : constant Port_Stream := (others => 0);
 
