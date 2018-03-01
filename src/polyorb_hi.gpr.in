@@ -204,8 +204,7 @@ project PolyORB_HI is
    package Prove is
       for Switches use
           ("--warnings=continue", -- Issue warnings and continue
-           "--report=all",        -- Report all results of proving VCs
-           "--pedantic"           -- Additional warnings
+           "--report=fail"        -- Report failure to prove checks
            );
    end Prove;
 
