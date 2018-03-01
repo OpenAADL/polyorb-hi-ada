@@ -97,14 +97,13 @@ package PolyORB_HI.Messages is
    function Is_Empty (M: Message_Type) return Boolean
      with Pre => (Valid (M));
 
+   function Not_Empty (M: Message_Type) return Boolean
+     with Pre => (Valid (M));
+
    function Payload (M : Message_Type) return Stream_Element_Array
    with Pre => (Valid (M) and then not Is_Empty (M)),
         Post => (Payload'Result'Length = Length (M));
    --  Return the remaining payload of message M
-
-   --   function Sender (M : Message_Type) return Entity_Type
-   --       with Pre => (Valid (M) and then not Is_Empty (M));
-   --   XXX This function seems unused, to be investigated
 
    function Sender (M : Stream_Element_Array) return Entity_Type
      with Pre =>(M'First = 1 and M'Last >= Header_Size);
@@ -120,6 +119,10 @@ package PolyORB_HI.Messages is
    --  originator entity) and Message payload.
 
    function Valid (Message : Message_Type) return Boolean;
+
+   function Valid (S : Stream_Element_Array) return Boolean is
+     (S'Length <= PDU_Size and then
+        S'First = 1 and then S'Last >= Header_Size);
 
 private
 
@@ -148,6 +151,9 @@ private
 
    function Is_Empty (M: Message_Type) return Boolean is
       (M = Empty_Message);
+
+   function Not_Empty (M: Message_Type) return Boolean is
+      (M /= Empty_Message);
 
    function Payload (M : Message_Type) return Stream_Element_Array is
       (M.Content (M.First .. M.Last));
