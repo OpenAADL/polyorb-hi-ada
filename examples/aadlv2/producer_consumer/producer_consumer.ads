@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2016 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2018 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -33,12 +33,14 @@
 
 with PolyORB_HI_Generated.Types; use PolyORB_HI_Generated.Types;
 
-package Producer_Consumer
-  with SPARK_Mode => Off
-Is
+package Producer_Consumer is
 
    procedure Produce_Spg (Data_Source : out Alpha_Type);
 
    procedure Consume_Spg (Data_Sink   : Alpha_Type);
+   
+private
+   
+   The_Data : Alpha_Type := 1;
 
 end Producer_Consumer;

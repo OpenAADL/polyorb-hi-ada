@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2016 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2018 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -38,8 +38,6 @@ is
 
    use PolyORB_HI.Output;
    use PolyORB_HI_Generated.Deployment;
-
-   The_Data : Alpha_Type := 1;
 
    -----------------
    -- Produce_Spg --
