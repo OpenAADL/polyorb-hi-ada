@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---                   Copyright (C) 2013-2015 ESA & ISAE.                    --
+--                   Copyright (C) 2013-2018 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,13 +29,11 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  Sporadic threads are a little bit more complicated that periodic
---  ones. Their behaviour can be summerized as follows:
+--  ISR threads are interrupt handlers.
 
 --  BEGIN LOOP
 --   1 - Blocks until a triggering event comes
 --   2 - Do the job
---   3 - Sleep to guarantee that minimal inter-arrival time elapses
 --  END LOOP
 
 with System;
@@ -65,7 +63,7 @@ generic
 
    Interrupt_Identifier : in Ada.Interrupts.Interrupt_ID := SIGUSR1;
 
-   with function Job return PolyORB_HI.Errors.Error_Kind;
+   with procedure Job (Result : out PolyORB_HI.Errors.Error_Kind);
    --  Parameterless procedure executed by the periodic task
 
    with procedure Activate_Entrypoint is null;

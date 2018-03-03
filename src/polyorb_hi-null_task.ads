@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---                   Copyright (C) 2014-2015 ESA & ISAE.                    --
+--                   Copyright (C) 2014-2018 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -58,8 +58,8 @@ generic
    Task_Deadline   : in Ada.Real_Time.Time_Span;
    --  Task deadline
 
-   with function Job return PolyORB_HI.Errors.Error_Kind;
-   --  Procedure to call at each dispatch of the sporadic thread
+   with procedure Job (Result : out PolyORB_HI.Errors.Error_Kind);
+   --  Procedure to call at each dispatch of the "null" thread
 
    with procedure Activate_Entrypoint is null;
    --  If given, the task run Activate_Entrypoint after the global

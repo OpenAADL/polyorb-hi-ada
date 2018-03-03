@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                   Copyright (C) 2014-2015 ESA & ISAE.                    --
+--                   Copyright (C) 2014-2018 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -75,7 +75,7 @@ package body PolyORB_HI.Null_Task is
             + Entity_Image (Entity)
             + ": Run job"));
 
-      Error := Job;
+      Job (Error);
 
       if Error /= Error_None then
          Recover_Entrypoint;

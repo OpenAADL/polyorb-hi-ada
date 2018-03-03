@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -28,6 +28,7 @@
 --                      (taste-users@lists.tuxfamily.org)                   --
 --                                                                          --
 ------------------------------------------------------------------------------
+
 pragma SPARK_Mode (Off);
 
 --  Define a periodic task that executes a Job
@@ -56,7 +57,7 @@ generic
    Task_Stack_Size : in Natural;
    --  Task stack size
 
-   with function Job return PolyORB_HI.Errors.Error_Kind;
+   with procedure Job (Return_Value : out PolyORB_HI.Errors.Error_Kind);
    --  Parameterless procedure executed by the periodic task
 
    with procedure Activate_Entrypoint is null;
