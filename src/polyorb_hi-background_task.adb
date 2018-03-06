@@ -54,27 +54,21 @@ package body PolyORB_HI.Background_Task is
 
       --  Wait for the network initialization to be finished
 
-      pragma Debug
-        (Put_Line
-         (Verbose,
-          "Background Task "
-          + Entity_Image (Entity)
-          + ": Wait initialization"));
+      pragma Debug (Verbose,
+                    Put_Line ("Background Task "
+                                + Entity_Image (Entity)
+                                + ": Wait initialization"));
 
       Block_Task (Entity);
       delay until System_Startup_Time;
 
-      pragma Debug (Put_Line
-                    (Verbose,
-                     "Background task initialized for entity "
-                     + Entity_Image (Entity)));
+      pragma Debug (Verbose,
+                    Put_Line ("Background task initialized for entity "
+                                + Entity_Image (Entity)));
 
-      pragma Debug
-        (Put_Line
-         (Verbose,
-          "Background Task "
-            + Entity_Image (Entity)
-            + ": Run job"));
+      pragma Debug (Verbose,
+                    Put_Line  ("Background Task " + Entity_Image (Entity)
+                                 + ": Run job"));
 
       Job (Error);
 

@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -112,19 +112,6 @@ package body PolyORB_HI.Output is
    -- Put_Line --
    --------------
 
-   procedure Put_Line (Mode : in Verbosity := Normal; Text : in String) is
-   begin
-      pragma Warnings (Off);
-      --  Disable warnings on "Condition always true/false" because
-      --  Current_Mode is a constant.
-
-      if Mode >= Current_Mode then
-         pragma Warnings (On);
-         Put_Line (Text);
-      end if;
-
-   end Put_Line;
-
    procedure Put_Line (Text : in String) is
    begin
       Output_Lock.Put_Line (Text);
@@ -133,19 +120,6 @@ package body PolyORB_HI.Output is
    ---------
    -- Put --
    ---------
-
-   procedure Put (Mode : in Verbosity := Normal; Text : in String) is
-   begin
-      pragma Warnings (Off);
-      --  Disable warnings on "Condition always true/false" because
-      --  Current_Mode is a constant.
-
-      if Mode >= Current_Mode then
-         pragma Warnings (On);
-         Put (Text);
-      end if;
-
-   end Put;
 
    procedure Put (Text : in String) is
    begin
@@ -198,25 +172,27 @@ package body PolyORB_HI.Output is
 
    procedure Dump
      (Stream : Stream_Element_Array;
-      Mode   : Verbosity            := Verbose)
+      Mode   : Verbosity            := Verbose_L)
    is
       Index   : Output_Position := Output_Position'First;
       Output  : Output_Line := Nil;
    begin
-      for J in Stream'Range loop
-         if Index + 3 <= Output'Last then
-            Output (Index)     := ' ';
-            Output (Index + 1) := Hex (Natural (Stream (J) / 16));
-            Output (Index + 2) := Hex (Natural (Stream (J) mod 16));
-            Index := Index + 3;
-         else
-            Put_Line (Mode, Output);
-            Index := 1;
-            Output := Nil;
-         end if;
-      end loop;
+      if Current_Mode >= Mode then
+         for J in Stream'Range loop
+            if Index + 3 <= Output'Last then
+               Output (Index)     := ' ';
+               Output (Index + 1) := Hex (Natural (Stream (J) / 16));
+               Output (Index + 2) := Hex (Natural (Stream (J) mod 16));
+               Index := Index + 3;
+            else
+               Put_Line (Output);
+               Index := 1;
+               Output := Nil;
+            end if;
+         end loop;
 
-      Put_Line (Mode,  Output);
+         Put_Line (Output);
+      end if;
    end Dump;
 
    ---------

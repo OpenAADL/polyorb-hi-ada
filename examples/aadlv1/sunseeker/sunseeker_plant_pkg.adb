@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -60,8 +60,7 @@ package body Sunseeker_Plant_Pkg is
       Transfer_Fcn_update : Single_Float;
 
    begin
-      Put_Line (Normal,
-                Node_Image (My_Node)
+      Put_Line (Node_Image (My_Node)
                 & " PLANT INPUT:"
                 & Single_Float'Image (Controllerinput));
 
@@ -85,8 +84,7 @@ package body Sunseeker_Plant_Pkg is
       sunseekerplant_Transfer_Fcn := Sunseekerplant_Transfer_Fcn
         + Period * Transfer_Fcn_Update;
 
-      Put_Line (Normal,
-                Node_Image (My_Node)
+      Put_Line (Node_Image (My_Node)
                 & " PLANT OUTPUT:"
                 & Single_Float'Image (Outputfeedback)
                 & " ERROR:"

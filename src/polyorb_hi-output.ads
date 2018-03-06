@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -41,36 +41,33 @@ package PolyORB_HI.Output is
    use PolyORB_HI.Streams;
 
    type Verbosity is
-     (Verbose,
+     (Verbose_L,
       --  Developer interest only, should never be displayed
       --  in a production environment.
 
-      Normal,
+      Normal_L,
       --  Informational message indicating progress of normal
       --  operation.
 
-      Error
+      Error_L
       --  Indication that an abnormal condition has been identified
       );
 
-   Current_Mode : constant Verbosity := Normal;
+   Current_Mode : constant Verbosity := Normal_L;
    --  Curent debug level
 
-   procedure Put_Line (Mode : in Verbosity := Normal; Text : in String);
-   --  Display Text iff Mode is greater than Current_Mode. This
-   --  routine is thread-safe.
+   Verbose : constant Boolean := Current_Mode >= Verbose_L;
+   Normal : constant Boolean := Current_Mode >= Normal_L;
+   Error : constant Boolean := Current_Mode >= Error_L;
 
    procedure Put_Line (Text : in String);
    --  As above but always displays the message
 
-   procedure Put (Mode : in Verbosity := Normal; Text : in String);
-   --  Display Text iff Mode is greater than Current_Mode. This
-   --  routine is thread-safe.
-
    procedure Put (Text : in String);
    --  As above but always displays the message
 
-   procedure Dump (Stream : Stream_Element_Array; Mode : Verbosity := Verbose);
+   procedure Dump (Stream : Stream_Element_Array;
+                   Mode : Verbosity := Verbose_L);
    --  Dump the content of Stream in an hexadecimal format
 
    function "+" (S1 : String; S2 : String) return String;

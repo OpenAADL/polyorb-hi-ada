@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2017 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2018 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -130,7 +130,7 @@ package body PolyORB_HI.Utils is
       My_Task_Id : constant Task_Id := Current_Task;
    begin
       for J in Task_Id_Mapping'Range loop
-         if Task_Id_Mapping (J) = Current_Task then
+         if Task_Id_Mapping (J) = My_Task_Id then
             return J;
          end if;
       end loop;

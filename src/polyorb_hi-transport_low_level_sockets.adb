@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -159,10 +159,9 @@ package body PolyORB_HI.Transport_Low_Level is
             Nodes (My_Node).Address);
          Listen_Socket (Nodes (My_Node).Socket_Receive);
 
-         pragma Debug (Put_Line
-                       (Verbose,
-                        "Local socket created for "
-                        + Image (Nodes (My_Node).Address)));
+         pragma Debug (Verbose,
+                       Put_Line ("Local socket created for "
+                            + Image (Nodes (My_Node).Address)));
       end if;
 
       --  Start the protocol handler task
@@ -180,10 +179,9 @@ package body PolyORB_HI.Transport_Low_Level is
 
                Next_Time := Clock + Milliseconds (200);
                begin
-                  pragma Debug
-                    (Put_Line
-                     (Verbose,
-                      "Try to connect to " + Image (Nodes (N).Address)));
+                  pragma Debug (Verbose,
+                                Put_Line ("Try to connect to "
+                                            + Image (Nodes (N).Address)));
 
                   delay until Next_Time;
 
@@ -200,16 +198,18 @@ package body PolyORB_HI.Transport_Low_Level is
             SEC (1) := AS.Stream_Element (Internal_Code (My_Node));
             Send_Socket (Nodes (N).Socket_Send, SEC, SEO);
 
-            pragma Debug (Put_Line
-                            (Verbose,
-                             "Connected to " + Image (Nodes (N).Address)));
+            pragma Debug (Verbose,
+                          Put_Line ("Connected to "
+                                      + Image (Nodes (N).Address)));
+
          end if;
       end loop;
 
       Suspend_Until_True (Other_Nodes_Init);
 
-      pragma Debug (Put_Line (Verbose, "Initialization of socket subsystem"
-                              + " is complete"));
+      pragma Debug (Verbose,
+                    Put_Line ("Initialization of socket subsystem"
+                                + " is complete"));
 
       --  Unblock the receiver task
 
@@ -246,9 +246,9 @@ package body PolyORB_HI.Transport_Low_Level is
       --  connection cycle between processes.
 
       if Nodes (My_Node).Address.Addr /= No_Inet_Addr then
-         pragma Debug (Put_Line
-                       (Verbose, "Waiting on "
-                        + Image (Nodes (My_Node).Address)));
+         pragma Debug (Verbose,
+                       Put_Line ("Waiting on "
+                                   + Image (Nodes (My_Node).Address)));
 
          for N in Nodes'Range loop
             if N /= My_Node then
@@ -265,9 +265,9 @@ package body PolyORB_HI.Transport_Low_Level is
 
                Node := Corresponding_Node (Unsigned_8 (SEC (SEC'First)));
                Nodes (Node).Socket_Receive := Socket;
-               pragma Debug (Put_Line (Verbose, "Connection from node "
-                                       + Node_Image (Node)));
-
+               pragma Debug (Verbose,
+                             Put_Line ("Connection from node "
+                                         + Node_Image (Node)));
             end if;
          end loop;
       end if;
@@ -296,8 +296,7 @@ package body PolyORB_HI.Transport_Low_Level is
          Check_Selector (Selector, R_Sockets, W_Sockets, Status);
 
          for N in Node_Type'Range loop
-
-            pragma Debug (Put_Line (Verbose, "Check mailboxes"));
+            pragma Debug (Verbose, Put_Line ("Check mailboxes"));
 
             --  If there is something to read on a node different from
             --  the current node.
@@ -308,25 +307,25 @@ package body PolyORB_HI.Transport_Low_Level is
                --  Receive message length
 
                Receive_Socket (Nodes (N).Socket_Receive, SEL, SEO);
-               pragma Debug (Put_Line (Verbose, "SEL " + SEL'Length'Img
+               pragma Debug (Verbose,
+                             Put_Line ("SEL " + SEL'Length'Img
                                          + "MLS" + Message_Length_Size'Img));
                --  Receiving zero byte means that peer is dead
 
                if SEO = 0 then
-                  pragma Debug (Put_Line
-                                  (Verbose,
-                                   "Node " + Node_Image (N)
-                                     + " is dead"));
+                  pragma Debug (Verbose,
+                                Put_Line ("Node " + Node_Image (N)
+                                            + " is dead"));
                   exit Main_Loop;
                end if;
 
                SEO := AS.Stream_Element_Offset
                  (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
-               pragma Debug (Put_Line
-                               (Verbose,
-                                "received"
-                                + AS.Stream_Element_Offset'Image (SEO)
-                                + " bytes from node " + Node_Image (N)));
+               pragma Debug (Verbose,
+                             Put_Line ("received"
+                                         + AS.Stream_Element_Offset'Image (SEO)
+                                         + " bytes from node "
+                                         + Node_Image (N)));
 
                --  Get the message and preserve message length to keep
                --  compatible with a local message delivery.
@@ -348,12 +347,12 @@ package body PolyORB_HI.Transport_Low_Level is
 
    exception
       when E : others =>
-         pragma Debug (Put_Line
-                       (Normal, "Exception "
-                        + Ada.Exceptions.Exception_Name (E)));
-         pragma Debug (Put_Line
-                       (Normal, "Message "
-                        + Ada.Exceptions.Exception_Message (E)));
+         pragma Debug (Normal,
+                       Put_Line ("Exception "
+                                   + Ada.Exceptions.Exception_Name (E)));
+         pragma Debug (Normal,
+                       Put_Line ("Message "
+                                   + Ada.Exceptions.Exception_Message (E)));
          null;
    end Receiver_Task;
 
@@ -377,18 +376,18 @@ package body PolyORB_HI.Transport_Low_Level is
       for Msg'Address use Message'Address;
 
    begin
-      pragma Debug (Put_Line (Verbose, "Sending message, size:" + L'Img));
+      pragma Debug (Verbose, Put_Line ("Sending message, size:" + L'Img));
       Send_Socket (Nodes (Node).Socket_Send, Msg, L);
 
       return Error_Kind'(Error_None);
    exception
       when E : others =>
-         pragma Debug (Put_Line
-                       (Normal, "Exception "
-                          + Ada.Exceptions.Exception_Name (E)));
-         pragma Debug (Put_Line
-                       (Normal, "Message "
-                          + Ada.Exceptions.Exception_Message (E)));
+         pragma Debug (Normal,
+                       Put_Line ("Exception "
+                                   + Ada.Exceptions.Exception_Name (E)));
+         pragma Debug (Normal,
+                       Put_Line ("Message "
+                                   + Ada.Exceptions.Exception_Message (E)));
       return Error_Kind'(Error_Transport);
    end Send;
 

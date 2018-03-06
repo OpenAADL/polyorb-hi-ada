@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -60,7 +60,7 @@ package body Producer_Consumer is
       Data_Source := The_Data;
       The_Data := The_Data + 1;
 
-      Put_Line (Normal, Get_Node
+      Put_Line (Get_Node
                 & ": produced "
                 & Alpha_Type'Image (Data_Source));
    end Produce_Spg;
@@ -71,7 +71,7 @@ package body Producer_Consumer is
 
    procedure Consume_Spg (Data_Sink : Alpha_Type) is
    begin
-      Put_Line (Normal, Get_Node
+      Put_Line (Get_Node
                 & "                              : consumed "
                 & Alpha_Type'Image (Data_Sink));
    end Consume_Spg;

@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2015 ESA & ISAE.        --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,7 +29,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  $Id: probe.adb 6273 2009-03-25 17:36:51Z lasnier $
+--  $Id: probe.adb 5381 2007-12-23 12:39:41Z zalila $
 
 with Ada.Real_Time; use Ada.Real_Time;
 
@@ -86,7 +86,7 @@ package body Probe is
       --  To kill warning "mode could be "in" instead of "in out"
    begin
       Read_Value := Field;
-      Put_Line (Normal, "Value Read: " & POS_Internal_Type'Image (Field));
+      Put_Line ("Value Read: " & POS_Internal_Type'Image (Field));
    end Read;
 
    ------------
@@ -96,7 +96,7 @@ package body Probe is
    procedure Update (Field : in out POS_Internal_Type) is
    begin
       Field := Field + 1;
-      Put_Line (Normal, "Value Updated: " & POS_Internal_Type'Image (Field));
+      Put_Line ("Value Updated: " & POS_Internal_Type'Image (Field));
    end Update;
 
    -------------
@@ -105,9 +105,9 @@ package body Probe is
 
    procedure GNC_Job is
    begin
-      Put_Line (Normal, "Begin computing: GNC");
+      Put_Line ("Begin computing: GNC");
       Compute_During_N_Times_1ms (600);
-      Put_Line (Normal, "End computing: GNC");
+      Put_Line ("End computing: GNC");
    end GNC_Job;
 
    --------------
@@ -116,9 +116,9 @@ package body Probe is
 
    procedure TMTC_Job is
    begin
-      Put_Line (Normal, "Begin computing: TMTC");
+      Put_Line ("Begin computing: TMTC");
       Compute_During_N_Times_1ms (50);
-      Put_Line (Normal, "End computing: TMTC");
+      Put_Line ("End computing: TMTC");
    end TMTC_Job;
 
    ------------------
@@ -128,9 +128,9 @@ package body Probe is
    procedure GNC_Identity is
    begin
       if GNC_Welcome then
-         Put_Line (Normal, "Welcome GNC!");
+         Put_Line ("Welcome GNC!");
       else
-         Put_Line (Normal, "Good bye GNC!");
+         Put_Line ("Good bye GNC!");
       end if;
 
       GNC_Welcome := not GNC_Welcome;
@@ -143,9 +143,9 @@ package body Probe is
    procedure TMTC_Identity is
    begin
       if TMTC_Welcome then
-         Put_Line (Normal, "Welcome TMTC!");
+         Put_Line ("Welcome TMTC!");
       else
-         Put_Line (Normal, "Good bye TMTC!");
+         Put_Line ("Good bye TMTC!");
       end if;
 
       TMTC_Welcome := not TMTC_Welcome;
@@ -161,7 +161,7 @@ package body Probe is
    is
    begin
       Data_Source := Sent_Data;
-      Put_Line (Normal, "Sending Data"
+      Put_Line ("Sending Data"
                 & POS_Internal_Type'Image (Data_Source));
    end Send_Spg;
 
@@ -171,7 +171,7 @@ package body Probe is
 
    procedure Receive_Spg (Data_Sink : POS_Internal_Type) is
    begin
-      Put_Line (Normal, "*** RECEIVED DATA ***"
+      Put_Line ("*** RECEIVED DATA ***"
                 & POS_Internal_Type'Image (Data_Sink));
    end Receive_Spg;
 
