@@ -53,8 +53,9 @@ package body PolyORB_HI.Unprotected_Queue is
 
          pragma Debug (Verbose,
                        Put_Line
-                         (CE + ": Read_Event: read valid event [data] on "
-                            + Thread_Port_Images (P)));
+                         (Entity_Image (Current_Entity),
+                          ": Read_Event: read valid event [data] on ",
+                          Thread_Port_Images (P)));
       end if;
    end Read_Event;
 
@@ -84,10 +85,10 @@ package body PolyORB_HI.Unprotected_Queue is
          --  during the previous dispatches.
 
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Dequeue: Empty queue for "
-                            + Thread_Port_Images (T)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Dequeue: Empty queue for ",
+                          Thread_Port_Images (T)));
 
          P := Get_Most_Recent_Value (T);
 
@@ -96,19 +97,18 @@ package body PolyORB_HI.Unprotected_Queue is
          --  latest received value during the previous dispatches.
 
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Dequeue: NO FIFO for "
-                            + Thread_Port_Images (T)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Dequeue: NO FIFO for ",
+                          Thread_Port_Images (T)));
 
          P := Get_Most_Recent_Value (T);
 
       else
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Dequeue: dequeuing "
-                            + Thread_Port_Images (T)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Dequeue: dequeuing ", Thread_Port_Images (T)));
 
          if First = Last then
             --  Update the value of N_Empties only when this is the
@@ -162,34 +162,33 @@ package body PolyORB_HI.Unprotected_Queue is
          --  latest received value during the previous dispatches.
 
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Read_In: Empty queue for port "
-                            + Thread_Port_Images (T)
-                            + ". Reading the last stored value."));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Read_In: Empty queue for port ",
+                          Thread_Port_Images (T),
+                          ". Reading the last stored value."));
 
          P := Get_Most_Recent_Value (T);
       else
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Read_In: Reading the oldest element in the"
-                            + " queue of port  "
-                            + Thread_Port_Images (T)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Read_In: Reading the oldest element in the",
+                          " queue of port  ", Thread_Port_Images (T)));
 
          P := Global_Data_Queue (First + Offset - 1);
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Read_In: Global reading position: "
-                            + Integer'Image (First + Offset - 1)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Read_In: Global reading position: ",
+                          Integer'Image (First + Offset - 1)));
       end if;
 
       pragma Debug (Verbose,
-                      Put_Line
-                       (CE
-                         + ": Read_In: Value read from port "
-                         + Thread_Port_Images (T)));
+                    Put_Line
+                      (Entity_Image (Current_Entity),
+                       ": Read_In: Value read from port ",
+                       Thread_Port_Images (T)));
       return P;
    end Read_In;
 
@@ -203,10 +202,10 @@ package body PolyORB_HI.Unprotected_Queue is
       --  since we are sending, not receiving.
 
       pragma Debug (Verbose,
-                      Put_Line
-                       (CE
-                         + ": Read_Out: Value read from port "
-                         + Thread_Port_Images (T)));
+                    Put_Line
+                      (Entity_Image (Current_Entity),
+                       ": Read_Out: Value read from port ",
+                       Thread_Port_Images (T)));
 
       return Most_Recent_Values (T);
    end Read_Out;
@@ -227,10 +226,10 @@ package body PolyORB_HI.Unprotected_Queue is
    procedure Set_Invalid (T : Port_Type) is
    begin
       pragma Debug (Verbose,
-                      Put_Line
-                       (CE
-                         + ": Set_Invalid: Setting INVALID for sending: port "
-                         + Thread_Port_Images (T)));
+                    Put_Line
+                      (Entity_Image (Current_Entity),
+                       ": Set_Invalid: Setting INVALID for sending: port ",
+                       Thread_Port_Images (T)));
 
       Value_Put (T) := False;
    end Set_Invalid;
@@ -239,7 +238,9 @@ package body PolyORB_HI.Unprotected_Queue is
    -- Store_In --
    --------------
 
-   procedure Store_In (P : Port_Stream_Entry; T : Time; Not_Empty : out Boolean) is
+   procedure Store_In (P : Port_Stream_Entry;
+                       T : Time;
+                       Not_Empty : out Boolean) is
       Thread_Interface : constant Thread_Interface_Type
         := Stream_To_Interface (P.Payload);
       PT                : Port_Type renames Thread_Interface.Port;
@@ -284,12 +285,11 @@ package body PolyORB_HI.Unprotected_Queue is
                            Global_Data_Queue (First + Offset - 1) := P;
                            pragma Debug
                              (Verbose,
-                                Put_Line
-                                 (CE
-                                   + ": Store_In: FIFO is full."
-                                   + " Dropping oldest element."
-                                   + " Global storage position: "
-                                   + Integer'Image (First + Offset - 1)));
+                              Put_Line
+                                (Entity_Image (Current_Entity),
+                                 ": Store_In: FIFO is full.",
+                                 " Dropping oldest element.",
+                                 Integer'Image (First + Offset - 1)));
 
                            Last := First;
 
@@ -336,12 +336,11 @@ package body PolyORB_HI.Unprotected_Queue is
                            Global_Data_Queue (Last + Offset - 1) := P;
                            pragma Debug
                              (Verbose,
-                                Put_Line
-                                 (CE
-                                   + ": Store_In: FIFO is full."
-                                   + " Dropping newest element"
-                                   + " Global storage position: "
-                                   + Integer'Image (Last + Offset - 1)));
+                              Put_Line
+                                (Entity_Image (Current_Entity),
+                                 ": Store_In: FIFO is full.",
+                                 " Dropping newest element",
+                                 Integer'Image (Last + Offset - 1)));
 
                            --  Search the newest element in the history
 
@@ -367,7 +366,8 @@ package body PolyORB_HI.Unprotected_Queue is
 
                         when Port_Kinds.Error =>
                            Put_Line
-                             (CE + ": Store_In: FIFO is full");
+                             (Entity_Image (Current_Entity),
+                              ": Store_In: FIFO is full");
                            --  XXX SHould raise an exception there !
                      end case;
 
@@ -376,11 +376,11 @@ package body PolyORB_HI.Unprotected_Queue is
 
                      pragma Debug
                        (Verbose,
-                          Put_Line
-                           (CE
-                             + ": Store_In: FIFO is full."
-                             + " Removed element in history at"
-                             + Integer'Image (Frst)));
+                        Put_Line
+                          (Entity_Image (Current_Entity),
+                           ": Store_In: FIFO is full.",
+                           " Removed element in history at",
+                           Integer'Image (Frst)));
 
                      loop
                         exit when Frst = Global_Data_Queue_Size
@@ -420,10 +420,10 @@ package body PolyORB_HI.Unprotected_Queue is
 
                   Global_Data_Queue (Last + Offset - 1) := P;
                   pragma Debug (Verbose,
-                                  Put_Line
-                                   (CE
-                                     + ": Store_In: Global storage position: "
-                                     + Integer'Image (Last + Offset - 1)));
+                                Put_Line
+                                  (Entity_Image (Current_Entity),
+                                   ": Store_In: Global storage position: ",
+                                   Integer'Image (Last + Offset - 1)));
 
                end if;
 
@@ -482,19 +482,19 @@ package body PolyORB_HI.Unprotected_Queue is
                      --  The modulo avoids warning when accessing
                      --  GDH (1) while Queue_Size = 0
                      pragma Debug (Verbose,
-                                     Put_Line
-                                      (CE
-                                        + ": Store_In: Insert event"
-                                        + " in history at: "
-                                        + Integer'Image (1)));
+                                   Put_Line
+                                     (Entity_Image (Current_Entity),
+                                      ": Store_In: Insert event",
+                                      " in history at: ",
+                                      Integer'Image (1)));
                   else
                      GDH (Frst + 1) := PT;
                      pragma Debug (Verbose,
-                                     Put_Line
-                                      (CE
-                                        + ": Store_In: Insert event"
-                                        + " in history at: "
-                                        + Integer'Image (Frst + 1)));
+                                   Put_Line
+                                     (Entity_Image (Current_Entity),
+                                      ": Store_In: Insert event",
+                                      " in history at: ",
+                                      Integer'Image (Frst + 1)));
                   end if;
                end;
 
@@ -505,11 +505,11 @@ package body PolyORB_HI.Unprotected_Queue is
             Set_Most_Recent_Value (PT, P, T);
 
             pragma Debug (Verbose,
-                            Put_Line
-                             (CE
-                               + ": Store_In: Enqueued Event [Data] message"
-                               + " for port "
-                               + Thread_Port_Images (PT)));
+                          Put_Line
+                            (Entity_Image (Current_Entity),
+                             ": Store_In: Enqueued Event [Data] message",
+                             " for port ",
+                             Thread_Port_Images (PT)));
 
             --  Update the barrier
 
@@ -522,18 +522,18 @@ package body PolyORB_HI.Unprotected_Queue is
 
       if not Is_Event (P_Kind) then
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Store_In: Storing Data message in DATA port "
-                            + Thread_Port_Images (PT)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Store_In: Storing Data message in DATA port ",
+                          Thread_Port_Images (PT)));
 
          Set_Most_Recent_Value (PT, P, T);
 
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Store_In: Stored Data message in DATA port "
-                            + Thread_Port_Images (PT)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Store_In: Stored Data message in DATA port ",
+                          Thread_Port_Images (PT)));
 
       end if;
    end Store_In;
@@ -548,20 +548,20 @@ package body PolyORB_HI.Unprotected_Queue is
       PT               : Port_Type renames Thread_Interface.Port;
    begin
       pragma Debug (Verbose,
-                      Put_Line
-                       (CE
-                         + ": Store_Out: Storing value for sending: port "
-                         + Thread_Port_Images (PT)));
+                    Put_Line
+                      (Entity_Image (Current_Entity),
+                       ": Store_Out: Storing value for sending: port ",
+                       Thread_Port_Images (PT)));
 
       --  Mark as valid for sending
 
       Value_Put (PT) := True;
 
       pragma Debug (Verbose,
-                      Put_Line
-                       (CE
-                         + ": Store_Out: Value stored for sending: port "
-                         + Thread_Port_Images (PT)));
+                    Put_Line
+                      (Entity_Image (Current_Entity),
+                       ": Store_Out: Value stored for sending: port ",
+                       Thread_Port_Images (PT)));
 
       --  No need to go through the Set_ routine since we are
       --  sending, not receiving.
@@ -591,37 +591,37 @@ package body PolyORB_HI.Unprotected_Queue is
 
       if not Initialized (T) then
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Count: Not initialized port: "
-                            + Thread_Port_Images (T)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Count: Not initialized port: ",
+                          Thread_Port_Images (T)));
 
          return -1;
 
       elsif Is_Empty then
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Count: Empty FIFO for port "
-                            + Thread_Port_Images (T)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Count: Empty FIFO for port ",
+                          Thread_Port_Images (T)));
 
          return 0;
 
       elsif FIFO_Size = 0 then
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Count: No FIFO for port "
-                            + Thread_Port_Images (T)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Count: No FIFO for port ",
+                          Thread_Port_Images (T)));
 
          return 0;
 
       else
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": Count: FIFO exists for port "
-                            + Thread_Port_Images (T)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": Count: FIFO exists for port ",
+                          Thread_Port_Images (T)));
 
          if Last >= First then
             --  First configuration
@@ -666,10 +666,10 @@ package body PolyORB_HI.Unprotected_Queue is
          if Is_Event (P_Kind) then
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: event [data] port "
-                    + Thread_Port_Images (P)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: event [data] port ",
+                  Thread_Port_Images (P)));
 
             S := Most_Recent_Values (P);
          end if;
@@ -680,46 +680,45 @@ package body PolyORB_HI.Unprotected_Queue is
 
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: data port "
-                    + Thread_Port_Images (P)
-                    + ". Immediate connection"));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: data port ",
+                  Thread_Port_Images (P),
+                  ". Immediate connection"));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: First  ="
-                    + Integer'Image (First)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: First  =",
+                  Integer'Image (First)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: Last  = "
-                    + Integer'Image (Last)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: Last  = ",
+                  Integer'Image (Last)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: Offset = "
-                    + Integer'Image (Offset)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: Offset = ",
+                  Integer'Image (Offset)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: Global_Data_Queue_Size = "
-                    + Integer'Image (Global_Data_Queue_Size)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: Global_Data_Queue_Size = ",
+                  Integer'Image (Global_Data_Queue_Size)));
 
             S :=  Global_Data_Queue (First + Offset - 1);
 
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: Most recent value for"
-                    + " data port "
-                    + Thread_Port_Images (P)
-                    + " got. Immediate connection"));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: Most recent value for data port ",
+                   Thread_Port_Images (P), " got. Immediate connection"));
+
          else
             --  Delayed connection: The element indexed by First is
             --  the oldest element and the element indexed by Last
@@ -727,57 +726,58 @@ package body PolyORB_HI.Unprotected_Queue is
 
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: data port "
-                    + Thread_Port_Images (P)
-                    + ". Delayed connection"));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: data port ",
+                  Thread_Port_Images (P),
+                  ". Delayed connection"));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: First  = "
-                    + Integer'Image (First)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: First  = ",
+                  Integer'Image (First)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: Last  = "
-                    + Integer'Image (Last)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: Last  = ",
+                  Integer'Image (Last)));
             pragma Debug (Verbose,
-                          Put_Line (" Offset = " + Integer'Image (Offset)));
+                          Put_Line (" Offset = ", Integer'Image (Offset)));
 
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: Global_Data_Queue_Size = "
-                    + Integer'Image (Global_Data_Queue_Size)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: Global_Data_Queue_Size = ",
+                  Integer'Image (Global_Data_Queue_Size)));
 
             if Time_Stamps (P) <= T then
                pragma Debug
                  (Verbose,
-                    Put_Line
-                     (CE + ": Get_Most_Recent_Value: Getting NEW value"));
+                  Put_Line
+                    (Entity_Image (Current_Entity),
+                     ": Get_Most_Recent_Value: Getting NEW value"));
 
                S := Global_Data_Queue (Last + Offset - 1);
             else
                pragma Debug
                  (Verbose,
-                    Put_Line
-                     (CE + ": Get_Most_Recent_Value: Getting OLD value"));
+                  Put_Line
+                    (Entity_Image (Current_Entity),
+                     ": Get_Most_Recent_Value: Getting OLD value"));
 
                S := Global_Data_Queue (First + Offset - 1);
             end if;
 
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Get_Most_Recent_Value: Most recent value"
-                    + " for data port "
-                    + Thread_Port_Images (P)
-                    + " got. Delayed connection"));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Get_Most_Recent_Value: Most recent value for",
+                  Thread_Port_Images (P),
+                  " got. Delayed connection"));
          end if;
       end if;
 
@@ -812,19 +812,18 @@ package body PolyORB_HI.Unprotected_Queue is
       if Has_Event_Ports then
          if Is_Event (P_Kind) then
             pragma Debug (Verbose,
-                            Put_Line
-                             (CE
-                               + ": Set_Most_Recent_Value: event [data] port "
-                               + Thread_Port_Images (P)));
+                          Put_Line
+                            (Entity_Image (Current_Entity),
+                             ": Set_Most_Recent_Value: event [data] port ",
+                             Thread_Port_Images (P)));
 
             Most_Recent_Values (P) := S;
 
             pragma Debug (Verbose,
-                            Put_Line
-                             (CE
-                               + ": Set_Most_Recent_Value: event [data] port "
-                               + Thread_Port_Images (P)
-                               + ". Done."));
+                          Put_Line
+                            (Entity_Image (Current_Entity),
+                             ": Set_Most_Recent_Value: event [data] port ",
+                             Thread_Port_Images (P), ". Done."));
          end if;
       end if;
       if not Is_Event (P_Kind) then
@@ -835,46 +834,44 @@ package body PolyORB_HI.Unprotected_Queue is
 
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: data port "
-                    + Thread_Port_Images (P)
-                    + ". Immediate connection"));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: data port ",
+                  Thread_Port_Images (P), ". Immediate connection"));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: First  ="
-                    + Integer'Image (First)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: First  =",
+                  Integer'Image (First)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: Last  = "
-                    + Integer'Image (Last)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: Last  = ",
+                  Integer'Image (Last)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: Offset = "
-                    + Integer'Image (Offset)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: Offset = ",
+                  Integer'Image (Offset)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: Global_Data_Queue_Size = "
-                    + Integer'Image (Global_Data_Queue_Size)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: Global_Data_Queue_Size = ",
+                  Integer'Image (Global_Data_Queue_Size)));
 
             Global_Data_Queue (First + Offset - 1) := S;
 
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: Most recent value"
-                    + " for data port "
-                    + Thread_Port_Images (P)
-                    + " set. Immediate connection"));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: Most recent value for ",
+                  Thread_Port_Images (P),
+                  " set. Immediate connection"));
          else
             --  Delayed connection: The element indexed by First must be
             --  the oldest element and the element indexed by Last
@@ -883,33 +880,32 @@ package body PolyORB_HI.Unprotected_Queue is
 
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: data port "
-                    + Thread_Port_Images (P)
-                    + ". Delayed connection"));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: data port ",
+                  Thread_Port_Images (P), ". Delayed connection"));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: First  = "
-                    + Integer'Image (First)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: First  = ",
+                  Integer'Image (First)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: Last  = "
-                    + Integer'Image (Last)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: Last  = ",
+                  Integer'Image (Last)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                 (" Offset = " + Integer'Image (Offset)));
+               Put_Line
+                 (" Offset = ", Integer'Image (Offset)));
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: Global_Data_Queue_Size = "
-                    + Integer'Image (Global_Data_Queue_Size)));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: Global_Data_Queue_Size = ",
+                  Integer'Image (Global_Data_Queue_Size)));
 
             Global_Data_Queue (First + Offset - 1) :=
               Global_Data_Queue (Last + Offset - 1);
@@ -917,12 +913,11 @@ package body PolyORB_HI.Unprotected_Queue is
 
             pragma Debug
               (Verbose,
-                 Put_Line
-                  (CE
-                    + ": Set_Most_Recent_Value: Most recent value"
-                    + " for data port "
-                    + Thread_Port_Images (P)
-                    + " set. Delayed connection"));
+               Put_Line
+                 (Entity_Image (Current_Entity),
+                  ": Set_Most_Recent_Value: Most recent value for",
+                  Thread_Port_Images (P),
+                  " set. Delayed connection"));
          end if;
       end if;
    end Set_Most_Recent_Value;
@@ -934,10 +929,10 @@ package body PolyORB_HI.Unprotected_Queue is
    function Get_Time_Stamp (P : Port_Type) return Time is
    begin
       pragma Debug (Verbose,
-                      Put_Line
-                       (CE
-                         + ": Get_Time_Stamp: port "
-                         + Thread_Port_Images (P)));
+                    Put_Line
+                      (Entity_Image (Current_Entity),
+                       ": Get_Time_Stamp: port ",
+                       Thread_Port_Images (P)));
 
       return Time_Stamps (P);
    end Get_Time_Stamp;
@@ -956,10 +951,9 @@ package body PolyORB_HI.Unprotected_Queue is
          end if;
 
          pragma Debug (Verbose,
-                         Put_Line
-                          (CE
-                            + ": H_Increment_First: F ="
-                            + Integer'Image (F)));
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": H_Increment_First: F =", Integer'Image (F)));
       end if;
    end H_Increment_First;
 
@@ -976,21 +970,12 @@ package body PolyORB_HI.Unprotected_Queue is
             L := Default_Index_Value;
          end if;
 
-      pragma Debug (Verbose,
-                    Put_Line
-                     (CE
-                     + ": H_Increment_Last: L ="
-                     + Integer'Image (L)));
+         pragma Debug (Verbose,
+                       Put_Line
+                         (Entity_Image (Current_Entity),
+                          ": H_Increment_Last: L =", Integer'Image (L)));
+
       end if;
    end H_Increment_Last;
-
-   --------
-   -- CE --
-   --------
-
-   function CE return String is
-   begin
-      return Entity_Image (Current_Entity);
-   end CE;
 
 end PolyORB_HI.Unprotected_Queue;

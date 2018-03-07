@@ -42,9 +42,6 @@ package body PolyORB_HI.Output is
 
    use Ada.Real_Time;
 
-   procedure Unprotected_Put_Line (Text : in String);
-   --  Not thread-safe Put_Line function
-
    procedure Unprotected_Put (Text : in String);
    --  Not thread-safe Put function
 
@@ -54,7 +51,11 @@ package body PolyORB_HI.Output is
 
    package Output_Lock is
 
-      procedure Put_Line (Text : in String);
+      procedure Put_Line (Text : in String;
+                          C1 : in String := "";
+                          C2 : in String := "";
+                          C3 : in String := ""
+                         );
       --  As above but always displays the message
 
       procedure Put (Text : in String);
@@ -69,7 +70,11 @@ package body PolyORB_HI.Output is
 
       procedure Put (Text : in String);
 
-      procedure Put_Line (Text : in String);
+         procedure Put_Line (Text : in String;
+                             C1 : in String := "";
+                             C2 : in String := "";
+                             C3 : in String := ""
+                            );
 
       private
          pragma Priority (System.Priority'Last);
@@ -81,9 +86,23 @@ package body PolyORB_HI.Output is
          -- Put_Line --
          --------------
 
-         procedure Put_Line (Text : in String) is
+         procedure Put_Line (Text : in String;
+                             C1 : in String := "";
+                             C2 : in String := "";
+                             C3 : in String := ""
+                            ) is
          begin
-            Unprotected_Put_Line (Text);
+            Unprotected_Put (Text);
+            if C1 /= "" then
+               Unprotected_Put (C1);
+            end if;
+            if C2 /= "" then
+               Unprotected_Put (C2);
+            end if;
+            if C3 /= "" then
+               Unprotected_Put (C3);
+            end if;
+            PolyORB_HI.Output_Low_Level.New_Line;
          end Put_Line;
 
          ---------
@@ -96,9 +115,13 @@ package body PolyORB_HI.Output is
          end Put;
       end Lock;
 
-      procedure Put_Line (Text : in String) is
+      procedure Put_Line (Text : in String;
+                          C1 : in String := "";
+                          C2 : in String := "";
+                          C3 : in String := ""
+                         ) is
       begin
-         Lock.Put_Line (Text);
+         Lock.Put_Line (Text, C1, C2, C3);
       end Put_Line;
 
       procedure Put (Text : in String) is
@@ -112,9 +135,13 @@ package body PolyORB_HI.Output is
    -- Put_Line --
    --------------
 
-   procedure Put_Line (Text : in String) is
+   procedure Put_Line (Text : in String;
+                       C1 : in String := "";
+                       C2 : in String := "";
+                       C3 : in String := ""
+                      ) is
    begin
-      Output_Lock.Put_Line (Text);
+      Output_Lock.Put_Line (Text, C1, C2, C3);
    end Put_Line;
 
    ---------
@@ -125,16 +152,6 @@ package body PolyORB_HI.Output is
    begin
       Output_Lock.Put (Text);
    end Put;
-
-   --------------------------
-   -- Unprotected_Put_Line --
-   --------------------------
-
-   procedure Unprotected_Put_Line (Text : in String) is
-   begin
-      Unprotected_Put (Text);
-      PolyORB_HI.Output_Low_Level.New_Line;
-   end Unprotected_Put_Line;
 
    ---------------------
    -- Unprotected_Put --
@@ -194,18 +211,5 @@ package body PolyORB_HI.Output is
          Put_Line (Output);
       end if;
    end Dump;
-
-   ---------
-   -- "+" --
-   ---------
-
-   function "+" (S1 : String; S2 : String) return String is
-      S : String (1 .. S1'Length + S2'Length) := (others => ' ');
-   begin
-      S (1 .. S1'Length) := S1 (S1'First .. S1'Last);
-      S (S1'Length + 1 .. S'Last) := S2 (S2'First .. S2'Last);
-
-      return S;
-   end "+";
 
 end PolyORB_HI.Output;

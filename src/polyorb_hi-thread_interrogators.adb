@@ -158,8 +158,9 @@ package body PolyORB_HI.Thread_Interrogators is
 
          pragma Debug
            (Verbose,
-            Put_Line (CE + ": Wait_Event: oldest unread event port = "
-                        + Thread_Port_Images (P)));
+            Put_Line (Entity_Image (Current_Entity),
+                      ": Wait_Event: oldest unread event port = ",
+                       Thread_Port_Images (P)));
       end Wait_Event;
 
       ----------------
@@ -279,16 +280,18 @@ package body PolyORB_HI.Thread_Interrogators is
       Error : Error_Kind := Error_None;
    begin
       pragma Debug (Verbose,
-                    Put_Line (CE + ": Send_Output: port "
-                                + Thread_Port_Images (Port)));
+                    Put_Line (Entity_Image (Current_Entity),
+                              ": Send_Output: port ",
+                              Thread_Port_Images (Port)));
 
       --  If no valid value is to be sent, quit
 
       if Global_Queue.Is_Invalid (Port) then
          pragma Debug (Verbose,
                        Put_Line
-                         (CE + ": Send_Output: Invalid value in port "
-                            + Thread_Port_Images (Port)));
+                         (Entity_Image (Current_Entity),
+                          ": Send_Output: Invalid value in port ",
+                          Thread_Port_Images (Port)));
          null;
       else
          --  Mark the port value as invalid to impede future sendings
@@ -318,10 +321,9 @@ package body PolyORB_HI.Thread_Interrogators is
             pragma Debug
               (Verbose,
                Put_Line
-                 (CE + ": Send_Output: to port "
-                    + PolyORB_HI_Generated.Deployment.Port_Image (Dst (To))
-                    + " of "
-                    + Entity_Image (Port_Table (Dst (To)))));
+                 (Entity_Image (Current_Entity), ": Send_Output: to port ",
+                  PolyORB_HI_Generated.Deployment.Port_Image (Dst (To)),
+                  Entity_Image (Port_Table (Dst (To)))));
 
             Error := Send (Current_Entity, Port_Table (Dst (To)), Message);
             PolyORB_HI.Messages.Reallocate (Message);
@@ -333,9 +335,9 @@ package body PolyORB_HI.Thread_Interrogators is
 
          pragma Debug (Verbose,
                        Put_Line
-                         (CE + ": Send_Output: port "
-                            + Thread_Port_Images (Port)
-                            + ". End."));
+                         (Entity_Image (Current_Entity), ": Send_Output: port ",
+                          Thread_Port_Images (Port),
+                          ". End."));
       end if;
 
       return Error;
@@ -347,7 +349,8 @@ package body PolyORB_HI.Thread_Interrogators is
 
    procedure Put_Value (Thread_Interface : Thread_Interface_Type) is
    begin
-      pragma Debug  (Verbose, Put_Line (CE + ": Put_Value"));
+      pragma Debug  (Verbose, Put_Line (Entity_Image (Current_Entity),
+                                        ": Put_Value"));
 
       Global_Queue.Store_Out
         ((Current_Entity, Interface_To_Stream (Thread_Interface)),
@@ -373,9 +376,9 @@ package body PolyORB_HI.Thread_Interrogators is
       T_Port : constant Thread_Interface_Type := Stream_To_Interface (Stream);
    begin
       pragma Debug (Verbose,
-                    Put_Line (CE + ": Get_Value: Value of port "
-                                + Thread_Port_Images (Port)
-                                + " got"));
+                    Put_Line (Entity_Image (Current_Entity),
+                              ": Get_Value: Value of port ",
+                              Thread_Port_Images (Port), " got"));
       return T_Port;
    end Get_Value;
 
@@ -387,10 +390,11 @@ package body PolyORB_HI.Thread_Interrogators is
       Sender : constant Entity_Type := Global_Queue.Read_In (Port).From;
    begin
       pragma Debug (Verbose,
-                    Put_Line (CE + ": Get_Sender: Value of sender to port "
-                                + Thread_Port_Images (Port)
-                                + " = "
-                                + Entity_Image (Sender)));
+                    Put_Line (Entity_Image (Current_Entity),
+                              ": Get_Sender: Value of sender to port ",
+                              Thread_Port_Images (Port),
+                              Entity_Image (Sender)));
+
       return Sender;
    end Get_Sender;
 
@@ -403,10 +407,9 @@ package body PolyORB_HI.Thread_Interrogators is
    begin
       pragma Debug (Verbose,
                     Put_Line
-                      (CE + ": Get_Count: port "
-                      + Thread_Port_Images (Port)
-                      + " ="
-                      + Integer'Image (Count)));
+                      (Entity_Image (Current_Entity), ": Get_Count: port ",
+                       Thread_Port_Images (Port),
+                       Integer'Image (Count)));
 
       return Count;
    end Get_Count;
@@ -419,10 +422,11 @@ package body PolyORB_HI.Thread_Interrogators is
       P : Port_Stream_Entry;
    begin
       pragma Debug (Verbose,
-                    Put_Line (CE + ": Next_Value for port "
-                    + Thread_Port_Images (Port)));
+                    Put_Line (Entity_Image (Current_Entity),
+                              ": Next_Value for port ",
+                              Thread_Port_Images (Port)));
 
-   Global_Queue.Dequeue (Port, P);
+      Global_Queue.Dequeue (Port, P);
    end Next_Value;
 
    ------------------------------
@@ -431,15 +435,16 @@ package body PolyORB_HI.Thread_Interrogators is
 
    procedure Wait_For_Incoming_Events (Port : out Port_Type) is
    begin
-      pragma Debug  (Verbose, Put_Line (CE + ": Wait_For_Incoming_Events"));
+      pragma Debug  (Verbose, Put_Line (Entity_Image (Current_Entity),
+                                        ": Wait_For_Incoming_Events"));
 
       Global_Queue.Wait_Event (Port);
 
       pragma Debug (Verbose,
-                    Put_Line (CE
-                                + ": Wait_For_Incoming_Events: reception of"
-                                + " event [Data] message on port "
-                                + Thread_Port_Images (Port)));
+                    Put_Line (Entity_Image (Current_Entity),
+                              ": Wait_For_Incoming_Events: reception of",
+                              " event [Data] message on port ",
+                              Thread_Port_Images (Port)));
    end Wait_For_Incoming_Events;
 
    --------------------
@@ -456,15 +461,16 @@ package body PolyORB_HI.Thread_Interrogators is
       if Valid then
          pragma Debug (Verbose,
                        Put_Line
-                         (CE
-                            + ": Get_Next_Event: read event [data] message"
-                            + " for port "
-                            + Thread_Port_Images (Port)));
+                         (Entity_Image (Current_Entity),
+                          ": Get_Next_Event: read event [data] message",
+                          " for port ", Thread_Port_Images (Port)));
+
          null;
       else
          pragma Debug (Verbose,
                        Put_Line
-                         (CE + ": Get_Next_Event: Nothing to read."));
+                         (Entity_Image (Current_Entity),
+                          ": Get_Next_Event: Nothing to read."));
          null;
       end if;
    end Get_Next_Event;
@@ -479,7 +485,9 @@ package body PolyORB_HI.Thread_Interrogators is
       Time_Stamp       : Ada.Real_Time.Time    := Ada.Real_Time.Clock)
    is
    begin
-      pragma Debug (Verbose, Put_Line (CE + ": Store_Received_Message"));
+      pragma Debug (Verbose,
+                    Put_Line (Entity_Image (Current_Entity),
+                              ": Store_Received_Message"));
 
       Global_Queue.Store_In
         ((From, Interface_To_Stream (Thread_Interface)), Time_Stamp);

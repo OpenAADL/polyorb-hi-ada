@@ -160,8 +160,8 @@ package body PolyORB_HI.Transport_Low_Level is
          Listen_Socket (Nodes (My_Node).Socket_Receive);
 
          pragma Debug (Verbose,
-                       Put_Line ("Local socket created for "
-                            + Image (Nodes (My_Node).Address)));
+                       Put_Line ("Local socket created for ",
+                                 Image (Nodes (My_Node).Address)));
       end if;
 
       --  Start the protocol handler task
@@ -180,8 +180,8 @@ package body PolyORB_HI.Transport_Low_Level is
                Next_Time := Clock + Milliseconds (200);
                begin
                   pragma Debug (Verbose,
-                                Put_Line ("Try to connect to "
-                                            + Image (Nodes (N).Address)));
+                                Put_Line ("Try to connect to ",
+                                          Image (Nodes (N).Address)));
 
                   delay until Next_Time;
 
@@ -199,8 +199,8 @@ package body PolyORB_HI.Transport_Low_Level is
             Send_Socket (Nodes (N).Socket_Send, SEC, SEO);
 
             pragma Debug (Verbose,
-                          Put_Line ("Connected to "
-                                      + Image (Nodes (N).Address)));
+                          Put_Line ("Connected to ",
+                                    Image (Nodes (N).Address)));
 
          end if;
       end loop;
@@ -208,8 +208,8 @@ package body PolyORB_HI.Transport_Low_Level is
       Suspend_Until_True (Other_Nodes_Init);
 
       pragma Debug (Verbose,
-                    Put_Line ("Initialization of socket subsystem"
-                                + " is complete"));
+                    Put_Line
+                      ("Initialization of socket subsystem is complete"));
 
       --  Unblock the receiver task
 
@@ -247,8 +247,8 @@ package body PolyORB_HI.Transport_Low_Level is
 
       if Nodes (My_Node).Address.Addr /= No_Inet_Addr then
          pragma Debug (Verbose,
-                       Put_Line ("Waiting on "
-                                   + Image (Nodes (My_Node).Address)));
+                       Put_Line ("Waiting on ",
+                                 Image (Nodes (My_Node).Address)));
 
          for N in Nodes'Range loop
             if N /= My_Node then
@@ -266,8 +266,8 @@ package body PolyORB_HI.Transport_Low_Level is
                Node := Corresponding_Node (Unsigned_8 (SEC (SEC'First)));
                Nodes (Node).Socket_Receive := Socket;
                pragma Debug (Verbose,
-                             Put_Line ("Connection from node "
-                                         + Node_Image (Node)));
+                             Put_Line ("Connection from node ",
+                                       Node_Image (Node)));
             end if;
          end loop;
       end if;
@@ -308,24 +308,25 @@ package body PolyORB_HI.Transport_Low_Level is
 
                Receive_Socket (Nodes (N).Socket_Receive, SEL, SEO);
                pragma Debug (Verbose,
-                             Put_Line ("SEL " + SEL'Length'Img
-                                         + "MLS" + Message_Length_Size'Img));
+                             Put_Line ("SEL ", SEL'Length'Img,
+                                        "MLS", Message_Length_Size'Img));
                --  Receiving zero byte means that peer is dead
 
                if SEO = 0 then
                   pragma Debug (Verbose,
-                                Put_Line ("Node " + Node_Image (N)
-                                            + " is dead"));
+                                Put_Line
+                                  ("Node ", Node_Image (N), " is dead"));
+
                   exit Main_Loop;
                end if;
 
                SEO := AS.Stream_Element_Offset
                  (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
                pragma Debug (Verbose,
-                             Put_Line ("received"
-                                         + AS.Stream_Element_Offset'Image (SEO)
-                                         + " bytes from node "
-                                         + Node_Image (N)));
+                             Put_Line ("received",
+                                       AS.Stream_Element_Offset'Image (SEO),
+                                       " bytes from node ",
+                                       Node_Image (N)));
 
                --  Get the message and preserve message length to keep
                --  compatible with a local message delivery.
@@ -348,11 +349,11 @@ package body PolyORB_HI.Transport_Low_Level is
    exception
       when E : others =>
          pragma Debug (Normal,
-                       Put_Line ("Exception "
-                                   + Ada.Exceptions.Exception_Name (E)));
+                       Put_Line ("Exception ",
+                                 Ada.Exceptions.Exception_Name (E)));
          pragma Debug (Normal,
-                       Put_Line ("Message "
-                                   + Ada.Exceptions.Exception_Message (E)));
+                       Put_Line ("Message ",
+                                 Ada.Exceptions.Exception_Message (E)));
          null;
    end Receiver_Task;
 
@@ -376,18 +377,18 @@ package body PolyORB_HI.Transport_Low_Level is
       for Msg'Address use Message'Address;
 
    begin
-      pragma Debug (Verbose, Put_Line ("Sending message, size:" + L'Img));
+      pragma Debug (Verbose, Put_Line ("Sending message, size:", L'Img));
       Send_Socket (Nodes (Node).Socket_Send, Msg, L);
 
       return Error_Kind'(Error_None);
    exception
       when E : others =>
          pragma Debug (Normal,
-                       Put_Line ("Exception "
-                                   + Ada.Exceptions.Exception_Name (E)));
+                       Put_Line ("Exception ",
+                                 Ada.Exceptions.Exception_Name (E)));
          pragma Debug (Normal,
-                       Put_Line ("Message "
-                                   + Ada.Exceptions.Exception_Message (E)));
+                       Put_Line ("Message ",
+                                 Ada.Exceptions.Exception_Message (E)));
       return Error_Kind'(Error_Transport);
    end Send;
 

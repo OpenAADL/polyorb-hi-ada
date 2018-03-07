@@ -59,21 +59,17 @@ package body PolyORB_HI.Null_Task is
       pragma Debug
         (Put_Line
          (Verbose,
-          "Null Task "
-          + Entity_Image (Entity)
-          + ": Wait initialization"));
+          "Null Task ", Entity_Image (Entity), ": Wait initialization"));
 
       pragma Debug (Put_Line
                     (Verbose,
-                     "Null task initialized for entity "
-                     + Entity_Image (Entity)));
+                     "Null task initialized for entity ",
+                     Entity_Image (Entity)));
 
       pragma Debug
         (Put_Line
-         (Verbose,
-          "Null Task "
-            + Entity_Image (Entity)
-            + ": Run job"));
+           (Verbose,
+            "Null Task ", Entity_Image (Entity), ": Run job"));
 
       Job (Error);
 

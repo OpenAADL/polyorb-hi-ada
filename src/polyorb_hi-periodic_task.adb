@@ -65,9 +65,9 @@ package body PolyORB_HI.Periodic_Task is
       --  Wait for the network initialization to be finished
 
       pragma Debug (Verbose,
-                    Put_Line ("Periodic Task "
-                                + Entity_Image (Entity)
-                                + ": Wait initialization"));
+                    Put_Line ("Periodic Task ",
+                              Entity_Image (Entity),
+                              ": Wait initialization"));
 
       Block_Task (Entity);
       Next_Start := System_Startup_Time + Dispatch_Offset;
@@ -82,8 +82,9 @@ package body PolyORB_HI.Periodic_Task is
 
       loop
          pragma Debug (Verbose,
-                       Put_Line ("Periodic Task "
-                                   + Entity_Image (Entity) + ": New Cycle"));
+                       Put_Line ("Periodic Task ",
+                                 Entity_Image (Entity),
+                                 ": New Cycle"));
 
          --  Execute the task's job
 
@@ -101,8 +102,9 @@ package body PolyORB_HI.Periodic_Task is
          --                 Duration'Image (To_Duration (Next_Start - T)));
          --  end if;
          pragma Debug (Verbose,
-                       Put_Line ("Periodic Task " + Entity_Image (Entity)
-                                   + ": End of Cycle"));
+                       Put_Line ("Periodic Task ",
+                                 Entity_Image (Entity),
+                                 ": End of Cycle"));
 
          delay until Next_Start;
          Next_Start        := Next_Start + Task_Period;

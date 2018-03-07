@@ -59,34 +59,34 @@ package body PolyORB_HI.Aperiodic_Task is
       --  Wait for the network initialization to be finished
 
       pragma Debug (Verbose,
-                    Put_Line ("Aperiodic Task "
-                                + Entity_Image (Entity)
-                                + ": Wait initialization"));
+                    Put_Line ("Aperiodic Task ",
+                              Entity_Image (Entity),
+                              ": Wait initialization"));
 
       Suspend_Until_True (Task_Suspension_Objects (Entity));
       delay until System_Startup_Time;
 
       pragma Debug (Verbose,
-                    Put_Line ("Aperiodic task initialized for entity "
-                                + Entity_Image (Entity)));
+                    Put_Line ("Aperiodic task initialized for entity ",
+                              Entity_Image (Entity)));
 
 
       --  Main task loop
 
       loop
          pragma Debug (Verbose,
-                       Put_Line ("Aperiodic Task "
-                                   + Entity_Image (Entity)
-                                   + ": New Dispatch"));
+                       Put_Line ("Aperiodic Task ",
+                                 Entity_Image (Entity),
+                                 ": New Dispatch"));
 
          --  Block until an event is received
 
          Wait_For_Incoming_Events (Entity, Port);
 
          pragma Debug (Verbose,
-                       Put_Line ("Aperiodic Task "
-                                   + Entity_Image (Entity)
-                                   + ": received event"));
+                       Put_Line ("Aperiodic Task ",
+                                  Entity_Image (Entity),
+                                 ": received event"));
 
          --  Execute the job
 

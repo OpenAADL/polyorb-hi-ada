@@ -60,7 +60,11 @@ package PolyORB_HI.Output is
    Normal : constant Boolean := Current_Mode >= Normal_L;
    Error : constant Boolean := Current_Mode >= Error_L;
 
-   procedure Put_Line (Text : in String);
+   procedure Put_Line (Text : in String;
+                       C1 : in String := "";
+                       C2 : in String := "";
+                       C3 : in String := ""
+                      );
    --  As above but always displays the message
 
    procedure Put (Text : in String);
@@ -69,8 +73,6 @@ package PolyORB_HI.Output is
    procedure Dump (Stream : Stream_Element_Array;
                    Mode : Verbosity := Verbose_L);
    --  Dump the content of Stream in an hexadecimal format
-
-   function "+" (S1 : String; S2 : String) return String;
 
 private
 

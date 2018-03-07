@@ -66,33 +66,33 @@ package body PolyORB_HI.Sporadic_Task is
 
       pragma Debug
         (Verbose,
-         Put_Line ("Sporadic Task "
-                     + Entity_Image (Entity)
-                     + ": Wait initialization"));
+         Put_Line ("Sporadic Task ",
+                   Entity_Image (Entity),
+                   ": Wait initialization"));
 
       Block_Task (Entity);
       delay until System_Startup_Time;
 
       pragma Debug (Verbose,
-                    Put_Line ("Sporadic task initialized for entity "
-                                + Entity_Image (Entity)));
+                    Put_Line ("Sporadic task initialized for entity ",
+                              Entity_Image (Entity)));
 
       --  Main task loop
 
       loop
          pragma Debug (Verbose,
-                       Put_Line ("Sporadic Task "
-                                   + Entity_Image (Entity)
-                                   + ": New Dispatch"));
+                       Put_Line ("Sporadic Task ",
+                                 Entity_Image (Entity),
+                                 ": New Dispatch"));
 
          --  Block until an event is received
 
          Wait_For_Incoming_Events (Entity, Port);
 
          pragma Debug (Verbose,
-                       Put_Line ("Sporadic Task "
-                                   + Entity_Image (Entity)
-                                   + ": received event"));
+                       Put_Line ("Sporadic Task ",
+                                 Entity_Image (Entity),
+                                 ": received event"));
 
          --  Calculate the next start time according to the minimal
          --  inter-arrival time.
