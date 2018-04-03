@@ -56,9 +56,9 @@ package PolyORB_HI.Output is
    Current_Mode : constant Verbosity := Normal_L;
    --  Curent debug level
 
-   Verbose : constant Boolean := Current_Mode >= Verbose_L;
-   Normal : constant Boolean := Current_Mode >= Normal_L;
-   Error : constant Boolean := Current_Mode >= Error_L;
+   Verbose : constant Boolean := Current_Mode = Verbose_L;
+   Normal : constant Boolean := Current_Mode <= Normal_L;
+   Error : constant Boolean := Current_Mode <= Error_L;
 
    procedure Put_Line (Text : in String;
                        C1 : in String := "";
