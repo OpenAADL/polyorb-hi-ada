@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                     Copyright (C) 2015 ESA & ISAE.                       --
+--                   Copyright (C) 2015-2018 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -44,7 +44,7 @@ package body Ping is
    procedure Do_Ping_Spg (Data_Source : out Simple_Type) is
    begin
       Data_Source := Var;
-      Put_Line (Normal, "Sending ORDER: " & Simple_Type'Image (Var));
+      Put_Line ("Sending ORDER: " & Simple_Type'Image (Var));
       Var := Var + 1;
    end Do_Ping_Spg;
 

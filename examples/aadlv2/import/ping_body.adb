@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2015 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2018 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -76,7 +76,7 @@ package body Ping is
    begin
       Var := Var + 1;
       Data_Source := Var;
-      Put_Line (Normal, "Sending PING" & Image (Var));
+      Put_Line ("Sending PING" & Image (Var));
    end Do_Ping_Spg;
 
 end Ping;

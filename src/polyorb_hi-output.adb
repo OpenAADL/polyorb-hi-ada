@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -42,9 +42,6 @@ package body PolyORB_HI.Output is
 
    use Ada.Real_Time;
 
-   procedure Unprotected_Put_Line (Text : in String);
-   --  Not thread-safe Put_Line function
-
    procedure Unprotected_Put (Text : in String);
    --  Not thread-safe Put function
 
@@ -54,7 +51,11 @@ package body PolyORB_HI.Output is
 
    package Output_Lock is
 
-      procedure Put_Line (Text : in String);
+      procedure Put_Line (Text : in String;
+                          C1 : in String := "";
+                          C2 : in String := "";
+                          C3 : in String := ""
+                         );
       --  As above but always displays the message
 
       procedure Put (Text : in String);
@@ -69,7 +70,11 @@ package body PolyORB_HI.Output is
 
       procedure Put (Text : in String);
 
-      procedure Put_Line (Text : in String);
+         procedure Put_Line (Text : in String;
+                             C1 : in String := "";
+                             C2 : in String := "";
+                             C3 : in String := ""
+                            );
 
       private
          pragma Priority (System.Priority'Last);
@@ -81,9 +86,23 @@ package body PolyORB_HI.Output is
          -- Put_Line --
          --------------
 
-         procedure Put_Line (Text : in String) is
+         procedure Put_Line (Text : in String;
+                             C1 : in String := "";
+                             C2 : in String := "";
+                             C3 : in String := ""
+                            ) is
          begin
-            Unprotected_Put_Line (Text);
+            Unprotected_Put (Text);
+            if C1 /= "" then
+               Unprotected_Put (C1);
+            end if;
+            if C2 /= "" then
+               Unprotected_Put (C2);
+            end if;
+            if C3 /= "" then
+               Unprotected_Put (C3);
+            end if;
+            PolyORB_HI.Output_Low_Level.New_Line;
          end Put_Line;
 
          ---------
@@ -96,9 +115,13 @@ package body PolyORB_HI.Output is
          end Put;
       end Lock;
 
-      procedure Put_Line (Text : in String) is
+      procedure Put_Line (Text : in String;
+                          C1 : in String := "";
+                          C2 : in String := "";
+                          C3 : in String := ""
+                         ) is
       begin
-         Lock.Put_Line (Text);
+         Lock.Put_Line (Text, C1, C2, C3);
       end Put_Line;
 
       procedure Put (Text : in String) is
@@ -112,55 +135,23 @@ package body PolyORB_HI.Output is
    -- Put_Line --
    --------------
 
-   procedure Put_Line (Mode : in Verbosity := Normal; Text : in String) is
+   procedure Put_Line (Text : in String;
+                       C1 : in String := "";
+                       C2 : in String := "";
+                       C3 : in String := ""
+                      ) is
    begin
-      pragma Warnings (Off);
-      --  Disable warnings on "Condition always true/false" because
-      --  Current_Mode is a constant.
-
-      if Mode >= Current_Mode then
-         pragma Warnings (On);
-         Put_Line (Text);
-      end if;
-
-   end Put_Line;
-
-   procedure Put_Line (Text : in String) is
-   begin
-      Output_Lock.Put_Line (Text);
+      Output_Lock.Put_Line (Text, C1, C2, C3);
    end Put_Line;
 
    ---------
    -- Put --
    ---------
 
-   procedure Put (Mode : in Verbosity := Normal; Text : in String) is
-   begin
-      pragma Warnings (Off);
-      --  Disable warnings on "Condition always true/false" because
-      --  Current_Mode is a constant.
-
-      if Mode >= Current_Mode then
-         pragma Warnings (On);
-         Put (Text);
-      end if;
-
-   end Put;
-
    procedure Put (Text : in String) is
    begin
       Output_Lock.Put (Text);
    end Put;
-
-   --------------------------
-   -- Unprotected_Put_Line --
-   --------------------------
-
-   procedure Unprotected_Put_Line (Text : in String) is
-   begin
-      Unprotected_Put (Text);
-      PolyORB_HI.Output_Low_Level.New_Line;
-   end Unprotected_Put_Line;
 
    ---------------------
    -- Unprotected_Put --
@@ -198,38 +189,27 @@ package body PolyORB_HI.Output is
 
    procedure Dump
      (Stream : Stream_Element_Array;
-      Mode   : Verbosity            := Verbose)
+      Mode   : Verbosity            := Verbose_L)
    is
       Index   : Output_Position := Output_Position'First;
       Output  : Output_Line := Nil;
    begin
-      for J in Stream'Range loop
-         if Index + 3 <= Output'Last then
-            Output (Index)     := ' ';
-            Output (Index + 1) := Hex (Natural (Stream (J) / 16));
-            Output (Index + 2) := Hex (Natural (Stream (J) mod 16));
-            Index := Index + 3;
-         else
-            Put_Line (Mode, Output);
-            Index := 1;
-            Output := Nil;
-         end if;
-      end loop;
+      if Current_Mode >= Mode then
+         for J in Stream'Range loop
+            if Index + 3 <= Output'Last then
+               Output (Index)     := ' ';
+               Output (Index + 1) := Hex (Natural (Stream (J) / 16));
+               Output (Index + 2) := Hex (Natural (Stream (J) mod 16));
+               Index := Index + 3;
+            else
+               Put_Line (Output);
+               Index := 1;
+               Output := Nil;
+            end if;
+         end loop;
 
-      Put_Line (Mode,  Output);
+         Put_Line (Output);
+      end if;
    end Dump;
-
-   ---------
-   -- "+" --
-   ---------
-
-   function "+" (S1 : String; S2 : String) return String is
-      S : String (1 .. S1'Length + S2'Length) := (others => ' ');
-   begin
-      S (1 .. S1'Length) := S1 (S1'First .. S1'Last);
-      S (S1'Length + 1 .. S'Last) := S2 (S2'First .. S2'Last);
-
-      return S;
-   end "+";
 
 end PolyORB_HI.Output;

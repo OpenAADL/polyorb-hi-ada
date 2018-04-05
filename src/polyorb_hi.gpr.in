@@ -80,7 +80,7 @@ project PolyORB_HI is
                       );
 
    Analyze_Options := (
-		       "-g",        --  Debug information
+                       "-g",        --  Debug information
                        "-O1",       --  Optimisation level 1
                        "-gnatp"   --  Suppress all checks
                       );
@@ -117,7 +117,7 @@ project PolyORB_HI is
          when "Release" =>
             for Default_Switches ("Ada") use Common_Options & Release_Options;
 
-	 when "Analyzable" =>
+         when "Analyzable" =>
             for Default_Switches ("Ada") use Common_Options & Analyze_Options;
        end case;
 
@@ -183,12 +183,12 @@ project PolyORB_HI is
 
                   for Default_Switches ("ada") use ("-g", "-Wl,--gc-sections");
 
-	        when others =>
+                when others =>
                   for Default_Switches ("ada") use ("-g");
             end case;
 
          when "Release" | "Analyzable" =>
-	     null;
+             null;
       end case;
    end Linker;
 

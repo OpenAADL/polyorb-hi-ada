@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2015 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2018 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -54,29 +54,23 @@ package body PolyORB_HI.Background_Task is
 
       --  Wait for the network initialization to be finished
 
-      pragma Debug
-        (Put_Line
-         (Verbose,
-          "Background Task "
-          + Entity_Image (Entity)
-          + ": Wait initialization"));
+      pragma Debug (Verbose,
+                    Put_Line ("Background Task ",
+                              Entity_Image (Entity),
+                              ": Wait initialization"));
 
       Block_Task (Entity);
       delay until System_Startup_Time;
 
-      pragma Debug (Put_Line
-                    (Verbose,
-                     "Background task initialized for entity "
-                     + Entity_Image (Entity)));
+      pragma Debug (Verbose,
+                    Put_Line ("Background task initialized for entity ",
+                              Entity_Image (Entity)));
 
-      pragma Debug
-        (Put_Line
-         (Verbose,
-          "Background Task "
-            + Entity_Image (Entity)
-            + ": Run job"));
+      pragma Debug (Verbose,
+                    Put_Line  ("Background Task ", Entity_Image (Entity),
+                               ": Run job"));
 
-      Error := Job;
+      Job (Error);
 
       if Error /= Error_None then
          Recover_Entrypoint;

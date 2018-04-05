@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2008-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2008-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -51,7 +51,7 @@ package body Ping is
    begin
       Order := not Order;
       Data_Source := Order;
-      Put_Line (Normal, "Sending ORDER: " & Opaque_Type'Image (Order));
+      Put_Line ("Sending ORDER: " & Opaque_Type'Image (Order));
    end Do_Ping_Spg;
 
    --------------------
@@ -63,10 +63,10 @@ package body Ping is
       Data_Source : out Simple_type)
    is
    begin
-      Put_Line (Normal, "ORDER: " & Opaque_Type'Image (Data_Sink));
+      Put_Line ("ORDER: " & Opaque_Type'Image (Data_Sink));
 
       Var := Var + 1;
-      Put_Line (Normal, "Sending (+1) PING" & Simple_Type'Image (Var));
+      Put_Line ("Sending (+1) PING" & Simple_Type'Image (Var));
 
       Data_Source := Var;
    end Do_Convert_Spg;
@@ -80,10 +80,10 @@ package body Ping is
       Data_Source : out Simple_type)
    is
    begin
-      Put_Line (Normal, "ORDER: " & Opaque_Type'Image (Data_Sink));
+      Put_Line ("ORDER: " & Opaque_Type'Image (Data_Sink));
 
       Var2 := Var2 + 5;
-      Put_Line (Normal, "Sending (+5) PING" & Simple_Type'Image (Var2));
+      Put_Line ("Sending (+5) PING" & Simple_Type'Image (Var2));
 
       Data_Source := Var2;
    end Do_Convert_Spg2;

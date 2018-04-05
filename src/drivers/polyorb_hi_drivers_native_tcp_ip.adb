@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                   Copyright (C) 2012-2015 ESA & ISAE.                    --
+--                   Copyright (C) 2012-2018 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -192,10 +192,10 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
             Nodes (My_Node).Address);
          Listen_Socket (Nodes (My_Node).Socket_Receive);
 
-         pragma Debug (Put_Line
-                       (Verbose,
-                        "Local socket created for "
-                        & Image (Nodes (My_Node).Address)));
+         pragma Debug (Verbose,
+                       Put_Line
+                         ("Local socket created for "
+                            & Image (Nodes (My_Node).Address)));
       end if;
 
       --  Connect to other nodes and send my node id
@@ -209,10 +209,10 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
 
                Next_Time := Clock + Milliseconds (200);
                begin
-                  pragma Debug
-                    (Put_Line
-                     (Verbose,
-                      "Try to connect to " & Image (Nodes (N).Address)));
+                  pragma Debug (Verbose,
+                                Put_Line
+                                  ("Try to connect to "
+                                     & Image (Nodes (N).Address)));
 
                   delay until Next_Time;
 
@@ -229,23 +229,23 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
             SEC (1) := AS.Stream_Element (Internal_Code (My_Node));
             Send_Socket (Nodes (N).Socket_Send, SEC, SEO);
 
-            pragma Debug (Put_Line
-                            (Verbose,
-                             "Connected to " & Image (Nodes (N).Address)));
+            pragma Debug (Verbose,
+                          Put_Line
+                            ("Connected to " & Image (Nodes (N).Address)));
          end if;
       end loop;
 
       Initialize_Receiver;
-      pragma Debug (Put_Line (Verbose, "Initialization of socket subsystem"
+      pragma Debug (Verbose, Put_Line ("Initialization of socket subsystem"
                               & " is complete"));
    exception
       when E : others =>
-         pragma Debug (Put_Line
-                       (Normal, "Exception "
-                        & Ada.Exceptions.Exception_Name (E)));
-         pragma Debug (Put_Line
-                       (Normal, "Message "
-                        & Ada.Exceptions.Exception_Message (E)));
+         pragma Debug (PolyORB_HI.Output.Error, Put_Line
+                         ("Exception "
+                            & Ada.Exceptions.Exception_Name (E)));
+         pragma Debug (PolyORB_HI.Output.Error, Put_Line
+                         ("Message "
+                            & Ada.Exceptions.Exception_Message (E)));
       null;
    end Initialize;
 
@@ -263,8 +263,8 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
       --  Wait for the connection of all the other nodes.
 
       if Nodes (My_Node).Address.Addr /= No_Inet_Addr then
-         pragma Debug (Put_Line
-                       (Verbose, "Waiting on "
+         pragma Debug (Verbose, Put_Line
+                       ("Waiting on "
                         & Image (Nodes (My_Node).Address)));
 
          for N in Nodes'Range loop
@@ -278,7 +278,7 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
 
                Node := Corresponding_Node (Unsigned_8 (SEC (SEC'First)));
                Nodes (Node).Socket_Receive := Socket;
-               pragma Debug (Put_Line (Verbose, "Connection from node "
+               pragma Debug (Verbose, Put_Line ("Connection from node "
                                        & Node_Type'Image (Node)));
             end if;
          end loop;
@@ -307,16 +307,14 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
 
       Main_Loop :
       loop
-         pragma Debug (Put_Line (Verbose, "****"));
-
          --  Build the socket descriptor set
 
          Empty (R_Sockets);
          for N in Node_Type'Range loop
             if N /= My_Node then
                Set (R_Sockets, Nodes (N).Socket_Receive);
-               pragma Debug (Put_Line (Verbose, "Will wait on " &
-                                       Image (Nodes (N).Address)));
+               pragma Debug (Verbose, Put_Line ("Will wait on " &
+                                                  Image (Nodes (N).Address)));
             end if;
          end loop;
 
@@ -324,7 +322,7 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
          Check_Selector (Selector, R_Sockets, W_Sockets, Status);
 
          for N in Node_Type'Range loop
-            pragma Debug (Put_Line (Verbose, "Check mailboxes"));
+            pragma Debug (Verbose, Put_Line ("Check mailboxes"));
 
             --  If there is something to read on a node different from
             --  the current node.
@@ -339,18 +337,16 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
                --  Receive zero bytes means that peer is dead
 
                if SEO = 0 then
-                  pragma Debug (Put_Line
-                                  (Verbose,
-                                   "Node " & Node_Type'Image (N)
+                  pragma Debug (Verbose, Put_Line
+                                  ("Node " & Node_Type'Image (N)
                                    & " is dead"));
                   exit Main_Loop;
                end if;
 
                SEO := AS.Stream_Element_Offset
                  (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
-               pragma Debug (Put_Line
-                               (Verbose,
-                                "received"
+               pragma Debug (Verbose, Put_Line
+                               ("received"
                                 & AS.Stream_Element_Offset'Image (SEO)
                                 & " bytes from node " & Node_Type'Image (N)));
 
@@ -374,11 +370,11 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
 
    exception
       when E : others =>
-         pragma Debug (Put_Line
-                       (Normal, "Exception "
+         pragma Debug (PolyORB_HI.Output.Error, Put_Line
+                       ("Exception "
                         & Ada.Exceptions.Exception_Name (E)));
-         pragma Debug (Put_Line
-                       (Normal, "Message "
+         pragma Debug (PolyORB_HI.Output.Error, Put_Line
+                       ("Message "
                         & Ada.Exceptions.Exception_Message (E)));
       null;
    end Receive;
@@ -411,12 +407,12 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
       return Error_Kind'(Error_None);
    exception
       when E : others =>
-         pragma Debug (Put_Line
-                       (Normal, "Exception "
-                          & Ada.Exceptions.Exception_Name (E)));
-         pragma Debug (Put_Line
-                       (Normal, "Message "
-                          & Ada.Exceptions.Exception_Message (E)));
+         pragma Debug (PolyORB_HI.Output.Error, Put_Line
+                         ("Exception "
+                            & Ada.Exceptions.Exception_Name (E)));
+         pragma Debug (PolyORB_HI.Output.Error, Put_Line
+                         ("Message "
+                            & Ada.Exceptions.Exception_Message (E)));
       return Error_Kind'(Error_Transport);
    end Send;
 

@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                   Copyright (C) 2014-2015 ESA & ISAE.                    --
+--                   Copyright (C) 2014-2018 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -59,23 +59,19 @@ package body PolyORB_HI.Null_Task is
       pragma Debug
         (Put_Line
          (Verbose,
-          "Null Task "
-          + Entity_Image (Entity)
-          + ": Wait initialization"));
+          "Null Task ", Entity_Image (Entity), ": Wait initialization"));
 
       pragma Debug (Put_Line
                     (Verbose,
-                     "Null task initialized for entity "
-                     + Entity_Image (Entity)));
+                     "Null task initialized for entity ",
+                     Entity_Image (Entity)));
 
       pragma Debug
         (Put_Line
-         (Verbose,
-          "Null Task "
-            + Entity_Image (Entity)
-            + ": Run job"));
+           (Verbose,
+            "Null Task ", Entity_Image (Entity), ": Run job"));
 
-      Error := Job;
+      Job (Error);
 
       if Error /= Error_None then
          Recover_Entrypoint;

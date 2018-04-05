@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -58,8 +58,7 @@ package body Sunseeker_Controller_Pkg is
       Gain_Error          : Single_Float;
       Transfer_Fcn_Update : Single_Float;
    begin
-      Put_Line (Normal,
-                Node_Image (My_Node)
+      Put_Line (Node_Image (My_Node)
                 & " CONSTROLLER INPUT:"
                 & Single_Float'Image (Outputfeedback));
 
@@ -87,8 +86,7 @@ package body Sunseeker_Controller_Pkg is
 
       Clock := Clock + Period;
 
-      Put_Line (Normal,
-                Node_Image (My_Node)
+      Put_Line (Node_Image (My_Node)
                 & " CONSTROLLER OUTPUT:"
                 & Single_Float'Image (Controllerinput));
    end Sunseekercontroller_Subprogram_Impl;

@@ -1,5 +1,6 @@
 --  Ada restrictions to be supported by PolyORB-HI/Ada, for NATIVE targets
 
+pragma Restriction_Warnings (No_Secondary_Stack);   -- 13.12 (2)
 --------------------------------------------------------------------------------
 --  Enforce Ravenscar profile.
 --

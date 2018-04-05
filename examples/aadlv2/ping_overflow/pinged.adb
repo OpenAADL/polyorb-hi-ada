@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2008-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2008-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -43,7 +43,7 @@ package body Pinged is
 
    procedure Ping_Spg (Entity : Entity_Type; Data_Sink : Simple_Type) is
    begin
-      Put_Line (Normal, Entity_Image (Entity)
+      Put_Line (Entity_Image (Entity)
                   & "*** PING ***"
                   & Simple_Type'Image (Data_Sink));
    end Ping_Spg;

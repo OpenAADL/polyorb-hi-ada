@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2015 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2018 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -58,46 +58,39 @@ package body PolyORB_HI.Aperiodic_Task is
 
       --  Wait for the network initialization to be finished
 
-      pragma Debug
-        (Put_Line
-         (Verbose,
-          "Aperiodic Task "
-          + Entity_Image (Entity)
-          + ": Wait initialization"));
+      pragma Debug (Verbose,
+                    Put_Line ("Aperiodic Task ",
+                              Entity_Image (Entity),
+                              ": Wait initialization"));
 
       Suspend_Until_True (Task_Suspension_Objects (Entity));
       delay until System_Startup_Time;
 
-      pragma Debug (Put_Line
-                    (Verbose,
-                     "Aperiodic task initialized for entity "
-                     + Entity_Image (Entity)));
+      pragma Debug (Verbose,
+                    Put_Line ("Aperiodic task initialized for entity ",
+                              Entity_Image (Entity)));
 
 
       --  Main task loop
 
       loop
-         pragma Debug
-           (Put_Line
-            (Verbose,
-             "Aperiodic Task "
-             + Entity_Image (Entity)
-             + ": New Dispatch"));
+         pragma Debug (Verbose,
+                       Put_Line ("Aperiodic Task ",
+                                 Entity_Image (Entity),
+                                 ": New Dispatch"));
 
          --  Block until an event is received
 
          Wait_For_Incoming_Events (Entity, Port);
 
-         pragma Debug
-           (Put_Line
-            (Verbose,
-             "Aperiodic Task "
-             + Entity_Image (Entity)
-             + ": received event"));
+         pragma Debug (Verbose,
+                       Put_Line ("Aperiodic Task ",
+                                  Entity_Image (Entity),
+                                 ": received event"));
 
          --  Execute the job
 
-         Error := Job (Port);
+         Job (Port, Error);
 
          if Error /= Error_None then
             Recover_Entrypoint;
