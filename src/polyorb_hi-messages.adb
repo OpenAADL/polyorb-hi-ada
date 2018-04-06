@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -77,14 +77,14 @@ package body PolyORB_HI.Messages is
       L : constant Stream_Element_Count := Message.Last + Header_Size;
       R : Stream_Element_Array (1 .. L) := (others => 0);
 
-      P : constant Stream_Element_Array (1 .. Length (Message))
-        := Payload (Message);
+      P : Stream_Element_Array renames
+        Message.Content (Message.First .. Message.Last);
    begin
       R (1 .. Message_Length_Size) := To_Buffer (L - 1);
       R (Receiver_Offset) := Stream_Element (Internal_Code (Entity));
       R (Sender_Offset)   := Stream_Element (Internal_Code (From));
       R (Header_Size +  1 .. Header_Size + Length (Message)) := P;
-      --  XXX GNATProve GPL 2014 limitation ?
+
       return R;
    end Encapsulate;
 
@@ -95,6 +95,11 @@ package body PolyORB_HI.Messages is
    function Sender (M : Stream_Element_Array) return Entity_Type is
    begin
       return Corresponding_Entity (Unsigned_8 (M (Sender_Offset)));
+   end Sender;
+
+   function Sender (M : Message_Type) return Entity_Type is
+   begin
+      return Corresponding_Entity (Unsigned_8 (M.Content (Sender_Offset)));
    end Sender;
 
    ----------
