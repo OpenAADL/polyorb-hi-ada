@@ -71,7 +71,7 @@ package body PolyORB_HI_Drivers_Native_UART is
 
    To_GNAT_Bits : constant array (7 .. 8) of
      GNAT.Serial_Communications.Data_Bits :=
-     (7 => GNAT.Serial_Communications.CS8,
+     (7 => GNAT.Serial_Communications.CS7,
       8 => GNAT.Serial_Communications.CS8);
 
    pragma Suppress (Elaboration_Check, PolyORB_HI_Generated.Transport);
@@ -105,6 +105,9 @@ package body PolyORB_HI_Drivers_Native_UART is
      (AS_Message_Length_Stream, Message_Length_Stream);
    function To_PO_HI_Full_Stream is new Ada.Unchecked_Conversion
      (AS_Full_Stream, Full_Stream);
+
+   --  Start marker to synchronize
+   START_MARKER : Unsigned_8 := 16#A0#;
 
    ----------------
    -- Initialize --
@@ -157,7 +160,7 @@ package body PolyORB_HI_Drivers_Native_UART is
                     ('B' & S (First .. Last));
                exception
                   when others =>
-                     Put_Line (Normal, "Wrong baud rate: " & S (First .. Last));
+                     --  Put_Line (Normal, "Wrong baud rate: " & S (First .. Last));
                      raise;
                end;
 
@@ -221,7 +224,7 @@ package body PolyORB_HI_Drivers_Native_UART is
 
             exception
                when others =>
-                  Put_Line (Normal, "Initialization of UART subsystem dead");
+                  null; --  Put_Line (Normal, "Initialization of UART subsystem dead");
             end;
          else
             --  We got an ASN.1 configuration variable, use it
@@ -245,16 +248,16 @@ package body PolyORB_HI_Drivers_Native_UART is
 	 Parity := GNAT.Serial_Communications.None;
       end if;
 
-      Put_Line (Normal, " -> Using ASN.1: " & Use_ASN1'Img);
-      Put_Line (Normal, "Device: " & Nodes (My_Node).UART_Config.devname);
-      Put_Line (Normal, "  * Use Parity bits: "
-		  & Nodes (My_Node).UART_Config.use_paritybit'Img);
-      Put_Line (Normal, "  * Rate: "
-		  & To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed)'Img);
-      Put_Line (Normal, "  * Parity: " & Parity'Img);
-      Put_Line (Normal, "  * Bits: "
-		  & To_GNAT_Bits
-		  (Integer (Nodes (My_Node).UART_Config.Bits))'Img);
+      --  Put_Line (Normal, " -> Using ASN.1: " & Use_ASN1'Img);
+      --  Put_Line (Normal, "Device: " & Nodes (My_Node).UART_Config.devname);
+      --  Put_Line (Normal, "  * Use Parity bits: "
+	--  	  & Nodes (My_Node).UART_Config.use_paritybit'Img);
+      --  Put_Line (Normal, "  * Rate: "
+	--  	  & To_GNAT_Baud_Rate (Nodes (My_Node).UART_Config.Speed)'Img);
+      --  Put_Line (Normal, "  * Parity: " & Parity'Img);
+      --  Put_Line (Normal, "  * Bits: "
+	--  	  & To_GNAT_Bits
+	--  	  (Integer (Nodes (My_Node).UART_Config.Bits))'Img);
 
       GNAT.Serial_Communications.Set
 	(Port   => Nodes (My_Node).UART_Port,
@@ -263,7 +266,7 @@ package body PolyORB_HI_Drivers_Native_UART is
          Bits   => To_GNAT_Bits (Integer (Nodes (My_Node).UART_Config.Bits)),
          Block  => True);
 
-      Put_Line (Normal, "Initialization of Native_UART subsystem is complete");
+      --  Put_Line (Normal, "Initialization of Native_UART subsystem is complete");
    end Initialize;
 
    -------------
@@ -281,9 +284,18 @@ package body PolyORB_HI_Drivers_Native_UART is
    begin
 
       Main_Loop : loop
-         Put_Line ("Using user-provided Native_UART stack to receive");
+         --  Put_Line ("Using user-provided Native_UART stack to receive");
 
          --  UART is a character-oriented protocol
+
+         -- Framing
+         while Unsigned_8(SEL (1)) /= START_MARKER loop
+
+            GNAT.Serial_Communications.Read
+              (Nodes (My_Node).UART_Port,
+               SEL (1 .. 1),
+               SEO);
+         end loop;
 
          --  1/ Receive message length
 
@@ -311,26 +323,26 @@ package body PolyORB_HI_Drivers_Native_UART is
          --  2/ Receive full message
 
          if SEO /= SEA'First - 1 then
-            Put_Line
-              (Normal,
-               "UART received"
-                 & Ada.Streams.Stream_Element_Offset'Image (SEO)
-                 & " bytes");
+            --  Put_Line
+            --    (Normal,
+            --     "UART received"
+            --       & Ada.Streams.Stream_Element_Offset'Image (SEO)
+            --       & " bytes");
 
             --  Deliver to the peer handler
-
             begin
                PolyORB_HI_Generated.Transport.Deliver
                  (Corresponding_Entity
                     (Unsigned_8 (SEA (Message_Length_Size + 1))),
                   To_PO_HI_Full_Stream (SEA)
-                    (1 .. Stream_Element_Offset (SEO)));
+                  (1 .. Stream_Element_Offset (SEO)));
             exception
                when E : others =>
-                  Put_Line (Ada.Exceptions.Exception_Information (E));
+                  null; --  Put_Line (Ada.Exceptions.Exception_Information (E));
             end;
+
          else
-            Put_Line ("Got error");
+            null; --  Put_Line ("Got error");
          end if;
       end loop Main_Loop;
    end Receive;
@@ -346,6 +358,7 @@ package body PolyORB_HI_Drivers_Native_UART is
      return Error_Kind
    is
       pragma Unreferenced (Node);
+      use type Ada.Streams.Stream_Element_Offset;
 
       --  We cannot cast both array types using
       --  Ada.Unchecked_Conversion because they are unconstrained
@@ -357,16 +370,22 @@ package body PolyORB_HI_Drivers_Native_UART is
         (1 .. Ada.Streams.Stream_Element_Offset (Size));
       pragma Import (Ada, Msg);
       for Msg'Address use Message'Address;
+      Packet : Ada.Streams.Stream_Element_Array
+        (1 .. Ada.Streams.Stream_Element_Offset (Size + 1));
 
    begin
-      Put_Line ("Using user-provided UART stack to send");
-      Put_Line ("Sending through UART "
-                  & Nodes (My_Node).UART_Config.devname
-                  & Size'Img & " bytes");
+      --  Put_Line ("Using user-provided UART stack to send");
+      --  Put_Line ("Sending through UART "
+      --              & Nodes (My_Node).UART_Config.devname
+      --            & Size'Img & " bytes");
+
+      -- Adding a Start byte at the beginning
+      Packet (1) := Ada.Streams.Stream_Element (START_MARKER);
+      Packet (2 .. Ada.Streams.Stream_Element_Offset (Size + 1)) := Msg;
 
       GNAT.Serial_Communications.Write
         (Port   => Nodes (My_Node).UART_Port,
-         Buffer => Msg);
+         Buffer => Packet);
 
       return Error_Kind'(Error_None);
       --  Note: we have no way to know there was an error here
