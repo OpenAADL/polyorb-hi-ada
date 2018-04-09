@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -42,9 +42,6 @@ package body MPC is
    function Get_Node return String;
    pragma Inline (Get_Node);
 
-   procedure Put_Line (M : String);
-   pragma Inline (Put_Line);
-
    function Image (X : Component_Type) return String;
    pragma Inline (Image);
 
@@ -59,15 +56,6 @@ package body MPC is
    begin
       return Node_Image (My_Node);
    end Get_Node;
-
-   --------------
-   -- Put_Line --
-   --------------
-
-   procedure Put_Line (M : String) is
-   begin
-      Put_Line (Normal, Get_Node & ": " & M);
-   end Put_Line;
 
    -----------
    -- Image --

@@ -1,5 +1,6 @@
 --  Ada partition-wide configuration
 
+pragma Restrictions (No_Secondary_Stack);   -- 13.12 (2)
 --------------------------------------------------------------------------------
 -- Enforce FIFO_Within priorities for all modes. Note we cannot use
 -- directly the Ravenscar profile on native platforms because of the Ada

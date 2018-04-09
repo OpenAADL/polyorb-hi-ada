@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2015 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2018 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -60,8 +60,10 @@ generic
       Port   : out Port_Type);
    --  Blocks the next triggering of the thread
 
-   with function Job (Port : Port_Type) return PolyORB_HI.Errors.Error_Kind;
-   --  Procedure to call at each dispatch of the sporadic thread
+   with procedure Job
+     (Port : Port_Type;
+      Result : out PolyORB_HI.Errors.Error_Kind);
+   --  Procedure to call at each dispatch of the aperiodic thread
 
    with procedure Activate_Entrypoint is null;
    --  If given, the task run Activate_Entrypoint after the global

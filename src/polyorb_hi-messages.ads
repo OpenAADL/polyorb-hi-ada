@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -82,10 +82,6 @@ package PolyORB_HI.Messages is
    procedure Reallocate (M : in out Message_Type);
    --  Reset M
 
-   function Payload (M : Message_Type) return Stream_Element_Array
-      with Pre => (Valid (M));
-   --  Return the remaining payload of message M
-
    function Sender (M : Message_Type) return Entity_Type
        with Pre => (Valid (M));
    function Sender (M : Stream_Element_Array) return Entity_Type;
@@ -116,17 +112,10 @@ private
    end record;
 
    function Valid (Message : Message_Type) return Boolean is
-      (Message.First >= Message.Content'First
-         and then Message.Last <= Message.Content'Last);
-      --  The following part cannot be correct in the case Message is
-      --  not initialized, see defaults for Message_Type
-      --    and then Message.First <= Message.Last
-
-   function Payload (M : Message_Type) return Stream_Element_Array is
-      (M.Content (M.First .. M.Last));
-
-   function Sender (M : Message_Type) return Entity_Type is
-      (Sender (Payload (M)));
+      (Message.First >= Message.Content'First);
+   --  The following part cannot be correct in the case Message is
+   --  not initialized, see defaults for Message_Type
+   --    and then Message.First <= Message.Last
 
    pragma Inline (To_Length);
    pragma Inline (To_Buffer);

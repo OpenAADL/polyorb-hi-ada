@@ -31,7 +31,6 @@
 
 with Ada.Unchecked_Conversion;
 With Ada.Real_Time;
-With System;
 
 with PolyORB_HI_Generated.Deployment;
 
@@ -136,10 +135,6 @@ package PolyORB_HI.Unprotected_Queue is
       new Ada.Unchecked_Conversion (Thread_Interface_Type, Port_Stream);
    function Stream_To_Interface is
       new Ada.Unchecked_Conversion (Port_Stream, Thread_Interface_Type);
-
-   function CE return String;
-   pragma Inline (CE);
-   --  Shortcut to Entity_Image (Current_Entity)
 
    type Port_Stream_Array is array (Port_Type) of Port_Stream_Entry;
 
