@@ -1,8 +1,5 @@
 # BEGIN: DO NOT DELETE THIS LINE
-ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi_drivers_native_tcp_ip.ads	\
- $(srcdir)/polyorb_hi_drivers_gruart.ads				\
- $(srcdir)/polyorb_hi_drivers_grspw.ads					\
- $(srcdir)/polyorb_hi_drivers_native_uart.ads
+ADA_SPECS_WITH_BODY = $(wildcard $(srcdir)/polyorb_hi_drivers_*.ads)
 
 ADA_SPECS = $(ADA_SPECS_WITH_BODY)
 
