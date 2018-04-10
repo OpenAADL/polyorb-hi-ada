@@ -68,14 +68,13 @@ package body PolyORB_HI.Messages is
    -- Encapsulate --
    -----------------
 
-   function Encapsulate
+   procedure Encapsulate
      (Message : Message_Type;
       From    : Entity_Type;
-      Entity  : Entity_Type)
-     return Stream_Element_Array
+      Entity  : Entity_Type;
+      R : in out PolyORB_HI.Streams.Stream_Element_Array)
    is
       L : constant Stream_Element_Count := Message.Last + Header_Size;
-      R : Stream_Element_Array (1 .. L) := (others => 0);
 
       P : Stream_Element_Array renames
         Message.Content (Message.First .. Message.Last);
@@ -84,8 +83,6 @@ package body PolyORB_HI.Messages is
       R (Receiver_Offset) := Stream_Element (Internal_Code (Entity));
       R (Sender_Offset)   := Stream_Element (Internal_Code (From));
       R (Header_Size +  1 .. Header_Size + Length (Message)) := P;
-
-      return R;
    end Encapsulate;
 
    ------------
