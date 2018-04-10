@@ -63,6 +63,10 @@ package PolyORB_HI.Messages is
      with Pre => (L < 2**16 -1); -- XXX Provide a better bound for L
    --  Conversion functions to store/extract a length in/from a sub-buffer.
 
+   function Size (M : Message_Type) return Stream_Element_Count;
+   --  Return the size of the message type, as the sum of the header
+   --  plus payload
+
    procedure Read
      (Stream : in out Message_Type;
       Item   :    out Stream_Element_Array;
@@ -87,11 +91,11 @@ package PolyORB_HI.Messages is
    function Sender (M : Stream_Element_Array) return Entity_Type;
    --  Return the sender of the message M
 
-   function Encapsulate
+   procedure Encapsulate
      (Message : Message_Type;
       From    : Entity_Type;
-      Entity  : Entity_Type)
-     return Stream_Element_Array
+      Entity  : Entity_Type;
+      R : in out Polyorb_Hi.Streams.Stream_Element_Array)
      with Pre => (Valid (Message));
    --  Return a byte array including a two byte header (length and
    --  originator entity) and Message payload.
@@ -111,6 +115,9 @@ private
       Last    : PDU_Index := 0;
    end record;
 
+   function Size (M : Message_Type) return Stream_Element_Count is
+     (M.Last + Header_Size);
+
    function Valid (Message : Message_Type) return Boolean is
       (Message.First >= Message.Content'First);
    --  The following part cannot be correct in the case Message is
@@ -119,5 +126,6 @@ private
 
    pragma Inline (To_Length);
    pragma Inline (To_Buffer);
+   pragma Inline (Sender);
 
 end PolyORB_HI.Messages;
