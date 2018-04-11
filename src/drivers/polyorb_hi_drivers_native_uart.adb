@@ -82,6 +82,7 @@ package body PolyORB_HI_Drivers_Native_UART is
    use PolyORB_HI.Messages;
    use PolyORB_HI.Utils;
    use PolyORB_HI.Output;
+   use type Ada.Streams.Stream_Element_Offset;
 
    type Node_Record is record
       --  UART is a simple protocol, we use one port to send, assuming
@@ -98,6 +99,8 @@ package body PolyORB_HI_Drivers_Native_UART is
    subtype Message_Length_Stream is Stream_Element_Array
      (1 .. Message_Length_Size);
 
+   subtype Framed_AS_Full_Stream is
+     Ada.Streams.Stream_Element_Array (1 .. 2*PDU_Size + 2);
    subtype AS_Full_Stream is Ada.Streams.Stream_Element_Array (1 .. PDU_Size);
    subtype Full_Stream is Stream_Element_Array (1 .. PDU_Size);
 
@@ -106,8 +109,13 @@ package body PolyORB_HI_Drivers_Native_UART is
    function To_PO_HI_Full_Stream is new Ada.Unchecked_Conversion
      (AS_Full_Stream, Full_Stream);
 
-   --  Start marker to synchronize
-   START_MARKER : Unsigned_8 := 16#A0#;
+   --  Constant bytes for framing
+   START_MARKER : Constant Unsigned_8 := 16#A0#;
+   STOP_MARKER  : Constant Unsigned_8 := 16#B0#;
+   ESC		: Constant Unsigned_8 := 16#C0#;
+   ESC_START	: Constant Unsigned_8 := 16#CA#;
+   ESC_STOP	: Constant Unsigned_8 := 16#CB#;
+   ESC_ESC	: Constant Unsigned_8 := 16#CC#;
 
    ----------------
    -- Initialize --
@@ -274,13 +282,15 @@ package body PolyORB_HI_Drivers_Native_UART is
    -------------
 
    procedure Receive is
-      use type Ada.Streams.Stream_Element_Offset;
+      --  use type Ada.Streams.Stream_Element_Offset;
 
-      SEL : AS_Message_Length_Stream;
+      --  SEL : AS_Message_Length_Stream;
       SEA : AS_Full_Stream;
+      Framed_SEA : Framed_AS_Full_Stream;
       SEO : Ada.Streams.Stream_Element_Offset;
-      Packet_Size : Ada.Streams.Stream_Element_Offset;
-      Data_Received_Index : Ada.Streams.Stream_Element_Offset;
+      --  Packet_Size : Ada.Streams.Stream_Element_Offset;
+      Last_Index : Ada.Streams.Stream_Element_Offset;
+
    begin
 
       Main_Loop : loop
@@ -288,62 +298,68 @@ package body PolyORB_HI_Drivers_Native_UART is
 
          --  UART is a character-oriented protocol
 
-         -- Framing
-         while Unsigned_8(SEL (1)) /= START_MARKER loop
+         --  Buffer for framed message
+         Framed_SEA := (others => 0);
+
+         Last_Index := 1;
+
+         -- Synchronization
+         while Unsigned_8 (Framed_SEA (1)) /= START_MARKER loop
 
             GNAT.Serial_Communications.Read
               (Nodes (My_Node).UART_Port,
-               SEL (1 .. 1),
+               Framed_SEA (1 .. 1),
                SEO);
          end loop;
 
-         --  1/ Receive message length
-
-         GNAT.Serial_Communications.Read
-           (Nodes (My_Node).UART_Port, SEL, SEO);
-
-         Packet_Size := Ada.Streams.Stream_Element_Offset
-           (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
-         SEO := Packet_Size;
-
-         SEA (1 .. Message_Length_Size) := SEL;
-
-         Data_Received_Index := Message_Length_Size + 1;
-
-         while Data_Received_Index <= Packet_Size + Message_Length_Size loop
+         --  Receive full message
+         while Unsigned_8 (Framed_SEA (SEO)) /= STOP_MARKER loop
             --  We must loop to make sure we receive all data
 
             GNAT.Serial_Communications.Read
               (Nodes (My_Node).UART_Port,
-               SEA (Data_Received_Index .. SEO + 1),
+               Framed_SEA (SEO + 1 .. 2*PDU_Size + 2),
                SEO);
-            Data_Received_Index := 1 + SEO + 1;
          end loop;
 
-         --  2/ Receive full message
+         -- Remove escaped characters
+         declare
+            i : Ada.Streams.Stream_Element_Offset := 2;
 
-         if SEO /= SEA'First - 1 then
-            --  Put_Line
-            --    (Normal,
-            --     "UART received"
-            --       & Ada.Streams.Stream_Element_Offset'Image (SEO)
-            --       & " bytes");
+         begin
+            while i < SEO loop
+               if Unsigned_8 (Framed_SEA (i)) = ESC
+               then
+                  case Unsigned_8 (Framed_SEA (i + 1)) is
+                     when ESC_START => SEA (Last_Index)
+                          		:= Ada.Streams.Stream_Element(START_MARKER);
+                     when ESC_STOP  => SEA (Last_Index)
+                          		:= Ada.Streams.Stream_Element(STOP_MARKER);
+                     when ESC_ESC   => SEA (Last_Index)
+                          		:= Ada.Streams.Stream_Element(ESC);
+                     when others    => null; --  should not happen
+                  end case;
+                  i := i + 2;
+               else
+                  SEA (Last_Index) := Framed_SEA (i);
+                  i := i + 1;
+               end if;
+               Last_Index := Last_Index + 1;
+            end loop;
+         end;
 
-            --  Deliver to the peer handler
-            begin
-               PolyORB_HI_Generated.Transport.Deliver
-                 (Corresponding_Entity
-                    (Unsigned_8 (SEA (Message_Length_Size + 1))),
-                  To_PO_HI_Full_Stream (SEA)
-                  (1 .. Stream_Element_Offset (SEO)));
-            exception
-               when E : others =>
-                  null; --  Put_Line (Ada.Exceptions.Exception_Information (E));
-            end;
+         --  Deliver to the peer handler
+         begin
+            PolyORB_HI_Generated.Transport.Deliver
+              (Corresponding_Entity
+                 (Unsigned_8 (SEA (Message_Length_Size + 1))),
+               To_PO_HI_Full_Stream (SEA)
+               (1 .. Stream_Element_Offset (Last_Index - 1)));
+         exception
+            when E : others =>
+               null; --  Put_Line (Ada.Exceptions.Exception_Information (E));
+         end;
 
-         else
-            null; --  Put_Line ("Got error");
-         end if;
       end loop Main_Loop;
    end Receive;
 
@@ -358,7 +374,7 @@ package body PolyORB_HI_Drivers_Native_UART is
      return Error_Kind
    is
       pragma Unreferenced (Node);
-      use type Ada.Streams.Stream_Element_Offset;
+      --  use type Ada.Streams.Stream_Element_Offset;
 
       --  We cannot cast both array types using
       --  Ada.Unchecked_Conversion because they are unconstrained
@@ -371,7 +387,8 @@ package body PolyORB_HI_Drivers_Native_UART is
       pragma Import (Ada, Msg);
       for Msg'Address use Message'Address;
       Packet : Ada.Streams.Stream_Element_Array
-        (1 .. Ada.Streams.Stream_Element_Offset (Size + 1));
+        (1 .. Ada.Streams.Stream_Element_Offset (2*Size + 2));
+      SEO : Ada.Streams.Stream_Element_Offset := 1;
 
    begin
       --  Put_Line ("Using user-provided UART stack to send");
@@ -381,11 +398,30 @@ package body PolyORB_HI_Drivers_Native_UART is
 
       -- Adding a Start byte at the beginning
       Packet (1) := Ada.Streams.Stream_Element (START_MARKER);
-      Packet (2 .. Ada.Streams.Stream_Element_Offset (Size + 1)) := Msg;
+
+      --  Escaping
+      for i in 1 .. Ada.Streams.Stream_Element_Offset (Size) loop
+         case Unsigned_8 (Msg (i)) is
+            when START_MARKER => Packet (SEO + 1) := Ada.Streams.Stream_Element (ESC);
+               			 Packet (SEO + 2) := Ada.Streams.Stream_Element (ESC_START);
+               			 SEO := SEO + 2;
+            when STOP_MARKER  => Packet (SEO + 1) := Ada.Streams.Stream_Element (ESC);
+               			 Packet (SEO + 2) := Ada.Streams.Stream_Element (ESC_STOP);
+               			 SEO := SEO + 2;
+            when ESC	      => Packet (SEO + 1) := Ada.Streams.Stream_Element (ESC);
+               			 Packet (SEO + 2) := Ada.Streams.Stream_Element (ESC_ESC);
+               			 SEO := SEO + 2;
+            when others	      => Packet (SEO + 1) := Msg (i);
+               			 SEO := SEO + 1;
+         end case;
+      end loop;
+
+      -- Adding a Stop byte at the end
+      Packet (SEO + 1) := Ada.Streams.Stream_Element (STOP_MARKER);
 
       GNAT.Serial_Communications.Write
         (Port   => Nodes (My_Node).UART_Port,
-         Buffer => Packet);
+         Buffer => Packet(1 .. SEO + 1));
 
       return Error_Kind'(Error_None);
       --  Note: we have no way to know there was an error here

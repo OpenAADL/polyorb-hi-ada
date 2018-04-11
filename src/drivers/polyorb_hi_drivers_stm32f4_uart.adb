@@ -1,4 +1,33 @@
-
+------------------------------------------------------------------------------
+--                                                                          --
+--                          PolyORB HI COMPONENTS                           --
+--                                                                          --
+--      P O L Y O R B _ H I _ D R I V E R S _ S T M 3 2 F 4 _ U A R T       --
+--                                                                          --
+--                                 B o d y                                  --
+--                                                                          --
+--                   Copyright (C) 2012-2015 ESA & ISAE.                    --
+--                                                                          --
+-- PolyORB-HI is free software; you can redistribute it and/or modify under --
+-- terms of the  GNU General Public License as published  by the Free Soft- --
+-- ware  Foundation;  either version 3,  or (at your option) any later ver- --
+-- sion. PolyORB-HI is distributed in the hope that it will be useful, but  --
+-- WITHOUT ANY WARRANTY; without even the implied warranty of               --
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                     --
+--                                                                          --
+-- As a special exception under Section 7 of GPL version 3, you are granted --
+-- additional permissions described in the GCC Runtime Library Exception,   --
+-- version 3.1, as published by the Free Software Foundation.               --
+--                                                                          --
+-- You should have received a copy of the GNU General Public License and    --
+-- a copy of the GCC Runtime Library Exception along with this program;     --
+-- see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see    --
+-- <http://www.gnu.org/licenses/>.                                          --
+--                                                                          --
+--              PolyORB-HI/Ada is maintained by the TASTE project           --
+--                      (taste-users@lists.tuxfamily.org)                   --
+--                                                                          --
+------------------------------------------------------------------------------
 
 --  Notes : in RM0090 section 10-3-3 we can find the mapping table for the DMA
 --  it says for example that DMA1 can be connected to the transmitter of USART2
@@ -32,7 +61,6 @@ with Ada.Interrupts;         use Ada.Interrupts;
 with Ada.Interrupts.Names;   use Ada.Interrupts.Names;
 --  with Types;                  use Types;
 with Interfaces;
---with CRC;		     use CRC;
 
 With Ada.Exceptions;
 with Ada.Unchecked_Conversion;
@@ -127,16 +155,20 @@ package body PolyORB_HI_Drivers_STM32F4_UART is
    Nodes : array (Node_Type) of Node_Record;
 
    --  One-message buffer for reception --aliased ?
-   Synchro : Boolean := False;
    Message_Ready  : STC.Suspension_Object;
-   Len_Complete : Boolean := False;
+   Synchro : Boolean := False;
+   Escaped : Boolean := False;
    SEA : AS_Full_Stream;
-   SEL : AS_Message_Length_Stream;
-   Packet_Size : Ada.Streams.Stream_Element_Offset;
-   Data_Received_Index : Ada.Streams.Stream_Element_Offset := 1;
+   Data_Received_Index : Ada.Streams.Stream_Element_Offset := 0;
+   Packet_Size : Ada.Streams.Stream_Element_Offset := 0;
 
-   --  Start marker to synchronize
-   START_MARKER : Unsigned_8 := 16#A0#;
+   --  Constant bytes for framing
+   START_MARKER : Constant Unsigned_8 := 16#A0#;
+   STOP_MARKER  : Constant Unsigned_8 := 16#B0#;
+   ESC		: Constant Unsigned_8 := 16#C0#;
+   ESC_START	: Constant Unsigned_8 := 16#CA#;
+   ESC_STOP	: Constant Unsigned_8 := 16#CB#;
+   ESC_ESC	: Constant Unsigned_8 := 16#CC#;
 
    ----------------
    -- Initialize --
@@ -353,7 +385,7 @@ package body PolyORB_HI_Drivers_STM32F4_UART is
               (Corresponding_Entity
                  (Unsigned_8 (SEA (Message_Length_Size + 1))),
                To_PO_HI_Full_Stream (SEA)
-               (1 .. Stream_Element_Offset (Packet_Size + Message_Length_Size)));
+               (1 .. Stream_Element_Offset (Packet_Size)));
          exception
             when E : others =>
                null; --  Put_Line (Ada.Exceptions.Exception_Information (E));
@@ -376,44 +408,54 @@ package body PolyORB_HI_Drivers_STM32F4_UART is
    protected body Reception is
 
       procedure Handle_Reception is
-           use type Ada.Streams.Stream_Element_Offset;
-           --  Receive one char.
-           Received_char : constant Character := Character'Val(Current_Input (Transceiver));
+         use type Ada.Streams.Stream_Element_Offset;
+         --  Receive one char.
+         Received_char : constant Unsigned_8 := Unsigned_8 (Current_Input (Transceiver));
+         Original_char : Unsigned_8;
 
-       begin
-           --No framing, escaping for now
+      begin
 
+         --  Synchronization with Start byte
          if not Synchro
          then
-            Synchro := (Unsigned_8 (Current_Input (Transceiver)) = START_MARKER);
+            Synchro := (Received_char = START_MARKER);
+
+         --  Received Stop Marker ?
+         elsif Received_char = STOP_MARKER
+         then
+            --  Reception complete
+            Synchro := False;
+            Escaped := False;
+            Packet_Size := Data_Received_Index;
+            Data_Received_Index := 0;
+            loop
+               exit when not Status (Transceiver, Read_Data_Register_Not_Empty);
+            end loop;
+            STC.Set_True(Message_Ready);
+
          else
-            if not Len_Complete
+            -- Remove escaping if previous character was ESC
+            if Escaped
             then
-               SEL(Data_Received_Index) := Ada.Streams.Stream_Element
-                 (Character'Pos(Received_char));
-               Data_Received_Index := Data_Received_Index + 1;
-               if Data_Received_Index = Message_Length_Size + 1
-               then
-                  -- Lenght received
-                  Len_Complete := True;
-                  Packet_Size := Ada.Streams.Stream_Element_Offset
-                    (To_Length (To_PO_HI_Message_Length_Stream (SEL)));
-                  SEA (1 .. Message_Length_Size) := SEL;
-               end if;
+               case Received_char is
+                  when ESC_START => Original_char := START_MARKER;
+                  when ESC_STOP	 => Original_char := STOP_MARKER;
+                  when ESC_ESC	 => Original_char := ESC;
+                  when others    => null; --  should not happen
+               end case;
             else
-               SEA(Data_Received_Index) := Ada.Streams.Stream_Element
-                 (Character'Pos(Received_char));
+               Original_char := Received_char;
+            end if;
+
+            -- Received ESC character ? If yes, not added to buffer
+            Escaped := (Received_char = ESC);
+
+            -- Store character into buffer
+            if not Escaped
+            then
                Data_Received_Index := Data_Received_Index + 1;
-               if Data_Received_Index = Message_Length_Size + Packet_Size + 1
-               then
-                  --  Reception complete
-                  Len_Complete := False;
-                  Data_Received_Index := 1;
-                  loop
-                     exit when not Status (Transceiver, Read_Data_Register_Not_Empty);
-                  end loop;
-                  STC.Set_True(Message_Ready);
-               end if;
+               SEA(Data_Received_Index) := Ada.Streams.Stream_Element
+                 (Original_char);
             end if;
          end if;
 
@@ -455,9 +497,9 @@ package body PolyORB_HI_Drivers_STM32F4_UART is
         (1 .. Ada.Streams.Stream_Element_Offset (Size));
       pragma Import (Ada, Msg);
       for Msg'Address use Message'Address;
-      -- Msg_CRC : Unsigned_32 := Make(Msg);
       Packet : Ada.Streams.Stream_Element_Array
-        (1 .. Ada.Streams.Stream_Element_Offset (Size + 1));
+        (1 .. Ada.Streams.Stream_Element_Offset (2*Size + 2));
+      SEO : Ada.Streams.Stream_Element_Offset := 1;
 
    begin
       -- Put_Line ("Using user-provided UART stack to send");
@@ -467,7 +509,26 @@ package body PolyORB_HI_Drivers_STM32F4_UART is
 
       -- Adding a Start byte at the beginning
       Packet (1) := Ada.Streams.Stream_Element (START_MARKER);
-      Packet (2 .. Ada.Streams.Stream_Element_Offset (Size + 1)) := Msg;
+
+      --  Escaping
+      for i in 1 .. Ada.Streams.Stream_Element_Offset (Size) loop
+         case Unsigned_8 (Msg (i)) is
+            when START_MARKER => Packet (SEO + 1) := Ada.Streams.Stream_Element (ESC);
+               			 Packet (SEO + 2) := Ada.Streams.Stream_Element (ESC_START);
+               			 SEO := SEO + 2;
+            when STOP_MARKER  => Packet (SEO + 1) := Ada.Streams.Stream_Element (ESC);
+               			 Packet (SEO + 2) := Ada.Streams.Stream_Element (ESC_STOP);
+               			 SEO := SEO + 2;
+            when ESC	      => Packet (SEO + 1) := Ada.Streams.Stream_Element (ESC);
+               			 Packet (SEO + 2) := Ada.Streams.Stream_Element (ESC_ESC);
+               			 SEO := SEO + 2;
+            when others	      => Packet (SEO + 1) := Msg (i);
+               			 SEO := SEO + 1;
+         end case;
+      end loop;
+
+      -- Adding a Stop byte at the end
+      Packet (SEO + 1) := Ada.Streams.Stream_Element (STOP_MARKER);
 
       -- Previous Send should have left status "Transfer Complete Indicated"
       -- We must clear it before starting a new transfer
@@ -477,7 +538,7 @@ package body PolyORB_HI_Drivers_STM32F4_UART is
          Tx_Stream,
          Source      => Packet'Address,
          Destination => Data_Register_Address (Transceiver),
-         Data_Count  => UInt16 (Size + 1)); --legal ?
+         Data_Count  => UInt16 (SEO + 1));  --  too small ?
 
       Enable_DMA_Transmit_Requests (Transceiver);
 
