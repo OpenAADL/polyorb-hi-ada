@@ -38,7 +38,7 @@ ADA_BODIES = $(ADA_SPECS_WITH_BODY:.ads=.adb)			\
 
 # END: DO NOT DELETE THIS LINE
 
-ADA_ADC = $(srcdir)/gnat.adc $(srcdir)/hi-e.adc $(srcdir)/native.adc	\
+ADA_ADC = $(srcdir)/hi-e.adc $(srcdir)/native.adc	\
 	$(srcdir)/gnat_runtime.adc
 
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(ADA_ADC)
@@ -48,8 +48,8 @@ alidir = ${shell $(CYGPATH_U) '$(OCARINA_RUNTIME)/polyorb-hi-ada'}
 install-data-local:
 	$(INSTALL) -d $(DESTDIR)$(alidir)
 	for f in $(ADA_SPECS) $(ADA_BODIES) $(ADA_ADC) polyorb_hi.gpr; do \
-          $(INSTALL) -m 444 $$f $(DESTDIR)$(alidir); \
-        done;
+	  $(INSTALL) -m 444 $$f $(DESTDIR)$(alidir); \
+	done;
 
 uninstall-local:
 	rm -rf $(DESTDIR)$(alidir)
