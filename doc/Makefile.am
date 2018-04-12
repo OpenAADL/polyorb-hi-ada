@@ -12,7 +12,6 @@ SRC_CODE = $(srcdir)/polyorb_hi-periodic_task.ads \
 	$(srcdir)/polyorb_hi-thread_interrogators.ads \
 	$(srcdir)/polyorb_hi-protocols.ads \
 	$(srcdir)/polyorb_hi-transport_low_level.ads \
-	$(srcdir)/gnat.adc \
 	$(srcdir)/native.adc \
 	$(srcdir)/hi-e.adc
 
@@ -185,20 +184,20 @@ install-data-local: all
 	if [ -r $(GUIDE).pdf ]; then \
 	  $(INSTALL_DATA) $(GUIDE).pdf  $(DESTDIR)$(po_hi_doc_dir); \
 	  for f in $(GUIDE).html/*.html; do \
-            $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html; \
-          done; \
+	    $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html; \
+	  done; \
 	  for f in $(GUIDE).html/fig/*.png; do \
-            $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html/fig; \
-          done; \
+	    $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html/fig; \
+	  done; \
 	fi
 	if [ -r $(srcdir)/$(GUIDE).pdf ]; then \
 	  $(INSTALL_DATA) $(srcdir)/$(GUIDE).pdf  $(DESTDIR)$(po_hi_doc_dir); \
 	  for f in $(srcdir)/$(GUIDE).html/*.html; do \
-            $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html; \
-          done; \
+	    $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html; \
+	  done; \
 	  for f in $(srcdir)/$(GUIDE).html/fig/*.png; do \
-            $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html/fig; \
-          done; \
+	    $(INSTALL_DATA) $$f  $(DESTDIR)$(po_hi_doc_dir)/$(GUIDE).html/fig; \
+	  done; \
 	fi
 
 uninstall-local:
