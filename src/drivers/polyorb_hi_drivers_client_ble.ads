@@ -2,7 +2,7 @@
 --                                                                          --
 --                          PolyORB HI COMPONENTS                           --
 --                                                                          --
---      P O L Y O R B _ H I _ D R I V E R S _ S T M 3 2 F 4 _ U A R T       --
+--         P O L Y O R B _ H I _ D R I V E R S _ C L I E N T _ B L E        --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
@@ -34,13 +34,15 @@ with PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Utils;
 
-package PolyORB_HI_Drivers_STM32F4_UART is
+package PolyORB_HI_Drivers_Client_BLE is
+   pragma SPARK_Mode (Off);
 
    use PolyORB_HI.Errors;
    use PolyORB_HI_Generated.Deployment;
    use PolyORB_HI.Streams;
 
    procedure Initialize (Name_Table : PolyORB_HI.Utils.Naming_Table_Type);
+   procedure Initialize_Receiver;
 
    procedure Receive;
 
@@ -50,4 +52,4 @@ package PolyORB_HI_Drivers_STM32F4_UART is
       Size    : Stream_Element_Offset)
      return Error_Kind;
 
-end PolyORB_HI_Drivers_STM32F4_UART;
+end PolyORB_HI_Drivers_Client_BLE;

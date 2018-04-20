@@ -2,7 +2,7 @@
 --                                                                          --
 --                          PolyORB HI COMPONENTS                           --
 --                                                                          --
---      P O L Y O R B _ H I _ D R I V E R S _ S T M 3 2 F 4 _ U A R T       --
+--     P O L Y O R B _ H I _ D R I V E R S _ C R A Z Y F L I E _  B L E     --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
@@ -34,7 +34,7 @@ with PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Utils;
 
-package PolyORB_HI_Drivers_STM32F4_UART is
+package PolyORB_HI_Drivers_Crazyflie_BLE is
 
    use PolyORB_HI.Errors;
    use PolyORB_HI_Generated.Deployment;
@@ -50,4 +50,4 @@ package PolyORB_HI_Drivers_STM32F4_UART is
       Size    : Stream_Element_Offset)
      return Error_Kind;
 
-end PolyORB_HI_Drivers_STM32F4_UART;
+end PolyORB_HI_Drivers_Crazyflie_BLE;
