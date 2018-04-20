@@ -1,6 +1,11 @@
 --  Ada restrictions to be supported by PolyORB-HI/Ada, for HI targets
 
 --------------------------------------------------------------------------------
+-- Warnings on constructs that rely on the secondary stack
+
+pragma Restriction_Warnings (No_Secondary_Stack);        -- 13.12 (2)
+
+--------------------------------------------------------------------------------
 --  Enforce Ravenscar profile.
 
 pragma Profile (Ravenscar);                              -- D.13.1
