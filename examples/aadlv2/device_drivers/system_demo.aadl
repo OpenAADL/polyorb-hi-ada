@@ -27,6 +27,10 @@ public
 
      Bus_TCP      : bus Generic_Bus::Generic_Bus.impl;
 
+     -- Node #1 software components
+
+     Node_1 : process Software::Pinger_Process.Impl;
+
      ------------------------------------------------------------------
      -- Node #1 hardware components
 
@@ -37,11 +41,11 @@ public
       { Deployment::Location    => "ip 127.0.0.1 1233"; };
      --     Beeper_1     : device Beeper::Beeper_Device.impl;
 
-     -- Node #1 software components
-
-     Node_1 : process Software::Pinger_Process.Impl;
-
      ------------------------------------------------------------------
+     -- Node #2 software components
+
+     Node_2 : process Software::Pingee_Process.Impl;
+
      -- Node #2 hardware components
 
      Processor_2  : processor Generic_Native::Generic_Processor.impl;
@@ -49,9 +53,6 @@ public
      TCP_IP_Cnx_2 : device TCP_IP_Protocol::TCP_IP_Device.impl
       { Deployment::Location    => "ip 127.0.0.1 2345"; };
 
-     -- Node #2 software components
-
-     Node_2 : process Software::Pingee_Process.Impl;
 
    connections
 
@@ -64,7 +65,7 @@ public
      bus access Bus_TCP -> TCP_IP_Cnx_1.Ethernet_Wire;
      bus access Bus_TCP -> TCP_IP_Cnx_2.Ethernet_Wire;
      port Node_1.Out_Port -> Node_2.In_Port
-     	  { Actual_Connection_Binding => (reference (Bus_TCP)); };
+          { Actual_Connection_Binding => (reference (Bus_TCP)); };
 
    properties
 
@@ -74,11 +75,11 @@ public
 
      Actual_Processor_Binding => (reference (Processor_1)) applies to Node_1;
      Actual_Processor_Binding => (reference (Processor_1))
-     			      applies to TCP_IP_Cnx_1;
+                              applies to TCP_IP_Cnx_1;
 
      Actual_Processor_Binding => (reference (Processor_2)) applies to Node_2;
      Actual_Processor_Binding => (reference (Processor_2))
-     			      applies to TCP_IP_Cnx_2;
+                              applies to TCP_IP_Cnx_2;
    end The_Demo.impl;
 
 end System_Demo;
