@@ -62,7 +62,8 @@ project PolyORB_HI is
                       --@WARNINGS_ARE_ERRORS@"-gnatfy", --  Style warnings
                       --@WARNINGS_ARE_ERRORS@"-gnatwe", --  Warnings are errors
                       "-gnatwG", -- Suppress warnings on unrecognized pragmas
-                      "-gnat12"  --  Ada 2012 mode
+                      "-gnat12", --  Ada 2012 mode
+                      "-fstack-usage"  -- Report stack usage
                      );
 
    Debug_Options := (
