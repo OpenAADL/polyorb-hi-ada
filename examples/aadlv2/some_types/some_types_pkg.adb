@@ -40,7 +40,7 @@ package body Some_Types_Pkg is
 
    Boolean_Type_Var : Boolean_Type := False;
    Integer_Type_Var : Integer_Type := 0;
-   Array_Type_I_Var : Array_Type_I := (1, 2, 3, 4);
+   Array_Type_I_Var : Array_Type_I := (1, 2, 3, 4, others => 0);
    String_Array     : constant array (Integer range <>) of String_Type :=
      (To_Bounded_String ("Bounded string message"),
       To_Bounded_String ("Longer bounded string message"),
@@ -99,10 +99,12 @@ package body Some_Types_Pkg is
    procedure Emit_Array (Data_Source : out Array_Type_I) is
    begin
       Data_Source := Array_Type_I_Var;
-      Array_Type_I_Var := (Array_Type_I_Var (2),
-                           Array_Type_I_Var (3),
-                           Array_Type_I_Var (4),
-                           Array_Type_I_Var (1));
+      Array_Type_I_Var (Array_Type_I_Var'First .. Array_Type_I_Var'First + 3)
+        := (Array_Type_I_Var (2),
+            Array_Type_I_Var (3),
+            Array_Type_I_Var (4),
+            Array_Type_I_Var (1));
+
       Put_Line
         ("***** Emitting Array : ("
            & Integer_Type'Image (Data_Source (1))
