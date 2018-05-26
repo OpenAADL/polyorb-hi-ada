@@ -159,6 +159,8 @@ package PolyORB_HI.Thread_Interrogators is
    --  during the current dispatch. The parameter of the function has
    --  the only utility to allow having one Receive_Input per thread.
 
+   procedure Get_Value (Port : Port_Type;
+                        Result : in out Thread_Interface_Type);
    function Get_Value (Port : Port_Type) return Thread_Interface_Type;
    --  Return the value corresponding to a given port. A second call to
    --  Get_Value returns always the same value unless Next_Value has

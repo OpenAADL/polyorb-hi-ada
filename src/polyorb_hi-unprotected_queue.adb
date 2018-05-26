@@ -36,6 +36,26 @@ package body PolyORB_HI.Unprotected_Queue is
    use PolyORB_HI.Port_Kinds;
    use PolyORB_HI.Output;
 
+   --  function Interface_To_Stream
+   --    (Input : Thread_Interface_Type)
+   --    return Port_Stream
+   --  is
+   --     Result : Port_Stream with
+   --       Import, Convention => Ada, Address => Input'Address;
+   --  begin
+   --     return Result;
+   --  end Interface_To_Stream;
+
+   --  function Stream_To_Interface
+   --    (Input : Port_Stream)
+   --    return Thread_Interface_Type
+   --  is
+   --     Result : Thread_Interface_Type (Port_Type'First) with
+   --       Import, Convention => Ada, Address => Input'Address;
+   --  begin
+   --     return Result;
+   --  end Stream_To_Interface;
+
    ----------------
    -- Read_Event --
    ----------------
@@ -65,7 +85,7 @@ package body PolyORB_HI.Unprotected_Queue is
 
    procedure Dequeue
      (T : Port_Type;
-      P : out Port_Stream_Entry;
+--      P : out Port_Stream_Entry;
       Not_Empty : out Boolean)
    is
       Is_Empty  : Boolean renames Empties (T);
@@ -90,7 +110,8 @@ package body PolyORB_HI.Unprotected_Queue is
                           ": Dequeue: Empty queue for ",
                           Thread_Port_Images (T)));
 
-         P := Get_Most_Recent_Value (T);
+         --  P := Get_Most_Recent_Value (T);
+         null;
 
       elsif FIFO_Size = 0 then
          --  If the FIFO is empty or non-existent, return the
@@ -102,7 +123,8 @@ package body PolyORB_HI.Unprotected_Queue is
                           ": Dequeue: NO FIFO for ",
                           Thread_Port_Images (T)));
 
-         P := Get_Most_Recent_Value (T);
+         --  P := Get_Most_Recent_Value (T);
+         null;
 
       else
          pragma Debug (Verbose,
@@ -121,7 +143,8 @@ package body PolyORB_HI.Unprotected_Queue is
             Is_Empty := True;
          end if;
 
-         P := Global_Data_Queue (First + Offset - 1);
+         --  P := Global_Data_Queue (First + Offset - 1);
+         null;
 
          if First = FIFO_Size then
             First := Default_Index_Value;
@@ -144,8 +167,7 @@ package body PolyORB_HI.Unprotected_Queue is
    -- Read_In --
    -------------
 
-   function Read_In (T : Port_Type) return Port_Stream_Entry is
-      P         : Port_Stream_Entry;
+   procedure Read_In (T : Port_Type; P : out Port_Stream_Entry) is
       Is_Empty  : Boolean renames Empties (T);
       First     : Integer renames Firsts (T);
       FIFO_Size : Integer renames Thread_FIFO_Sizes (T);
@@ -168,7 +190,7 @@ package body PolyORB_HI.Unprotected_Queue is
                           Thread_Port_Images (T),
                           ". Reading the last stored value."));
 
-         P := Get_Most_Recent_Value (T);
+         Get_Most_Recent_Value (T, P);
       else
          pragma Debug (Verbose,
                        Put_Line
@@ -189,14 +211,13 @@ package body PolyORB_HI.Unprotected_Queue is
                       (Entity_Image (Current_Entity),
                        ": Read_In: Value read from port ",
                        Thread_Port_Images (T)));
-      return P;
    end Read_In;
 
    --------------
    -- Read_Out --
    --------------
 
-   function Read_Out (T : Port_Type) return Port_Stream_Entry is
+   procedure Read_Out (T : Port_Type; P : out Port_Stream_Entry) is
    begin
       --  There is no need here to go through the Get_ routine
       --  since we are sending, not receiving.
@@ -207,7 +228,7 @@ package body PolyORB_HI.Unprotected_Queue is
                        ": Read_Out: Value read from port ",
                        Thread_Port_Images (T)));
 
-      return Most_Recent_Values (T);
+      P := Most_Recent_Values (T);
    end Read_Out;
 
    ----------------
@@ -238,11 +259,12 @@ package body PolyORB_HI.Unprotected_Queue is
    -- Store_In --
    --------------
 
-   procedure Store_In (P : Port_Stream_Entry;
+   Store_In_Stream : Port_Stream;
+
+   procedure Store_In (Thread_Interface : Thread_Interface_Type;
+                       From             : Entity_Type;
                        T : Time;
                        Not_Empty : out Boolean) is
-      Thread_Interface : constant Thread_Interface_Type
-        := Stream_To_Interface (P.Payload);
       PT                : Port_Type renames Thread_Interface.Port;
       Is_Empty          : Boolean   renames Empties (PT);
       First             : Integer   renames Firsts (PT);
@@ -282,7 +304,12 @@ package body PolyORB_HI.Unprotected_Queue is
                         when DropOldest =>
                            --  Drop the oldest element in the FIFO
 
-                           Global_Data_Queue (First + Offset - 1) := P;
+                           Store_In_Stream :=
+                             Interface_To_Stream (Thread_Interface);
+                           Global_Data_Queue (First + Offset - 1).From := From;
+                           Global_Data_Queue (First + Offset - 1).Payload
+                             := Store_In_Stream;
+
                            pragma Debug
                              (Verbose,
                               Put_Line
@@ -333,7 +360,10 @@ package body PolyORB_HI.Unprotected_Queue is
                         when DropNewest =>
                            --  Drop the newest element in the FIFO
 
-                           Global_Data_Queue (Last + Offset - 1) := P;
+                           Global_Data_Queue (First + Offset - 1).From := From;
+                           Global_Data_Queue (First + Offset - 1).Payload
+                             := Interface_To_Stream (Thread_Interface);
+
                            pragma Debug
                              (Verbose,
                               Put_Line
@@ -368,7 +398,7 @@ package body PolyORB_HI.Unprotected_Queue is
                            Put_Line
                              (Entity_Image (Current_Entity),
                               ": Store_In: FIFO is full");
-                           --  XXX SHould raise an exception there !
+                            --  XXX SHould raise an exception there !
                      end case;
 
                      --  Remove event in the history and shift
@@ -418,7 +448,10 @@ package body PolyORB_HI.Unprotected_Queue is
                      Last := Big_Port_Index_Type'Succ (Last);
                   end if;
 
-                  Global_Data_Queue (Last + Offset - 1) := P;
+                  Global_Data_Queue (First + Offset - 1).From := From;
+                  Global_Data_Queue (First + Offset - 1).Payload
+                    := Interface_To_Stream (Thread_Interface);
+
                   pragma Debug (Verbose,
                                 Put_Line
                                   (Entity_Image (Current_Entity),
@@ -502,7 +535,7 @@ package body PolyORB_HI.Unprotected_Queue is
 
             --  Update the most recent value corresponding to port PT
 
-            Set_Most_Recent_Value (PT, P, T);
+            Set_Most_Recent_Value (PT, From, Thread_Interface, T);
 
             pragma Debug (Verbose,
                           Put_Line
@@ -527,7 +560,7 @@ package body PolyORB_HI.Unprotected_Queue is
                           ": Store_In: Storing Data message in DATA port ",
                           Thread_Port_Images (PT)));
 
-         Set_Most_Recent_Value (PT, P, T);
+         Set_Most_Recent_Value (PT, From, Thread_Interface, T);
 
          pragma Debug (Verbose,
                        Put_Line
@@ -542,9 +575,10 @@ package body PolyORB_HI.Unprotected_Queue is
    -- Store_Out --
    ---------------
 
-   procedure Store_Out (P : Port_Stream_Entry; T : Time) is
-      Thread_Interface : constant Thread_Interface_Type
-        := Stream_To_Interface (P.Payload);
+   procedure Store_Out (Thread_Interface : Thread_Interface_Type;
+                        From             : Entity_Type;
+                        T                : Time)
+   is
       PT               : Port_Type renames Thread_Interface.Port;
    begin
       pragma Debug (Verbose,
@@ -566,11 +600,12 @@ package body PolyORB_HI.Unprotected_Queue is
       --  No need to go through the Set_ routine since we are
       --  sending, not receiving.
 
-      Most_Recent_Values (PT) := P;
+      Most_Recent_Values (PT).From := From;
+      Most_Recent_Values (PT).Payload := Interface_To_Stream (Thread_Interface);
+
       Time_Stamps (PT) := T; -- overwritten below
                              --  Maxime workaround for backdoor accesses
-      Time_Stamps (PT) := Ada.Real_time.clock;
-
+      Time_Stamps (PT) := Ada.Real_Time.clock;
    end Store_Out;
 
    -----------
@@ -650,9 +685,9 @@ package body PolyORB_HI.Unprotected_Queue is
    -- Get_Most_Recent_Value --
    ---------------------------
 
-   function Get_Most_Recent_Value
-     (P : Port_Type)
-     return Port_Stream_Entry
+   procedure Get_Most_Recent_Value
+     (P : Port_Type;
+      S : out Port_Stream_Entry)
    is
       First     : Integer renames Firsts (P);
       Last      : Integer renames Lasts (P);
@@ -660,7 +695,7 @@ package body PolyORB_HI.Unprotected_Queue is
       FIFO_Size : Integer renames Thread_FIFO_Sizes (P);
       Offset    : Integer renames Thread_FIFO_Offsets (P);
       T         : constant Time := Clock;
-      S         : Port_Stream_Entry;
+
    begin
       if Has_Event_Ports then
          if Is_Event (P_Kind) then
@@ -674,6 +709,7 @@ package body PolyORB_HI.Unprotected_Queue is
             S := Most_Recent_Values (P);
          end if;
       end if;
+
       if not Is_Event (P_Kind) then
          if FIFO_Size = 1 then
             --  Immediate connection
@@ -717,7 +753,7 @@ package body PolyORB_HI.Unprotected_Queue is
                Put_Line
                  (Entity_Image (Current_Entity),
                   ": Get_Most_Recent_Value: Most recent value for data port ",
-                   Thread_Port_Images (P), " got. Immediate connection"));
+                  Thread_Port_Images (P), " got. Immediate connection"));
 
          else
             --  Delayed connection: The element indexed by First is
@@ -780,8 +816,6 @@ package body PolyORB_HI.Unprotected_Queue is
                   " got. Delayed connection"));
          end if;
       end if;
-
-      return S;
    end Get_Most_Recent_Value;
 
    ---------------------------
@@ -790,7 +824,8 @@ package body PolyORB_HI.Unprotected_Queue is
 
    procedure Set_Most_Recent_Value
      (P : Port_Type;
-      S : Port_Stream_Entry;
+      From : Entity_Type;
+      Thread_Interface : Thread_Interface_Type;
       T : Time)
    is
       First     : Big_Port_Index_Type renames Firsts (P);
@@ -817,7 +852,9 @@ package body PolyORB_HI.Unprotected_Queue is
                              ": Set_Most_Recent_Value: event [data] port ",
                              Thread_Port_Images (P)));
 
-            Most_Recent_Values (P) := S;
+            Most_Recent_Values (P).From := From;
+            Most_Recent_Values (P).Payload :=
+              Interface_To_Stream (Thread_Interface);
 
             pragma Debug (Verbose,
                           Put_Line
@@ -826,6 +863,7 @@ package body PolyORB_HI.Unprotected_Queue is
                              Thread_Port_Images (P), ". Done."));
          end if;
       end if;
+
       if not Is_Event (P_Kind) then
          Time_Stamps (P) := T;
 
@@ -863,7 +901,9 @@ package body PolyORB_HI.Unprotected_Queue is
                   ": Set_Most_Recent_Value: Global_Data_Queue_Size = ",
                   Integer'Image (Global_Data_Queue_Size)));
 
-            Global_Data_Queue (First + Offset - 1) := S;
+            Global_Data_Queue (First + Offset - 1).From := From;
+            Global_Data_Queue (First + Offset - 1).Payload :=
+              Interface_To_Stream (Thread_Interface);
 
             pragma Debug
               (Verbose,
@@ -909,7 +949,10 @@ package body PolyORB_HI.Unprotected_Queue is
 
             Global_Data_Queue (First + Offset - 1) :=
               Global_Data_Queue (Last + Offset - 1);
-            Global_Data_Queue (Last + Offset - 1)  := S;
+
+            Global_Data_Queue (Last + Offset - 1).From := From;
+            Global_Data_Queue (Last + Offset - 1).Payload :=
+              Interface_To_Stream (Thread_Interface);
 
             pragma Debug
               (Verbose,

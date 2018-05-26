@@ -132,9 +132,16 @@ package PolyORB_HI.Unprotected_Queue is
    --  Number of ports in the thread
 
    function Interface_To_Stream is
-      new Ada.Unchecked_Conversion (Thread_Interface_Type, Port_Stream);
+     new Ada.Unchecked_Conversion (Thread_Interface_Type, Port_Stream);
+
+--   function Interface_To_Stream (Input : Thread_Interface_Type)
+--                                return Port_Stream;
+
    function Stream_To_Interface is
-      new Ada.Unchecked_Conversion (Port_Stream, Thread_Interface_Type);
+     new Ada.Unchecked_Conversion (Port_Stream, Thread_Interface_Type);
+
+--   function Stream_To_Interface (Input : Port_Stream)
+--                               return Thread_Interface_Type;
 
    type Port_Stream_Array is array (Port_Type) of Port_Stream_Entry;
 
@@ -172,16 +179,16 @@ package PolyORB_HI.Unprotected_Queue is
    --  False if there is nothing to receive.
 
    procedure Dequeue
-     (T : Port_Type; P : out Port_Stream_Entry; Not_Empty : out Boolean);
+     (T : Port_Type; Not_Empty : out Boolean);
    --  Dequeue a value from the partial FIFO of port T. If there is
    --  no enqueued value, return the latest dequeued value.
 
-   function Read_In (T : Port_Type) return Port_Stream_Entry;
+   procedure Read_In (T : Port_Type; P : out Port_Stream_Entry);
    --  Read the oldest queued value on the partial FIFO of IN port
    --  T without dequeuing it. If there is no queued value, return
    --  the latest dequeued value.
 
-   function Read_Out (T : Port_Type) return Port_Stream_Entry;
+   procedure Read_Out (T : Port_Type; P : out Port_Stream_Entry);
    --  Return the value put for OUT port T.
 
    function Is_Invalid (T : Port_Type) return Boolean;
@@ -197,7 +204,9 @@ package PolyORB_HI.Unprotected_Queue is
    --  states.
 
    procedure Store_In
-     (P : Port_Stream_Entry; T : Time; Not_Empty : out Boolean);
+     (Thread_Interface : Thread_Interface_Type;
+      From             : Entity_Type;
+      T : Time; Not_Empty : out Boolean);
    --  Stores a new incoming message in its corresponding
    --  position. If this is an event [data] incoming message, then
    --  stores it in the queue, updates its most recent value and
@@ -207,7 +216,9 @@ package PolyORB_HI.Unprotected_Queue is
    --  indicates the instant from which the data of P becomes
    --  deliverable.
 
-   procedure Store_Out (P : Port_Stream_Entry; T : Time);
+   procedure Store_Out (Thread_Interface : Thread_Interface_Type;
+                        From             : Entity_Type;
+                        T                : Time);
    --  Store a value of an OUT port to be sent at the next call to
    --  Send_Output and mark the value as valid.
 
@@ -219,10 +230,14 @@ package PolyORB_HI.Unprotected_Queue is
 
    --  The following are accessors to some internal data of the event queue
 
-   function Get_Most_Recent_Value (P : Port_Type) return Port_Stream_Entry;
+   procedure Get_Most_Recent_Value
+     (P : Port_Type;
+      S : out Port_Stream_Entry);
+
    procedure Set_Most_Recent_Value
      (P : Port_Type;
-      S : Port_Stream_Entry;
+      From : Entity_Type;
+      Thread_Interface : Thread_Interface_Type;
       T : Time);
    --  The protected object contains also an array to store the
    --  values of received IN DATA ports as well as the most recent

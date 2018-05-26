@@ -92,16 +92,16 @@ package body PolyORB_HI.Thread_Interrogators is
       --  Same as 'Wait_Event' but without blocking. Valid is set to
       --  False if there is nothing to receive.
 
-      procedure Dequeue (T : Port_Type; P : out Port_Stream_Entry);
+      procedure Dequeue (T : Port_Type);
       --  Dequeue a value from the partial FIFO of port T. If there is
       --  no enqueued value, return the latest dequeued value.
 
-      function Read_In (T : Port_Type) return Port_Stream_Entry;
+      procedure Read_In (T : Port_Type; P : out Port_Stream_Entry);
       --  Read the oldest queued value on the partial FIFO of IN port
       --  T without dequeuing it. If there is no queued value, return
       --  the latest dequeued value.
 
-      function Read_Out (T : Port_Type) return Port_Stream_Entry;
+      procedure Read_Out (T : Port_Type; P : out Port_Stream_Entry);
       --  Return the value put for OUT port T.
 
       function Is_Invalid (T : Port_Type) return Boolean;
@@ -116,7 +116,9 @@ package body PolyORB_HI.Thread_Interrogators is
       --  function and functions cannot modify protected object
       --  states.
 
-      procedure Store_In (P : Port_Stream_Entry; T : Time);
+      procedure Store_In (Thread_Interface : Thread_Interface_Type;
+                          From             : Entity_Type;
+                          T                : Time);
       --  Stores a new incoming message in its corresponding
       --  position. If this is an event [data] incoming message, then
       --  stores it in the queue, updates its most recent value and
@@ -126,7 +128,9 @@ package body PolyORB_HI.Thread_Interrogators is
       --  indicates the instant from which the data of P becomes
       --  deliverable.
 
-      procedure Store_Out (P : Port_Stream_Entry; T : Time);
+      procedure Store_Out (Thread_Interface : Thread_Interface_Type;
+                           From             : Entity_Type;
+                           T                : Time);
       --  Store a value of an OUT port to be sent at the next call to
       --  Send_Output and mark the value as valid.
 
@@ -176,27 +180,27 @@ package body PolyORB_HI.Thread_Interrogators is
       -- Dequeue --
       -------------
 
-      procedure Dequeue (T : Port_Type; P : out Port_Stream_Entry) is
+      procedure Dequeue (T : Port_Type) is
       begin
-         UQ.Dequeue (T, P, Not_Empty);
+         UQ.Dequeue (T, Not_Empty);
       end Dequeue;
 
       -------------
       -- Read_In --
       -------------
 
-      function Read_In (T : Port_Type) return Port_Stream_Entry is
+      procedure Read_In (T : Port_Type; P : out Port_Stream_Entry) is
       begin
-         return UQ.Read_In (T);
+         UQ.Read_In (T, P);
       end Read_In;
 
       --------------
       -- Read_Out --
       --------------
 
-      function Read_Out (T : Port_Type) return Port_Stream_Entry is
+      procedure Read_Out (T : Port_Type; P : out Port_Stream_Entry) is
       begin
-         return UQ.Read_Out (T);
+         UQ.Read_Out (T, P);
       end Read_Out;
 
       ----------------
@@ -221,18 +225,22 @@ package body PolyORB_HI.Thread_Interrogators is
       -- Store_In --
       --------------
 
-      procedure Store_In (P : Port_Stream_Entry; T : Time) is
+      procedure Store_In (Thread_Interface : Thread_Interface_Type;
+                          From             : Entity_Type;
+                          T : Time) is
       begin
-         UQ.Store_In (P, T, Not_Empty);
+         UQ.Store_In (Thread_Interface, From, T, Not_Empty);
       end Store_In;
 
       ---------------
       -- Store_Out --
       ---------------
 
-      procedure Store_Out (P : Port_Stream_Entry; T : Time) is
+      procedure Store_Out (Thread_Interface : Thread_Interface_Type;
+                           From             : Entity_Type;
+                           T                : Time) is
       begin
-         UQ.Store_Out (P, T);
+         UQ.Store_Out (Thread_Interface, From, T);
       end Store_Out;
 
       -----------
@@ -259,26 +267,33 @@ package body PolyORB_HI.Thread_Interrogators is
    -- Send_Output --
    -----------------
 
+   Send_Output_Message   : PolyORB_HI.Messages.Message_Type;
+   --  This variable is used only by the Send_Output function,
+   --  protected by the protected object.
+
+   PSE : Port_Stream_Entry;
+
    function Send_Output (Port : Port_Type) return Error_Kind is
 
-       type Port_Type_Array is array (Positive)
+      type Port_Type_Array is array (Positive)
          of PolyORB_HI_Generated.Deployment.Port_Type;
-        type Port_Type_Array_Access is access Port_Type_Array;
+      type Port_Type_Array_Access is access Port_Type_Array;
 
-        function To_Pointer is new Ada.Unchecked_Conversion
+      function To_Pointer is new Ada.Unchecked_Conversion
           (System.Address, Port_Type_Array_Access);
 
-        Dst       : constant Port_Type_Array_Access :=
+      Dst       : constant Port_Type_Array_Access :=
           To_Pointer (Destinations (Port));
-        N_Dst     : Integer renames N_Destinations (Port);
-        P_Kind    : Port_Kind renames Thread_Port_Kinds (Port);
-
-        Message   : PolyORB_HI.Messages.Message_Type;
-        Value     : constant Thread_Interface_Type := Stream_To_Interface
-          (Global_Queue.Read_Out (Port).Payload);
+      N_Dst     : Integer renames N_Destinations (Port);
+      P_Kind    : Port_Kind renames Thread_Port_Kinds (Port);
+      Value : Thread_Interface_Type (Port);
 
       Error : Error_Kind := Error_None;
+
    begin
+      Global_Queue.Read_Out (Port, PSE);
+      Value := Stream_To_Interface (PSE.Payload);
+
       pragma Debug (Verbose,
                     Put_Line (Entity_Image (Current_Entity),
                               ": Send_Output: port ",
@@ -304,19 +319,19 @@ package body PolyORB_HI.Thread_Interrogators is
             --  First, we marshall the destination
 
             Port_Type_Marshallers.Marshall
-              (Internal_Code (Dst (To)), Message);
+              (Internal_Code (Dst (To)), Send_Output_Message);
 
             --  Then marshall the time stamp in case of a data port
 
             if not Is_Event (P_Kind) then
                Time_Marshallers.Marshall
                  (Global_Queue.Get_Time_Stamp (Port),
-                  Message);
+                  Send_Output_Message);
             end if;
 
             --  Then we marshall the value corresponding to the port
 
-            Marshall (Value, Message);
+            Marshall (Value, Send_Output_Message);
 
             pragma Debug
               (Verbose,
@@ -325,8 +340,9 @@ package body PolyORB_HI.Thread_Interrogators is
                   PolyORB_HI_Generated.Deployment.Port_Image (Dst (To)),
                   Entity_Image (Port_Table (Dst (To)))));
 
-            Error := Send (Current_Entity, Port_Table (Dst (To)), Message);
-            PolyORB_HI.Messages.Reallocate (Message);
+            Error := Send (Current_Entity, Port_Table (Dst (To)),
+                           Send_Output_Message);
+            PolyORB_HI.Messages.Reallocate (Send_Output_Message);
 
             if Error /= Error_None then
                return Error;
@@ -353,8 +369,7 @@ package body PolyORB_HI.Thread_Interrogators is
                                         ": Put_Value"));
 
       Global_Queue.Store_Out
-        ((Current_Entity, Interface_To_Stream (Thread_Interface)),
-         Next_Deadline);
+        (Thread_Interface, Current_Entity, Next_Deadline);
    end Put_Value;
 
    -------------------
@@ -371,15 +386,30 @@ package body PolyORB_HI.Thread_Interrogators is
    -- Get_Value --
    ---------------
 
-   function Get_Value (Port : Port_Type) return Thread_Interface_Type is
-      Stream : constant Port_Stream := Global_Queue.Read_In (Port).Payload;
-      T_Port : constant Thread_Interface_Type := Stream_To_Interface (Stream);
+   procedure Get_Value (Port : Port_Type;
+                        Result : in out Thread_Interface_Type)
+   is
    begin
+      Global_Queue.Read_In (Port, PSE);
+
       pragma Debug (Verbose,
                     Put_Line (Entity_Image (Current_Entity),
                               ": Get_Value: Value of port ",
                               Thread_Port_Images (Port), " got"));
-      return T_Port;
+
+      Result := Stream_To_Interface (PSE.Payload);
+   end Get_Value;
+
+   function Get_Value (Port : Port_Type) return Thread_Interface_Type is
+   begin
+      Global_Queue.Read_In (Port, PSE);
+
+      pragma Debug (Verbose,
+                    Put_Line (Entity_Image (Current_Entity),
+                              ": Get_Value: Value of port ",
+                              Thread_Port_Images (Port), " got"));
+
+      return Stream_To_Interface (PSE.Payload);
    end Get_Value;
 
    ----------------
@@ -387,15 +417,15 @@ package body PolyORB_HI.Thread_Interrogators is
    ----------------
 
    function Get_Sender (Port : Port_Type) return Entity_Type is
-      Sender : constant Entity_Type := Global_Queue.Read_In (Port).From;
    begin
+      Global_Queue.Read_In (Port, PSE);
       pragma Debug (Verbose,
                     Put_Line (Entity_Image (Current_Entity),
                               ": Get_Sender: Value of sender to port ",
                               Thread_Port_Images (Port),
-                              Entity_Image (Sender)));
+                              Entity_Image (PSE.From)));
 
-      return Sender;
+      return PSE.From;
    end Get_Sender;
 
    ---------------
@@ -419,14 +449,13 @@ package body PolyORB_HI.Thread_Interrogators is
    ----------------
 
    procedure Next_Value (Port : Port_Type) is
-      P : Port_Stream_Entry;
    begin
       pragma Debug (Verbose,
                     Put_Line (Entity_Image (Current_Entity),
                               ": Next_Value for port ",
                               Thread_Port_Images (Port)));
 
-      Global_Queue.Dequeue (Port, P);
+      Global_Queue.Dequeue (Port);
    end Next_Value;
 
    ------------------------------
@@ -490,7 +519,7 @@ package body PolyORB_HI.Thread_Interrogators is
                               ": Store_Received_Message"));
 
       Global_Queue.Store_In
-        ((From, Interface_To_Stream (Thread_Interface)), Time_Stamp);
+        (Thread_Interface, From, Time_Stamp);
    end Store_Received_Message;
 
    --------------------
