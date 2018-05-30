@@ -286,13 +286,11 @@ package body PolyORB_HI.Thread_Interrogators is
           To_Pointer (Destinations (Port));
       N_Dst     : Integer renames N_Destinations (Port);
       P_Kind    : Port_Kind renames Thread_Port_Kinds (Port);
-      Value : Thread_Interface_Type (Port);
 
       Error : Error_Kind := Error_None;
 
    begin
       Global_Queue.Read_Out (Port, PSE);
-      Value := Stream_To_Interface (PSE.Payload);
 
       pragma Debug (Verbose,
                     Put_Line (Entity_Image (Current_Entity),
@@ -331,7 +329,12 @@ package body PolyORB_HI.Thread_Interrogators is
 
             --  Then we marshall the value corresponding to the port
 
-            Marshall (Value, Send_Output_Message);
+            declare
+               Value : constant Thread_Interface_Type :=
+                 Stream_To_Interface (PSE.Payload);
+            begin
+               Marshall (Value, Send_Output_Message);
+            end;
 
             pragma Debug
               (Verbose,
