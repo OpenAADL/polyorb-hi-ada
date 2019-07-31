@@ -15,15 +15,10 @@ REF_OUTPUTS = $(srcdir)/node_a.ref
 
 include $(srcdir)/../../Makefile.common
 
-if HAS_GNATMAKE_FOR_ERC32
-   SCENARIO_FILE=$(srcdir)/scenario.aadl
-endif
-
-if HAS_TSIM_FOR_ERC32
-   CHECKABLE_SCENARIO_FILE=$(srcdir)/scenario.aadl
-endif
+SCENARIO_FILE=$(srcdir)/scenario.aadl
+CHECKABLE_SCENARIO_FILE=$(srcdir)/scenario.aadl
 
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(AADL_SOURCES) $(SCENARIO_FILE) \
-        $(REF_OUTPUTS)
+	$(REF_OUTPUTS)
 
 CLEANDIRS=rma_erc32
