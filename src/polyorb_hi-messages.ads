@@ -95,7 +95,7 @@ package PolyORB_HI.Messages is
      (Message : Message_Type;
       From    : Entity_Type;
       Entity  : Entity_Type;
-      R : in out Polyorb_Hi.Streams.Stream_Element_Array)
+      R : in out PolyORB_HI.Streams.Stream_Element_Array)
      with Pre => (Valid (Message));
    --  Return a byte array including a two byte header (length and
    --  originator entity) and Message payload.

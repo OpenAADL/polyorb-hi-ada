@@ -77,7 +77,9 @@ generic
       Port   : out Port_Type);
    --  Blocks the next triggering of the thread
 
-   with function Job (Port : Port_Type) return PolyORB_HI.Errors.Error_Kind;
+   with procedure Job
+     (Port : Port_Type;
+      Result : out PolyORB_HI.Errors.Error_Kind);
    --  Procedure to call at each dispatch of the hybrid thread
 
    with procedure Activate_Entrypoint is null;

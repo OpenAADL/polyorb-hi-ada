@@ -60,17 +60,17 @@ package body PolyORB_HI.Hybrid_Task is
       --  Wait for the network initialization to be finished
 
       pragma Debug
-        (Put_Line
-         (Verbose,
-          "Hybrid Task ", Entity_Image (Entity), ": Wait initialization"));
+        (Verbose,
+         Put_Line
+         ("Hybrid Task ", Entity_Image (Entity), ": Wait initialization"));
 
-      Suspend_Until_True (Task_Suspension_Objects (Entity));
+      Block_Task (Entity);
       delay until System_Startup_Time;
 
-      pragma Debug (Put_Line
-                    (Verbose,
-                     "Hybrid task initialized for entity ",
-                     Entity_Image (Entity)));
+      pragma Debug (Verbose,
+                    Put_Line
+                      ("Hybrid task initialized for entity ",
+                       Entity_Image (Entity)));
 
       --  Run the initialize entrypoint (if any)
 
@@ -80,18 +80,18 @@ package body PolyORB_HI.Hybrid_Task is
 
       loop
          pragma Debug
-           (Put_Line
-            (Verbose,
-             "Hybrid Task ", Entity_Image (Entity), ": New Dispatch"));
+           (Verbose,
+            Put_Line
+            ("Hybrid Task ", Entity_Image (Entity), ": New Dispatch"));
 
          --  Block until an event is received
 
          Wait_For_Incoming_Events (Entity, Port);
 
          pragma Debug
-           (Put_Line
-            (Verbose,
-             "Hybrid Task ", Entity_Image (Entity), ": received event"));
+           (Verbose,
+            Put_Line
+            ("Hybrid Task ", Entity_Image (Entity), ": received event"));
 
          --  Calculate the next deadline according to the minimal
          --  inter-arrival time.
@@ -100,7 +100,7 @@ package body PolyORB_HI.Hybrid_Task is
 
          --  Execute the job
 
-         Error := Job (Port);
+         Job (Port, Error);
 
          if Error /= Error_None then
             Recover_Entrypoint;

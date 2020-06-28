@@ -29,16 +29,16 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with PolyORB_HI.Utils;
 with PolyORB_HI.Output;
 with PolyORB_HI.Port_Type_Marshallers;
 with PolyORB_HI.Messages;
 with PolyORB_HI.Suspenders;
+with PolyORB_HI.Port_Types;
 
 package body PolyORB_HI.Hybrid_Task_Driver is
 
    package body Driver is
-      use PolyORB_HI.Utils;
+      use PolyORB_HI.Port_Types;
       use PolyORB_HI.Output;
       use PolyORB_HI_Generated.Deployment;
       use Ada.Real_Time;
@@ -57,9 +57,13 @@ package body PolyORB_HI.Hybrid_Task_Driver is
 
       procedure Trigger (T : Hybrid_Task_Info) is
          Message : aliased PolyORB_HI.Messages.Message_Type;
+         R : PolyORB_HI.Streams.Stream_Element_Array
+            (1 .. PolyORB_HI.Messages.Size (Message));
+
       begin
          Marshall (Internal_Code (T.Period_Event), Message);
-         Deliver (T.The_Task, Encapsulate (Message, T.The_Task, T.The_Task));
+         Encapsulate (Message, T.The_Task, T.The_Task, R);
+         Deliver (T.The_Task, R);
       end Trigger;
 
       ----------------
@@ -73,13 +77,13 @@ package body PolyORB_HI.Hybrid_Task_Driver is
          --  Wait for the network initialization to be finished
 
          pragma Debug
-           (Put_Line (Verbose, "Hybrid thread driver: Wait initialization"));
+           (Verbose, Put_Line ("Hybrid thread driver: Wait initialization"));
 
          Suspend_Until_True (Driver_Suspender);
          delay until System_Startup_Time;
 
          pragma Debug
-           (Put_Line (Verbose, "Hybrid thread driver initialized"));
+           (Verbose, Put_Line ("Hybrid thread driver initialized"));
 
          Next_Start := Clock;
 
@@ -87,7 +91,7 @@ package body PolyORB_HI.Hybrid_Task_Driver is
 
          loop
             pragma Debug
-              (Put_Line (Verbose, "Hybrid thread driver: new cycle"));
+              (Verbose, Put_Line ("Hybrid thread driver: new cycle"));
 
             --  Trigger the tasks that have to be triggered
 
@@ -99,10 +103,10 @@ package body PolyORB_HI.Hybrid_Task_Driver is
                      T.Eligible := False;
 
                      pragma Debug
-                       (Put_Line
-                        (Verbose,
-                         "Hybrid thread driver: Triggering task: "
-                         + Entity_Image (T.The_Task)));
+                       (Verbose,
+                        Put_Line
+                          ("Hybrid thread driver: Triggering task: ",
+                           Entity_Image (T.The_Task)));
 
                      Trigger (T);
                   end if;
@@ -139,10 +143,10 @@ package body PolyORB_HI.Hybrid_Task_Driver is
                begin
                   if T.Next_Periodic_Dispatch <= Next_Start then
                      pragma Debug
-                       (Put_Line
-                        (Verbose,
-                         "Hybrid thread driver: Eligible task: "
-                         + Entity_Image (T.The_Task)));
+                       (Verbose,
+                        Put_Line
+                          ("Hybrid thread driver: Eligible task: ",
+                           Entity_Image (T.The_Task)));
 
                      T.Eligible := True;
                   end if;
