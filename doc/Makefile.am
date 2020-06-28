@@ -12,7 +12,6 @@ SRC_CODE = $(srcdir)/polyorb_hi-periodic_task.ads \
 	$(srcdir)/polyorb_hi-thread_interrogators.ads \
 	$(srcdir)/polyorb_hi-protocols.ads \
 	$(srcdir)/polyorb_hi-transport_low_level.ads \
-	$(srcdir)/gnat.adc \
 	$(srcdir)/native.adc \
 	$(srcdir)/hi-e.adc
 

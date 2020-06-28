@@ -522,10 +522,6 @@ PolyORB-HI-Ada strictly follows Ada restrictions for High-Integrity
 systems. They are enforced through different compilation files:
 
 @itemize @bullet
-@item The files @file{gnat.adc} lists common restrictions applied to
-all compiled files
-
-@include gnat.texi
 
 @item @file{native.adc}  lists restrictions applied to compiled files
 for native targets
