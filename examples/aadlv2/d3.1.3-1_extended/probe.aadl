@@ -3,7 +3,7 @@
 
 package d3extended
 public
-  with Data_Model, Deployment, Cheddar_Properties;
+  with Data_Model, Deployment;
 
 ----------
 -- Data --
@@ -30,7 +30,7 @@ end POS;
 data implementation POS.Impl
 subcomponents
   --  spgUpdate : subprogram Update.Impl;
-  --  spgRead   : subprogram Read; 
+  --  spgRead   : subprogram Read;
   Field     : data POS_Internal_Type;
   --  connections
   --  Cnx_Pos_1 : subprogram access SpgUpdate -> Update;
@@ -119,7 +119,7 @@ features
 end GNC_Thread_Wrapper;
 
 subprogram implementation GNC_Thread_Wrapper.Impl
-calls 
+calls
 Mycalls : {
   Welcome     : subprogram GNC_Identity;
   Update      : subprogram POS.Update;
@@ -132,7 +132,7 @@ connections
   Cnx_GNC_1 : data access GNC_POS -> Update.this;
   Cnx_GNC_2 : data access GNC_POS -> Read.this;
   Cnx_GNC_3 : parameter Read.Read_Value -> Ping_It_Spg.Sent_Data;
-  Cnx_GNC_4 : parameter Ping_it_Spg.Data_Source -> Data_Source;  
+  Cnx_GNC_4 : parameter Ping_it_Spg.Data_Source -> Data_Source;
 end GNC_Thread_Wrapper.Impl;
 
 subprogram TMTC_Thread_Wrapper
@@ -141,7 +141,7 @@ features
 end TMTC_Thread_Wrapper;
 
 subprogram implementation TMTC_Thread_Wrapper.Impl
-calls 
+calls
 Mycalls : {
   Welcome  : subprogram TMTC_Identity;
   TMTC_Job : subprogram TMTC_Job;
@@ -163,7 +163,7 @@ features
 end GNC_Thread;
 
 thread implementation GNC_Thread.Impl
-calls 
+calls
 Mycall : {
    GNC_Thread_Wrapper : subprogram GNC_Thread_Wrapper.Impl;
 };
@@ -175,7 +175,7 @@ properties
   Period                             => 1000 ms;
   Compute_Execution_time             => 0 ms .. 400 ms;
   Deadline                           => 1000 ms;
-  Cheddar_Properties::Fixed_Priority => 15;
+  Priority => 15;
 end GNC_thread.Impl;
 
 thread TMTC_Thread
@@ -184,7 +184,7 @@ features
 end TMTC_Thread;
 
 thread implementation TMTC_Thread.Impl
-calls 
+calls
 Mycall : {
   TMTC_Thread_Wrapper : subprogram TMTC_Thread_Wrapper.Impl;
 };
@@ -195,7 +195,7 @@ properties
   Period                             => 100 ms;
   Compute_Execution_time             => 0 ms .. 50 ms;
   Deadline                           => 100 ms;
-  Cheddar_Properties::Fixed_Priority => 15;
+  Priority => 15;
 end TMTC_Thread.Impl;
 
 thread Ground_Thread
@@ -204,7 +204,7 @@ features
 end Ground_Thread;
 
 thread implementation Ground_Thread.Impl
-calls 
+calls
 Mycall : {
   Ping_Me_Spg : subprogram Receive_Spg;
 };
@@ -215,7 +215,7 @@ properties
   Period                             => 10 Ms;
   deadline                           => 10 Ms;
   Compute_Execution_time             => 0 ms .. 3 ms;
-  Cheddar_Properties::Fixed_Priority => 1;
+  Priority => 1;
 end Ground_Thread.Impl;
 
 ---------------
@@ -279,7 +279,7 @@ system probe
 end probe;
 
 system implementation probe.native
-subcomponents 
+subcomponents
   P1            : processor the_processor
    {Priority_Range => 0 .. 255;};
 

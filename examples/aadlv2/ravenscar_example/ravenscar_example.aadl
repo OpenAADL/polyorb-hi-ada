@@ -2,7 +2,7 @@
 
 package RavenscarExample
 public
-  with Data_Model, Cheddar_Properties;
+  with Data_Model;
 
 data Workload
 properties
@@ -27,7 +27,7 @@ properties
   Period                             => 1000 ms;
   Deadline                           => 500 ms;
   Compute_Execution_Time             => 0 ms .. 498 ms;
-  Cheddar_Properties::Fixed_Priority => 7;
+  Priority => 7;
 end Regular_Producer;
 
 thread On_Call_Producer
@@ -43,7 +43,7 @@ properties
   Period                             => 1000 ms;
   Deadline                           => 800 ms;
   Compute_Execution_Time             => 0 ms .. 250 ms;
-  Cheddar_Properties::Fixed_Priority => 5;
+  Priority => 5;
 end On_Call_Producer;
 
 thread External_Event_Server
@@ -60,7 +60,7 @@ properties
   Period                             => 5000 ms;
   Deadline                           => 100 ms;
   Compute_Execution_Time             => 0 ms .. 2 ms;
-  Cheddar_Properties::Fixed_Priority => 11;
+  Priority => 11;
 end External_Event_Server;
 
 thread Activation_Log_Reader
@@ -78,7 +78,7 @@ properties
   Period                             => 1000 ms;
   Deadline                           => 1000 ms;
   Compute_Execution_Time             => 0 ms .. 125 ms;
-  Cheddar_Properties::Fixed_Priority => 3;
+  Priority => 3;
 end Activation_Log_Reader;
 
 thread External_Event_Source
@@ -91,7 +91,7 @@ properties
   Period                             => 5000 ms;
   Deadline                           => 100 ms;
   Compute_Execution_Time             => 0 ms .. 10 ms;
-  Cheddar_Properties::Fixed_Priority => 11;
+  Priority => 11;
 end External_Event_Source;
 
 process Workload_Manager
@@ -106,7 +106,7 @@ subcomponents
   External_Event_Server : thread External_Event_Server;
   Activation_Log_Reader : thread Activation_Log_Reader;
 connections
-  port External_Interrupt_Depository 
+  port External_Interrupt_Depository
      -> External_Event_Server.External_Interrupt_Depository;
   port Regular_Producer.Additional_Workload
      -> On_Call_Producer.Additional_Workload_Depository;
@@ -125,7 +125,7 @@ process implementation Interrupt_Simulator.Impl
 subcomponents
   External_Event_Source : thread External_Event_Source;
 connections
-  port External_Event_Source.External_Interrupt 
+  port External_Event_Source.External_Interrupt
      -> External_Interrupt;
 end Interrupt_Simulator.Impl;
 

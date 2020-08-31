@@ -2,27 +2,26 @@
 
 package HW_Leon_Local
 public
-  with Deployment, Cheddar_Properties;
+  with Deployment;
   with RavenscarExample;
 
-processor The_Processor
-properties
-  Deployment::Execution_Platform           => LEON_ORK;
-  Cheddar_Properties::Preemptive_Scheduler => true;
-  Scheduling_Protocol                      =>
+  processor The_Processor
+  properties
+    Deployment::Execution_Platform           => LEON_ORK;
+    Scheduling_Protocol                      =>
     POSIX_1003_HIGHEST_PRIORITY_FIRST_PROTOCOL;
-  Priority_Range                           => 0 .. 255;
-end The_Processor;
+    Priority_Range                           => 0 .. 255;
+  end The_Processor;
 
-system Case_Study
-end Case_Study;
+  system Case_Study
+  end Case_Study;
 
-system implementation Case_Study.LEON_Local
-subcomponents
-  WoM : process RavenscarExample::Workload_Manager.Impl;
-  CPU_1 : processor The_Processor;
-properties
-  Actual_Processor_Binding => reference (CPU_1) applies to WoM;
-end Case_Study.LEON_Local;
+  system implementation Case_Study.LEON_Local
+  subcomponents
+    WoM : process RavenscarExample::Workload_Manager.Impl;
+    CPU_1 : processor The_Processor;
+  properties
+    Actual_Processor_Binding => reference (CPU_1) applies to WoM;
+  end Case_Study.LEON_Local;
 
 end HW_Leon_Local;

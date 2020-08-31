@@ -2,9 +2,9 @@
 -- --
 -- Created on March 23, 2009 by Nader KHAMMASSI (Virtualys - http://www.virtualys.com/)
 -- This AADL model of a portion of a Radar system was created by Virtualys
---  and incorporated 
+--  and incorporated
 -- as part of Sysim project to test the robustness of the Embeded System Simulator
---  based on 
+--  based on
 -- AADL model modeling language and the capacities of the syntaxic and semantic
 --  analyser provided
 -- by Sysim.
@@ -20,8 +20,8 @@
 --  "Display"
 -- . Adding out data port to the main process and another one to thread Display
 -- . Adding corresponding connections:
--- 	Thread to process : Display_out->Main_out
--- 	 Main process to device: Main_out -> Screen_in
+--      Thread to process : Display_out->Main_out
+--       Main process to device: Main_out -> Screen_in
 -- --
 -- Modified on May 13, 2009 by Jerome Hugues (Telecom ParisTech)
 -- . changed pentium processor with leon2
@@ -33,8 +33,8 @@
 --  rotation value
 -- . Adding new thread controller and its implementation to the main process
 -- . Adding corresponding connections:
--- 	Thread Controller to the main process : controller_in -> get_angle;
--- 	Main process to device: get_angle -> motor_out
+--      Thread Controller to the main process : controller_in -> get_angle;
+--      Main process to device: get_angle -> motor_out
 -- --
 -- Modified on May 17, 2009 by Jerome Hugues (Telecom ParisTech)
 -- . Bug fixes
@@ -48,7 +48,6 @@
 package radar_system
 public
   with radar_types;
-  with cheddar_properties;
   with deployment;
 
 SYSTEM radar
@@ -59,7 +58,7 @@ END radar;
 -- and software entity : running processes and threads + operating system functionalities
 --  (scheduling)
 -- implemented in the processor that represent a part of execution platform
---  and physical devices in the 
+--  and physical devices in the
 -- same time.
 SYSTEM IMPLEMENTATION radar.simple
 SUBCOMPONENTS
@@ -167,7 +166,7 @@ CONNECTIONS
   PARAMETER RS.receiver_out -> receiver_out;
   PARAMETER receiver_in -> RS.receiver_in;
 PROPERTIES
-  Cheddar_Properties::Fixed_Priority => 63;
+  Priority => 63;
   Dispatch_Protocol => Periodic;
   Compute_Execution_Time => 10 ms .. 20 ms;
   Deadline => 150 ms;
@@ -203,7 +202,7 @@ CONNECTIONS
   PARAMETER AS.analyser_out -> analyser_out;
   PARAMETER from_controller -> AS.from_controller;
 PROPERTIES
-  Cheddar_Properties::Fixed_Priority => 62;
+  Priority => 62;
   Dispatch_Protocol => Periodic;
   Compute_Execution_Time => 40 ms .. 60 ms;
   Deadline => 500 ms;
@@ -235,7 +234,7 @@ CALLS CS : {
 CONNECTIONS
   PARAMETER display_in -> DS.display_in;
 PROPERTIES
-  Cheddar_Properties::Fixed_Priority => 60;
+  Priority => 60;
   Dispatch_Protocol => Periodic;
   Compute_Execution_Time => 10 ms .. 30 ms;
   Deadline => 200 ms;
@@ -259,7 +258,7 @@ END transmitter;
 
 THREAD IMPLEMENTATION transmitter.impl
 PROPERTIES
-  Cheddar_Properties::Fixed_Priority => 71;
+  Priority => 71;
   Dispatch_Protocol => Periodic;
   Compute_Execution_Time => 10 ms .. 10 ms;
   Compute_Entrypoint_Source_Text => "radar.transmitter";
@@ -281,7 +280,7 @@ CONNECTIONS
   PARAMETER controller_in -> CS.controller_in;
   PARAMETER CS.controller_out -> controller_out;
 PROPERTIES
-  Cheddar_Properties::Fixed_Priority => 70;
+  Priority => 70;
   Dispatch_Protocol => Periodic;
   Compute_Execution_Time => 10 ms .. 10 ms;
   Deadline => 150 ms;
@@ -298,7 +297,7 @@ properties
 END Controller_Spg;
 
 -- The processor represent an abstraction of hardware and software (OS) that
---  is responsible for 
+--  is responsible for
 -- scheduling and executing the  threads (It may include functionalities provided
 --  by operating systems
 -- such as scheduling protocol in our case).

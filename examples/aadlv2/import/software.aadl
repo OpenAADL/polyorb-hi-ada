@@ -7,7 +7,7 @@
 
 package Software
 public
-  with Data_Model, Cheddar_Properties;
+  with Data_Model;
 
 ----------
 -- Data --
@@ -60,7 +60,7 @@ features
 end P;
 
 thread implementation P.Impl
-calls 
+calls
 Mycall : {
   P_Spg : subprogram Do_Ping_Spg;
 };
@@ -71,7 +71,7 @@ properties
   Period                             => 1000 Ms;
   Compute_Execution_time             => 0 ms .. 3 ms;
   Deadline                           => 1000 ms;
-  Cheddar_Properties::Fixed_Priority => 2;
+  Priority                           => 2;
 end P.Impl;
 
 thread Q
@@ -80,7 +80,7 @@ features
 end Q;
 
 thread implementation Q.Impl
-calls 
+calls
 Mycall : {
   Q_Spg : subprogram Ping_Spg;
 };
@@ -91,7 +91,7 @@ properties
   Period                             => 10 Ms;
   deadline                           => 10 Ms;
   Compute_Execution_time             => 0 ms .. 3 ms;
-  Cheddar_Properties::Fixed_Priority => 1;
+  Priority                           => 1;
 end Q.Impl;
 
 end Software;
