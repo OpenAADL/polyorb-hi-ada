@@ -11,7 +11,6 @@ ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi-aperiodic_task.ads	\
 	 $(srcdir)/polyorb_hi-null_task.ads			\
 	 $(srcdir)/polyorb_hi-output.ads			\
 	 $(srcdir)/polyorb_hi-periodic_task.ads			\
-	 $(srcdir)/polyorb_hi-port_kinds.ads			\
 	 $(srcdir)/polyorb_hi-port_types.ads			\
 	 $(srcdir)/polyorb_hi-protocols.ads			\
 	 $(srcdir)/polyorb_hi-sporadic_task.ads			\
@@ -25,6 +24,7 @@ ADA_SPECS = $(ADA_SPECS_WITH_BODY) $(srcdir)/polyorb_hi.ads	\
 	$(srcdir)/polyorb_hi-errors.ads				\
 	$(srcdir)/polyorb_hi_generated.ads			\
 	$(srcdir)/polyorb_hi-output_low_level.ads		\
+	$(srcdir)/polyorb_hi-port_kinds.ads			\
 	$(srcdir)/polyorb_hi-port_type_marshallers.ads		\
 	$(srcdir)/polyorb_hi-streams.ads			\
 	$(srcdir)/polyorb_hi-time_marshallers.ads		\
