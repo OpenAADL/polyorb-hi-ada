@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---       Copyright (C) 2009 Telecom ParisTech, 2010-2018 ESA & ISAE.        --
+--       Copyright (C) 2009 Telecom ParisTech, 2010-2020 ESA & ISAE.        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -38,7 +38,6 @@ package body PolyORB_HI.Background_Task is
    use PolyORB_HI.Output;
    use PolyORB_HI_Generated.Deployment;
    use PolyORB_HI.Suspenders;
-   use Ada.Real_Time;
 
    --------------------------
    -- The_Background_Task --

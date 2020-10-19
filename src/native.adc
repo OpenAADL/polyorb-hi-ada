@@ -5,7 +5,7 @@ pragma Restrictions (No_Entry_Calls_In_Elaboration_Code);
 --------------------------------------------------------------------------------
 -- Warnings on constructs that rely on the secondary stack
 
-pragma Restriction_Warnings (No_Secondary_Stack);        -- 13.12 (2)
+--  pragma Restriction_Warnings (No_Secondary_Stack);        -- 13.12 (2)
 
 --------------------------------------------------------------------------------
 --  Enforce Ravenscar profile.

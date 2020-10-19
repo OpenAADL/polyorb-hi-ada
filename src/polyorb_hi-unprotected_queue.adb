@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                   Copyright (C) 2014-2018 ESA & ISAE.                    --
+--                   Copyright (C) 2014-2020 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -85,7 +85,6 @@ package body PolyORB_HI.Unprotected_Queue is
 
    procedure Dequeue
      (T : Port_Type;
---      P : out Port_Stream_Entry;
       Not_Empty : out Boolean)
    is
       Is_Empty  : Boolean renames Empties (T);
@@ -93,7 +92,7 @@ package body PolyORB_HI.Unprotected_Queue is
       Last      : Big_Port_Index_Type renames Lasts (T);
       FIFO_Size : Integer renames Thread_FIFO_Sizes (T);
       P_Kind    : Port_Kind renames Thread_Port_Kinds (T);
-      Offset    : Integer renames Thread_FIFO_Offsets (T);
+
    begin
       --  This subprogram is called only when the thread has IN
       --  ports.

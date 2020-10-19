@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2018 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2020 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -31,13 +31,13 @@
 
 pragma SPARK_Mode (Off);
 with Ada.Unchecked_Conversion;
+with System;
 
 with PolyORB_HI.Output;
 with PolyORB_HI.Port_Type_Marshallers;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Time_Marshallers;
 with PolyORB_HI.Unprotected_Queue;
-with POlyORB_HI.Port_Types;
 
 package body PolyORB_HI.Thread_Interrogators is
 
@@ -273,21 +273,9 @@ package body PolyORB_HI.Thread_Interrogators is
 
    PSE : Port_Stream_Entry;
 
-   function Send_Output (Port : Port_Type) return Error_Kind is
-
-      type Port_Type_Array is array (Positive)
-         of PolyORB_HI_Generated.Deployment.Port_Type;
-      type Port_Type_Array_Access is access Port_Type_Array;
-
-      function To_Pointer is new Ada.Unchecked_Conversion
-          (System.Address, Port_Type_Array_Access);
-
-      Dst       : constant Port_Type_Array_Access :=
-          To_Pointer (Destinations (Port));
-      N_Dst     : Integer renames N_Destinations (Port);
+   procedure Send_Output (Port : Port_Type; Error: out Error_Kind) is
+      Dst       : constant Destinations_Array := Destinations (Port);
       P_Kind    : Port_Kind renames Thread_Port_Kinds (Port);
-
-      Error : Error_Kind := Error_None;
 
    begin
       Global_Queue.Read_Out (Port, PSE);
@@ -313,7 +301,7 @@ package body PolyORB_HI.Thread_Interrogators is
 
          --  Begin the sending to all destinations
 
-         for To in 1 .. N_Dst loop
+         for To in Dst'Range loop
             --  First, we marshall the destination
 
             Port_Type_Marshallers.Marshall
@@ -348,7 +336,7 @@ package body PolyORB_HI.Thread_Interrogators is
             PolyORB_HI.Messages.Reallocate (Send_Output_Message);
 
             if Error /= Error_None then
-               return Error;
+               return;
             end if;
          end loop;
 
@@ -358,8 +346,6 @@ package body PolyORB_HI.Thread_Interrogators is
                           Thread_Port_Images (Port),
                           ". End."));
       end if;
-
-      return Error;
    end Send_Output;
 
    ---------------

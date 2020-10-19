@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2020 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -35,12 +35,11 @@
 pragma SPARK_Mode (Off);
 with Ada.Real_Time;
 
-with System;
-
 with PolyORB_HI_Generated.Deployment; use PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Errors; use PolyORB_HI.Errors;
 with PolyORB_HI.Messages; use PolyORB_HI.Messages;
 with PolyORB_HI.Port_Kinds;
+with POlyORB_Hi.Port_Types;
 
 generic
 
@@ -57,9 +56,6 @@ generic
    type Port_Image_Array is array (Port_Type) of
     PolyORB_HI_Generated.Deployment.Port_Sized_String;
    --  An array type to specify the image of each port.
-
-   type Address_Array is array (Port_Type) of System.Address;
-   --  An array to specify a list of arrays of various sizes.
 
    type Overflow_Protocol_Array is array (Port_Type) of
      Port_Kinds.Overflow_Handling_Protocol;
@@ -116,15 +112,9 @@ generic
    --  deducing it from Thread_Fifo_Sizes is done to guarantee static
    --  allocation of the global message queue of the thread.
 
-   N_Destinations : in Integer_Array;
-   --  For each OUT port, we give the number of destinations. This
-   --  will be used to know the length of each element of the array
-   --  below.
-
-   Destinations : in Address_Array;
-   --  For each OUT port, we give the address of an constant
-   --  Entity_Type array containing the list of all the destination of
-   --  the port. For IN ports, we give Null_Address.
+   with function Destinations
+    (Port : Port_Type)
+    return PolyORB_HI.Port_Types.Destinations_Array;
 
    with procedure Marshall
      (R :        Thread_Interface_Type;
@@ -144,7 +134,7 @@ generic
 
 package PolyORB_HI.Thread_Interrogators is
 
-   function Send_Output (Port : Port_Type) return Error_Kind;
+   procedure Send_Output (Port : Port_Type; Error : out Error_Kind);
    --  Explicitly cause events, event data, or data to be transmitted
    --  through outgoing ports to receiver ports.
 

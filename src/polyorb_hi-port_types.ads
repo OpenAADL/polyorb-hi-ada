@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---                     Copyright (C) 2017 ESA & ISAE.                       --
+--                   Copyright (C) 2017-2020 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -36,5 +36,11 @@ package PolyORB_HI.Port_Types is
 
    function Internal_Code (P : Port_Type) return Unsigned_16;
    function Corresponding_Port (I : Unsigned_16) return Port_Type;
+
+   type Destinations_Array is array (Standard.Positive range <>)
+     of PolyORB_HI_Generated.Deployment.Port_Type;
+
+   Empty_Destination : constant Destinations_Array (1 .. 0)
+     := (others => Port_Type'First);
 
 end PolyORB_HI.Port_Types;
