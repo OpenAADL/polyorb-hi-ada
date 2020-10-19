@@ -1,5 +1,3 @@
-pragma Restrictions (No_Entry_Calls_In_Elaboration_Code);
-
 --  Ada restrictions to be supported by PolyORB-HI/Ada, for NATIVE targets
 
 --------------------------------------------------------------------------------
