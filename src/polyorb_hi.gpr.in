@@ -6,7 +6,7 @@
 --                                                                          --
 --                              P r o j e c t                               --
 --                                                                          --
---    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2017 ESA & ISAE.      --
+--    Copyright (C) 2007-2009 Telecom ParisTech, 2010-2020 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -31,9 +31,15 @@
 
 project PolyORB_HI is
 
-   type Target_Type is
-   ("NATIVE", "LEON_ORK", "LEON_GNAT", "ERC32", "MARTEOS", "GNAT_Runtime",
-    "RTEMS");
+  type Target_Type is ("NATIVE",        -- native, default
+                        "LEON_ORK",     -- ORK+ Ravenscar platform
+                        "LEON_GNAT",    -- AdaCore Ravenscar, for LEON2
+                        "ERC32",        -- AdaCore Ravenscar, for ERC32
+                        "MARTEOS",      -- UCan MARTE OS platform
+                        "GNAT_Runtime", -- Bare-board runtime
+                        "RTEMS",        -- RTEMS OS
+                        "SPARK");       -- pseudo-target, for proof using SPARK
+
    Target : Target_Type := external ("TARGET", "NATIVE");
 
    type Build_Type is ("Debug", "Release", "Analyzable");
@@ -45,7 +51,7 @@ project PolyORB_HI is
    for Languages use ("Ada");
 
    for Source_Dirs use ();
-   for Object_Dir use ".";
+   for Object_Dir use "obj";
    for Exec_Dir use ".";
 
    --------------
@@ -132,6 +138,8 @@ project PolyORB_HI is
         when "GNAT_Runtime" =>
            for Local_Configuration_Pragmas use "gnat_runtime.adc";
 
+        when "SPARK" =>
+           for Local_Configuration_Pragmas use "spark.adc";
       end case;
    end Compiler;
 
@@ -208,7 +216,7 @@ project PolyORB_HI is
    -----------
 
    package Prove is
-      for Switches use
+      for Proof_Switches ("Ada") use
           ("--warnings=continue", -- Issue warnings and continue
            "--report=all"         -- Report all results of proving VCs
            );
