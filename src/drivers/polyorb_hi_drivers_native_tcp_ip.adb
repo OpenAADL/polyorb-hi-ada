@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---                   Copyright (C) 2012-2018 ESA & ISAE.                    --
+--                   Copyright (C) 2012-2020 ESA & ISAE.                    --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -397,6 +397,7 @@ package body PolyORB_HI_Drivers_Native_TCP_IP is
       --  types. We cannot either use direct casting because component
       --  types are incompatible. The only time efficient manner to do
       --  the casting is to use representation clauses.
+
       Msg : AS.Stream_Element_Array (1 .. AS.Stream_Element_Offset (Size));
       pragma Import (Ada, Msg);
       for Msg'Address use Message'Address;
