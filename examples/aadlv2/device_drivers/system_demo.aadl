@@ -5,12 +5,20 @@ package System_Demo
 
 public
    with Deployment;       -- Additional properties (provided by Ocarina)
+   with Buses::Ethernet;
+   with Native_Sockets;
 
-   with Generic_Bus;
-   with Generic_Native;   -- Generic hardware
-   with TCP_IP_Protocol;  -- TCP/IP protocol stack, as an AADL device
-   with Beeper;           -- Beeper device
    with Software;         -- Software part for this demo
+
+   ---------------
+  -- Processor --
+  ---------------
+
+  processor the_processor
+  properties
+    Deployment::Execution_Platform => Native;
+    Priority_Range => 0 .. 255;
+  end the_processor;
 
    ------------
    -- SYSTEM --
@@ -25,19 +33,18 @@ public
      -- Interconnect bus. This component is shared by Node_1 and
      -- Node_2 to support communication through TCP/IP protocol stack
 
-     Bus_TCP      : bus Generic_Bus::Generic_Bus.impl;
+     Bus_TCP      : bus Buses::Ethernet::Ethernet.impl;
 
+     ------------------------------------------------------------------
      -- Node #1 software components
 
      Node_1 : process Software::Pinger_Process.Impl;
 
-     ------------------------------------------------------------------
      -- Node #1 hardware components
 
-     Processor_1  : processor Generic_Native::Generic_Processor.impl;
+     Processor_1  : processor the_processor;
 
-     Memory_1     : memory Generic_Native::Memory_Segment.impl;
-     TCP_IP_Cnx_1 : device TCP_IP_Protocol::TCP_IP_Device.impl
+     TCP_IP_Cnx_1 : device Native_Sockets::Native_Sockets.POHI_Ada
       { Deployment::Location    => "ip 127.0.0.1 1233"; };
      --     Beeper_1     : device Beeper::Beeper_Device.impl;
 
@@ -48,9 +55,8 @@ public
 
      -- Node #2 hardware components
 
-     Processor_2  : processor Generic_Native::Generic_Processor.impl;
-     Memory_2     : memory Generic_Native::Memory_Segment.impl;
-     TCP_IP_Cnx_2 : device TCP_IP_Protocol::TCP_IP_Device.impl
+     Processor_2  : processor the_processor;
+     TCP_IP_Cnx_2 : device Native_Sockets::Native_Sockets.POHI_Ada
       { Deployment::Location    => "ip 127.0.0.1 2345"; };
 
 
@@ -62,8 +68,8 @@ public
      -- 'Out_Port' of Node_1 and 'In_Port' of Node_2 will use the TCP
      -- protocol stack.
 
-     bus access Bus_TCP -> TCP_IP_Cnx_1.Ethernet_Wire;
-     bus access Bus_TCP -> TCP_IP_Cnx_2.Ethernet_Wire;
+     bus access Bus_TCP -> TCP_IP_Cnx_1.Eth;
+     bus access Bus_TCP -> TCP_IP_Cnx_2.Eth;
      port Node_1.Out_Port -> Node_2.In_Port
           { Actual_Connection_Binding => (reference (Bus_TCP)); };
 

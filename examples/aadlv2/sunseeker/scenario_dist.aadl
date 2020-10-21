@@ -10,7 +10,7 @@ properties
     ("sunseekercontroller", "sunseeker_controller_native.ref",
     "sunseekerplant", "sunseekerplant_native.ref");
   Ocarina_Config::AADL_Files           =>
-    ("sunseeker.aadl", "sunseeker_dist.aadl");
+    ("sunseeker.aadl", "sunseeker_dist.aadl", "buses-ethernet.aadl", "native_sockets.aadl", "asn1_configuration.aadl", "bus_properties.aadl");
   Ocarina_Config::Generator            => polyorb_hi_ada;
   Ocarina_Config::Needed_Property_Sets =>
     (value (Ocarina_Config::Data_Model),

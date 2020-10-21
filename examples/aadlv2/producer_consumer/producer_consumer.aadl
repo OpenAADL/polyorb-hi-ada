@@ -3,85 +3,90 @@
 package Producer::Consumer
 public
   with Deployment, Software;
+  with Buses::Ethernet;
+  with Native_Sockets;
 
----------
--- Bus --
----------
+  ---------------
+  -- Processor --
+  ---------------
 
-bus Ethernet_Bus
-properties
-  Deployment::Transport_API => BSD_Sockets;
-end Ethernet_Bus;
+  processor the_processor
+  properties
+    Deployment::Execution_Platform => Native;
+    Priority_Range => 0 .. 255;
+  end the_processor;
 
----------------
--- Processor --
----------------
+  ---------------
+  -- Processes --
+  ---------------
 
-processor the_processor
-features
-  ETH : requires bus access Ethernet_Bus;
-properties
-  Deployment::location           => "127.0.0.1";
-  Deployment::Execution_Platform => Native;
-end the_processor;
+  process A
+  features
+    Alpha : out data port Software::Alpha_Type;
+    Beta  : in data port Software::Alpha_Type;
+  end A;
 
----------------
--- Processes --
----------------
+  process implementation A.Impl
+  subcomponents
+    Producer        : thread Software::P.Impl;
+    Result_Consumer : thread Software::Q.Impl;
+  connections
+    port Producer.Data_Source -> Alpha;
+    port Beta -> Result_Consumer.Data_Sink;
+  end A.Impl;
 
-process A
-features
-  Alpha : out data port Software::Alpha_Type;
-  Beta  : in data port Software::Alpha_Type;
-end A;
+  process B
+  features
+    Alpha : out data port Software::Alpha_Type;
+    Beta  : in data port Software::Alpha_Type;
+  end B;
 
-process implementation A.Impl
-subcomponents
-  Producer        : thread Software::P.Impl;
-  Result_Consumer : thread Software::Q.Impl;
-connections
-  port Producer.Data_Source -> Alpha;
-  port Beta -> Result_Consumer.Data_Sink;
-end A.Impl;
+  process implementation B.Impl
+  subcomponents
+    Consumer        : thread Software::Q.Impl;
+    Result_Producer : thread Software::P.Impl;
+  connections
+    port Beta -> Consumer.Data_Sink;
+    port Result_Producer.Data_Source -> Alpha;
+  end B.Impl;
 
-process B
-features
-  Alpha : out data port Software::Alpha_Type;
-  Beta  : in data port Software::Alpha_Type;
-end B;
+  ------------
+  -- System --
+  ------------
 
-process implementation B.Impl
-subcomponents
-  Consumer        : thread Software::Q.Impl;
-  Result_Producer : thread Software::P.Impl;
-connections
-  port Beta -> Consumer.Data_Sink;
-  port Result_Producer.Data_Source -> Alpha;
-end B.Impl;
+  system PC_Simple
+  end PC_Simple;
 
-------------
--- System --
-------------
+  system implementation PC_Simple.Native
+  subcomponents
+    -- HW Platform
+    the_bus: bus Buses::Ethernet::Ethernet.impl;
 
-system PC_Simple
-end PC_Simple;
+    CPU_A : processor the_processor;
+    pr_A : process A.Impl;
+    Eth1   : device Native_Sockets::Native_Sockets.POHI_Ada
+    { Deployment::Location    => "ip 127.0.0.1 1233"; };
 
-system implementation PC_Simple.Native
-subcomponents
-  pr_A : process A.Impl {Deployment::port_number => 4001;};
-  pr_B : process B.Impl {Deployment::port_number => 4002;};
+    CPU_B : processor the_processor;
+    pr_B : process B.Impl;
+    Eth2   : device Native_Sockets::Native_Sockets.POHI_Ada
+    { Deployment::Location    => "ip 127.0.0.1 1233"; };
 
-  CPU     : processor the_processor;
-  the_bus : bus Ethernet_Bus;
-connections
-  bus access the_bus -> CPU.ETH;
-  port pr_A.Alpha -> pr_B.Beta
+  connections
+    bus access the_bus -> Eth1.Eth;
+    bus access the_bus -> Eth2.Eth;
+
+    port pr_A.Alpha -> pr_B.Beta
     {Actual_Connection_Binding => (reference (the_bus));};
-  port pr_B.Alpha -> pr_A.Beta
+    port pr_B.Alpha -> pr_A.Beta
     {Actual_Connection_Binding => (reference (the_bus));};
-properties
-  actual_processor_binding => reference (CPU) applies to pr_A;
-  actual_processor_binding => reference (CPU) applies to pr_B;
-end PC_Simple.Native;
+
+  properties
+    actual_processor_binding => reference (CPU_A) applies to pr_A;
+    actual_processor_binding => reference (CPU_A) applies to Eth1;
+
+    actual_processor_binding => reference (CPU_B) applies to pr_B;
+    actual_processor_binding => reference (CPU_B) applies to Eth2;
+  end PC_Simple.Native;
 
 end Producer::Consumer;

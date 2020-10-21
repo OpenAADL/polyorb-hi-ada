@@ -1,72 +1,61 @@
---  $Id: sunseeker_dist.aadl 6713 2009-06-20 20:58:28Z lanarre $
-
 package Sunseeker_Dist
 public
   with Sunseeker;
   with Deployment;
+  with Buses::Ethernet;
+  with Native_Sockets;
 
----------------
--- Processor --
----------------
+  ---------------
+  -- Processor --
+  ---------------
 
-processor Pentium_Type
-features
-  ETH : requires bus access Ethernet_Bus;
-properties
-  --  Add a location and an execution platform for the processor
+  processor Pentium_Type
+  properties
+    Deployment::Execution_Platform => native;
+  end Pentium_Type;
 
-  Deployment::location           => "127.0.0.1";
-  Deployment::Execution_Platform => native;
-end Pentium_Type;
+  processor implementation Pentium_Type.Pentium
+  properties
+    none;
+  end Pentium_Type.Pentium;
 
-processor implementation Pentium_Type.Pentium
-properties
-  none;
-end Pentium_Type.Pentium;
+  ------------
+  -- System --
+  ------------
 
----------
--- Bus --
----------
+  system Sunseekercontrolsystem_Type
+  end Sunseekercontrolsystem_Type;
 
-bus Ethernet_Bus
-properties
-  Deployment::Transport_API => BSD_Sockets;
-end Ethernet_Bus;
+  system implementation Sunseekercontrolsystem_Type.Native
+  subcomponents
+    the_bus: bus Buses::Ethernet::Ethernet.impl;
 
-------------
--- System --
-------------
+    CPU: processor Pentium_Type.Pentium;
+    Sunseekerplant : process Sunseeker::Sunseekerplant_Type.Sunseekerplant;
+    Eth1   : device Native_Sockets::Native_Sockets.POHI_Ada
+    { Deployment::Location    => "ip 127.0.0.1 1233"; };
 
-system Sunseekercontrolsystem_Type
-end Sunseekercontrolsystem_Type;
+    CPU2: processor Pentium_Type.Pentium;
+    Sunseekercontroller : process Sunseeker::Sunseekercontroller_Type.Sunseekercontroller;
+    Eth2   : device Native_Sockets::Native_Sockets.POHI_Ada
+    { Deployment::Location    => "ip 127.0.0.1 1234"; };
 
-system implementation Sunseekercontrolsystem_Type.Native
-subcomponents
+  connections
+    bus access the_bus -> Eth1.Eth;
+    bus access the_bus -> Eth2.Eth;
 
-  Sunseekerplant      : process Sunseeker::Sunseekerplant_Type.Sunseekerplant
-    {Deployment::port_number => 12000;};
-  Sunseekercontroller : process Sunseeker::Sunseekercontroller_Type.Sunseekercontroller
-    {Deployment::port_number => 12001;};
-
-  --  The processor
-  Platform: processor Pentium_Type.Pentium;
-
-  the_bus : bus Ethernet_Bus;
-connections
-  bus access the_bus -> Platform.ETH;
-  port Sunseekerplant.Outputfeedback
-  -> Sunseekercontroller.Outputfeedback
+    port Sunseekerplant.Outputfeedback -> Sunseekercontroller.Outputfeedback
     {Actual_Connection_Binding => (reference (the_bus));};
-  port Sunseekercontroller.Controllerinput
-  -> Sunseekerplant.Controllerinput
+    port Sunseekercontroller.Controllerinput -> Sunseekerplant.Controllerinput
     {Actual_Connection_Binding => (reference (the_bus));};
 
---  Bind the processes to the processor
-properties
-  Actual_Processor_Binding => (reference (Platform)) 
-    applies to Sunseekerplant;
-  Actual_Processor_Binding => (reference (Platform)) 
-    applies to Sunseekercontroller;
-end Sunseekercontrolsystem_Type.Native;
+    --  Bind the processes to the processor
+  properties
+    Actual_Processor_Binding => (reference (CPU)) applies to Sunseekerplant;
+    Actual_Processor_Binding => (reference (CPU2)) applies to Sunseekercontroller;
+
+    Actual_Processor_Binding => (reference (CPU)) applies to Eth1;
+    Actual_Processor_Binding => (reference (CPU2)) applies to Eth2;
+  end Sunseekercontrolsystem_Type.Native;
 
 end Sunseeker_Dist;

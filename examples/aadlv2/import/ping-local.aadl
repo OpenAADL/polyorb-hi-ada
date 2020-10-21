@@ -2,9 +2,6 @@
 --  information.
 --
 --  In this deployment, only one node is defined.
---
---  $Id: ping-local.aadl 6752 2009-07-01 16:36:45Z lasnier $
-
 
 package PING::Local
 public
@@ -16,7 +13,8 @@ public
 
   processor the_processor
   properties
-    Deployment::Execution_Platform => LEON_ORK;
+    Deployment::Execution_Platform => Native;
+    Priority_Range => 0 .. 255;
   end the_processor;
 
   processor implementation the_processor.Impl
@@ -50,8 +48,8 @@ public
   subcomponents
     Node_A : process A.Impl;
 
-    CPU : processor the_processor.Impl
-    {Priority_Range => 0 .. 255;};
+    CPU : processor the_processor.Impl;
+
   properties
     actual_processor_binding => reference (CPU) applies to Node_A;
   end PING.LEON;

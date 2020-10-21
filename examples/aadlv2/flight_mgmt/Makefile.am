@@ -17,18 +17,10 @@ REF_OUTPUTS = $(srcdir)/mgmt.ref
 
 include $(srcdir)/../../Makefile.common
 
-SCENARIO_FILES=
-CHECKABLE_SCENARIO_FILES=
-
-if HAS_GNATMAKE_FOR_ERC32
-   SCENARIO_FILES+=$(srcdir)/scenario_local.aadl
-endif
-
-if HAS_TSIM_FOR_ERC32
-   CHECKABLE_SCENARIO_FILES+=$(srcdir)/scenario_local.aadl
-endif
+SCENARIO_FILES=$(srcdir)/scenario_local.aadl
+CHECKABLE_SCENARIO_FILES=$(srcdir)/scenario_local.aadl
 
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(AADL_SOURCES) $(SCENARIO_FILES) \
-        $(REF_OUTPUTS)
+	$(REF_OUTPUTS)
 
-CLEANDIRS = flight_mgmt_erc32
+CLEANDIRS = flight_mgmt_native

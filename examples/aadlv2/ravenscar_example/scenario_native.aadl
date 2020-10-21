@@ -3,14 +3,14 @@
 system Case_Study
 properties
   Ocarina_Config::Timeout_Property     => 4000ms;
-  Ocarina_Config::Referencial_Files    => 
+  Ocarina_Config::Referencial_Files    =>
     ("ins", "ins_native.ref",
     "wom", "wom_native.ref");
-  Ocarina_Config::AADL_Files           => 
-    ("ravenscar_example.aadl", "hw_native.aadl");
+  Ocarina_Config::AADL_Files           =>
+    ("ravenscar_example.aadl", "hw_native.aadl", "buses-ethernet.aadl", "native_sockets.aadl", "asn1_configuration.aadl", "bus_properties.aadl");
   Ocarina_Config::Generator            => polyorb_hi_ada;
-  Ocarina_Config::Needed_Property_Sets => 
-    (value (Ocarina_Config::Data_Model), 
+  Ocarina_Config::Needed_Property_Sets =>
+    (value (Ocarina_Config::Data_Model),
      value (Ocarina_Config::Deployment),
      value (Ocarina_Config::Cheddar_Properties));
   Ocarina_Config::AADL_Version         => AADLv2;

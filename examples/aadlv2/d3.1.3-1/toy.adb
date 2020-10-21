@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2015 ESA & ISAE.      --
+--    Copyright (C) 2006-2009 Telecom ParisTech, 2010-2020 ESA & ISAE.      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -81,7 +81,7 @@ package body Toy is
    procedure Read (Field : in out POS_Internal_Type) is
       pragma Warnings (Off, Field);
    begin
-      Put_Line (Normal, "Value Read: " & POS_Internal_Type'Image (Field));
+      Put_Line ("Value Read: " & POS_Internal_Type'Image (Field));
    end Read;
 
    ------------
@@ -91,7 +91,7 @@ package body Toy is
    procedure Update (Field : in out POS_Internal_Type) is
    begin
       Field := Field + 1;
-      Put_Line (Normal, "Value Updated: " & POS_Internal_Type'Image (Field));
+      Put_Line ("Value Updated: " & POS_Internal_Type'Image (Field));
    end Update;
 
    -------------
@@ -100,9 +100,9 @@ package body Toy is
 
    procedure GNC_Job is
    begin
-      Put_Line (Normal, "Begin computing: GNC");
+      Put_Line ("Begin computing: GNC");
       Compute_During_N_Times_1ms (600);
-      Put_Line (Normal, "End computing: GNC");
+      Put_Line ("End computing: GNC");
    end GNC_Job;
 
    --------------
@@ -111,9 +111,9 @@ package body Toy is
 
    procedure TMTC_Job is
    begin
-      Put_Line (Normal, "Begin computing: TMTC");
+      Put_Line ("Begin computing: TMTC");
       Compute_During_N_Times_1ms (50);
-      Put_Line (Normal, "End computing: TMTC");
+      Put_Line ("End computing: TMTC");
    end TMTC_Job;
 
    ------------------
@@ -123,9 +123,9 @@ package body Toy is
    procedure GNC_Identity is
    begin
       if GNC_Welcome then
-         Put_Line (Normal, "Welcome GNC!");
+         Put_Line ("Welcome GNC!");
       else
-         Put_Line (Normal, "Good bye GNC!");
+         Put_Line ("Good bye GNC!");
       end if;
 
       GNC_Welcome := not GNC_Welcome;
@@ -138,9 +138,9 @@ package body Toy is
    procedure TMTC_Identity is
    begin
       if TMTC_Welcome then
-         Put_Line (Normal, "Welcome TMTC!");
+         Put_Line ("Welcome TMTC!");
       else
-         Put_Line (Normal, "Good bye TMTC!");
+         Put_Line ("Good bye TMTC!");
       end if;
 
       TMTC_Welcome := not TMTC_Welcome;

@@ -12,11 +12,7 @@ AADL_SOURCES = $(srcdir)/radar.aadl $(srcdir)/radar_types.aadl	\
 # END: DO NOT DELETE THIS LINE
 
 include $(srcdir)/../../Makefile.common
-SCENARIO_FILES=
-
-if HAS_GNATMAKE_FOR_LEON
-   SCENARIO_FILES+=$(srcdir)/scenario-ork-ada.aadl
-endif
+SCENARIO_FILES=$(srcdir)/scenario-ork-ada.aadl
 
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(AADL_SOURCES) $(SCENARIO_FILES)
 

@@ -21,7 +21,7 @@ subprogram Raise_Message
 features
   M : out parameter Simple_Type;
 properties
-  Source_Language => Ada95;
+  Source_Language => (Ada95);
   Source_Name     => "Repository.Raiser";
 end Raise_Message;
 
@@ -32,19 +32,19 @@ end Handle_Message;
 
 subprogram implementation Handle_Message.Normal
 properties
-  Source_Language       => Ada95;
+  Source_Language       => (Ada95);
   Source_Name           => "Repository.Normal_Handler";
 end Handle_Message.Normal;
 
 subprogram implementation Handle_Message.Emergency
 properties
-  Source_Language       => Ada95;
+  Source_Language       => (Ada95);
   Source_Name           => "Repository.Emergency_Handler";
 end Handle_Message.Emergency;
 
 subprogram implementation Handle_Message.Lazy
 properties
-  Source_Language       => Ada95;
+  Source_Language       => (Ada95);
   Source_Name           => "Repository.Lazy_Handler";
 end Handle_Message.Lazy;
 
@@ -57,12 +57,12 @@ features
   Message : out event data port Simple_Type;
 properties
   Dispatch_Protocol                 => Periodic;
-  Period                            => 200 Ms;
+  Period                            => 200 ms;
   Initialize_Entrypoint_Source_Text => "Repository.Init_Raiser";
 end Raiser;
 
 thread implementation Raiser.Impl
-calls 
+calls
 Mycall : {
   Raise_Msg : subprogram Raise_Message;
 };
@@ -91,7 +91,7 @@ end Driver.Impl;
 
 processor CPU
 properties
-  Deployment::Execution_Platform => ERC32_ORK;
+  Deployment::Execution_Platform => Native;
 end CPU;
 
 processor implementation CPU.Impl

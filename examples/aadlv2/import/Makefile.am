@@ -18,15 +18,8 @@ REF_OUTPUTS = $(srcdir)/node_a_leon.ref
 
 include $(srcdir)/../../Makefile.common
 
-SCENARIO_FILES=$(srcdir)/scenario.aadl
+SCENARIO_FILES=$(srcdir)/scenario.aadl $(srcdir)/scenario_local.aadl
 CHECKABLE_SCENARIO_FILES=$(SCENARIO_FILES)
-
-if HAS_GNATMAKE_FOR_LEON
-   SCENARIO_FILES+=$(srcdir)/scenario_local.aadl
-if HAS_TSIM_FOR_LEON
-   CHECKABLE_SCENARIO_FILES+=$(srcdir)/scenario_local.aadl
-endif
-endif
 
 EXTRA_DIST = $(ADA_SPECS) $(ADA_BODIES) $(AADL_SOURCES) $(SCENARIO_FILES) \
 	$(REF_OUTPUTS) $(srcdir)/import.c
