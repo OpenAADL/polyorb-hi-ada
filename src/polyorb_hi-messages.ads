@@ -37,13 +37,13 @@ with PolyORB_HI_Generated.Deployment;
 
 package PolyORB_HI.Messages is
 
-   pragma Preelaborate;
-
    use PolyORB_HI.Streams;
    use PolyORB_HI_Generated.Deployment;
 
    type Message_Type is private;
    --  Base type of messages exchanged between nodes
+
+   Empty_Message : constant Message_Type;
 
    Message_Length_Size : constant := 2;
    --  Number of bytes to store a message size
@@ -55,6 +55,11 @@ package PolyORB_HI.Messages is
    PDU_Size : constant := Header_Size + (Max_Payload_Size / 8) + 1;
    --  Maximum size of a request
 
+   subtype PDU_Index is Stream_Element_Count range 0 .. PDU_Size;
+   subtype PDU is Stream_Element_Array (1 .. PDU_Index'Last);
+
+   Empty_PDU : constant PDU := (others => 0);
+
    subtype Message_Size_Buffer is Stream_Element_Array
      (1 .. Message_Length_Size);
    --  The sub-buffer that holds the message length
@@ -64,15 +69,16 @@ package PolyORB_HI.Messages is
      with Pre => (L < 2**16 -1); -- XXX Provide a better bound for L
    --  Conversion functions to store/extract a length in/from a sub-buffer.
 
-   function Size (M : Message_Type) return Stream_Element_Count;
-   --  Return the size of the message type, as the sum of the header
-   --  plus payload
+   function Length (M : Message_Type) return PDU_Index;
+   function Size (M : Message_Type) return Stream_Element_Count
+        with Pre => (Valid (M));
+   --  Return length of message M
 
    procedure Read
      (Stream : in out Message_Type;
-      Item   :    out Stream_Element_Array;
+      Item   : in out Stream_Element_Array;
       Last   :    out Stream_Element_Offset)
-     with Pre => (Valid (Stream));
+     with Pre => (Valid (Stream) and then Valid (Item));
    --  Move Item'Length stream elements from the specified stream to
    --  fill the array Item. The index of the last stream element
    --  transferred is returned in Last. Last is less than Item'Last
@@ -81,52 +87,86 @@ package PolyORB_HI.Messages is
    procedure Write
      (Stream : in out Message_Type;
       Item   :        Stream_Element_Array)
-     with Pre => (Valid (Stream));
+     with Pre => (Valid (Stream) and then
+                    Valid (Item) and then
+                    Size (Stream) + Item'Length <= PDU_Size),
+          Post => (Valid (Stream));
    --  Append Item to the specified stream
 
-   procedure Reallocate (M : in out Message_Type);
+   procedure Reallocate (M : out Message_Type)
+     with Post => (Valid (M));
    --  Reset M
 
-   function Sender (M : Message_Type) return Entity_Type
-       with Pre => (Valid (M));
-   function Sender (M : Stream_Element_Array) return Entity_Type;
+   function Is_Empty (M: Message_Type) return Boolean
+     with Pre => (Valid (M));
+
+   function Not_Empty (M: Message_Type) return Boolean
+     with Pre => (Valid (M));
+
+   function Payload (M : Message_Type) return Stream_Element_Array
+   with Pre => (Valid (M) and then not Is_Empty (M)),
+        Post => (Payload'Result'Length = Length (M));
+   --  Return the remaining payload of message M
+
+   function Sender (M : Stream_Element_Array) return Entity_Type
+     with Pre =>(M'First = 1 and M'Last >= Header_Size);
    --  Return the sender of the message M
 
    procedure Encapsulate
      (Message : Message_Type;
       From    : Entity_Type;
       Entity  : Entity_Type;
-      R : in out PolyORB_HI.Streams.Stream_Element_Array)
-     with Pre => (Valid (Message));
+      R : in out Stream_Element_Array)
+     with Pre => (Valid (R) and then
+                    Valid (Message) and then not Is_Empty (Message) and then
+                    R'Length >= Length (Message) + Header_Size),
+          Post => (Valid (R));
    --  Return a byte array including a two byte header (length and
    --  originator entity) and Message payload.
 
    function Valid (Message : Message_Type) return Boolean;
 
+   function Valid (S : Stream_Element_Array) return Boolean is
+     (S'Length <= PDU_Size);
+
 private
-
-   subtype PDU_Index is Stream_Element_Count range 0 .. PDU_Size;
-   subtype PDU is Stream_Element_Array (1 .. PDU_Index'Last);
-
-   Empty_PDU : constant PDU := (others => 0);
 
    type Message_Type is record
       Content : PDU := Empty_PDU;
       First   : PDU_Index := 1;
       Last    : PDU_Index := 0;
-   end record;
+   end record with Dynamic_Predicate =>
+     (Message_Type = (Empty_PDU, 1, 0) or else
+        (Message_Type.First >= Message_Type.Content'First
+           and then Message_Type.Last <= Message_Type.Content'Last
+           and then Message_Type.First <= Message_Type.Last));
 
-   function Size (M : Message_Type) return Stream_Element_Count is
-     (M.Last + Header_Size);
+   Empty_Message : constant Message_Type :=
+     Message_Type'(Content => Empty_PDU, First => 1, Last => 0);
 
    function Valid (Message : Message_Type) return Boolean is
-      (Message.First >= Message.Content'First);
-   --  The following part cannot be correct in the case Message is
-   --  not initialized, see defaults for Message_Type
-   --    and then Message.First <= Message.Last
+     (Message = Empty_Message or else
+        (Message.First >= Message.Content'First
+           and then Message.Last <= Message.Content'Last
+           and then Message.First <= Message.Last));
+
+   function Size (M : Message_Type) return Stream_Element_Count is
+      (Length (M) + Header_Size);
+
+   function Length (M : Message_Type) return PDU_Index is
+      (if M = Empty_Message then 0 else (M.Last - M.First) + 1);
+   --  Return length of message M
+
+   function Is_Empty (M: Message_Type) return Boolean is
+      (M = Empty_Message);
+
+   function Not_Empty (M: Message_Type) return Boolean is
+      (M /= Empty_Message and then Size (M) >= 1);
+
+   function Payload (M : Message_Type) return Stream_Element_Array is
+      (M.Content (M.First .. M.Last));
 
    pragma Inline (To_Length);
    pragma Inline (To_Buffer);
-   pragma Inline (Sender);
 
 end PolyORB_HI.Messages;
