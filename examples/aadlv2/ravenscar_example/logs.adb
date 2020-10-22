@@ -31,6 +31,7 @@
 
 with Ada.Real_Time;                 use  Ada.Real_Time;
 
+with PolyORB_HI.Epoch;              use PolyORB_HI.Epoch;
 with PolyORB_HI.Suspenders;         use PolyORB_HI.Suspenders;
 with PolyORB_HI.Output;             use PolyORB_HI.Output;
 with PolyORB_HI_Generated.Types;    use PolyORB_HI_Generated.Types;
@@ -52,7 +53,10 @@ package body Logs is
    procedure On_Signal (Entity : Entity_Type) is
       Interrupt_Arrival_Counter : Interrupt_Counter;
       Interrupt_Arrival_Time    : Ada.Real_Time.Time;
+      T0 : Ada.Real_Time.Time;
    begin
+      System_Startup_Time (T0);
+
       if Get_Count
         (Entity,
          RavenscarExample_Activation_Log_Reader_Port_Type'
@@ -87,7 +91,7 @@ package body Logs is
                       & ". Arrived at ["
                       & Duration'Image
                       (To_Duration
-                       (Interrupt_Arrival_Time - System_Startup_Time))
+                       (Interrupt_Arrival_Time - T0))
                       & "]");
 
             Old_Interrupt_Counter := Interrupt_Arrival_Counter;

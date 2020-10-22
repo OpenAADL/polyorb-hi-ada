@@ -30,6 +30,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with PolyORB_HI.Epoch;
 with PolyORB_HI.Output;
 with PolyORB_HI.Port_Type_Marshallers;
 with PolyORB_HI.Messages;
@@ -37,6 +38,8 @@ with PolyORB_HI.Suspenders;
 with PolyORB_HI.Port_Types;
 
 package body PolyORB_HI.Hybrid_Task_Driver is
+
+   use PolyORB_HI.Epoch;
 
    package body Driver is
       use PolyORB_HI.Port_Types;
@@ -74,14 +77,26 @@ package body PolyORB_HI.Hybrid_Task_Driver is
       task body The_Driver is
          Next_Start     : Time;
          New_Next_Start : Time;
+         T0 : Time;
       begin
-         --  Wait for the network initialization to be finished
+         --  Wait for the system initialization to be finished
 
          pragma Debug
            (Verbose, Put_Line ("Hybrid thread driver: Wait initialization"));
 
+         for TI in Hybrid_Task_Set'Range loop
+               declare
+                  T : Hybrid_Task_Info renames Hybrid_Task_Set (TI);
+               begin
+                  if T.Next_Periodic_Dispatch = Ada.Real_Time.Time_First then
+                     T.Next_Periodic_Dispatch := T0;
+                  end if;
+               end;
+         end loop;
+
          Suspend_Until_True (Driver_Suspender);
-         delay until System_Startup_Time;
+         System_Startup_Time (T0);
+         delay until T0;
 
          pragma Debug
            (Verbose, Put_Line ("Hybrid thread driver initialized"));

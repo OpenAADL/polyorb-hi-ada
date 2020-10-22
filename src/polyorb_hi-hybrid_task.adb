@@ -32,11 +32,13 @@
 
 with Ada.Synchronous_Task_Control;
 
+with PolyORB_HI.Epoch;
 with PolyORB_HI.Output;
 with PolyORB_HI.Suspenders;
 
 package body PolyORB_HI.Hybrid_Task is
 
+   use PolyORB_HI.Epoch;
    use PolyORB_HI.Errors;
    use PolyORB_HI.Output;
    use PolyORB_HI_Generated.Deployment;
@@ -57,6 +59,7 @@ package body PolyORB_HI.Hybrid_Task is
    task body The_Hybrid_Task is
       Port  : Port_Type;
       Error : Error_Kind;
+      T0 : Time;
    begin
       --  Wait for the network initialization to be finished
 
@@ -66,7 +69,8 @@ package body PolyORB_HI.Hybrid_Task is
          ("Hybrid Task ", Entity_Image (Entity), ": Wait initialization"));
 
       Block_Task (Entity);
-      delay until System_Startup_Time;
+      System_Startup_Time (T0);
+      delay until T0;
 
       pragma Debug (Verbose,
                     Put_Line

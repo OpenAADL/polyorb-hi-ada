@@ -122,7 +122,7 @@ package PolyORB_HI.Utils is
    ---------------------
 
    procedure Set_Task_Id (My_Id : Entity_Type);
-   function Get_Task_Id return Entity_Type;
+   function Get_Task_Id return Entity_Type with Volatile_Function;
 
 private
 

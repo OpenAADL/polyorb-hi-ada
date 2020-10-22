@@ -31,10 +31,12 @@
 ------------------------------------------------------------------------------
 
 with PolyORB_HI.Output;
+with PolyORB_HI.Epoch;
 with PolyORB_HI.Suspenders;
 
 package body PolyORB_HI.Background_Task is
 
+   use PolyORB_HI.Epoch;
    use PolyORB_HI.Errors;
    use PolyORB_HI.Output;
    use PolyORB_HI_Generated.Deployment;
@@ -46,7 +48,7 @@ package body PolyORB_HI.Background_Task is
 
    task body The_Background_Task is
       Error : Error_Kind;
-
+      T0 : Ada.Real_Time.Time;
    begin
       --  Run the initialize entrypoint (if any)
 
@@ -60,7 +62,8 @@ package body PolyORB_HI.Background_Task is
                               ": Wait initialization"));
 
       Block_Task (Entity);
-      delay until System_Startup_Time;
+      System_Startup_Time (T0);
+      delay until T0;
 
       pragma Debug (Verbose,
                     Put_Line ("Background task initialized for entity ",
