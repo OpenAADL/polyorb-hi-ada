@@ -25,8 +25,8 @@
 -- see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see    --
 -- <http://www.gnu.org/licenses/>.                                          --
 --                                                                          --
---              PolyORB-HI/Ada is maintained by the OpenAADL team           --
---                             (info@openaadl.org)                          --
+--              PolyORB-HI/Ada is maintained by the TASTE project           --
+--                      (taste-users@lists.tuxfamily.org)                   --
 --                                                                          --
 ------------------------------------------------------------------------------
 
