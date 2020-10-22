@@ -1,4 +1,4 @@
-SUBDIRS = aadlv1 aadlv2
+SUBDIRS = aadlv2
 
 EXTRA_DIST = $(srcdir)/Makefile.common
 
@@ -25,5 +25,5 @@ build-all:
 
 check-all:
 	for dir in $(SUBDIRS); do \
-          ($(MAKE) -C $${dir} check-all) || exit 1; \
-        done
+	  ($(MAKE) -C $${dir} check-all) || exit 1; \
+	done

@@ -197,44 +197,25 @@ dnl may, one day, be edited automatically to remove
 dnl some entries.
 
 AC_OUTPUT([
-	Makefile
-	doc/Makefile
-	support/Makefile
-	tools/Makefile
-	share/Makefile
-	share/make/Makefile
-	src/Makefile
-	src/drivers/Makefile
-	src/polyorb_hi.gpr
-	examples/Makefile
-	examples/aadlv1/Makefile
-	examples/aadlv1/d3.1.3-1_extended/Makefile
-	examples/aadlv1/d3.1.3-1/Makefile
-	examples/aadlv1/delayed_connections/Makefile
-	examples/aadlv1/flight_mgmt/Makefile
-	examples/aadlv1/import/Makefile
-	examples/aadlv1/mode_switch/Makefile
-	examples/aadlv1/mpc/Makefile
-	examples/aadlv1/multiple_instances/Makefile
-	examples/aadlv1/ping/Makefile
-	examples/aadlv1/prime_numbers/Makefile
-	examples/aadlv1/producer_consumer/Makefile
-	examples/aadlv1/radar/Makefile
-	examples/aadlv1/ravenscar_example/Makefile
-	examples/aadlv1/rap/Makefile
-	examples/aadlv1/rma/Makefile
-	examples/aadlv1/some_types/Makefile
-	examples/aadlv1/subprogram_ports/Makefile
-	examples/aadlv1/sunseeker/Makefile
-	examples/aadlv2/Makefile
-	examples/aadlv2/rma/Makefile
-	examples/aadlv2/ping/Makefile
-	examples/aadlv2/ping_overflow/Makefile
-	examples/aadlv2/some_types/Makefile
-	examples/aadlv2/sunseeker/Makefile
+        Makefile
+        doc/Makefile
+        support/Makefile
+        tools/Makefile
+        share/Makefile
+        share/make/Makefile
+        src/Makefile
+        src/drivers/Makefile
+        src/polyorb_hi.gpr
+        examples/Makefile
+        examples/aadlv2/Makefile
+        examples/aadlv2/rma/Makefile
+        examples/aadlv2/ping/Makefile
+        examples/aadlv2/ping_overflow/Makefile
+        examples/aadlv2/some_types/Makefile
+        examples/aadlv2/sunseeker/Makefile
         examples/aadlv2/d3.1.3-1/Makefile
         examples/aadlv2/d3.1.3-1_extended/Makefile
-	examples/aadlv2/device_drivers/Makefile
+        examples/aadlv2/device_drivers/Makefile
         examples/aadlv2/flight_mgmt/Makefile
         examples/aadlv2/import/Makefile
         examples/aadlv2/mpc/Makefile
@@ -242,20 +223,20 @@ AC_OUTPUT([
         examples/aadlv2/prime_numbers/Makefile
         examples/aadlv2/producer_consumer/Makefile
         examples/aadlv2/subprogram_ports/Makefile
-	examples/aadlv2/radar/Makefile
+        examples/aadlv2/radar/Makefile
         examples/aadlv2/rasta/Makefile
         examples/aadlv2/ravenscar_example/Makefile
         examples/aadlv2/mode_switch/Makefile
         examples/aadlv2/delayed_connections/Makefile
-	examples/aadlv2/tests_fusion/Makefile
-	examples/aadlv2/tests_fusion/test_1/Makefile
-	examples/aadlv2/tests_fusion/test_2/Makefile
-	examples/aadlv2/tests_fusion/test_3/Makefile
-	examples/aadlv2/tests_fusion/test_4/Makefile
-	examples/aadlv2/tests_fusion/test_5/Makefile
-	examples/aadlv2/tests_fusion/test_6/Makefile
-	examples/aadlv2/tests_fusion/test_7/Makefile
-	examples/aadlv2/tests_fusion/test_8/Makefile
+        examples/aadlv2/tests_fusion/Makefile
+        examples/aadlv2/tests_fusion/test_1/Makefile
+        examples/aadlv2/tests_fusion/test_2/Makefile
+        examples/aadlv2/tests_fusion/test_3/Makefile
+        examples/aadlv2/tests_fusion/test_4/Makefile
+        examples/aadlv2/tests_fusion/test_5/Makefile
+        examples/aadlv2/tests_fusion/test_6/Makefile
+        examples/aadlv2/tests_fusion/test_7/Makefile
+        examples/aadlv2/tests_fusion/test_8/Makefile
 ])
 
 AC_MSG_NOTICE(%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%)
