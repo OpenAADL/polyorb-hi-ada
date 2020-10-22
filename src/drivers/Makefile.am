@@ -2,10 +2,10 @@
 ADA_SPECS_WITH_BODY = $(srcdir)/polyorb_hi_drivers_native_tcp_ip.ads	\
  $(srcdir)/polyorb_hi_drivers_gruart.ads				\
  $(srcdir)/polyorb_hi_drivers_grspw.ads					\
- $(srcdir)/polyorb_hi_drivers_native_uart.ads				\
- $(srcdir)/adaasn1rtl.ads $(srcdir)/pohicdriver_ip.ads
+ $(srcdir)/polyorb_hi_drivers_native_uart.ads
 
-ADA_SPECS = $(ADA_SPECS_WITH_BODY)
+ADA_SPECS = $(ADA_SPECS_WITH_BODY) $(srcdir)/adaasn1rtl.ads	\
+ $(srcdir)/pohicdriver_ip.ads
 
 ADA_BODIES = $(ADA_SPECS_WITH_BODY:.ads=.adb)
 
