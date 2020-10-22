@@ -30,8 +30,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma SPARK_Mode (Off);
-
+with PolyORB_HI.Epoch;
 with PolyORB_HI.Output;
 with PolyORB_HI.Suspenders;
 pragma Elaborate_All (PolyORB_HI.Suspenders);
@@ -41,6 +40,7 @@ package body PolyORB_HI.Periodic_Task is
 
    use Ada.Real_Time;
 
+   use PolyORB_HI.Epoch;
    use PolyORB_HI.Errors;
    use PolyORB_HI.Output;
    use PolyORB_HI.Suspenders;
@@ -51,8 +51,8 @@ package body PolyORB_HI.Periodic_Task is
 
    task body The_Periodic_Task is
       Next_Start : Ada.Real_Time.Time;
-      --  T : Ada.Real_Time.Time;
       Error : Error_Kind;
+      T0 : Ada.Real_Time.Time;
 
    begin
       --  Register task
@@ -65,20 +65,17 @@ package body PolyORB_HI.Periodic_Task is
 
       --  Wait for the network initialization to be finished
 
-      pragma Debug (Verbose,
-                    Put_Line ("Periodic Task ",
-                              Entity_Image (Entity),
-                              ": Wait initialization"));
-
       Block_Task (Entity);
-      Next_Start := System_Startup_Time + Dispatch_Offset;
+
+      System_Startup_Time (T0);
+      Next_Start := T0 + Dispatch_Offset;
 
       delay until Next_Start;
 
       --  Main task loop
 
       Next_Start        := Next_Start + Task_Period;
-      Next_Deadline_Val := System_Startup_Time
+      Next_Deadline_Val := Next_Start
         + Dispatch_Offset + Task_Deadline;
 
       loop
@@ -108,8 +105,9 @@ package body PolyORB_HI.Periodic_Task is
                                  ": End of Cycle"));
 
          delay until Next_Start;
+
          Next_Start        := Next_Start + Task_Period;
-         Next_Deadline_Val := Ada.Real_Time.Clock + Task_Deadline;
+         Next_Deadline_Val := Next_Start + Task_Deadline;
       end loop;
    end The_Periodic_Task;
 

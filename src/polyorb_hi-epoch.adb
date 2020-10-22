@@ -2,12 +2,11 @@
 --                                                                          --
 --                          PolyORB HI COMPONENTS                           --
 --                                                                          --
---                P O L Y O R B _ H I . S U S P E N D E R S                 --
+--                     P O L Y O R B _ H I . E P O C H                      --
 --                                                                          --
---                                 S p e c                                  --
+--                                 B o d y                                  --
 --                                                                          --
---               Copyright (C) 2007-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                       Copyright (C) 2020 OpenAADL                        --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,40 +29,58 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This package implements routines to suspend application tasks
-
-with PolyORB_HI_Generated.Deployment;
-pragma Elaborate_All (PolyORB_HI_Generated.Deployment);
-
-with Ada.Real_Time;
-with PolyORB_HI.Epoch;
-
-package PolyORB_HI.Suspenders
-  with Abstract_State => (Elaborated_Variables with Synchronous,
-                          External => (Effective_Reads,
-                                       Effective_Writes,
-                                       Async_Writers,
-                                       Async_Readers)),
-       Initializes => Elaborated_Variables
+package body PolyORB_HI.Epoch
+  with Refined_State => (Elaborated_Variables => (Epoch_Data))
 is
 
-   use PolyORB_HI_Generated.Deployment;
+   use type Ada.Real_Time.Time;
 
-   procedure Block_Task (Entity : Entity_Type);
-   --  Block a task until Unblock_All_Tasks is called.
+   ----------------
+   -- Epoch_Data --
+   ----------------
 
-   pragma Warnings (Off, "subprogram ""Suspend_Forever"" has no effect",
-                   Reason => "No direct effect on any state visible by SPARK");
-   procedure Suspend_Forever;
-   --  Suspend the calling task "forever", that is until
-   --  Ada.Real_TIme.Time_Last.
-   pragma Warnings (On);
+   protected Epoch_Data is
+     function System_Startup_Time return Ada.Real_Time.Time;
+     procedure Set_Epoch (The_Time : Ada.Real_Time.Time);
 
-   procedure Unblock_All_Tasks
-     with Global => (In_Out => (Elaborated_Variables,
-                                Epoch.Elaborated_Variables),
-                    Input => Ada.Real_Time.Clock_Time);
-   --  Unblocks all the tasks waiting on the suspension objects of
-   --  Task_Suspension_Objects.
+   private
+      The_System_Startup_Time : Ada.Real_Time.Time
+        := Ada.Real_Time.Time_First;
+   end Epoch_Data;
 
-end PolyORB_HI.Suspenders;
+   protected body Epoch_Data is
+
+     function System_Startup_Time return Ada.Real_Time.Time is
+     begin
+        return The_System_Startup_Time;
+     end System_Startup_Time;
+
+     procedure Set_Epoch (The_Time : Ada.Real_Time.Time) is
+     begin
+        The_System_Startup_Time := The_Time;
+     end Set_Epoch;
+
+   end Epoch_Data;
+
+  -------------------------
+  -- System_Startup_Time --
+  -------------------------
+
+   procedure System_Startup_Time (SST: out Ada.Real_Time.Time) is
+   begin
+      SST := Epoch_Data.System_Startup_Time;
+   end System_Startup_Time;
+
+   ---------------
+   -- Set_Epoch --
+   ---------------
+
+   procedure Set_Epoch is
+      CTime : constant Ada.Real_Time.Time
+        := Ada.Real_Time.Clock;
+   begin
+      Epoch_Data.Set_Epoch
+        (CTime + Ada.Real_Time.Milliseconds (1_000));
+   end Set_Epoch;
+
+end PolyORB_HI.Epoch;

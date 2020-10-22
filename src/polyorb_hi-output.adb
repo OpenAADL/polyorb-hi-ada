@@ -33,8 +33,7 @@
 pragma SPARK_MOde (Off);
 
 with PolyORB_HI.Output_Low_Level;
-with PolyORB_HI.Suspenders;
-pragma Elaborate_All (PolyORB_HI.Suspenders);
+with PolyORB_HI.Epoch;
 
 with Ada.Real_Time;
 with System;
@@ -42,6 +41,7 @@ with System;
 package body PolyORB_HI.Output is
 
    use Ada.Real_Time;
+   use PolyORB_HI.Epoch;
 
    procedure Unprotected_Put (Text : in String);
    --  Not thread-safe Put function
@@ -132,6 +132,24 @@ package body PolyORB_HI.Output is
 
    end Output_Lock;
 
+   ---------------------
+   -- Build_Timestamp --
+   ---------------------
+
+   function Build_Timestamp return Time_Span is
+      Start_Time : Time;
+      Elapsed    : Time_Span;
+      Now : constant Ada.Real_Time.Time := Ada.Real_Time.Clock;
+   begin
+      System_Startup_Time (Start_Time);
+      if Start_Time = Time_First then
+         Elapsed := To_Time_Span (0.0);
+      else
+         Elapsed := Now - Start_Time;
+      end if;
+      return Elapsed;
+   end Build_Timestamp;
+
    --------------
    -- Put_Line --
    --------------
@@ -159,15 +177,8 @@ package body PolyORB_HI.Output is
    ---------------------
 
    procedure Unprotected_Put (Text : in String) is
-      Start_Time : Time renames PolyORB_HI.Suspenders.System_Startup_Time;
-      Elapsed    : Time_Span;
+      Elapsed    : constant Time_Span := Build_Timestamp;
    begin
-      if Start_Time = Time_First then
-         Elapsed := To_Time_Span (0.0);
-      else
-         Elapsed := Clock - Start_Time;
-      end if;
-
       PolyORB_HI.Output_Low_Level.Put ("[");
       --  XXX The following is disabled as some cross-runtime do not have
       --  the capability to build Duration'Image

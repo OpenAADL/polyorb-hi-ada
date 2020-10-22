@@ -30,8 +30,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma SPARK_Mode (Off);
-
 --  Define a periodic task that executes a Job
 with System;
 with Ada.Real_Time;
@@ -71,10 +69,15 @@ generic
 
 package PolyORB_HI.Periodic_Task is
 
-   task The_Periodic_Task is
-      pragma Priority (Task_Priority);
-      pragma Storage_Size (Task_Stack_Size);
-   end The_Periodic_Task;
+    task The_Periodic_Task
+       with Priority => (Task_Priority),
+            Storage_Size => (Task_Stack_Size),
+            Annotate => (GNATprove, False_Positive,
+                         "possible data race when accessing variable",
+                         "XXX");
+    pragma Annotate (GNATprove, False_Positive,
+                     "multiple tasks might suspend on suspension object",
+                     "XXX");
 
    function Next_Deadline return Ada.Real_Time.Time;
    --  Return the value of the next deadline (in absolute time)
