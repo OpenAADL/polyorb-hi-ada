@@ -37,7 +37,9 @@ with PolyORB_HI.Messages;
 generic
    type Data_Type (<>) is private;
 
-package PolyORB_HI.Marshallers_G is
+package PolyORB_HI.Marshallers_G
+   with SPARK_Mode => Off
+is
 
    procedure Marshall
      (R :        Data_Type;
@@ -46,7 +48,8 @@ package PolyORB_HI.Marshallers_G is
 
    procedure Unmarshall
      (R :    out Data_Type;
-      M : in out Messages.Message_Type);
+      M : in out Messages.Message_Type)
+     with Pre => (Messages.Valid (M));
    --  Unmarshall a data R from message M
 
 end PolyORB_HI.Marshallers_G;

@@ -33,7 +33,10 @@
 with Ada.Unchecked_Conversion;
 with PolyORB_HI.Streams;
 
-package body PolyORB_HI.Marshallers_G is
+package body PolyORB_HI.Marshallers_G
+  with SPARK_Mode => Off
+  --  Unchecked_Conversion below cannot be proved by SPARK.
+is
    use type PolyORB_HI.Streams.Stream_Element_Offset;
 
    Data_Size : constant PolyORB_HI.Streams.Stream_Element_Offset
@@ -58,7 +61,7 @@ package body PolyORB_HI.Marshallers_G is
       Data : constant Data_Type_Stream := Data_Type_To_Stream (R);
 
    begin
-      Messages.Write (M, Data);
+      Messages.Write (M, Streams.Stream_Element_Array (Data));
    end Marshall;
 
    ----------------
