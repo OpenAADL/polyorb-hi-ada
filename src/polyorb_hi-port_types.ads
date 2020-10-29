@@ -32,7 +32,9 @@
 with PolyORB_HI_Generated.Deployment; use PolyORB_HI_Generated.Deployment;
 with Interfaces; use Interfaces;
 
-package PolyORB_HI.Port_Types is
+package PolyORB_HI.Port_Types
+    with SPARK_Mode => On
+is
 
    function Internal_Code (P : Port_Type) return Unsigned_16;
    function Corresponding_Port (I : Unsigned_16) return Port_Type;

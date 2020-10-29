@@ -134,7 +134,8 @@ generic
    --  absolute time).
 
 package PolyORB_HI.Thread_Interrogators
-  with Abstract_State => (Elaborated_Variables with Synchronous, External),
+  with SPARK_Mode => On,
+       Abstract_State => (Elaborated_Variables with Synchronous, External),
        Initializes => (Elaborated_Variables)
 is
 

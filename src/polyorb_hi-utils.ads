@@ -38,7 +38,9 @@ with System;
 
 with PolyORB_HI_Generated.Deployment;
 
-package PolyORB_HI.Utils is
+package PolyORB_HI.Utils
+    with SPARK_Mode => On
+is
 
    use Interfaces;
    use PolyORB_HI_Generated.Deployment;

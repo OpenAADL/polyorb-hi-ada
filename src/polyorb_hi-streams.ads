@@ -33,7 +33,9 @@
 --  This package is a reduced version of Ada.Streams without the
 --  object-oriented types.
 
-package PolyORB_HI.Streams is
+package PolyORB_HI.Streams
+    with SPARK_Mode => On
+is
 
    pragma Pure;
 

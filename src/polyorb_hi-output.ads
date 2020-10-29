@@ -37,8 +37,9 @@ with PolyORB_HI.Epoch;
 with PolyORB_HI.Streams;
 
 package PolyORB_HI.Output with
+   SPARK_Mode => On,
    Abstract_State => (Elaborated_Variables with Synchronous,
-    External => (Async_Writers, Async_Readers)),
+                     External => (Async_Writers, Async_Readers)),
    Initializes => Elaborated_Variables
 
 is

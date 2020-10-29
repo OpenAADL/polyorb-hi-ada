@@ -37,7 +37,9 @@ with PolyORB_HI.Messages;
 generic
    type Data_Type (<>) is private;
 
-package PolyORB_HI.Marshallers_G is
+package PolyORB_HI.Marshallers_G
+    with SPARK_Mode => On
+is
 
    procedure Marshall
      (R :        Data_Type;

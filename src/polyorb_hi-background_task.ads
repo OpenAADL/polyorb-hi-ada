@@ -57,7 +57,9 @@ generic
    --  If given, the task runs Recover_Entrypoint when an error is
    --  detected.
 
-package PolyORB_HI.Background_Task is
+package PolyORB_HI.Background_Task
+    with SPARK_Mode => On
+is
 
    task The_Background_Task is
       pragma Priority (Task_Priority);

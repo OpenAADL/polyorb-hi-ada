@@ -44,7 +44,9 @@ generic
 
    with procedure Change_Mode (Current_Mode : Thread_Mode);
 
-package PolyORB_HI.Scheduler is
+package PolyORB_HI.Scheduler
+    with SPARK_Mode => On
+is
 
    procedure Next_Period;
 

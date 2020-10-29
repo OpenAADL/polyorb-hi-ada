@@ -67,7 +67,9 @@ generic
    --  If given, the task runs Recover_Entrypoint when an error is
    --  detected.
 
-package PolyORB_HI.Periodic_Task is
+package PolyORB_HI.Periodic_Task
+    with SPARK_Mode => On
+is
 
     task The_Periodic_Task
        with Priority => (Task_Priority),

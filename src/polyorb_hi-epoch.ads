@@ -32,7 +32,8 @@
 with Ada.Real_Time;
 
 package PolyORB_HI.Epoch
-  with Abstract_State => (Elaborated_Variables with Synchronous,
+  with SPARK_Mode => On,
+       Abstract_State => (Elaborated_Variables with Synchronous,
                           External => (Effective_Reads,
                                        Effective_Writes,
                                        Async_Writers,

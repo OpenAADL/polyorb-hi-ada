@@ -33,7 +33,9 @@
 --  This package holds a set of routines to know the kinds and
 --  orientation of AADL thread ports
 
-package PolyORB_HI.Port_Kinds is
+package PolyORB_HI.Port_Kinds
+    with SPARK_Mode => On
+is
 
    type Port_Kind is
      (In_Event_Port,

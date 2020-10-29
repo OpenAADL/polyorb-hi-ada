@@ -35,7 +35,9 @@
 with PolyORB_HI.Streams;
 with PolyORB_HI_Generated.Deployment;
 
-package PolyORB_HI.Messages is
+package PolyORB_HI.Messages
+    with SPARK_Mode => On
+is
 
    use PolyORB_HI.Streams;
    use PolyORB_HI_Generated.Deployment;

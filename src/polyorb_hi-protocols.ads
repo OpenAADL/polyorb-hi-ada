@@ -36,7 +36,9 @@ with PolyORB_HI.Errors;
 with PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Messages;
 
-package PolyORB_HI.Protocols is
+package PolyORB_HI.Protocols
+    with SPARK_Mode => On
+is
 
    use PolyORB_HI.Errors;
    use PolyORB_HI_Generated.Deployment;
