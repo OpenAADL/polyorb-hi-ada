@@ -30,8 +30,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma SPARK_Mode (Off);
-
 with Interfaces.C;
 with System;
 
@@ -43,7 +41,9 @@ package body PolyORB_HI.Output_Low_Level is
 
    procedure Put (S : String)
      --  SPARK_Mode is distabled because of the Address attribute
+
    is
+      pragma SPARK_Mode (Off);
       procedure C_Write
         (Fd  : Interfaces.C.int;
          P   : System.Address;

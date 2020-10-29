@@ -31,52 +31,50 @@
 ------------------------------------------------------------------------------
 
 --  Debug facility of PolyORB HI
+with Ada.Real_Time;
 
-pragma SPARK_Mode (Off);
-
+with PolyORB_HI.Epoch;
 with PolyORB_HI.Streams;
 
-package PolyORB_HI.Output is
+package PolyORB_HI.Output with
+   Abstract_State => (Elaborated_Variables with Synchronous,
+    External => (Async_Writers, Async_Readers)),
+   Initializes => Elaborated_Variables
+
+is
    pragma Elaborate_Body;
 
    use PolyORB_HI.Streams;
 
    type Verbosity is
-     (Verbose_L,
-      --  Developer interest only, should never be displayed
-      --  in a production environment.
-
-      Normal_L,
-      --  Informational message indicating progress of normal
-      --  operation.
-
-      Error_L
-      --  Indication that an abnormal condition has been identified
-      );
+   (Verbose_L, --  Developer interest only
+    Normal_L,  --  Informational message
+    Error_L    --  Indication that an abnormal condition has been identified
+   );
 
    Current_Mode : constant Verbosity := Normal_L;
    --  Curent debug level
 
    Verbose : constant Boolean := Current_Mode = Verbose_L;
-   Normal : constant Boolean := Current_Mode <= Normal_L;
-   Error : constant Boolean := Current_Mode <= Error_L;
+   Normal  : constant Boolean := Current_Mode <= Normal_L;
+   Error   : constant Boolean := Current_Mode <= Error_L;
 
-   procedure Put_Line (Text : in String;
-                       C1 : in String := "";
-                       C2 : in String := "";
-                       C3 : in String := ""
-                      );
-   --  As above but always displays the message
+   procedure Put_Line
+     (Text : in String; C1 : in String := ""; C2 : in String := "";
+      C3   : in String := "") with
+      Global => (In_Out => (Elaborated_Variables, Epoch.Elaborated_Variables),
+       Input => Ada.Real_Time.Clock_Time);
+      --  As above but always displays the message
 
-   procedure Put (Text : in String);
-   --  As above but always displays the message
+   procedure Put (Text : in String) with
+      Global => (In_Out => (Elaborated_Variables, Epoch.Elaborated_Variables),
+       Input => Ada.Real_Time.Clock_Time);
+      --  As above but always displays the message
 
-   procedure Dump (Stream : Stream_Element_Array;
-                   Mode : Verbosity := Verbose_L);
-   --  Dump the content of Stream in an hexadecimal format
-
-private
-
-   pragma Inline (Put_Line);
+   procedure Dump
+     (Stream : Stream_Element_Array; Mode : Verbosity := Verbose_L) with
+      Global => (In_Out => (Elaborated_Variables, Epoch.Elaborated_Variables),
+       Input => Ada.Real_Time.Clock_Time);
+      --  Dump the content of Stream in an hexadecimal format
 
 end PolyORB_HI.Output;

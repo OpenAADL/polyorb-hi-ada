@@ -30,18 +30,20 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma SPARK_MOde (Off);
-
-with PolyORB_HI.Output_Low_Level;
-with PolyORB_HI.Epoch;
-
-with Ada.Real_Time;
 with System;
+with PolyORB_HI.Output_Low_Level;
 
-package body PolyORB_HI.Output is
+package body PolyORB_HI.Output
+ with Refined_State => (Elaborated_Variables => Lock)
 
+is
    use Ada.Real_Time;
    use PolyORB_HI.Epoch;
+
+   function Build_Timestamp return Time_Span
+     with Global => (Input => (Epoch.Elaborated_Variables,
+                               Ada.Real_Time.Clock_Time)),
+          Volatile_Function;
 
    procedure Unprotected_Put (Text : in String);
    --  Not thread-safe Put function
@@ -50,71 +52,27 @@ package body PolyORB_HI.Output is
    --  race condition on the output buffer. It is in a package to
    --  abide with SPARK restrictions.
 
-   package Output_Lock is
+   protected Lock is
+      --  This lock has been defined to guarantee thread-safe output
+      --  display
+
+      procedure Put (Text : in String);
 
       procedure Put_Line (Text : in String;
                           C1 : in String := "";
                           C2 : in String := "";
                           C3 : in String := ""
                          );
-      --  As above but always displays the message
 
-      procedure Put (Text : in String);
+   private
+      pragma Priority (System.Priority'Last);
+   end Lock;
 
-   end Output_Lock;
+   protected body Lock is
 
-   package body Output_Lock is
-
-      protected Lock is
-      --  This lock has been defined to guarantee thread-safe output
-      --  display
-
-      procedure Put (Text : in String);
-
-         procedure Put_Line (Text : in String;
-                             C1 : in String := "";
-                             C2 : in String := "";
-                             C3 : in String := ""
-                            );
-
-      private
-         pragma Priority (System.Priority'Last);
-      end Lock;
-
-      protected body Lock is
-
-         --------------
-         -- Put_Line --
-         --------------
-
-         procedure Put_Line (Text : in String;
-                             C1 : in String := "";
-                             C2 : in String := "";
-                             C3 : in String := ""
-                            ) is
-         begin
-            Unprotected_Put (Text);
-            if C1 /= "" then
-               Unprotected_Put (C1);
-            end if;
-            if C2 /= "" then
-               Unprotected_Put (C2);
-            end if;
-            if C3 /= "" then
-               Unprotected_Put (C3);
-            end if;
-            PolyORB_HI.Output_Low_Level.New_Line;
-         end Put_Line;
-
-         ---------
-         -- Put --
-         ---------
-
-         procedure Put (Text : in String) is
-         begin
-            Unprotected_Put (Text);
-         end Put;
-      end Lock;
+      --------------
+      -- Put_Line --
+      --------------
 
       procedure Put_Line (Text : in String;
                           C1 : in String := "";
@@ -122,15 +80,63 @@ package body PolyORB_HI.Output is
                           C3 : in String := ""
                          ) is
       begin
-         Lock.Put_Line (Text, C1, C2, C3);
+         Unprotected_Put (Text);
+         pragma Annotate (GNATProve, Intentional, "call to potentially block",
+                          "reviewed"); --  SPARKWAG: C code binding
+
+         if C1 /= "" then
+            Unprotected_Put (C1);
+            pragma Annotate (GNATProve, Intentional, "call to potentially block",
+                             "reviewed"); --  SPARKWAG: C code binding
+         end if;
+         if C2 /= "" then
+            Unprotected_Put (C2);
+            pragma Annotate (GNATProve, Intentional, "call to potentially block",
+                             "reviewed"); --  SPARKWAG: C code binding
+         end if;
+         if C3 /= "" then
+            Unprotected_Put (C3);
+            pragma Annotate (GNATProve, Intentional, "call to potentially block",
+                             "reviewed"); --  SPARKWAG: C code binding
+         end if;
+         PolyORB_HI.Output_Low_Level.New_Line;
+         pragma Annotate (GNATProve, Intentional, "call to potentially block",
+                          "reviewed"); --  SPARKWAG: C code binding
       end Put_Line;
+
+      ---------
+      -- Put --
+      ---------
 
       procedure Put (Text : in String) is
       begin
-         Lock.Put (Text);
+         Unprotected_Put (Text);
+         pragma Annotate (GNATProve, Intentional, "call to potentially block",
+                          "reviewed"); --  SPARKWAG: C code binding
       end Put;
+   end Lock;
 
-   end Output_Lock;
+   --------------
+   -- Put_Line --
+   --------------
+
+   procedure Put_Line (Text : in String;
+                       C1 : in String := "";
+                       C2 : in String := "";
+                       C3 : in String := ""
+                      ) is
+   begin
+      Lock.Put_Line (Text, C1, C2, C3);
+   end Put_Line;
+
+   ---------
+   -- Put --
+   ---------
+
+   procedure Put (Text : in String) is
+   begin
+      Lock.Put (Text);
+   end Put;
 
    ---------------------
    -- Build_Timestamp --
@@ -150,38 +156,15 @@ package body PolyORB_HI.Output is
       return Elapsed;
    end Build_Timestamp;
 
-   --------------
-   -- Put_Line --
-   --------------
-
-   procedure Put_Line (Text : in String;
-                       C1 : in String := "";
-                       C2 : in String := "";
-                       C3 : in String := ""
-                      ) is
-   begin
-      Output_Lock.Put_Line (Text, C1, C2, C3);
-   end Put_Line;
-
-   ---------
-   -- Put --
-   ---------
-
-   procedure Put (Text : in String) is
-   begin
-      Output_Lock.Put (Text);
-   end Put;
-
    ---------------------
    -- Unprotected_Put --
    ---------------------
 
    procedure Unprotected_Put (Text : in String) is
-      Elapsed    : constant Time_Span := Build_Timestamp;
+      Elapsed : constant Time_Span := Build_Timestamp;
+
    begin
       PolyORB_HI.Output_Low_Level.Put ("[");
-      --  XXX The following is disabled as some cross-runtime do not have
-      --  the capability to build Duration'Image
       PolyORB_HI.Output_Low_Level.Put
         (Integer'Image (Integer (To_Duration (Elapsed * 1000))));
       PolyORB_HI.Output_Low_Level.Put ("] ");

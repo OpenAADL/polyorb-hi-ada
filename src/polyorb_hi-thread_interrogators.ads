@@ -33,13 +33,12 @@
 --  This package contains a generic definition of the interrogation
 --  functions that the AADL standard requires for thread ports.
 
-pragma SPARK_Mode (Off);
-with Ada.Real_Time;
+with Ada.Real_Time;  use Ada.Real_Time;
 
 with PolyORB_HI_Generated.Deployment; use PolyORB_HI_Generated.Deployment;
-with PolyORB_HI.Errors; use PolyORB_HI.Errors;
-with PolyORB_HI.Messages; use PolyORB_HI.Messages;
-with PolyORB_HI.Port_Kinds;
+with PolyORB_HI.Errors;               use PolyORB_HI.Errors;
+with PolyORB_HI.Messages;             use PolyORB_HI.Messages;
+with PolyORB_HI.Port_Kinds;           use PolyORB_HI.Port_Kinds;
 with POlyORB_Hi.Port_Types;
 
 generic
@@ -122,24 +121,32 @@ generic
       M : in out PolyORB_Hi.Messages.Message_Type);
    --  A procedure that marshalls a Thread port content into a message.
 
-   with function Send
+   with procedure Send
      (From    : Entity_Type;
       Entity  : Entity_Type;
-      Message : Message_Type) return Error_Kind;
+      Message : Message_Type;
+      Error : out Error_Kind);
    --  Send Message to the application node corresponding to the given
    --  entity.
 
    with function Next_Deadline return Ada.Real_Time.Time;
-   --  To indicate when does the next deadline of the thread occur (in
+   --  To indicate when the next deadline of the thread occurs (in
    --  absolute time).
 
-package PolyORB_HI.Thread_Interrogators is
+package PolyORB_HI.Thread_Interrogators
+  with Abstract_State => (Elaborated_Variables with Synchronous, External),
+       Initializes => (Elaborated_Variables)
+is
 
-   procedure Send_Output (Port : Port_Type; Error : out Error_Kind);
+   procedure Send_Output (Port : Port_Type; Error : out Error_Kind)
+     with Global => (Input => Ada.Real_Time.Clock_Time,
+                     In_Out => Elaborated_Variables);
    --  Explicitly cause events, event data, or data to be transmitted
    --  through outgoing ports to receiver ports.
 
-   procedure Put_Value (Thread_Interface : Thread_Interface_Type);
+   procedure Put_Value (Thread_Interface : Thread_Interface_Type)
+     with Global => (Input => Ada.Real_Time.Clock_Time,
+                     In_Out => (Elaborated_Variables));
    --  Supply a data value to a port variable. This data value will
    --  be transmitted at the next Send call in the source text or by
    --  the runtime system at completion time or deadline.
@@ -150,49 +157,65 @@ package PolyORB_HI.Thread_Interrogators is
    --  during the current dispatch. The parameter of the function has
    --  the only utility to allow having one Receive_Input per thread.
 
+   function Get_Value (Port : Port_Type) return Thread_Interface_Type
+     with Global => (Input => (Elaborated_Variables)),
+          Pre => (Is_In (Thread_Port_Kinds (Port))),
+          Volatile_Function;
+
    procedure Get_Value (Port : Port_Type;
-                        Result : in out Thread_Interface_Type);
-   function Get_Value (Port : Port_Type) return Thread_Interface_Type;
+                        Result : in out Thread_Interface_Type)
+     with Global => (Input => (Elaborated_Variables)),
+          Pre => (Is_In (Thread_Port_Kinds (Port)));
    --  Return the value corresponding to a given port. A second call to
    --  Get_Value returns always the same value unless Next_Value has
    --  been called. If no new values have come, return the latest
    --  received value.
 
-   function Get_Sender
-     (Port : Port_Type)
-     return PolyORB_HI_Generated.Deployment.Entity_Type;
+   function Get_Sender (Port : Port_Type) return Entity_Type
+     with Global => (Input => (Elaborated_Variables)),
+          Pre => (Is_In (Thread_Port_Kinds (Port))),
+          Volatile_Function;
    --  Return the sender entity of value corresponding to the given port.
    --  A second call to Get_Sender returns always the same sender unless
    --  Next_Value has been called. If no new values have come, return
    --  the latest received value sender entity.
 
-   function Get_Count (Port : Port_Type) return Integer;
+   function Get_Count (Port : Port_Type) return Integer
+     with Global => (Input => (Elaborated_Variables)),
+          Pre => (Is_In (Thread_Port_Kinds (Port))),
+          Volatile_Function;
    --  Return the number of event [data] that have been queued in an
    --  IN port. A special value of -1 is returned if the Port never
    --  received a value since the beginning of the application.
 
-   procedure Next_Value (Port : Port_Type);
+   procedure Next_Value (Port : Port_Type)
+     with Global => (In_Out => (Elaborated_Variables)),
+          Pre => (Is_In (Thread_Port_Kinds (Port)));
    --  Dequeue one value from the IN port queue.
 
-   procedure Wait_For_Incoming_Events (Port : out Port_Type);
+   procedure Wait_For_Incoming_Events (Port : out Port_Type)
+     with Global => (In_Out => (Elaborated_Variables));
    --  Blocks until an event arrives. The port on which the event
    --  arrived is returned.
 
-   procedure Get_Next_Event (Port : out Port_Type; Valid : out Boolean);
+   procedure Get_Next_Event (Port : out Port_Type; Valid : out Boolean)
+     with Global => (In_Out => (Elaborated_Variables));
    --  Like 'Wait_For_Incoming_Events' but not blocking. Valid is set
    --  to False if no event has been received.
 
    procedure Store_Received_Message
      (Thread_Interface : Thread_Interface_Type;
       From             : PolyORB_HI_Generated.Deployment.Entity_Type;
-      Time_Stamp       : Ada.Real_Time.Time    := Ada.Real_Time.Clock);
+      Time_Stamp       : Ada.Real_Time.Time    := Ada.Real_Time.Clock)
+     with Global => (In_Out => (Elaborated_Variables));
    --  This subprogram is usually called by the transport layer to
    --  store new incoming messages. Time_Stamp indicates from which
    --  instant a data port with a delayed connection becomes
    --  deliverable. For other kinds of ports, this parameter value is
    --  set to the message reception time.
 
-   function Get_Time_Stamp (P : Port_Type) return Ada.Real_Time.Time;
-   --  Return the timestamp of the latest value received on data port  P
+   function Get_Time_Stamp (P : Port_Type) return Time
+     with Global => (Input => Elaborated_Variables), Volatile_Function;
+   --  Return the timestamp of the latest value received on data port P
 
 end PolyORB_HI.Thread_Interrogators;

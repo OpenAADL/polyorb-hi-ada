@@ -30,12 +30,11 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-pragma SPARK_Mode (Off);
-
 package PolyORB_HI.Output_Low_Level is
 
    procedure New_Line;
 
-   procedure Put (S : String);
+   procedure Put (S : String)
+    with SPARK_Mode => Off;
 
 end PolyORB_HI.Output_Low_Level;
