@@ -34,7 +34,7 @@ with Ada.Unchecked_Conversion;
 with PolyORB_HI.Streams;
 
 package body PolyORB_HI.Marshallers_G
-  with SPARK_Mode => Off
+  --  with SPARK_Mode => Off
   --  Unchecked_Conversion below cannot be proved by SPARK.
 is
    use type PolyORB_HI.Streams.Stream_Element_Offset;
@@ -47,8 +47,11 @@ is
 
    function Data_Type_To_Stream is
       new Ada.Unchecked_Conversion (Data_Type, Data_Type_Stream);
+   pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
+
    function Stream_To_Data_Type is
       new Ada.Unchecked_Conversion (Data_Type_Stream, Data_Type);
+   pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
 
    --------------
    -- Marshall --
@@ -72,14 +75,16 @@ is
      (R :    out Data_Type;
       M : in out Messages.Message_Type)
    is
-      Data : PolyORB_HI.Streams.Stream_Element_Array (1 .. Data_Size);
+      Data : PolyORB_HI.Streams.Stream_Element_Array (1 .. Data_Size)
+      := (others => 0);
       Last : PolyORB_HI.Streams.Stream_Element_Offset;
    begin
       Messages.Read (M, Data, Last);
 
-      if Last = Data_Size then --  XXX Data'Size [attribute]
-         R := Stream_To_Data_Type (Data_Type_Stream (Data));
-      end if;
+      --  By construction of a well-formed message
+      pragma Assume (Last = Data_Size);
+
+      R := Stream_To_Data_Type (Data_Type_Stream (Data));
    end Unmarshall;
 
 end PolyORB_HI.Marshallers_G;
