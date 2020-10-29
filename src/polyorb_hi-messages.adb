@@ -51,8 +51,11 @@ package body PolyORB_HI.Messages is
 
    function Internal_To_Length is new Ada.Unchecked_Conversion
      (Message_Size_Buffer, Wrapper);
+   pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
+
    function Internal_To_Buffer is new Ada.Unchecked_Conversion
      (Wrapper, Message_Size_Buffer);
+   pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
 
    --  The message header offsets. Must be synchronized with the
    --  header size.
@@ -70,8 +73,6 @@ package body PolyORB_HI.Messages is
       Entity  : Entity_Type;
       R : in out Stream_Element_Array)
    is
---      L : constant Stream_Element_Count := Message.Last + Header_Size;
---      R : Stream_Element_Array (1 .. L) := (others => 0);
       L : constant Stream_Element_Count := Message.Last + Header_Size;
 
       P : Stream_Element_Array renames
@@ -146,6 +147,7 @@ package body PolyORB_HI.Messages is
      (Stream : in out Message_Type;
       Item   :        Stream_Element_Array)
    is
+   Current_Index : Stream_Element_Offset;
    begin
       if Stream.First > Stream.Last then
          Reallocate (Stream);
@@ -153,10 +155,15 @@ package body PolyORB_HI.Messages is
          -- XXX Do we need to do that ???
       end if;
 
+      Current_Index := Stream.Last;
+
       if Item'Length <= Stream.Content'Last - Stream.Last then
+         --  Operations should be in this order to preserve the
+         --  dynamic predicate on Message_Type
          Stream.Last := Stream.Last + Item'Length;
-         Stream.Content (Stream.Last + 1 .. Stream.Last + Item'Length)
+         Stream.Content (Current_Index + 1 .. Current_Index + Item'Length)
            := Item;
+
       end if;
    end Write;
 

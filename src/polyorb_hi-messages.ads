@@ -117,7 +117,7 @@ package PolyORB_HI.Messages is
       From    : Entity_Type;
       Entity  : Entity_Type;
       R : in out Stream_Element_Array)
-     with Pre => (Valid (R) and then
+     with Pre => (Valid (R) and then R'First = 1 and then
                     Valid (Message) and then not Is_Empty (Message) and then
                     R'Length >= Length (Message) + Header_Size),
           Post => (Valid (R));
@@ -127,7 +127,7 @@ package PolyORB_HI.Messages is
    function Valid (Message : Message_Type) return Boolean;
 
    function Valid (S : Stream_Element_Array) return Boolean is
-     (S'Length <= PDU_Size);
+     (S'First >= 1 and then S'Length <= PDU_Size);
 
 private
 
