@@ -40,8 +40,6 @@ with PolyORB_HI_Generated.Deployment;
 
 package PolyORB_HI.Utils is
 
-   pragma Preelaborate;
-
    use Interfaces;
    use PolyORB_HI_Generated.Deployment;
 
@@ -62,13 +60,19 @@ package PolyORB_HI.Utils is
 
    function Internal_Code is new Ada.Unchecked_Conversion
      (Entity_Type, Unsigned_8);
+    pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
+
    function Corresponding_Entity is new Ada.Unchecked_Conversion
      (Unsigned_8, Entity_Type);
+    pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
 
    function Internal_Code is new Ada.Unchecked_Conversion
      (Node_Type, Unsigned_8);
+    pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
+
    function Corresponding_Node is new Ada.Unchecked_Conversion
      (Unsigned_8, Node_Type);
+    pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
 
    function Swap_Bytes (B : Interfaces.Unsigned_16)
                        return Interfaces.Unsigned_16;

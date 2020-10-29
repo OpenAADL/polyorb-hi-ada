@@ -116,7 +116,8 @@ package body PolyORB_HI.Utils is
    -- Set_Task_Id --
    -----------------
 
-   Task_Id_Mapping : array (Entity_Type'Range) of Task_Id;
+   Task_Id_Mapping : array (Entity_Type'Range) of Task_Id :=
+      (others => Null_Task_Id);
 
    procedure Set_Task_Id (My_Id : Entity_Type) is
    begin
