@@ -57,6 +57,7 @@ package body PolyORB_HI.Sporadic_Task is
       Next_Start : Time;
       Error : Error_Kind;
       T0 : Ada.Real_Time.Time;
+      Activation_Time : Ada.Real_Time.Time;
 
    begin
        --  Register task
@@ -103,8 +104,9 @@ package body PolyORB_HI.Sporadic_Task is
          --  Calculate the next start time according to the minimal
          --  inter-arrival time.
 
-         Next_Start        := Ada.Real_Time.Clock + Task_Period;
-         Next_Deadline_Val := Ada.Real_Time.Clock + Task_Deadline;
+         Activation_Time   := Ada.Real_Time.Clock;
+         Next_Start        := Activation_Time + Task_Period;
+         Next_Deadline_Val := Activation_Time+ Task_Deadline;
 
          --  Execute the job
 

@@ -87,10 +87,15 @@ generic
 
 package PolyORB_HI.Sporadic_Task is
 
-   task The_Sporadic_Task is
-      pragma Priority (Task_Priority);
-      pragma Storage_Size (Task_Stack_Size);
-   end The_Sporadic_Task;
+   task The_Sporadic_Task
+       with Priority => (Task_Priority),
+            Storage_Size => (Task_Stack_Size),
+            Annotate => (GNATprove, False_Positive,
+                         "possible data race when accessing variable",
+                         "XXX");
+   pragma Annotate (GNATprove, False_Positive,
+                     "multiple tasks might suspend on suspension object",
+                     "XXX");
 
    function Next_Deadline return Ada.Real_Time.Time;
    --  Return the value of the next deadline (in absolute time)
