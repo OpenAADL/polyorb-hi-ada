@@ -41,6 +41,8 @@ package body PolyORB_HI.Port_Types is
    function Internal_Code (P : Port_Type) return Unsigned_16 is
       function To_Internal_Code is new Ada.Unchecked_Conversion
         (Port_Type, Unsigned_16);
+      pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
+
    begin
       return Swap_Bytes (To_Internal_Code (P));
    end Internal_Code;
@@ -52,6 +54,8 @@ package body PolyORB_HI.Port_Types is
    function Corresponding_Port (I : Unsigned_16) return Port_Type is
       function To_Corresponding_Port is new Ada.Unchecked_Conversion
         (Unsigned_16, Port_Type);
+      pragma Annotate (GNATProve, Intentional, "type", "reviewed"); --  SPARKWAG: Uncheck_Conversion
+
    begin
       return To_Corresponding_Port (Swap_Bytes (I));
    end Corresponding_Port;
