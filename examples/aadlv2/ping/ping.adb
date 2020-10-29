@@ -64,6 +64,10 @@ package body Ping is
    begin
       Put_Line ("ORDER: ", Opaque_Type'Image (Data_Sink));
 
+      if Var > 100 then
+         Var := 0;
+      end if;
+
       if Data_Sink then
          Var := Var + 1;
          Put_Line ("Sending (+1) PING", Simple_Type'Image (Var));
