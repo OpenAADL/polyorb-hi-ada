@@ -13,4 +13,4 @@ The recommended installation process is through the proper configuration and ins
 
 ## Q&A
 
-Build status for Linux and OS X: [![Build Status](https://travis-ci.org/OpenAADL/polyorb-hi-ada.svg?branch=master)](https://travis-ci.org/OpenAADL/polyorb-hi-ada)
+Build status ![Ocarina / Ubuntu (default GNAT)](https://github.com/OpenAADL/polyorb-hi-ada/workflows/Ocarina%20/%20Ubuntu%20(default%20GNAT)/badge.svg)
