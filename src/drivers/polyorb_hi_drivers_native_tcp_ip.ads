@@ -34,8 +34,9 @@ with PolyORB_HI_Generated.Deployment;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Utils;
 
-package PolyORB_HI_Drivers_Native_TCP_IP is
-   pragma SPARK_Mode (Off);
+package PolyORB_HI_Drivers_Native_TCP_IP
+  with SPARK_Mode => On
+is
 
    use PolyORB_HI.Errors;
    use PolyORB_HI_Generated.Deployment;

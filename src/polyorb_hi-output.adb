@@ -166,7 +166,7 @@ is
    begin
       PolyORB_HI.Output_Low_Level.Put ("[");
       PolyORB_HI.Output_Low_Level.Put
-        (Integer'Image (Integer (To_Duration (Elapsed * 1000))));
+        (Duration'Image (To_Duration (Elapsed)));
       PolyORB_HI.Output_Low_Level.Put ("] ");
       PolyORB_HI.Output_Low_Level.Put (Text);
    end Unprotected_Put;

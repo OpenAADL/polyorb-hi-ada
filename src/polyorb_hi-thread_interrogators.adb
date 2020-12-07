@@ -37,7 +37,6 @@ with PolyORB_HI.Output;
 with PolyORB_HI.Port_Type_Marshallers;
 with PolyORB_HI.Streams;
 with PolyORB_HI.Time_Marshallers;
---  with PolyORB_HI.Unprotected_Queue;
 
 package body PolyORB_HI.Thread_Interrogators with
    Refined_State => (Elaborated_Variables => Global_Queue)
@@ -266,8 +265,8 @@ is
                return False;
             end if;
          end loop;
-         return True;
 
+         return True;
       end Are_Queues_Empty;
 
       ----------------
@@ -408,6 +407,7 @@ is
                Put_Line
                  (CE, ": Read_In: Empty queue for port ",
                   Thread_Port_Images (T), ". Reading the last stored value."));
+
             P := Get_Most_Recent_Value (T);
          else
             pragma Debug
@@ -417,6 +417,7 @@ is
                   " queue of port  ", Thread_Port_Images (T)));
 
             P := Global_Data_Queue (First + Offset - 1);
+
             pragma Debug
               (Verbose,
                Put_Line
@@ -429,8 +430,8 @@ is
             Put_Line
               (CE, ": Read_In: Value read from port ",
                Thread_Port_Images (T)));
-         return P;
 
+         return P;
       end Read_In;
 
       --------------
@@ -473,7 +474,6 @@ is
                Thread_Port_Images (T)));
 
          Value_Put (T) := False;
-
       end Set_Invalid;
 
       --------------
