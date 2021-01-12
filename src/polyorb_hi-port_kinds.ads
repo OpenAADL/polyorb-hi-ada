@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --               Copyright (C) 2007-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,14 +30,22 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+---
+--  # PolyORB-HI.Port_Kinds{ #sec:pohi-port_kinds }
+--
 --  This package holds a set of routines to know the kinds and
 --  orientation of AADL thread ports
+--
 
 package PolyORB_HI.Port_Kinds
     with SPARK_Mode => On
 is
 
-   type Port_Kind is
+     ---
+     -- * Type definition
+     --
+
+     type Port_Kind is
      (In_Event_Port,
       In_Event_Data_Port,
       In_Data_Port,
@@ -53,13 +61,9 @@ is
       DropNewest,
       Error);
 
-   function Is_In (K : Port_Kind) return Boolean;
-   function Is_Out (K : Port_Kind) return Boolean;
-
-   function Is_Event (K : Port_Kind) return Boolean;
-   function Is_Data (K : Port_Kind) return Boolean;
-
-private
+   ---
+   -- * Type predicates
+   --
 
    function Is_In (K : Port_Kind) return Boolean is
       (K in In_Event_Port .. In_Out_Data_Port);

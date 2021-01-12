@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---         Copyright (C) 2014-2019 ESA & ISAE, 2019-2020 OpenAADL           --
+--         Copyright (C) 2014-2019 ESA & ISAE, 2019-2021 OpenAADL           --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -66,8 +66,7 @@ generic
    --  initialization and before the task main loop.
 
    with procedure Recover_Entrypoint is null;
-   --  If given, the task runs Recover_Entrypoint when an error is
-   --  detected.
+   --  If given, the task runs Recover_Entrypoint when an error is detected.
 
 package PolyORB_HI.Null_Task is
    --  The following parameters are not used for now. The usage is

@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --               Copyright (C) 2007-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,6 +30,9 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+---
+--  # PolyORB_HI.Suspenders { #sec:pohi-suspenders }
+--
 --  This package implements routines to suspend application tasks
 
 with PolyORB_HI_Generated.Deployment;
@@ -50,21 +53,28 @@ is
 
    use PolyORB_HI_Generated.Deployment;
 
+   ---
+   --  * ```Block_Task``` block the task ```Entity``` until
+   -- ```Unblock_All_Tasks``` is called.
+   --
    procedure Block_Task (Entity : Entity_Type);
-   --  Block a task until Unblock_All_Tasks is called.
 
-   pragma Warnings (Off, "subprogram ""Suspend_Forever"" has no effect",
-                   Reason => "No direct effect on any state visible by SPARK");
-   procedure Suspend_Forever;
-   --  Suspend the calling task "forever", that is until
-   --  Ada.Real_TIme.Time_Last.
+   ---
+   --  * ```Suspend_Forever``` suspends the calling task "forever", i.e.
+   --  until Ada.Real_TIme.Time_Last.
+   --
+   procedure Suspend_Forever
+         with Warnings => Off;
+
    pragma Warnings (On);
 
+   ---
+   --  * ```Unblock_All_Tasks``` unblocks all tasks suspended by
+   --  ```Block_Tasks```.
+   --
    procedure Unblock_All_Tasks
      with Global => (In_Out => (Elaborated_Variables,
                                 Epoch.Elaborated_Variables),
                     Input => Ada.Real_Time.Clock_Time);
-   --  Unblocks all the tasks waiting on the suspension objects of
-   --  Task_Suspension_Objects.
 
 end PolyORB_HI.Suspenders;

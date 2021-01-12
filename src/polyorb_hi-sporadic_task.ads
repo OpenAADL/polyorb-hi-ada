@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --               Copyright (C) 2007-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,17 +30,11 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  Define a sporadic task that receives data from one particular
---  entity.
-
---  Sporadic threads are a little bit more complicated that periodic
---  ones. Their behaviour can be summerized as follows:
-
---  BEGIN LOOP
---   1 - Blocks until a triggering event comes
---   2 - Do the job
---   3 - Sleep to guarantee that minimal inter-arrival time elapses
---  END LOOP
+---
+--  # PolyORB_HI.Sporadic_Task { #sec:pohi_sporadic_task }
+--
+--  Define a sporadic task
+--
 
 with System;
 with Ada.Real_Time;
@@ -82,8 +76,7 @@ generic
    --  initialization and before the task main loop.
 
    with procedure Recover_Entrypoint is null;
-   --  If given, the task runs Recover_Entrypoint when an error is
-   --  detected.
+   --  If given, the task runs Recover_Entrypoint when an error is detected.
 
 package PolyORB_HI.Sporadic_Task
     with SPARK_Mode => On

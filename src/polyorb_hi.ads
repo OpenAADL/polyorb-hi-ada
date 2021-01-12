@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --               Copyright (C) 2007-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,8 +30,12 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This is the root package of all the non-generated services of
---  PolyORB High Integrity.
+---
+--  # PolyORB-HI { #sec:pohi}
+--
+--  This is the root package of PolyORB High-Integrity/Ada. It hosts all
+--  generic services of the middleware
+--
 
 package PolyORB_HI is
 
