@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --               Copyright (C) 2007-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,23 +30,20 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+---
+--  # PolyORB_HI.Hybrid_Task { #sec:pohi_hybrid_task }
+--
 --  Define a hybrid task that receives data from one particular
 --  entity. A hybrid task of period P is a task that has:
-
---  1 - A periodic behavior done in instants 0, P, 2P, 3P...
---  2 - A sporadic behavior that allow the task to react to event
+--
+--  1. A periodic behavior done in instants 0, P, 2P, 3P...
+--  2. A sporadic behavior that allow the task to react to event
 --  received between two period occurrences.
-
+--
 --  Hybrid threads are modeled like an aperiodic threads. The periodic
---  behavior will be quaranteed through events sent by the Hybrid task
+--  behavior will be guaranteed through events sent by the Hybrid task
 --  driver.
-
---  BEGIN LOOP
---   1 - Blocks until a triggering event comes
---       triggering event may be a classical event or a Hybrid event
---       sent by the Hybrid task driver
---   2 - Do the job
---  END LOOP
+--
 
 with System;
 with Ada.Real_Time;
@@ -88,8 +85,7 @@ generic
    --  initialization and before the task main loop.
 
    with procedure Recover_Entrypoint is null;
-   --  If given, the task runs Recover_Entrypoint when an error is
-   --  detected.
+   --  If given, the task runs Recover_Entrypoint when an error is detected.
 
 package PolyORB_HI.Hybrid_Task is
 

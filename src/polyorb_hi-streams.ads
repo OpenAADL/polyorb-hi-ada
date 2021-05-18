@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --               Copyright (C) 2008-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,8 +30,12 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This package is a reduced version of Ada.Streams without the
+---
+--  # PolyORB-HI.Streams { #sec:pohi-streams}
+--
+--  This package is a reduced version of ```Ada.Streams``` without the
 --  object-oriented types.
+--
 
 package PolyORB_HI.Streams
     with SPARK_Mode => On

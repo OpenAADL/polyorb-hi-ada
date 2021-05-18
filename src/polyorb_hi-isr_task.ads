@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---         Copyright (C) 2013-2019 ESA & ISAE, 2019-2020 OpenAADL           --
+--         Copyright (C) 2013-2019 ESA & ISAE, 2019-2021 OpenAADL           --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,12 +29,11 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+---
+--  # PolyORB_HI.ISR_Task { #sec:pohi_isr_task }
+--
 --  ISR threads are interrupt handlers.
-
---  BEGIN LOOP
---   1 - Blocks until a triggering event comes
---   2 - Do the job
---  END LOOP
+--
 
 with System;
 with Ada.Real_Time;
@@ -71,8 +70,7 @@ generic
    --  initialization and before the task main loop.
 
    with procedure Recover_Entrypoint is null;
-   --  If given, the task runs Recover_Entrypoint when an error is
-   --  detected.
+   --  If given, the task runs Recover_Entrypoint when an error is detected
 
 package PolyORB_HI.ISR_Task is
 
@@ -87,10 +85,9 @@ package PolyORB_HI.ISR_Task is
       ISR_Pending : Boolean := False;
    end Handler;
 
-   task The_ISR_Task is
-      pragma Priority (Task_Priority);
-      pragma Storage_Size (Task_Stack_Size);
-   end The_ISR_Task;
+   task The_ISR_Task
+      with Priority => (Task_Priority),
+           Storage_Size (Task_Stack_Size);
 
    function Next_Deadline return Ada.Real_Time.Time;
    --  Return the value of the next deadline (in absolute time)

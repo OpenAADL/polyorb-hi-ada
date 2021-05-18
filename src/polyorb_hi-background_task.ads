@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                  Copyright (C) 2009 Telecom ParisTech,                   --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,6 +29,13 @@
 --                             (info@openaadl.org)                          --
 --                                                                          --
 ------------------------------------------------------------------------------
+
+
+---
+--  # PolyORB_HI.Background_Task { #sec:pohi_background_task }
+--
+--  Skeleton for background threads
+--
 
 with System;
 with Ada.Real_Time;
@@ -54,17 +61,15 @@ generic
    --  initialization and before the task main loop.
 
    with procedure Recover_Entrypoint is null;
-   --  If given, the task runs Recover_Entrypoint when an error is
-   --  detected.
+   --  If given, the task runs Recover_Entrypoint when an error is detected.
 
 package PolyORB_HI.Background_Task
     with SPARK_Mode => On
 is
 
-   task The_Background_Task is
-      pragma Priority (Task_Priority);
-      pragma Storage_Size (Task_Stack_Size);
-   end The_Background_Task;
+   task The_Background_Task
+      with Priority => (Task_Priority),
+           Storage_Size => (Task_Stack_Size);
 
    function Next_Deadline return Ada.Real_Time.Time;
    --  Return the value of the next deadline (in absolute time)

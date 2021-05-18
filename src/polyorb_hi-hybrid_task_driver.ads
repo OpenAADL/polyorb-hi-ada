@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --               Copyright (C) 2007-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,7 +30,10 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This package contains the archetype for the High-Priority task
+---
+--  # PolyORB_HI.Hybrid_Task_Driver { #sec:pohi_hybrid_task_driver }
+--
+--  This package contains the archetype for the high priority task
 --  that will trigger periodically all the Hybrid threads in the
 --  current node.
 

@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --               Copyright (C) 2006-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,7 +30,12 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  Debug facility of PolyORB HI
+---
+--  # PolyORB_HI.Output { #sec:pohi-output }
+--
+--  This package defines string display facility for PolyORB HI
+--
+
 with Ada.Real_Time;
 
 with PolyORB_HI.Epoch;
@@ -47,6 +52,10 @@ is
 
    use PolyORB_HI.Streams;
 
+  ---
+  --  * ```Verbosity``` level.
+  --  This type controls the activation of debug output.
+  --
    type Verbosity is
    (Verbose_L, --  Developer interest only
     Normal_L,  --  Informational message
@@ -60,6 +69,10 @@ is
    Normal  : constant Boolean := Current_Mode <= Normal_L;
    Error   : constant Boolean := Current_Mode <= Error_L;
 
+   ---
+   -- * ```Put_Line``` is equivalent to ```Ada.Text_IO.Put_Line```
+   --
+
    procedure Put_Line
      (Text : in String; C1 : in String := ""; C2 : in String := "";
       C3   : in String := "") with
@@ -72,10 +85,13 @@ is
        Input => Ada.Real_Time.Clock_Time);
       --  As above but always displays the message
 
+   ---
+   -- * ```Dump``` displays the content of ```Stream ```in an hexadecimal format
+   --
+
    procedure Dump
      (Stream : Stream_Element_Array; Mode : Verbosity := Verbose_L) with
       Global => (In_Out => (Elaborated_Variables, Epoch.Elaborated_Variables),
        Input => Ada.Real_Time.Clock_Time);
-      --  Dump the content of Stream in an hexadecimal format
 
 end PolyORB_HI.Output;

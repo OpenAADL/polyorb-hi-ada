@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --                  Copyright (C) 2009 Telecom ParisTech,                   --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,8 +30,18 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+---
+--  # PolyORB-HI.Errors { #sec:pohi-errors }
+--
+--  This package defines the error types that can be reported.
+--
+
 package PolyORB_HI.Errors is
 
+   ---
+   -- * ```Error_Kind``` defines the errors that can be reported when
+   -- interacting with the runtime.
+   --
    type Error_Kind is
      (Error_None,     --  No error
       Error_Transport --  An error occured at transport level

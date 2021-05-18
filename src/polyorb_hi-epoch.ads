@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---                       Copyright (C) 2020 OpenAADL                        --
+--                    Copyright (C) 2020-2021 OpenAADL                      --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,6 +29,13 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+---
+--  # PolyORB-HI.Epoch{ #sec:pohi-epoch }
+--
+--  This package allows for the definition of an "Epoch", the start time
+--  of the system. See PolyORB-HI.Suspenders for detail on the system startup.
+--
+
 with Ada.Real_Time;
 
 package PolyORB_HI.Epoch
@@ -41,10 +48,13 @@ package PolyORB_HI.Epoch
        Initializes => Elaborated_Variables
 is
 
+   ---
+   -- * ```System_Startup_Time``` return the startup time of user tasks
    procedure System_Startup_Time (SST: out Ada.Real_Time.Time)
      with Global => (Input => Elaborated_Variables);
-   --  Startup time of user tasks
 
+  ---
+  --  * ```Set_Epoch``` sets the start time (or epoch) of the system
    procedure Set_Epoch
      with Global => (In_Out => Elaborated_Variables,
                      Input  => Ada.Real_Time.Clock_Time);
