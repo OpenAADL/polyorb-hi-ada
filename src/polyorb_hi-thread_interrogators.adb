@@ -7,7 +7,7 @@
 --                                 B o d y                                  --
 --                                                                          --
 --               Copyright (C) 2007-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -512,8 +512,9 @@ is
                      or else (First = 1 and then Last = FIFO_Size))
                   then
                      declare
-                        Frst : Integer;
+                        Frst : Big_Port_Index_Type; --  Integer;
                         GDH  : Big_Port_Type_Array renames Global_Data_History;
+                        Start_Over : Boolean := False;
                      begin
                         case Overflow_Protocol is
                            when DropOldest =>
@@ -541,17 +542,20 @@ is
                               --  Search the oldest element in the history
 
                               Frst := GH_First;
-                              loop
-                                 if GDH (Frst) = PT then
+                              for J in GH_First .. Global_Data_Queue_Size loop
+                                 if GDH (J) = PT then
+                                    Frst := J;
                                     exit;
                                  end if;
-                                 Frst := Frst + 1;
-                                 if Frst > Global_Data_Queue_Size then
-                                    exit;
+
+                                 if J = Global_Data_Queue_Size then
+                                    if GDH (J) /= PT then
+                                       Start_Over := True;
+                                    end if;
                                  end if;
                               end loop;
 
-                              if Frst > Global_Data_Queue_Size then
+                              if Start_Over then
                                  --  Second configuration, We have only
                                  --  searched from GH_First to Queue_Size,
                                  --  continue from the beginning to GH_Last.
@@ -560,10 +564,10 @@ is
                               --  |xxxxxxxxx|x|               |x|xxxxxxxxxxxxx|
                               --  ---------------------------------------------
                               --   1         GH_Last          GH_First    Queue_Size
-                                 Frst := 1;
+                                 Frst := Big_Port_Index_Type'First;
                                  loop
                                     exit when GDH (Frst) = PT;
-                                    Frst := Frst + 1;
+                                    Frst := Big_Port_Index_Type'Succ (Frst);
                                  end loop;
                               end if;
 
@@ -586,24 +590,26 @@ is
                                  if GDH (Frst) = PT then
                                     exit;
                                  end if;
-                                 Frst := Frst - 1;
-                                 if Frst < 1 then
+                                 Frst := Big_Port_Index_Type'Pred (First);
+                                 if Frst = Big_Port_Index_Type'First then
+                                    if GDH (Frst) /= PT then
+                                       Start_Over := True;
+                                    end if;
                                     exit;
                                  end if;
                               end loop;
 
-                              if Frst < 1 then
+                              if Start_Over then
                                  --  Continue the search from the end
                                  Frst := Global_Data_Queue_Size;
                                  loop
                                     exit when GDH (Frst) = PT;
-                                    Frst := Frst - 1;
+                                    Frst := Big_Port_Index_Type'Pred (Frst);
                                  end loop;
                               end if;
 
                            when Port_Kinds.Error =>
                               Put_Line (CE, ": Store_In: FIFO is full");
-                              --  XXX SHould raise an exception there !
                               raise Program_Error;
                         end case;
 
@@ -616,24 +622,25 @@ is
                              (CE, ": Store_In: FIFO is full.",
                               " Removed element in history at",
                               Integer'Image (Frst)));
+                        --  XXX actually we should assert Frst < Global_Data_Queue_Size
 
                         loop
                            exit when Frst = Global_Data_Queue_Size
                              or else Urgencies (GDH (Frst)) < Urgency;
-                           GDH (Frst) := GDH (Frst + 1);
-                           Frst       := Frst + 1;
+                           GDH (Frst) := GDH (Big_Port_Index_Type'Succ (Frst));
+                           Frst       := Big_Port_Index_Type'Succ (Frst);
                         end loop;
 
                         if Frst = Global_Data_Queue_Size
                           and then Urgencies (GDH (Frst)) < Urgency
                         then
                            --  Continue suppressing from the beginning
-                           Frst                         := 1;
+                           Frst                         := Big_Port_Index_Type'First;
                            GDH (Global_Data_Queue_Size) := GDH (Frst);
                            loop
                               exit when Urgencies (GDH (Frst)) < Urgency;
-                              GDH (Frst) := GDH (Frst + 1);
-                              Frst       := Frst + 1;
+                              GDH (Frst) := GDH (Big_Port_Index_Type'Succ (First));
+                              Frst       := Big_Port_Index_Type'Succ (First);
                            end loop;
                         end if;
                      end;
@@ -643,7 +650,6 @@ is
                      --  first time we mark the partial queue as NOT empty.
 
                      if Is_Empty then
-                        --  N_Empties := N_Empties - 1;
                         Is_Empty := False;
                      end if;
 
@@ -664,11 +670,10 @@ is
 
                   --  Update the oldest updated port value
                   declare
-                     Frst : Integer          := GH_Last;
+                     Frst : Big_Port_Index_Type := GH_Last;
                      Lst  : constant Integer := GH_Last;
                      GDH  : Big_Port_Type_Array renames Global_Data_History;
                   begin
-
                      --  Add an entry in the history
                      if not Replace then
                         if Big_Port_Index_Type'Last > 0 then
@@ -684,27 +689,30 @@ is
                                 (CE, ": H_Increment_Last: L =",
                                  Integer'Image (GH_Last)));
                         end if;
--- XXX
+                        -- XXX
                         --H_Increment_Last (GH_Last);
                      end if;
 
-                     if GH_First /= GH_Last then
+                     if Frst > 0 and then
+                        GH_First /= GH_Last
+                     then
                         --  Search the first entry with a higher urgency
                         --  and shift other entries
                         if Frst = Global_Data_Queue_Size
                           and then Urgencies (GDH (Frst)) < Urgency
                         then
                            GDH (GH_Last) := GDH (Frst);
-                           Frst          := Frst - 1;
+                           Frst          := Big_Port_Index_Type'Pred (Frst);
                         end if;
+
                         loop
                            if Urgencies (GDH (Frst)) >= Urgency then
                               exit;
                            end if;
-                           GDH (Frst + 1) := GDH (Frst);
-                           Frst           := Frst - 1;
+                           GDH (Big_Port_Index_Type'Succ (Frst)) := GDH (Frst);
                            exit when (GH_First <= Lst and then Frst < GH_First)
-                             or else Frst < 1;
+                             or else Frst = Big_Port_Index_Type'First;
+                           Frst           := Big_Port_Index_Type'Pred (Frst);
                         end loop;
 
                         if Frst < 1 and then GH_First > Lst then
@@ -712,13 +720,13 @@ is
                            Frst := Global_Data_Queue_Size;
                            if Urgencies (GDH (Frst)) < Urgency then
                               GDH (1 mod GDH'Length) := GDH (Frst);
-                              Frst                   := Frst - 1;
+                              Frst                   := Big_Port_Index_Type'Pred (Frst);
                               loop
                                  if Urgencies (GDH (Frst)) >= Urgency then
                                     exit;
                                  end if;
-                                 GDH (Frst + 1) := GDH (Frst);
-                                 Frst           := Frst - 1;
+                                 GDH (Big_Port_Index_Type'Succ (Frst)) := GDH (Frst);
+                                 Frst           := Big_Port_Index_Type'Pred (Frst);
                                  exit when Frst < GH_First;
                               end loop;
                            end if;
@@ -726,24 +734,27 @@ is
                      end if;
 
                      --  Insert the port of the event
-                     if Frst = Global_Data_Queue_Size and then
-                        GDH'Size > 1
+                     if Frst = Global_Data_Queue_Size --and then
+                       -- GDH'Size > 1
                      then
-                        GDH (1 mod GDH'Size) := PT;
-                        --  The modulo avoids warning when accessing
-                        --  GDH (1) while Queue_Size = 0
+                        if GDH'Size > 1 then
+                           GDH (GDH'First) :=   PT;
+                           --  The modulo avoids warning when accessing
+                           --  GDH (1) while Queue_Size = 0
+                        end if;
                         pragma Debug
                           (Verbose,
                            Put_Line
                              (CE, ": Store_In: Insert event",
                               " in history at: ", Integer'Image (1)));
                      else
-                        GDH (Frst + 1) := PT;
+                        GDH (Big_Port_Index_Type'Succ (Frst)) := PT;
                         pragma Debug
                           (Verbose,
                            Put_Line
                              (CE, ": Store_In: Insert event",
-                              " in history at: ", Integer'Image (Frst + 1)));
+                              " in history at: ",
+                              Integer'Image (Big_Port_Index_Type'Succ (Frst))));
                      end if;
                   end;
 

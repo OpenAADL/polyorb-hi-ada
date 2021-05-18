@@ -7,7 +7,7 @@
 --                                 S p e c                                  --
 --                                                                          --
 --               Copyright (C) 2006-2009 Telecom ParisTech,                 --
---                 2010-2019 ESA & ISAE, 2019-2020 OpenAADL                 --
+--                 2010-2019 ESA & ISAE, 2019-2021 OpenAADL                 --
 --                                                                          --
 -- PolyORB-HI is free software; you can redistribute it and/or modify under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -91,7 +91,7 @@ is
       Item   :        Stream_Element_Array)
      with Pre => (Valid (Stream) and then
                     Valid (Item) and then
-                    Size (Stream) + Item'Length <= PDU_Size),
+                    Size (Stream) + Item'Length <= PDU_Size + Header_Size),
           Post => (Valid (Stream));
    --  Append Item to the specified stream
 
@@ -129,7 +129,11 @@ is
    function Valid (Message : Message_Type) return Boolean;
 
    function Valid (S : Stream_Element_Array) return Boolean is
-     (S'First >= 1 and then S'Length <= PDU_Size);
+     (S'First >= 1 and then S'Length <= PDU_Size + Header_Size);
+
+   function Full_Message (S : Stream_Element_Array) return Boolean is
+     (S'First = 1 and then S'Last >= Header_Size
+     and then S'Length <= PDU_Size + Header_Size);
 
 private
 
